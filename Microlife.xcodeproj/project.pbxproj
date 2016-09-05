@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD1F87721D49F56D00A44074 /* StatusCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1F87711D49F56D00A44074 /* StatusCircleView.m */; };
+		CD212A691D758136007E53A0 /* HistoryListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD212A681D758136007E53A0 /* HistoryListTableView.m */; };
 		CD221D451D41EA80004D3701 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D441D41EA80004D3701 /* main.m */; };
 		CD221D481D41EA80004D3701 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D471D41EA80004D3701 /* AppDelegate.m */; };
 		CD221D4B1D41EA80004D3701 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D4A1D41EA80004D3701 /* ViewController.m */; };
@@ -15,6 +17,47 @@
 		CD221D531D41EA80004D3701 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD221D511D41EA80004D3701 /* LaunchScreen.storyboard */; };
 		CD221D5E1D41EA81004D3701 /* MicrolifeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D5D1D41EA81004D3701 /* MicrolifeTests.m */; };
 		CD221D691D41EA81004D3701 /* MicrolifeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D681D41EA81004D3701 /* MicrolifeUITests.m */; };
+		CD221D771D41EAA1004D3701 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD221D761D41EAA1004D3701 /* libsqlite3.tbd */; };
+		CD221D7E1D41EAD0004D3701 /* CheckNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D7B1D41EAD0004D3701 /* CheckNetwork.m */; };
+		CD221D7F1D41EAD0004D3701 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D7D1D41EAD0004D3701 /* Reachability.m */; };
+		CD221D871D41EAD9004D3701 /* DataBaseClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D821D41EAD9004D3701 /* DataBaseClass.m */; };
+		CD221D881D41EAD9004D3701 /* SystemConfigClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D841D41EAD9004D3701 /* SystemConfigClass.m */; };
+		CD221D891D41EAD9004D3701 /* UserManagerClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D861D41EAD9004D3701 /* UserManagerClass.m */; };
+		CD221D8D1D41EAE4004D3701 /* MViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D8C1D41EAE4004D3701 /* MViewController.m */; };
+		CD221D991D41EAEF004D3701 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D901D41EAEF004D3701 /* FMDatabase.m */; };
+		CD221D9A1D41EAEF004D3701 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D921D41EAEF004D3701 /* FMDatabaseAdditions.m */; };
+		CD221D9B1D41EAEF004D3701 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D941D41EAEF004D3701 /* FMDatabasePool.m */; };
+		CD221D9C1D41EAEF004D3701 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D961D41EAEF004D3701 /* FMDatabaseQueue.m */; };
+		CD221D9D1D41EAEF004D3701 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D981D41EAEF004D3701 /* FMResultSet.m */; };
+		CD221DBC1D41ED94004D3701 /* GlobalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221DB31D41ED94004D3701 /* GlobalSettings.m */; };
+		CD221DBD1D41ED94004D3701 /* LocalizeUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221DB51D41ED94004D3701 /* LocalizeUtilities.m */; };
+		CD221DBE1D41ED94004D3701 /* SFCommonCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221DB71D41ED94004D3701 /* SFCommonCalendar.m */; };
+		CD221DBF1D41ED94004D3701 /* ShareCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221DB91D41ED94004D3701 /* ShareCommon.m */; };
+		CD221DC01D41ED94004D3701 /* StyleCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221DBB1D41ED94004D3701 /* StyleCommon.m */; };
+		CD221DCA1D41EF6E004D3701 /* UserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221DC91D41EF6E004D3701 /* UserLoginViewController.m */; };
+		CD221DCD1D41F102004D3701 /* MainHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221DCC1D41F102004D3701 /* MainHistoryViewController.m */; };
+		CD221DD01D41F22A004D3701 /* MainOverviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221DCF1D41F22A004D3701 /* MainOverviewViewController.m */; };
+		CD221DD31D41F240004D3701 /* MainReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221DD21D41F240004D3701 /* MainReminderViewController.m */; };
+		CD221DD71D41F460004D3701 /* MainSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221DD61D41F460004D3701 /* MainSettingViewController.m */; };
+		CD33D0A11D65AC6600F7DB07 /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD33D0A01D65AC6600F7DB07 /* GraphView.m */; };
+		CD621E9B1D76E1D4006AF5F1 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD621E981D76E1D4006AF5F1 /* FBSDKLoginKit.framework */; };
+		CD621E9C1D76E1D4006AF5F1 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD621E991D76E1D4006AF5F1 /* FBSDKCoreKit.framework */; };
+		CD621E9D1D76E1D4006AF5F1 /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD621E9A1D76E1D4006AF5F1 /* AccountKit.framework */; };
+		CD621E9F1D76E1EB006AF5F1 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD621E9E1D76E1EB006AF5F1 /* SafariServices.framework */; };
+		CD621EA11D76E1F5006AF5F1 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD621EA01D76E1F5006AF5F1 /* Accounts.framework */; };
+		CD8703201D76E83A00CC570F /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD87031F1D76E83A00CC570F /* Bolts.framework */; };
+		CD8703291D76ED0A00CC570F /* FacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703241D76ED0A00CC570F /* FacebookLoginViewController.m */; };
+		CD87032A1D76ED0A00CC570F /* ForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703261D76ED0A00CC570F /* ForgotPasswordViewController.m */; };
+		CD87032B1D76ED0A00CC570F /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703281D76ED0A00CC570F /* RegisterViewController.m */; };
+		CD8703311D76F47B00CC570F /* CirleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703301D76F47B00CC570F /* CirleView.m */; };
+		CD8703391D76F62400CC570F /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703341D76F62400CC570F /* AboutViewController.m */; };
+		CD87033A1D76F62400CC570F /* LogoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703361D76F62400CC570F /* LogoutViewController.m */; };
+		CD87033B1D76F62400CC570F /* NotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703381D76F62400CC570F /* NotificationViewController.m */; };
+		CD87033E1D76F63800CC570F /* HealthEducationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD87033D1D76F63800CC570F /* HealthEducationViewController.m */; };
+		CD8E42291D48523300A8695B /* HistoryPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8E42281D48523300A8695B /* HistoryPageView.m */; };
+		CD93A6BC1D798F3E00292B83 /* ReminderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD93A6BB1D798F3E00292B83 /* ReminderListViewController.m */; };
+		CD93A6C31D79975900292B83 /* CustomAlarmCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD93A6C11D79975900292B83 /* CustomAlarmCell.m */; };
+		CD93A6C41D79975900292B83 /* CustomAlarmCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD93A6C21D79975900292B83 /* CustomAlarmCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,12 +78,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CD1F87701D49F56D00A44074 /* StatusCircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusCircleView.h; sourceTree = "<group>"; };
+		CD1F87711D49F56D00A44074 /* StatusCircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusCircleView.m; sourceTree = "<group>"; };
+		CD212A671D758136007E53A0 /* HistoryListTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryListTableView.h; sourceTree = "<group>"; };
+		CD212A681D758136007E53A0 /* HistoryListTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryListTableView.m; sourceTree = "<group>"; };
 		CD221D401D41EA80004D3701 /* Microlife.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Microlife.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD221D441D41EA80004D3701 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CD221D461D41EA80004D3701 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CD221D471D41EA80004D3701 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		CD221D491D41EA80004D3701 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		CD221D4A1D41EA80004D3701 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		CD221D491D41EA80004D3701 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = ../ViewController.h; sourceTree = "<group>"; };
+		CD221D4A1D41EA80004D3701 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = ../ViewController.m; sourceTree = "<group>"; };
 		CD221D4D1D41EA80004D3701 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CD221D4F1D41EA80004D3701 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CD221D521D41EA80004D3701 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +98,83 @@
 		CD221D641D41EA81004D3701 /* MicrolifeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MicrolifeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD221D681D41EA81004D3701 /* MicrolifeUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MicrolifeUITests.m; sourceTree = "<group>"; };
 		CD221D6A1D41EA81004D3701 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CD221D761D41EAA1004D3701 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		CD221D7A1D41EAD0004D3701 /* CheckNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckNetwork.h; sourceTree = "<group>"; };
+		CD221D7B1D41EAD0004D3701 /* CheckNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckNetwork.m; sourceTree = "<group>"; };
+		CD221D7C1D41EAD0004D3701 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		CD221D7D1D41EAD0004D3701 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		CD221D811D41EAD9004D3701 /* DataBaseClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataBaseClass.h; sourceTree = "<group>"; };
+		CD221D821D41EAD9004D3701 /* DataBaseClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataBaseClass.m; sourceTree = "<group>"; };
+		CD221D831D41EAD9004D3701 /* SystemConfigClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemConfigClass.h; sourceTree = "<group>"; };
+		CD221D841D41EAD9004D3701 /* SystemConfigClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemConfigClass.m; sourceTree = "<group>"; };
+		CD221D851D41EAD9004D3701 /* UserManagerClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserManagerClass.h; sourceTree = "<group>"; };
+		CD221D861D41EAD9004D3701 /* UserManagerClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserManagerClass.m; sourceTree = "<group>"; };
+		CD221D8B1D41EAE4004D3701 /* MViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MViewController.h; sourceTree = "<group>"; };
+		CD221D8C1D41EAE4004D3701 /* MViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MViewController.m; sourceTree = "<group>"; };
+		CD221D8F1D41EAEF004D3701 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		CD221D901D41EAEF004D3701 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		CD221D911D41EAEF004D3701 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		CD221D921D41EAEF004D3701 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		CD221D931D41EAEF004D3701 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		CD221D941D41EAEF004D3701 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		CD221D951D41EAEF004D3701 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		CD221D961D41EAEF004D3701 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		CD221D971D41EAEF004D3701 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		CD221D981D41EAEF004D3701 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		CD221DAF1D41EB96004D3701 /* GlobalDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GlobalDefine.h; sourceTree = "<group>"; };
+		CD221DB01D41EBA7004D3701 /* SystemInfor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SystemInfor.h; sourceTree = "<group>"; };
+		CD221DB11D41EBC0004D3701 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		CD221DB21D41ED94004D3701 /* GlobalSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalSettings.h; sourceTree = "<group>"; };
+		CD221DB31D41ED94004D3701 /* GlobalSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalSettings.m; sourceTree = "<group>"; };
+		CD221DB41D41ED94004D3701 /* LocalizeUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalizeUtilities.h; sourceTree = "<group>"; };
+		CD221DB51D41ED94004D3701 /* LocalizeUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalizeUtilities.m; sourceTree = "<group>"; };
+		CD221DB61D41ED94004D3701 /* SFCommonCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCommonCalendar.h; sourceTree = "<group>"; };
+		CD221DB71D41ED94004D3701 /* SFCommonCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFCommonCalendar.m; sourceTree = "<group>"; };
+		CD221DB81D41ED94004D3701 /* ShareCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareCommon.h; sourceTree = "<group>"; };
+		CD221DB91D41ED94004D3701 /* ShareCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareCommon.m; sourceTree = "<group>"; };
+		CD221DBA1D41ED94004D3701 /* StyleCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StyleCommon.h; sourceTree = "<group>"; };
+		CD221DBB1D41ED94004D3701 /* StyleCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StyleCommon.m; sourceTree = "<group>"; };
+		CD221DC81D41EF6E004D3701 /* UserLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserLoginViewController.h; sourceTree = "<group>"; };
+		CD221DC91D41EF6E004D3701 /* UserLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserLoginViewController.m; sourceTree = "<group>"; };
+		CD221DCB1D41F102004D3701 /* MainHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainHistoryViewController.h; sourceTree = "<group>"; };
+		CD221DCC1D41F102004D3701 /* MainHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainHistoryViewController.m; sourceTree = "<group>"; };
+		CD221DCE1D41F22A004D3701 /* MainOverviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainOverviewViewController.h; sourceTree = "<group>"; };
+		CD221DCF1D41F22A004D3701 /* MainOverviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainOverviewViewController.m; sourceTree = "<group>"; };
+		CD221DD11D41F240004D3701 /* MainReminderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainReminderViewController.h; sourceTree = "<group>"; };
+		CD221DD21D41F240004D3701 /* MainReminderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainReminderViewController.m; sourceTree = "<group>"; };
+		CD221DD51D41F460004D3701 /* MainSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainSettingViewController.h; sourceTree = "<group>"; };
+		CD221DD61D41F460004D3701 /* MainSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainSettingViewController.m; sourceTree = "<group>"; };
+		CD33D09F1D65AC6600F7DB07 /* GraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphView.h; sourceTree = "<group>"; };
+		CD33D0A01D65AC6600F7DB07 /* GraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphView.m; sourceTree = "<group>"; };
+		CD621E981D76E1D4006AF5F1 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		CD621E991D76E1D4006AF5F1 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		CD621E9A1D76E1D4006AF5F1 /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AccountKit.framework; sourceTree = "<group>"; };
+		CD621E9E1D76E1EB006AF5F1 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		CD621EA01D76E1F5006AF5F1 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		CD87031F1D76E83A00CC570F /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		CD8703231D76ED0A00CC570F /* FacebookLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookLoginViewController.h; sourceTree = "<group>"; };
+		CD8703241D76ED0A00CC570F /* FacebookLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookLoginViewController.m; sourceTree = "<group>"; };
+		CD8703251D76ED0A00CC570F /* ForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPasswordViewController.h; sourceTree = "<group>"; };
+		CD8703261D76ED0A00CC570F /* ForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordViewController.m; sourceTree = "<group>"; };
+		CD8703271D76ED0A00CC570F /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		CD8703281D76ED0A00CC570F /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		CD87032F1D76F47B00CC570F /* CirleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CirleView.h; sourceTree = "<group>"; };
+		CD8703301D76F47B00CC570F /* CirleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CirleView.m; sourceTree = "<group>"; };
+		CD8703331D76F62400CC570F /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		CD8703341D76F62400CC570F /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		CD8703351D76F62400CC570F /* LogoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogoutViewController.h; sourceTree = "<group>"; };
+		CD8703361D76F62400CC570F /* LogoutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogoutViewController.m; sourceTree = "<group>"; };
+		CD8703371D76F62400CC570F /* NotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationViewController.h; sourceTree = "<group>"; };
+		CD8703381D76F62400CC570F /* NotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationViewController.m; sourceTree = "<group>"; };
+		CD87033C1D76F63800CC570F /* HealthEducationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HealthEducationViewController.h; sourceTree = "<group>"; };
+		CD87033D1D76F63800CC570F /* HealthEducationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HealthEducationViewController.m; sourceTree = "<group>"; };
+		CD8E42271D48523300A8695B /* HistoryPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryPageView.h; sourceTree = "<group>"; };
+		CD8E42281D48523300A8695B /* HistoryPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryPageView.m; sourceTree = "<group>"; };
+		CD93A6BA1D798F3E00292B83 /* ReminderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReminderListViewController.h; sourceTree = "<group>"; };
+		CD93A6BB1D798F3E00292B83 /* ReminderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReminderListViewController.m; sourceTree = "<group>"; };
+		CD93A6C01D79975900292B83 /* CustomAlarmCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAlarmCell.h; sourceTree = "<group>"; };
+		CD93A6C11D79975900292B83 /* CustomAlarmCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAlarmCell.m; sourceTree = "<group>"; };
+		CD93A6C21D79975900292B83 /* CustomAlarmCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomAlarmCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +182,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD621EA11D76E1F5006AF5F1 /* Accounts.framework in Frameworks */,
+				CD621E9F1D76E1EB006AF5F1 /* SafariServices.framework in Frameworks */,
+				CD621E9B1D76E1D4006AF5F1 /* FBSDKLoginKit.framework in Frameworks */,
+				CD621E9D1D76E1D4006AF5F1 /* AccountKit.framework in Frameworks */,
+				CD621E9C1D76E1D4006AF5F1 /* FBSDKCoreKit.framework in Frameworks */,
+				CD221D771D41EAA1004D3701 /* libsqlite3.tbd in Frameworks */,
+				CD8703201D76E83A00CC570F /* Bolts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +212,7 @@
 		CD221D371D41EA80004D3701 = {
 			isa = PBXGroup;
 			children = (
+				CD221D781D41EAAF004D3701 /* Frameworks */,
 				CD221D421D41EA80004D3701 /* Microlife */,
 				CD221D5C1D41EA81004D3701 /* MicrolifeTests */,
 				CD221D671D41EA81004D3701 /* MicrolifeUITests */,
@@ -101,12 +233,15 @@
 		CD221D421D41EA80004D3701 /* Microlife */ = {
 			isa = PBXGroup;
 			children = (
+				CD221D791D41EAD0004D3701 /* CheckNetwork */,
+				CD221D801D41EAD9004D3701 /* SQLLite */,
+				CD221D8E1D41EAEF004D3701 /* FMDB */,
+				CD221D8A1D41EAE4004D3701 /* ViewControllers */,
+				CD221DAE1D41EB1B004D3701 /* Common */,
+				CD221D4F1D41EA80004D3701 /* Assets.xcassets */,
 				CD221D461D41EA80004D3701 /* AppDelegate.h */,
 				CD221D471D41EA80004D3701 /* AppDelegate.m */,
-				CD221D491D41EA80004D3701 /* ViewController.h */,
-				CD221D4A1D41EA80004D3701 /* ViewController.m */,
 				CD221D4C1D41EA80004D3701 /* Main.storyboard */,
-				CD221D4F1D41EA80004D3701 /* Assets.xcassets */,
 				CD221D511D41EA80004D3701 /* LaunchScreen.storyboard */,
 				CD221D541D41EA80004D3701 /* Info.plist */,
 				CD221D431D41EA80004D3701 /* Supporting Files */,
@@ -117,6 +252,9 @@
 		CD221D431D41EA80004D3701 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CD221DAF1D41EB96004D3701 /* GlobalDefine.h */,
+				CD221DB01D41EBA7004D3701 /* SystemInfor.h */,
+				CD221DB11D41EBC0004D3701 /* PrefixHeader.pch */,
 				CD221D441D41EA80004D3701 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -138,6 +276,168 @@
 				CD221D6A1D41EA81004D3701 /* Info.plist */,
 			);
 			path = MicrolifeUITests;
+			sourceTree = "<group>";
+		};
+		CD221D781D41EAAF004D3701 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CD87031F1D76E83A00CC570F /* Bolts.framework */,
+				CD621EA01D76E1F5006AF5F1 /* Accounts.framework */,
+				CD621E9E1D76E1EB006AF5F1 /* SafariServices.framework */,
+				CD621E981D76E1D4006AF5F1 /* FBSDKLoginKit.framework */,
+				CD621E991D76E1D4006AF5F1 /* FBSDKCoreKit.framework */,
+				CD621E9A1D76E1D4006AF5F1 /* AccountKit.framework */,
+				CD221D761D41EAA1004D3701 /* libsqlite3.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CD221D791D41EAD0004D3701 /* CheckNetwork */ = {
+			isa = PBXGroup;
+			children = (
+				CD221D7A1D41EAD0004D3701 /* CheckNetwork.h */,
+				CD221D7B1D41EAD0004D3701 /* CheckNetwork.m */,
+				CD221D7C1D41EAD0004D3701 /* Reachability.h */,
+				CD221D7D1D41EAD0004D3701 /* Reachability.m */,
+			);
+			path = CheckNetwork;
+			sourceTree = "<group>";
+		};
+		CD221D801D41EAD9004D3701 /* SQLLite */ = {
+			isa = PBXGroup;
+			children = (
+				CD221D811D41EAD9004D3701 /* DataBaseClass.h */,
+				CD221D821D41EAD9004D3701 /* DataBaseClass.m */,
+				CD221D831D41EAD9004D3701 /* SystemConfigClass.h */,
+				CD221D841D41EAD9004D3701 /* SystemConfigClass.m */,
+				CD221D851D41EAD9004D3701 /* UserManagerClass.h */,
+				CD221D861D41EAD9004D3701 /* UserManagerClass.m */,
+			);
+			path = SQLLite;
+			sourceTree = "<group>";
+		};
+		CD221D8A1D41EAE4004D3701 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				CD8703321D76F5FE00CC570F /* SideBar */,
+				CD221DC41D41EE2E004D3701 /* User */,
+				CD221DC31D41EE2C004D3701 /* History */,
+				CD221DC21D41EE2A004D3701 /* Reminder */,
+				CD221DC11D41EE27004D3701 /* Overview */,
+				CD221D8B1D41EAE4004D3701 /* MViewController.h */,
+				CD221D8C1D41EAE4004D3701 /* MViewController.m */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		CD221D8E1D41EAEF004D3701 /* FMDB */ = {
+			isa = PBXGroup;
+			children = (
+				CD221D8F1D41EAEF004D3701 /* FMDatabase.h */,
+				CD221D901D41EAEF004D3701 /* FMDatabase.m */,
+				CD221D911D41EAEF004D3701 /* FMDatabaseAdditions.h */,
+				CD221D921D41EAEF004D3701 /* FMDatabaseAdditions.m */,
+				CD221D931D41EAEF004D3701 /* FMDatabasePool.h */,
+				CD221D941D41EAEF004D3701 /* FMDatabasePool.m */,
+				CD221D951D41EAEF004D3701 /* FMDatabaseQueue.h */,
+				CD221D961D41EAEF004D3701 /* FMDatabaseQueue.m */,
+				CD221D971D41EAEF004D3701 /* FMResultSet.h */,
+				CD221D981D41EAEF004D3701 /* FMResultSet.m */,
+			);
+			path = FMDB;
+			sourceTree = "<group>";
+		};
+		CD221DAE1D41EB1B004D3701 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				CD221DB21D41ED94004D3701 /* GlobalSettings.h */,
+				CD221DB31D41ED94004D3701 /* GlobalSettings.m */,
+				CD221DB41D41ED94004D3701 /* LocalizeUtilities.h */,
+				CD221DB51D41ED94004D3701 /* LocalizeUtilities.m */,
+				CD221DB61D41ED94004D3701 /* SFCommonCalendar.h */,
+				CD221DB71D41ED94004D3701 /* SFCommonCalendar.m */,
+				CD221DB81D41ED94004D3701 /* ShareCommon.h */,
+				CD221DB91D41ED94004D3701 /* ShareCommon.m */,
+				CD221DBA1D41ED94004D3701 /* StyleCommon.h */,
+				CD221DBB1D41ED94004D3701 /* StyleCommon.m */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		CD221DC11D41EE27004D3701 /* Overview */ = {
+			isa = PBXGroup;
+			children = (
+				CD87032F1D76F47B00CC570F /* CirleView.h */,
+				CD8703301D76F47B00CC570F /* CirleView.m */,
+				CD221DCE1D41F22A004D3701 /* MainOverviewViewController.h */,
+				CD221DCF1D41F22A004D3701 /* MainOverviewViewController.m */,
+			);
+			name = Overview;
+			sourceTree = "<group>";
+		};
+		CD221DC21D41EE2A004D3701 /* Reminder */ = {
+			isa = PBXGroup;
+			children = (
+				CD221DD11D41F240004D3701 /* MainReminderViewController.h */,
+				CD221DD21D41F240004D3701 /* MainReminderViewController.m */,
+				CD93A6BA1D798F3E00292B83 /* ReminderListViewController.h */,
+				CD93A6BB1D798F3E00292B83 /* ReminderListViewController.m */,
+				CD93A6C01D79975900292B83 /* CustomAlarmCell.h */,
+				CD93A6C11D79975900292B83 /* CustomAlarmCell.m */,
+				CD93A6C21D79975900292B83 /* CustomAlarmCell.xib */,
+			);
+			name = Reminder;
+			sourceTree = "<group>";
+		};
+		CD221DC31D41EE2C004D3701 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				CD221DCB1D41F102004D3701 /* MainHistoryViewController.h */,
+				CD221DCC1D41F102004D3701 /* MainHistoryViewController.m */,
+				CD8E42271D48523300A8695B /* HistoryPageView.h */,
+				CD8E42281D48523300A8695B /* HistoryPageView.m */,
+				CD1F87701D49F56D00A44074 /* StatusCircleView.h */,
+				CD1F87711D49F56D00A44074 /* StatusCircleView.m */,
+				CD33D09F1D65AC6600F7DB07 /* GraphView.h */,
+				CD33D0A01D65AC6600F7DB07 /* GraphView.m */,
+				CD212A671D758136007E53A0 /* HistoryListTableView.h */,
+				CD212A681D758136007E53A0 /* HistoryListTableView.m */,
+			);
+			name = History;
+			sourceTree = "<group>";
+		};
+		CD221DC41D41EE2E004D3701 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				CD221D491D41EA80004D3701 /* ViewController.h */,
+				CD221D4A1D41EA80004D3701 /* ViewController.m */,
+				CD221DC81D41EF6E004D3701 /* UserLoginViewController.h */,
+				CD221DC91D41EF6E004D3701 /* UserLoginViewController.m */,
+				CD8703231D76ED0A00CC570F /* FacebookLoginViewController.h */,
+				CD8703241D76ED0A00CC570F /* FacebookLoginViewController.m */,
+				CD8703251D76ED0A00CC570F /* ForgotPasswordViewController.h */,
+				CD8703261D76ED0A00CC570F /* ForgotPasswordViewController.m */,
+				CD8703271D76ED0A00CC570F /* RegisterViewController.h */,
+				CD8703281D76ED0A00CC570F /* RegisterViewController.m */,
+				CD221DD51D41F460004D3701 /* MainSettingViewController.h */,
+				CD221DD61D41F460004D3701 /* MainSettingViewController.m */,
+			);
+			name = User;
+			sourceTree = "<group>";
+		};
+		CD8703321D76F5FE00CC570F /* SideBar */ = {
+			isa = PBXGroup;
+			children = (
+				CD8703331D76F62400CC570F /* AboutViewController.h */,
+				CD8703341D76F62400CC570F /* AboutViewController.m */,
+				CD8703351D76F62400CC570F /* LogoutViewController.h */,
+				CD8703361D76F62400CC570F /* LogoutViewController.m */,
+				CD8703371D76F62400CC570F /* NotificationViewController.h */,
+				CD8703381D76F62400CC570F /* NotificationViewController.m */,
+				CD87033C1D76F63800CC570F /* HealthEducationViewController.h */,
+				CD87033D1D76F63800CC570F /* HealthEducationViewController.m */,
+			);
+			name = SideBar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -207,6 +507,7 @@
 				TargetAttributes = {
 					CD221D3F1D41EA80004D3701 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 45ZW733CY8;
 					};
 					CD221D581D41EA81004D3701 = {
 						CreatedOnToolsVersion = 7.3;
@@ -243,6 +544,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD93A6C41D79975900292B83 /* CustomAlarmCell.xib in Resources */,
 				CD221D531D41EA80004D3701 /* LaunchScreen.storyboard in Resources */,
 				CD221D501D41EA80004D3701 /* Assets.xcassets in Resources */,
 				CD221D4E1D41EA80004D3701 /* Main.storyboard in Resources */,
@@ -270,9 +572,44 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD87033A1D76F62400CC570F /* LogoutViewController.m in Sources */,
+				CD221DD71D41F460004D3701 /* MainSettingViewController.m in Sources */,
 				CD221D4B1D41EA80004D3701 /* ViewController.m in Sources */,
+				CD93A6BC1D798F3E00292B83 /* ReminderListViewController.m in Sources */,
+				CD212A691D758136007E53A0 /* HistoryListTableView.m in Sources */,
+				CD1F87721D49F56D00A44074 /* StatusCircleView.m in Sources */,
+				CD8E42291D48523300A8695B /* HistoryPageView.m in Sources */,
+				CD221D9B1D41EAEF004D3701 /* FMDatabasePool.m in Sources */,
+				CD221D9D1D41EAEF004D3701 /* FMResultSet.m in Sources */,
+				CD221D7E1D41EAD0004D3701 /* CheckNetwork.m in Sources */,
+				CD221DC01D41ED94004D3701 /* StyleCommon.m in Sources */,
+				CD221D8D1D41EAE4004D3701 /* MViewController.m in Sources */,
+				CD93A6C31D79975900292B83 /* CustomAlarmCell.m in Sources */,
+				CD221D9C1D41EAEF004D3701 /* FMDatabaseQueue.m in Sources */,
+				CD221D991D41EAEF004D3701 /* FMDatabase.m in Sources */,
 				CD221D481D41EA80004D3701 /* AppDelegate.m in Sources */,
+				CD87032B1D76ED0A00CC570F /* RegisterViewController.m in Sources */,
+				CD221D871D41EAD9004D3701 /* DataBaseClass.m in Sources */,
+				CD221D881D41EAD9004D3701 /* SystemConfigClass.m in Sources */,
+				CD8703311D76F47B00CC570F /* CirleView.m in Sources */,
+				CD221DCD1D41F102004D3701 /* MainHistoryViewController.m in Sources */,
+				CD221DD01D41F22A004D3701 /* MainOverviewViewController.m in Sources */,
+				CD221DCA1D41EF6E004D3701 /* UserLoginViewController.m in Sources */,
+				CD87032A1D76ED0A00CC570F /* ForgotPasswordViewController.m in Sources */,
+				CD8703291D76ED0A00CC570F /* FacebookLoginViewController.m in Sources */,
+				CD221DBE1D41ED94004D3701 /* SFCommonCalendar.m in Sources */,
+				CD221D9A1D41EAEF004D3701 /* FMDatabaseAdditions.m in Sources */,
+				CD221DBF1D41ED94004D3701 /* ShareCommon.m in Sources */,
+				CD221DD31D41F240004D3701 /* MainReminderViewController.m in Sources */,
+				CD33D0A11D65AC6600F7DB07 /* GraphView.m in Sources */,
+				CD87033B1D76F62400CC570F /* NotificationViewController.m in Sources */,
+				CD221D891D41EAD9004D3701 /* UserManagerClass.m in Sources */,
 				CD221D451D41EA80004D3701 /* main.m in Sources */,
+				CD221DBD1D41ED94004D3701 /* LocalizeUtilities.m in Sources */,
+				CD8703391D76F62400CC570F /* AboutViewController.m in Sources */,
+				CD221D7F1D41EAD0004D3701 /* Reachability.m in Sources */,
+				CD221DBC1D41ED94004D3701 /* GlobalSettings.m in Sources */,
+				CD87033E1D76F63800CC570F /* HealthEducationViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,7 +701,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -402,7 +739,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -413,10 +750,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PREFIX_HEADER = "$(PRODUCT_NAME)/PrefixHeader.pch";
 				INFOPLIST_FILE = Microlife/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rex.Microlife;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -424,10 +770,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PREFIX_HEADER = "$(PRODUCT_NAME)/PrefixHeader.pch";
 				INFOPLIST_FILE = Microlife/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rex.Microlife;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -496,6 +851,7 @@
 				CD221D6F1D41EA81004D3701 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CD221D701D41EA81004D3701 /* Build configuration list for PBXNativeTarget "MicrolifeTests" */ = {
 			isa = XCConfigurationList;
@@ -504,6 +860,7 @@
 				CD221D721D41EA81004D3701 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CD221D731D41EA81004D3701 /* Build configuration list for PBXNativeTarget "MicrolifeUITests" */ = {
 			isa = XCConfigurationList;
@@ -512,6 +869,7 @@
 				CD221D751D41EA81004D3701 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
