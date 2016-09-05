@@ -73,6 +73,8 @@
     
     [self.navigationController pushViewController:reminderListVC animated:YES];
     
+    NSLog(@"OK");
+    
 }
 
 - (void)didReceiveMemoryWarning {
