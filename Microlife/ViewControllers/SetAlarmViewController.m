@@ -106,43 +106,33 @@
     
     cell.textLabel.text = cellTitle;
     
-    UILabel *introLabel = [[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width-cell.accessoryView.frame.size.width-SCREEN_WIDTH*0.293, 0, SCREEN_WIDTH*0.293, cell.frame.size.height)];
+    UILabel *introLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-SCREEN_WIDTH*0.5-SCREEN_WIDTH*0.1, 0, SCREEN_WIDTH*0.5, 44)];
     
     introLabel.textAlignment = NSTextAlignmentRight;
     introLabel.textColor = TEXT_COLOR;
+
     
-    //[sender setImage:[UIImage imageNamed:@"image.png"] forSegmentAtIndex:sender.selectedSegmentIndex];
+    UIImage *segmentBpImg = [self resizeImage:[UIImage imageNamed:@"reminder_btn_a_bp_0"]];
+    UIImage *segmentWeImg = [self resizeImage:[UIImage imageNamed:@"reminder_btn_a_we_0"]];
+    UIImage *segmentBtImg = [self resizeImage:[UIImage imageNamed:@"reminder_btn_a_bt_0"]];
     
     NSArray *itemArray = [NSArray arrayWithObjects:
-                          @"",
-                          @"",
-                          @"",
+                          segmentBpImg,
+                          segmentWeImg,
+                          segmentBtImg,
                           nil];
     
     UISegmentedControl *cellSegment = [[UISegmentedControl alloc] initWithItems:itemArray];
     
-    cellSegment.frame = CGRectMake(cell.frame.size.width-SCREEN_WIDTH*0.64, cell.frame.size.height/2-29/2, SCREEN_WIDTH*0.64, 29);
-    
-    UIImage *onceActive;
-    UIImage *recurringActive;
-    UIImage *scheduledActive;
-
-    
-    if ([UIImage instancesRespondToSelector:@selector(imageWithRenderingMode:)]) {
-        onceActive = [[UIImage imageNamed:@"reminder_btn_a_bp_0"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        recurringActive = [[UIImage imageNamed:@"reminder_btn_a_we_0"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        scheduledActive = [[UIImage imageNamed:@"reminder_btn_a_bt_0"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    }
-    
-//    [UIImage imageNamed:@"reminder_btn_a_bp_0"],
-//    [UIImage imageNamed:@"reminder_btn_a_we_0"],
-//    [UIImage imageNamed:@"reminder_btn_a_bt_0"]
+    cellSegment.frame = CGRectMake(self.view.frame.size.width-SCREEN_WIDTH*0.6-SCREEN_WIDTH*0.04, cell.frame.size.height/2-SCREEN_HEIGHT*0.044/2, SCREEN_WIDTH*0.6, SCREEN_HEIGHT*0.044);
     
     cellSegment.selectedSegmentIndex = 0;
     cellSegment.tintColor = STANDER_COLOR;
-    [cellSegment setImage:onceActive forSegmentAtIndex:0];
-    [cellSegment setImage:recurringActive forSegmentAtIndex:1];
-    [cellSegment setImage:scheduledActive forSegmentAtIndex:2];
+    
+    
+    for (int i=0; i<itemArray.count; i++) {
+        [cellSegment setImage:[itemArray objectAtIndex:i] forSegmentAtIndex:i];
+    }
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
@@ -163,6 +153,26 @@
     
     return  cell;
     
+}
+
+-(UIImage *)resizeImage:(UIImage *)image{
+    
+//    CGRect rect = CGRectMake(0,0,SCREEN_HEIGHT*0.044,SCREEN_HEIGHT*0.044);
+//    UIGraphicsBeginImageContext( rect.size );
+//    [image drawInRect:rect];
+//    UIImage *picture1 = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    
+//    NSData *imageData = UIImagePNGRepresentation(picture1);
+//    UIImage *resizeeImg = [UIImage imageWithData:imageData];
+    
+    UIImage *originalImage = image;
+    UIImage *scaledImage =
+    [UIImage imageWithCGImage:[originalImage CGImage]
+                        scale:(originalImage.scale * self.imgScale)
+                  orientation:(originalImage.imageOrientation)];
+    
+    return scaledImage;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

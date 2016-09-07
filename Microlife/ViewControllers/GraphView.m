@@ -83,22 +83,109 @@
     targetValCount = 0;
     targetValue = 0;
     secTargetValue = 0;
-
+    
+    secGraphYData = [[NSMutableArray alloc] initWithCapacity:0];
+    
     //測試用資料
+    int tempDevided;
+    int tempPlus;
+    
+    if (self.chartType == 0) {
+        tempDevided = 10;
+        tempPlus = 80;
+    }else{
+        tempDevided = 5;
+        tempPlus = 25;
+    }
+    
+    //測試用資料
+    
+    
     int plusValue = 0;
     int devidedValue = 0;
     
     switch (self.chartType) {
         case 0:
-            //SYS/DIA
-            chartMaxValue = 280;
-            chartMinValue = 20;
             plusValue = 130;
             devidedValue = 10;
-            targetValue = 140;
+            break;
+            
+        case 1:
+            plusValue = 150;
+            devidedValue = 10;
+            break;
+            
+        case 2:
+            plusValue = 55;
+            devidedValue = 20;
+            
+            break;
+            
+        case 3:
+            plusValue = 20;
+            devidedValue = 10;
+            
+            break;
+            
+        case 4:
+            plusValue = 20;
+            devidedValue = 5;
+            
+            break;
+            
+        case 5:
+            plusValue= 35;
+            devidedValue = 5;
+            
+            break;
+            
+        default:
+            break;
+    }
+    
+    int maxValue = 0;
+    int minValue = 280;
+    
+    for (int i=0; i<31; i++) {
+        
+        NSNumber *yValue = [NSNumber numberWithInteger:(arc4random() % devidedValue)+plusValue];
+        
+        [chartDataArray addObject:yValue];
+        
+        if (yValue.intValue > maxValue && self.chartType == 0) {
+            maxValue = yValue.intValue;
+        }
+        
+        NSNumber *yValueNum = [NSNumber numberWithInteger:(arc4random() % tempDevided)+tempPlus];
+        
+        [secGraphYData addObject:yValueNum];
+        
+        if (yValueNum.intValue < minValue && self.chartType == 0) {
+            minValue = yValueNum.intValue;
+        }
+        
+    }
+    
+    NSLog(@"minValue = %d, maxValue = %d",minValue,maxValue);
+    
+    //
+    
+    maxValue += maxValue*0.1;
+    minValue -= minValue*0.1;
+    
+    switch (self.chartType) {
+        case 0:
+            //SYS/DIA
+            //chartMaxValue = 280;
+            //chartMinValue = 20;
+            chartMaxValue = maxValue;
+            chartMinValue = minValue;
+            NSLog(@"chartMaxValue = %f",chartMaxValue);
+            NSLog(@"chartMaxValue = %f",chartMinValue);
+            targetValue = 130;
             normalValue = 135;
             secNormalValue = 85;
-            secTargetValue = 80;
+            secTargetValue = 83;
             break;
         case 1:
             //PUL
@@ -148,33 +235,7 @@
             break;
     }
 
-    secGraphYData = [[NSMutableArray alloc] initWithCapacity:0];
     
-    //測試用資料
-    int tempDevided;
-    int tempPlus;
-    
-    if (self.chartType == 0) {
-        tempDevided = 10;
-        tempPlus = 80;
-    }else{
-        tempDevided = 5;
-        tempPlus = 25;
-    }
-    
-    for (int i=0; i<31; i++) {
-        
-        //獲取25到42之間的整數的代碼如下:
-        
-        NSNumber *yValue = [NSNumber numberWithInteger:(arc4random() % devidedValue)+plusValue];
-        
-        [chartDataArray addObject:yValue];
-        
-        NSNumber *yValueNum = [NSNumber numberWithInteger:(arc4random() % tempDevided)+tempPlus];
-        
-        [secGraphYData addObject:yValueNum];
-        
-    }
     
     dataXLength = chartDataArray.count-1;
     dataYLength = chartMaxValue-chartMinValue;
