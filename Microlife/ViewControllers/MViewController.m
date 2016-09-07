@@ -43,10 +43,15 @@
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
+    //改變self.title 的字體顏色
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
     //改變 navigationBar 的底色
     self.navigationController.navigationBar.barTintColor = STANDER_COLOR;
+    
+    //改變 statusBarStyle(字體變白色)
+    //先將 info.plist 中的 View controller-based status bar appearance 設為 NO
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
 

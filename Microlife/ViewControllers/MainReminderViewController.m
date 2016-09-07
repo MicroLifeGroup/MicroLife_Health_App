@@ -7,9 +7,13 @@
 //
 
 #import "MainReminderViewController.h"
-#import "ReminderListViewController.h"
+#import "CustomAlarmCell.h"
+#import "SetAlarmViewController.h"
 
-@interface MainReminderViewController ()
+@interface MainReminderViewController ()<UITableViewDelegate, UITableViewDataSource>{
+    
+    UITableView *alarmTable;
+}
 
 @end
 
@@ -29,6 +33,18 @@
 }
 
 -(void)initInterface{
+    
+    self.navigationItem.title = @"Reminder";
+    
+    //設定leftBarButtonItem(profileBt)
+    UIButton *leftItemBt = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.height, self.navigationController.navigationBar.frame.size.height)];
+    
+    [leftItemBt setImage:[UIImage imageNamed:@"all_btn_a_menu"] forState:UIControlStateNormal];
+    
+    [leftItemBt addTarget:self action:@selector(profileBtAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:leftItemBt];
+    
     
     float clockImgWidth = 303/self.imgScale;
     float clockImgHeight = 316/self.imgScale;
@@ -62,19 +78,121 @@
 
     [addAlarmBtn setBackgroundImage:[UIImage imageNamed:@"overview_btn_a_add_m"] forState:UIControlStateNormal];
     
-    [addAlarmBtn addTarget:self action:@selector(pushToAlermList) forControlEvents:UIControlEventTouchUpInside];
+    [addAlarmBtn addTarget:self action:@selector(addAlarmAction) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:addAlarmBtn];
+    
+    
+    UIButton *navAddButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    
+    [navAddButton setBackgroundImage:[UIImage imageNamed:@"reminder_icon_a_add"] forState:UIControlStateNormal];
+    
+    [navAddButton addTarget:self action:@selector(addAlarmAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:navAddButton];
+    
+    alarmTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStyleGrouped];
+    
+    alarmTable.delegate = self;
+    alarmTable.dataSource = self;
+    
+    [self.view addSubview:alarmTable];
 }
 
--(void)pushToAlermList{
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    ReminderListViewController *reminderListVC = [[ReminderListViewController alloc] init];
+    return 3;
     
-    [self.navigationController pushViewController:reminderListVC animated:YES];
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    NSLog(@"OK");
     
+    //custom cell 需要給 height 才能顯示
+    //return SCREEN_HEIGHT*0.176;
+    return 120;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    
+    NSString *identifier = @"AlarmCell";
+    
+    CustomAlarmCell *alarmCell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    
+    if (alarmCell == nil) {
+        alarmCell = [[CustomAlarmCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    }
+    
+    if (indexPath.row == 0) {
+        alarmCell.iconImage.image = [UIImage imageNamed:@"reminder_icon_a_bp"];
+        alarmCell.typeTitle.text = @"BP";
+        alarmCell.timeLabel.text = @"08:12";
+        alarmCell.measureWeek.text = @"World Measure, Weekdays";
+        
+    }
+    
+    if (indexPath.row == 1) {
+        alarmCell.iconImage.image = [UIImage imageNamed:@"reminder_icon_a_we"];
+        alarmCell.typeTitle.text = @"Weight";
+        alarmCell.timeLabel.text = @"08:13";
+        alarmCell.measureWeek.text = @"World Measure, Weekdays";
+        
+    }
+    
+    if (indexPath.row == 2) {
+        alarmCell.iconImage.image = [UIImage imageNamed:@"reminder_icon_a_bt"];
+        alarmCell.typeTitle.text = @"Body Temp.";
+        alarmCell.timeLabel.text = @"08:14";
+        alarmCell.measureWeek.text = @"World Measure, Weekdays";
+        
+    }
+    
+    
+    return alarmCell;
+    
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    SetAlarmViewController *setAlarmVC = [[SetAlarmViewController alloc] init];
+    
+    setAlarmVC.isCreate = NO;
+    
+    [self.navigationController pushViewController:setAlarmVC animated:YES];
+}
+
+#pragma mark - Navigation Action
+
+-(void)backToReminderVC{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)addAlarmAction{
+    
+    SetAlarmViewController *addReminderVC = [[SetAlarmViewController alloc] init];
+    
+    addReminderVC.isCreate = YES;
+    
+    [self.navigationController pushViewController:addReminderVC animated:YES];
+    
+}
+
+-(void)editReminderAction{
+    
+    SetAlarmViewController *setAlarmVC = [[SetAlarmViewController alloc] init];
+    
+    setAlarmVC.isCreate = NO;
+    
+    [self.navigationController pushViewController:setAlarmVC animated:YES];
+}
+
+#pragma mark - profileBtAction (導覽列左邊按鍵方法)
+-(void)profileBtAction {
+    
+    [self SidebarBtn];
 }
 
 - (void)didReceiveMemoryWarning {

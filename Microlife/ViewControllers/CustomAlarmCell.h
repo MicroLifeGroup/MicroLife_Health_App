@@ -10,4 +10,11 @@
 
 @interface CustomAlarmCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UIImageView *iconImage;
+@property (weak, nonatomic) IBOutlet UILabel *typeTitle;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *measureWeek;
+@property (weak, nonatomic) IBOutlet UISwitch *alarmSwitch;
+@property (nonatomic) int type;
+
 @end

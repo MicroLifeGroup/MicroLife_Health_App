@@ -43,10 +43,23 @@
         
         self = [arrayOfViews objectAtIndex:0];
         
-        //[self.alarmSwitch addTarget:self action:@selector(alarmSwitchAction) forControlEvents:UIControlEventValueChanged];
+        [self.alarmSwitch addTarget:self action:@selector(alarmSwitchAction) forControlEvents:UIControlEventValueChanged];
+        
     }
     
     return self;
+}
+
+-(void)alarmSwitchAction{
+    
+    //NSMutableDictionary *timeDict = [[[SettingParameterClass sharedInstance] returnAlarmData] objectAtIndex:self.flag];
+    
+    //NSString *switchStatus = [NSString stringWithFormat:@"%d",self.alarmSwitch.on];
+    
+    //[timeDict setObject:switchStatus forKey:@"status"];
+    
+    NSLog(@"alarm switch");
+    
 }
 
 - (void)layoutSubviews
@@ -58,7 +71,6 @@
     self.bounds = cellRect;
     
 }
-
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
