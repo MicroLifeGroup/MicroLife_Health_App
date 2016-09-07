@@ -103,7 +103,7 @@
     int BtnRedius = self.view.frame.size.height/10;
     
     circleview = [[UIView alloc] initWithFrame:CGRectMake(-BtnRedius, -BtnRedius, BtnRedius*2, BtnRedius*2)];
-    [circleview setBackgroundColor:[UIColor colorWithRed:0/255.0 green:61.0/255.0 blue:165.0/255.0 alpha:0.93]];
+    [circleview setBackgroundColor:[UIColor colorWithRed:0/255.0 green:61.0/255.0 blue:165.0/255.0 alpha:0.6]];
     circleview.layer.cornerRadius = BtnRedius;
     [[self.circleview layer] setMasksToBounds:YES];
     self.circleview.userInteractionEnabled = YES;
