@@ -17,6 +17,8 @@
 
 @end
 
+static NSString *identifier = @"AlarmCell";
+
 @implementation MainReminderViewController
 
 - (void)viewDidLoad {
@@ -114,9 +116,6 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    
-    NSString *identifier = @"AlarmCell";
     
     CustomAlarmCell *alarmCell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
