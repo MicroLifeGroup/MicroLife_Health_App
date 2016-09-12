@@ -24,6 +24,8 @@
 #import "GlobalSettings.h"
 #import "ShareCommon.h"
 #import "StyleCommon.h"
+#import "LocalData.h"
+
 #endif
 
 #endif /* PrefixHeader_pch */

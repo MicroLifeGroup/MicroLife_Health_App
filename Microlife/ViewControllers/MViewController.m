@@ -188,9 +188,6 @@
     
     //[self.navigationController.view addSubview:circleview];
     
-    
-    
-    
 }
 
 -(void) sidebarClose{
@@ -203,12 +200,7 @@
     
 }
 
-
-
-
 -(void) ImageExpand{
-    
-    
     
     float imageRadius = 10.0f;
     
@@ -231,8 +223,6 @@
     self.view.backgroundColor = [UIColor clearColor];
     [self.sidebarcloseBtn addSubview:personalImageView];
     
-    
-    
     /* 圖片置中 */
     //self.personalImageView.center = self.view.center;
     //設置轉換標誌
@@ -249,7 +239,6 @@
     [UIView commitAnimations];
     
 }
-
 
 -(void) PersonLabel{
     int labelHeight = 20;
@@ -277,12 +266,6 @@
         }];
     } completion:nil];
     
-    
-    
-    //[ expandIntoView:self.view finished:NULL];
-    
-    
-    
     CGRect emaillabelFrame = CGRectMake(80.0f/2, 160+20+labelHeight+15 , 4*labelwidth , labelHeight);
     UILabel *emailLabel = [[UILabel alloc] initWithFrame:emaillabelFrame];
     [emailLabel setTextColor:[UIColor whiteColor]];
@@ -304,10 +287,6 @@
             emailLabel.transform = CGAffineTransformMakeScale(1.0, 1.0);
         }];
     } completion:nil];
-    
-    
-    
-    
     
 }
 
@@ -332,7 +311,6 @@
         //NSLog(@"動畫完成了");
     }];
     [buttonIB1 addTarget:self action:@selector(onClickButtonIB1:) forControlEvents:UIControlEventTouchUpInside];
-    
     
     
     CGRect buttonIB2Frame = CGRectMake( bx, by+60, imbuttonwidth, imbuttonHeight );
@@ -388,14 +366,8 @@
 
 -(IBAction)onClickButtonIB1:(UIButton *)sender{
     
-    
     NSLog(@"HealthEducationVC");
-    
-    // [self sidebarClose];
-    
-    //[self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-    //
-    
+
     HealthEducationViewController *HealthEducationVC = [HealthEducationViewController new];
     
     [self presentViewController:HealthEducationVC animated:YES completion:nil];
@@ -403,19 +375,7 @@
     HealthEducationVC.view.backgroundColor = [UIColor blackColor];
     HealthEducationVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
     self.definesPresentationContext = YES;
-    
-    
-    
-    
-    
-    //    UIViewController *healtheducationVC = [[UIViewController alloc ]init];
-    //    healtheducationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HealthEducationVC"];
-    //    healtheducationVC.modalTransitionStyle = UIModalTransitionStylePartialCurl;
-    //
-    //    [self presentViewController:healtheducationVC animated:true completion:nil];
-    
-    
-    
+
 }
 
 -(IBAction)onClickButtonIB2:(UIButton *)sender{
@@ -431,16 +391,7 @@
     NotificationVC.view.backgroundColor = [UIColor whiteColor];
     NotificationVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
     self.definesPresentationContext = YES;
-    
-    
-    
-    //    UIViewController *notificationVC = [[UIViewController alloc ]init];
-    //    notificationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"NotificationVC"];
-    //    notificationVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    //
-    //    [self presentViewController:notificationVC animated:true completion:nil];
-    
-    
+
 }
 
 -(IBAction)onClickButtonIB3:(UIButton *)sender{
@@ -454,15 +405,6 @@
     AboutVC.view.backgroundColor = [UIColor whiteColor];
     AboutVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
     self.definesPresentationContext = YES;
-    
-    
-    
-    //    UIViewController *aboutVC = [[UIViewController alloc ]init];
-    //    aboutVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AboutVC"];
-    //    aboutVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    //
-    //    [self presentViewController:aboutVC animated:true completion:nil];
-    
     
 }
 
@@ -478,20 +420,7 @@
     self.definesPresentationContext = YES;
     
     
-    //    UIViewController *logoutVC = [[UIViewController alloc ]init];
-    //    logoutVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogoutVC"];
-    //    logoutVC.modalTransitionStyle = UIModalTransitionStylePartialCurl;
-    //
-    //    [self presentViewController:logoutVC animated:true completion:nil];
-    //
-    
 }
-
-
-
-
-
-
 
 -(void) Icon1{
     
@@ -597,6 +526,16 @@
     self.view.backgroundColor = [UIColor whiteColor];
 }
 
+-(UIImage *)resizeImage:(UIImage *)image{
+    
+    UIImage *originalImage = image;
+    UIImage *scaledImage =
+    [UIImage imageWithCGImage:[originalImage CGImage]
+                        scale:(originalImage.scale * self.imgScale)
+                  orientation:(originalImage.imageOrientation)];
+    
+    return scaledImage;
+}
 
 
 @end

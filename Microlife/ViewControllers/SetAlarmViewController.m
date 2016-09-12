@@ -7,9 +7,13 @@
 //
 
 #import "SetAlarmViewController.h"
+#import "AlarmDetailViewController.h"
 
-@interface SetAlarmViewController ()<UIPickerViewDelegate,UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource>
-
+@interface SetAlarmViewController ()<UIPickerViewDelegate,UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource>{
+    
+    NSDictionary *reminderDict;
+    
+}
 
 @end
 
@@ -23,10 +27,43 @@
     
     [self initParameter];
     [self initInterface];
+    
 }
 
 -(void)initParameter{
+    
+    if (isCreate) {
+        [self initAlarmParameter];
+    }
+    
+}
 
+-(void)initAlarmParameter{
+    
+    NSDate *currentDay = [NSDate date];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"hh:mm";
+    
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    
+    NSLog(@"The Current Time is %@",[dateFormatter stringFromDate:currentDay]);
+    
+    NSString *dateStr = [dateFormatter stringFromDate:currentDay];
+    
+    NSString *hourStr = [dateStr substringToIndex:3];
+    
+    NSString *minStr = [dateStr substringWithRange:NSMakeRange(2, 3)];
+    
+    NSLog(@"dateStr = %@, hourStr = %@, minStr = %@",dateStr,hourStr,minStr);
+    
+    reminderDict = [[NSDictionary alloc] initWithObjectsAndKeys:hourStr,@"hour",
+                                  minStr,@"min",
+                                  @" ",@"repeat",
+                                  @"custom",@"custom",
+                                  @"World Measure",@"type",
+                                  @"0",@"model",
+                                  nil];
 }
 
 -(void)initInterface{
@@ -50,9 +87,6 @@
     UIPickerView *timePicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT*0.322)];
     timePicker.delegate = self;
     timePicker.dataSource = self;
-    
-    [timePicker selectRow:0 inComponent:0 animated:NO];
-    [timePicker selectRow:0 inComponent:1 animated:NO];
     
     [self.view addSubview:timePicker];
     
@@ -126,7 +160,8 @@
     
     cellSegment.frame = CGRectMake(self.view.frame.size.width-SCREEN_WIDTH*0.6-SCREEN_WIDTH*0.04, cell.frame.size.height/2-SCREEN_HEIGHT*0.044/2, SCREEN_WIDTH*0.6, SCREEN_HEIGHT*0.044);
     
-    cellSegment.selectedSegmentIndex = 0;
+    cellSegment.selectedSegmentIndex = [[reminderDict objectForKey:@"model"] intValue];
+    
     cellSegment.tintColor = STANDER_COLOR;
     
     
@@ -136,46 +171,41 @@
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    if(indexPath.row == 0){
-        introLabel.text = @"Never";
-        [cell addSubview:introLabel];
-    }
-    
-    if(indexPath.row == 1){
-        introLabel.text = @"World Measure";
-        [cell addSubview:introLabel];
-    }
-    
-    if (indexPath.row == 2) {
-        [cell addSubview:cellSegment];
-        cell.accessoryType = UITableViewCellAccessoryNone;
+    switch (indexPath.row) {
+        case 0:
+            introLabel.text = [reminderDict objectForKey:@"repeat"];
+            [cell addSubview:introLabel];
+            break;
+        
+        case 1:
+            introLabel.text = [reminderDict objectForKey:@"type"];
+            [cell addSubview:introLabel];
+            break;
+        
+        case 2:
+            [cell addSubview:cellSegment];
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            break;
+        
+            
+        default:
+            break;
     }
     
     return  cell;
     
 }
 
--(UIImage *)resizeImage:(UIImage *)image{
-    
-//    CGRect rect = CGRectMake(0,0,SCREEN_HEIGHT*0.044,SCREEN_HEIGHT*0.044);
-//    UIGraphicsBeginImageContext( rect.size );
-//    [image drawInRect:rect];
-//    UIImage *picture1 = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    
-//    NSData *imageData = UIImagePNGRepresentation(picture1);
-//    UIImage *resizeeImg = [UIImage imageWithData:imageData];
-    
-    UIImage *originalImage = image;
-    UIImage *scaledImage =
-    [UIImage imageWithCGImage:[originalImage CGImage]
-                        scale:(originalImage.scale * self.imgScale)
-                  orientation:(originalImage.imageOrientation)];
-    
-    return scaledImage;
-}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    AlarmDetailViewController *detailVC = [[AlarmDetailViewController alloc] init];
+    
+    detailVC.listType = (int)indexPath.row;
+    
+    if (indexPath.row != 2) {
+        [self.navigationController pushViewController:detailVC animated:YES];
+    }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
@@ -200,6 +230,14 @@
     else if(component == 1){
         rowCount =  60;
     }
+    
+    int hourRow = [[reminderDict objectForKey:@"hour"] intValue];
+    int minRow = [[reminderDict objectForKey:@"min"] intValue];
+    
+    NSLog(@"hourRow = %d, minRow = %d",hourRow,minRow);
+    
+    [pickerView selectRow:0 inComponent:hourRow animated:NO];
+    [pickerView selectRow:1 inComponent:minRow animated:NO];
     
     return rowCount;
 
@@ -277,6 +315,7 @@
     
     // Fill the label text here
     pickTitle.text = rowTitle;
+    
     return pickTitle;
 }
 

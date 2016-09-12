@@ -45,6 +45,8 @@
 		CD621E9D1D76E1D4006AF5F1 /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD621E9A1D76E1D4006AF5F1 /* AccountKit.framework */; };
 		CD621E9F1D76E1EB006AF5F1 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD621E9E1D76E1EB006AF5F1 /* SafariServices.framework */; };
 		CD621EA11D76E1F5006AF5F1 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD621EA01D76E1F5006AF5F1 /* Accounts.framework */; };
+		CD6B939A1D829EEC00AB6018 /* AlarmDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B93991D829EEC00AB6018 /* AlarmDetailViewController.m */; };
+		CD6B939E1D82B47300AB6018 /* LocalData.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B939D1D82B47300AB6018 /* LocalData.m */; };
 		CD6F7D7F1D7D6840002A8CCE /* SetAlarmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6F7D7E1D7D6840002A8CCE /* SetAlarmViewController.m */; };
 		CD8703201D76E83A00CC570F /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD87031F1D76E83A00CC570F /* Bolts.framework */; };
 		CD8703291D76ED0A00CC570F /* FacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703241D76ED0A00CC570F /* FacebookLoginViewController.m */; };
@@ -151,6 +153,10 @@
 		CD621E9A1D76E1D4006AF5F1 /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AccountKit.framework; sourceTree = "<group>"; };
 		CD621E9E1D76E1EB006AF5F1 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		CD621EA01D76E1F5006AF5F1 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		CD6B93981D829EEC00AB6018 /* AlarmDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmDetailViewController.h; sourceTree = "<group>"; };
+		CD6B93991D829EEC00AB6018 /* AlarmDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmDetailViewController.m; sourceTree = "<group>"; };
+		CD6B939C1D82B47300AB6018 /* LocalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalData.h; sourceTree = "<group>"; };
+		CD6B939D1D82B47300AB6018 /* LocalData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalData.m; sourceTree = "<group>"; };
 		CD6F7D7D1D7D6840002A8CCE /* SetAlarmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetAlarmViewController.h; sourceTree = "<group>"; };
 		CD6F7D7E1D7D6840002A8CCE /* SetAlarmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetAlarmViewController.m; sourceTree = "<group>"; };
 		CD87031F1D76E83A00CC570F /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
@@ -233,6 +239,7 @@
 		CD221D421D41EA80004D3701 /* Microlife */ = {
 			isa = PBXGroup;
 			children = (
+				CD6B939B1D82B40A00AB6018 /* LocalData */,
 				CD221D791D41EAD0004D3701 /* CheckNetwork */,
 				CD221D801D41EAD9004D3701 /* SQLLite */,
 				CD221D8E1D41EAEF004D3701 /* FMDB */,
@@ -382,6 +389,8 @@
 				CD221DD21D41F240004D3701 /* MainReminderViewController.m */,
 				CD6F7D7D1D7D6840002A8CCE /* SetAlarmViewController.h */,
 				CD6F7D7E1D7D6840002A8CCE /* SetAlarmViewController.m */,
+				CD6B93981D829EEC00AB6018 /* AlarmDetailViewController.h */,
+				CD6B93991D829EEC00AB6018 /* AlarmDetailViewController.m */,
 				CD93A6C01D79975900292B83 /* CustomAlarmCell.h */,
 				CD93A6C11D79975900292B83 /* CustomAlarmCell.m */,
 				CD93A6C21D79975900292B83 /* CustomAlarmCell.xib */,
@@ -423,6 +432,15 @@
 				CD221DD61D41F460004D3701 /* MainSettingViewController.m */,
 			);
 			name = User;
+			sourceTree = "<group>";
+		};
+		CD6B939B1D82B40A00AB6018 /* LocalData */ = {
+			isa = PBXGroup;
+			children = (
+				CD6B939C1D82B47300AB6018 /* LocalData.h */,
+				CD6B939D1D82B47300AB6018 /* LocalData.m */,
+			);
+			name = LocalData;
 			sourceTree = "<group>";
 		};
 		CD8703321D76F5FE00CC570F /* SideBar */ = {
@@ -605,7 +623,9 @@
 				CD87033B1D76F62400CC570F /* NotificationViewController.m in Sources */,
 				CD221D891D41EAD9004D3701 /* UserManagerClass.m in Sources */,
 				CD221D451D41EA80004D3701 /* main.m in Sources */,
+				CD6B939A1D829EEC00AB6018 /* AlarmDetailViewController.m in Sources */,
 				CD221DBD1D41ED94004D3701 /* LocalizeUtilities.m in Sources */,
+				CD6B939E1D82B47300AB6018 /* LocalData.m in Sources */,
 				CD8703391D76F62400CC570F /* AboutViewController.m in Sources */,
 				CD221D7F1D41EAD0004D3701 /* Reachability.m in Sources */,
 				CD221DBC1D41ED94004D3701 /* GlobalSettings.m in Sources */,
