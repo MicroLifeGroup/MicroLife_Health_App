@@ -35,27 +35,27 @@
         reminderDataArray = [[NSMutableArray alloc] init];
     }
     
-    //defaults = [NSUserDefaults standardUserDefaults];
-
 }
 
--(void)saveReminderData:(NSMutableArray *)dataArray{
+-(void)saveReminderData:(NSMutableDictionary *)dataDict atIndexPath:(NSInteger)dataIndex{
     
-    reminderDataArray = [dataArray mutableCopy];
+    if (dataIndex > reminderDataArray.count) {
+        
+        [reminderDataArray addObject:dataDict];
+        
+    }else{
+        [reminderDataArray replaceObjectAtIndex:dataIndex withObject:dataDict];
+    }
     
-    //[defaults setObject:localDataArray forKey:@"localData"];
+}
+
+-(NSMutableDictionary *)getReminderDataAtindex:(NSInteger)dataIndex{
     
-    //[defaults synchronize];
+    return [reminderDataArray objectAtIndex:dataIndex];
 }
 
 -(NSMutableArray *)getReminderData{
-    
-    //if ([defaults objectForKey:@"localData"] != nil) {
-        
-        //Values returned from NSUserDefaults are immutable
-        
-        //localDataArray = [[defaults objectForKey:@"localData"] mutableCopy];
-    //}
+
     return reminderDataArray;
 }
 

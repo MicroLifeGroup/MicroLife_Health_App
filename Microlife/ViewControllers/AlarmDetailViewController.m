@@ -10,12 +10,13 @@
 
 @interface AlarmDetailViewController ()<UITableViewDelegate, UITableViewDataSource>{
     
-    
 }
 
 @end
 
 @implementation AlarmDetailViewController
+
+@synthesize weekArray,typeArray;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -28,6 +29,9 @@
 
 -(void)initParameter{
     
+    weekArray = [self.reminderDict objectForKey:@"week"];
+    typeArray = [self.reminderDict objectForKey:@"type"];
+
 }
 
 -(void)initInterface{
@@ -104,25 +108,33 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     
-    NSArray *weekArray = [[NSArray alloc] initWithObjects:@"Sunday",@"Monday",@"Tuesday",@"Wednesday",@"Thursday",@"Friday",@"Saturday", nil];
-    
-    NSArray *typeArray = [[NSArray alloc] initWithObjects:@"World Measure",@"Measure",@"Mdeicine",@"Doctor",@"Custom", nil];
-    
-    
     switch (self.listType) {
             
         case 0:
-            cell.textLabel.text = [NSString stringWithFormat:@"%@",[weekArray objectAtIndex:indexPath.row]];
+            cell.textLabel.text = [NSString stringWithFormat:@"%@",[[weekArray objectAtIndex:indexPath.row] objectForKey:@"weekName"]];
             
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            BOOL choose = [[[weekArray objectAtIndex:indexPath.row] objectForKey:@"choose"] boolValue];
+            
+            if (choose) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            }else{
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            }
             
             break;
         case 1:{
-            cell.textLabel.text = [NSString stringWithFormat:@"%@",[typeArray objectAtIndex:indexPath.row]];
+            cell.textLabel.text = [NSString stringWithFormat:@"%@",[[typeArray objectAtIndex:indexPath.row] objectForKey:@"typeName"]];
             
-            UIImage *emptyCheck = [self resizeImage:[UIImage imageNamed:@"all_select_a_0"]];
+            BOOL choose = [[[typeArray objectAtIndex:indexPath.row] objectForKey:@"choose"] boolValue];
             
-            cell.imageView.image = emptyCheck;
+            UIImage *typeChooseImg;
+            if (choose) {
+                typeChooseImg = [self resizeImage:[UIImage imageNamed:@"all_select_a_1"]];
+            }else{
+                typeChooseImg = [self resizeImage:[UIImage imageNamed:@"all_select_a_0"]];
+            }
+            
+            cell.imageView.image = typeChooseImg;
             
             break;
         }
@@ -137,6 +149,41 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    BOOL choose;
+    
+    switch (self.listType) {
+            
+        case 0:
+            choose = [[[weekArray objectAtIndex:indexPath.row] objectForKey:@"choose"] boolValue];
+            
+            if (!choose) {
+                
+                [[weekArray objectAtIndex:indexPath.row] setObject:@"1" forKey:@"choose"];
+            }else{
+                [[weekArray objectAtIndex:indexPath.row] setObject:@"0" forKey:@"choose"];
+            }
+            
+            break;
+        
+        case 1:
+            
+            [[typeArray objectAtIndex:indexPath.row] setObject:@"1" forKey:@"choose"];
+            
+            for (int i=0; i<typeArray.count; i++) {
+                
+                if (i != indexPath.row) {
+                    [[typeArray objectAtIndex:i] setObject:@"0" forKey:@"choose"];
+                }
+            }
+            
+            break;
+            
+        default:
+            break;
+    }
+    
+    [tableView reloadData];
     
 }
 

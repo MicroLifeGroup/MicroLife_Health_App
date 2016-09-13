@@ -11,4 +11,9 @@
 
 @property (nonatomic) int listType; //0=week 1=type
 
+@property (nonatomic, strong) NSMutableDictionary *reminderDict;
+@property (nonatomic) NSMutableArray *weekArray;
+@property (nonatomic) NSMutableArray *typeArray;
+
+
 @end

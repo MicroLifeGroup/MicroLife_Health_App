@@ -13,6 +13,7 @@
 @interface MainReminderViewController ()<UITableViewDelegate, UITableViewDataSource>{
     
     UITableView *alarmTable;
+    NSMutableArray *reminderArray;
 }
 
 @end
@@ -32,6 +33,22 @@ static NSString *identifier = @"AlarmCell";
 
 -(void)initParameter{
     
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    reminderArray = [[LocalData sharedInstance] getReminderData];
+    
+    NSLog(@"reminderArray = %@",reminderArray);
+    
+    [alarmTable reloadData];
+    
+    if (reminderArray.count == 0) {
+        alarmTable.hidden = YES;
+    }else{
+        alarmTable.hidden = NO;
+    }
 }
 
 -(void)initInterface{
@@ -103,7 +120,7 @@ static NSString *identifier = @"AlarmCell";
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 3;
+    return reminderArray.count;
     
 }
 
@@ -123,30 +140,79 @@ static NSString *identifier = @"AlarmCell";
         alarmCell = [[CustomAlarmCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     
+    int model = [[[reminderArray objectAtIndex:indexPath.row] objectForKey:@"model"] intValue];
+    
+    UIImage *modelImg;
+    NSString *typeText;
+    
+    switch (model) {
+        case 0:
+            modelImg = [UIImage imageNamed:@"reminder_icon_a_bp"];
+            typeText = @"BP";
+            break;
+            
+        case 1:
+            modelImg = [UIImage imageNamed:@"reminder_icon_a_we"];
+            typeText = @"Weight";
+            break;
+            
+        case 2:
+            modelImg = [UIImage imageNamed:@"reminder_icon_a_bt"];
+            typeText = @"Body Temp.";
+            break;
+            
+        default:
+            break;
+    }
+    
+    NSString *alarmHour = [NSString stringWithFormat:@"%@",[[reminderArray objectAtIndex:indexPath.row] objectForKey:@"hour"]];
+    
+    NSString *alarmMin = [NSString stringWithFormat:@"%@",[[reminderArray objectAtIndex:indexPath.row] objectForKey:@"min"]];
+    
+    NSMutableArray *chooseWeek = [[reminderArray objectAtIndex:indexPath.row] objectForKey:@"week"];
+    
+    NSString *weekStr = @"";
+    
+    for (int i=0; i<chooseWeek.count; i++) {
+        
+        if([[[chooseWeek objectAtIndex:i] objectForKey:@"choose"] boolValue]){
+            weekStr = [weekStr stringByAppendingFormat:@"%@",[[chooseWeek objectAtIndex:i] objectForKey:@"weekName"]];
+            NSLog(@"weekStr = %@",weekStr);
+            
+        }
+    }
+
+    
+    NSMutableArray *chooseType = [[reminderArray objectAtIndex:indexPath.row] objectForKey:@"type"];
+    
+    NSString *typeStr;
+    
+    for (int i=0; i<chooseType.count; i++) {
+        
+        if([[[chooseType objectAtIndex:i] objectForKey:@"choose"] boolValue]){
+            typeStr = [[chooseType objectAtIndex:i] objectForKey:@"typeName"];
+            
+        }
+    }
+    
+    //NSString *typeStr = [NSString stringWithFormat:@"%@",[[reminderArray objectAtIndex:indexPath.row] objectForKey:@"type"]];
+    
+    BOOL switchOn = [[[reminderArray objectAtIndex:indexPath.row] objectForKey:@"status"] boolValue];
+    
     if (indexPath.row == 0) {
-        alarmCell.iconImage.image = [UIImage imageNamed:@"reminder_icon_a_bp"];
-        alarmCell.typeTitle.text = @"BP";
-        alarmCell.timeLabel.text = @"08:12";
-        alarmCell.measureWeek.text = @"World Measure, Weekdays";
+        
+        alarmCell.iconImage.image = modelImg;
+        alarmCell.typeTitle.text = typeText;
+        alarmCell.timeLabel.text = [NSString stringWithFormat:@"%@:%@",alarmHour,alarmMin];
+        alarmCell.measureWeek.text = [NSString stringWithFormat:@"%@, %@",typeStr,weekStr];
+        
+        if(switchOn){
+            alarmCell.alarmSwitch.on = YES;
+        }else{
+            alarmCell.alarmSwitch.on = NO;
+        }
         
     }
-    
-    if (indexPath.row == 1) {
-        alarmCell.iconImage.image = [UIImage imageNamed:@"reminder_icon_a_we"];
-        alarmCell.typeTitle.text = @"Weight";
-        alarmCell.timeLabel.text = @"08:13";
-        alarmCell.measureWeek.text = @"World Measure, Weekdays";
-        
-    }
-    
-    if (indexPath.row == 2) {
-        alarmCell.iconImage.image = [UIImage imageNamed:@"reminder_icon_a_bt"];
-        alarmCell.typeTitle.text = @"Body Temp.";
-        alarmCell.timeLabel.text = @"08:14";
-        alarmCell.measureWeek.text = @"World Measure, Weekdays";
-        
-    }
-    
     
     return alarmCell;
     
@@ -159,6 +225,9 @@ static NSString *identifier = @"AlarmCell";
     SetAlarmViewController *setAlarmVC = [[SetAlarmViewController alloc] init];
     
     setAlarmVC.isCreate = NO;
+    setAlarmVC.alarmIndex = indexPath.row;
+    
+    NSLog(@"setAlarmVC.alarmIndex = %d",setAlarmVC.alarmIndex);
     
     [self.navigationController pushViewController:setAlarmVC animated:YES];
 }
@@ -174,18 +243,10 @@ static NSString *identifier = @"AlarmCell";
     SetAlarmViewController *addReminderVC = [[SetAlarmViewController alloc] init];
     
     addReminderVC.isCreate = YES;
+    addReminderVC.alarmIndex = reminderArray.count+1;
     
     [self.navigationController pushViewController:addReminderVC animated:YES];
     
-}
-
--(void)editReminderAction{
-    
-    SetAlarmViewController *setAlarmVC = [[SetAlarmViewController alloc] init];
-    
-    setAlarmVC.isCreate = NO;
-    
-    [self.navigationController pushViewController:setAlarmVC animated:YES];
 }
 
 #pragma mark - profileBtAction (導覽列左邊按鍵方法)
