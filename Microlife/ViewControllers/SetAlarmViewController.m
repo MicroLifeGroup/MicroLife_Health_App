@@ -45,6 +45,8 @@
         reminderDict = [[LocalData sharedInstance] getReminderDataAtindex:self.alarmIndex];
     }
     
+    NSLog(@"123");
+    
 }
 
 -(void)initAlarmParameter{
