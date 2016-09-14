@@ -40,12 +40,15 @@ static NSString *identifier = @"AlarmCell";
     
     reminderArray = [[LocalData sharedInstance] getReminderData];
     
-    NSLog(@"reminderArray.count = %ld",reminderArray.count);
     
-    alarmTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStyleGrouped];
+    if(alarmTable == nil){
+        alarmTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStyleGrouped];
+    }
+    
     
     alarmTable.delegate = self;
     alarmTable.dataSource = self;
+    alarmTable.backgroundColor = TABLE_BACKGROUND;
     
     [self.view addSubview:alarmTable];
     
@@ -99,7 +102,9 @@ static NSString *identifier = @"AlarmCell";
     
     [self.view addSubview:reminderIntro];
     
-    UIButton *addAlarmBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2-SCREEN_WIDTH*0.2/2, reminderIntro.frame.origin.y+reminderIntro.frame.size.height+SCREEN_HEIGHT*0.029, SCREEN_WIDTH*0.2, SCREEN_WIDTH*0.2)];
+    float addAlarmBtnSize = 142/self.imgScale;
+    
+    UIButton *addAlarmBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2-SCREEN_WIDTH*0.2/2, reminderIntro.frame.origin.y+reminderIntro.frame.size.height+SCREEN_HEIGHT*0.029, addAlarmBtnSize, addAlarmBtnSize)];
 
     [addAlarmBtn setBackgroundImage:[UIImage imageNamed:@"overview_btn_a_add_m"] forState:UIControlStateNormal];
     
@@ -121,6 +126,13 @@ static NSString *identifier = @"AlarmCell";
     
     return reminderArray.count;
     
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+  
+    //section height 不得小於1，否則無法顯示
+    return 1;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -164,6 +176,8 @@ static NSString *identifier = @"AlarmCell";
             break;
     }
     
+    NSLog(@"cell init reminderArray=%@",reminderArray);
+    
     NSDictionary *dict = [reminderArray objectAtIndex:indexPath.row];
     
     NSString *alarmHour = [NSString stringWithFormat:@"%@",[dict objectForKey:@"hour"]];
@@ -202,7 +216,14 @@ static NSString *identifier = @"AlarmCell";
     alarmCell.iconImage.image = modelImg;
     alarmCell.typeTitle.text = typeText;
     alarmCell.timeLabel.text = [NSString stringWithFormat:@"%@:%@",alarmHour,alarmMin];
-    alarmCell.measureWeek.text = [NSString stringWithFormat:@"%@, %@",typeStr,weekStr];
+    
+    if ([weekStr isEqualToString:@""]) {
+        alarmCell.measureWeek.text = [NSString stringWithFormat:@"%@%@",typeStr,weekStr];
+    }else{
+       alarmCell.measureWeek.text = [NSString stringWithFormat:@"%@, %@",typeStr,weekStr];
+    }
+    
+    
     
     if(switchOn){
         alarmCell.alarmSwitch.on = YES;
@@ -234,9 +255,15 @@ static NSString *identifier = @"AlarmCell";
         
         [reminderArray removeObjectAtIndex:indexPath.row];
         
-        [[LocalData sharedInstance] saveReminderData:reminderArray];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
         
-        [tableView reloadData]; // tell table to refresh now
+        [[LocalData sharedInstance] saveReminderData:reminderArray];
+    
+        NSLog(@"Delete reminderArray %@",reminderArray);
+        
+        if(reminderArray.count == 0){
+            alarmTable.hidden = YES;
+        }
         
         /*
         UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
@@ -251,6 +278,13 @@ static NSString *identifier = @"AlarmCell";
         [deleteAlert addAction:okAction];
         */
     }
+    
+    [self performSelector:@selector(reloadTableView) withObject:nil afterDelay:0.25];
+    
+}
+
+-(void)reloadTableView{
+    [alarmTable reloadData];
 }
 
 #pragma mark - Navigation Action
@@ -272,8 +306,13 @@ static NSString *identifier = @"AlarmCell";
 
 #pragma mark - profileBtAction (導覽列左邊按鍵方法)
 -(void)profileBtAction {
+    
     [alarmTable reloadData];
+    
+    NSLog(@"getReminderData %@",[[LocalData sharedInstance] getReminderData]);
+    NSLog(@"reminderArray %@",reminderArray);
     [self SidebarBtn];
+    
 }
 
 - (void)didReceiveMemoryWarning {

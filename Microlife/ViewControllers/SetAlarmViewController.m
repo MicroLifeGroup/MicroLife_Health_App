@@ -44,6 +44,8 @@ static NSString *identifier = @"Cell";
 
 -(void)initParameter{
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getCustomStr:) name:@"customStr" object:nil];
+    
     reminderArray = [[LocalData sharedInstance] getReminderData];
     hourArray = [NSMutableArray new];
     minArray = [NSMutableArray new];
@@ -94,7 +96,7 @@ static NSString *identifier = @"Cell";
         
     }
     
-    NSArray *typeNameArray = [[NSArray alloc] initWithObjects:@"World Measure",@"Measure",@"Mdeicine",@"Doctor",@"Custom", nil];
+    NSArray *typeNameArray = [[NSArray alloc] initWithObjects:@"World Measure",@"Measure",@"Medicine",@"Doctor",@"Custom", nil];
     
     for (int i=0; i<typeNameArray.count; i++) {
         
@@ -136,11 +138,11 @@ static NSString *identifier = @"Cell";
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backButton];
     
-    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveReminder)];
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveReminder)];
     
-    [anotherButton setTintColor:[UIColor whiteColor]];
+    [saveButton setTintColor:[UIColor whiteColor]];
     
-    self.navigationItem.rightBarButtonItem = anotherButton;
+    self.navigationItem.rightBarButtonItem = saveButton;
     
     if (isCreate) {
         self.navigationItem.title = @"Add reminder";
@@ -164,11 +166,12 @@ static NSString *identifier = @"Cell";
     minLabel.font = [UIFont systemFontOfSize:15];
     [timePicker addSubview:minLabel];
     
-    settingTable = [[UITableView alloc] initWithFrame:CGRectMake(0, timePicker.frame.origin.y+timePicker.frame.size.height, SCREEN_WIDTH, SCREEN_HEIGHT*0.449) style:UITableViewStyleGrouped];
+    settingTable = [[UITableView alloc] initWithFrame:CGRectMake(0, timePicker.frame.origin.y+timePicker.frame.size.height, SCREEN_WIDTH, SCREEN_HEIGHT*0.8) style:UITableViewStyleGrouped];
     
     settingTable.delegate = self;
     settingTable.dataSource = self;
     settingTable.scrollEnabled = NO;
+    settingTable.backgroundColor = TABLE_BACKGROUND;
     
     [self.view addSubview:settingTable];
 }
@@ -186,14 +189,17 @@ static NSString *identifier = @"Cell";
     [settingTable reloadData];
 }
 
+- (void)getCustomStr:(NSNotification*)notification
+{
+    [[typeArray objectAtIndex:4] setObject:notification.object forKey:@"typeName"];
+    
+}
+
 -(void)saveReminder{
     
     int hourInt = [[hourArray objectAtIndex:[timePicker selectedRowInComponent:0]] intValue];
     
     int minInt = [[minArray objectAtIndex:[timePicker selectedRowInComponent:1]] intValue];
-    
-    NSLog(@"hourInt = %d",hourInt);
-    NSLog(@"minInt = %d",minInt);
     
     NSString *hourStr = [NSString stringWithFormat:@"%02d",hourInt];
     
@@ -215,7 +221,6 @@ static NSString *identifier = @"Cell";
         [reminderArray replaceObjectAtIndex:self.alarmIndex withObject:tempDict];
     }
     
-    NSLog(@"save reminderArray = %@",reminderArray);
     
     [[LocalData sharedInstance] saveReminderData:reminderArray];
     
@@ -294,13 +299,16 @@ static NSString *identifier = @"Cell";
     switch (indexPath.row) {
         case 0:{
             
+            int repeatCount = 0;
+            
             NSMutableArray *chooseWeek = [tempDict objectForKey:@"week"];
-            NSLog(@"chooseWeek ====> %@",chooseWeek);
             NSString *weekStr = @"";
             
             for (int i=0; i<chooseWeek.count; i++) {
                 
                 if([[[chooseWeek objectAtIndex:i] objectForKey:@"choose"] boolValue]){
+                    
+                    repeatCount++;
                     
                     if([weekStr isEqualToString:@""]){
                         weekStr = [NSString stringWithFormat:@"%@",[[chooseWeek objectAtIndex:i] objectForKey:@"weekName"]];
@@ -308,10 +316,15 @@ static NSString *identifier = @"Cell";
                        weekStr = [weekStr stringByAppendingFormat:@", %@",[[chooseWeek objectAtIndex:i] objectForKey:@"weekName"]];
                     }
                     
-                    
-            
-                    NSLog(@"weekStr = %@",weekStr);
                 }
+            }
+            
+            if (repeatCount == 0) {
+                weekStr = @"Never";
+            }
+            
+            if (repeatCount == 7) {
+                weekStr = @"Everyday";
             }
             
             introLabel.text = weekStr;
@@ -360,6 +373,7 @@ static NSString *identifier = @"Cell";
     detailVC.listType = (int)indexPath.row;
     
     detailVC.reminderDict = tempDict;
+    detailVC.alarmIndex = self.alarmIndex;
     
     if (indexPath.row != 2) {
         [self.navigationController pushViewController:detailVC animated:YES];

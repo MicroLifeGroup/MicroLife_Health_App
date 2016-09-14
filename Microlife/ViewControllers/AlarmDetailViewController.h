@@ -15,5 +15,8 @@
 @property (nonatomic) NSMutableArray *weekArray;
 @property (nonatomic) NSMutableArray *typeArray;
 
+@property (nonatomic) NSInteger alarmIndex;
+@property (nonatomic, strong) NSString *customStr;
+
 
 @end

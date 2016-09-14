@@ -7,8 +7,11 @@
 //
 
 #import "AlarmDetailViewController.h"
+#import "EditOptionViewController.h"
 
 @interface AlarmDetailViewController ()<UITableViewDelegate, UITableViewDataSource>{
+    
+    UILabel *customText;
     
 }
 
@@ -16,7 +19,7 @@
 
 @implementation AlarmDetailViewController
 
-@synthesize weekArray,typeArray;
+@synthesize weekArray,typeArray,customStr;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -24,13 +27,19 @@
     
     [self initParameter];
     [self initInterface];
-    
 }
 
 -(void)initParameter{
     
     weekArray = [self.reminderDict objectForKey:@"week"];
     typeArray = [self.reminderDict objectForKey:@"type"];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getCustomStr:) name:@"customStr" object:nil];
+
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
 
 }
 
@@ -68,8 +77,51 @@
     
     optionTable.delegate = self;
     optionTable.dataSource = self;
-    
+    optionTable.scrollEnabled = NO;
+    optionTable.backgroundColor = TABLE_BACKGROUND;
     [self.view addSubview:optionTable];
+    
+    if(self.listType == 1){
+        
+//        NSMutableArray *alarmArray = [[LocalData sharedInstance] getReminderData];
+//        
+//        if (alarmArray.count != 0) {
+//            customStr = [NSString stringWithFormat:@"%@",[[alarmArray objectAtIndex:self.alarmIndex] objectForKey:@"custom"]];
+//        }else{
+//            customStr = @"Measure";
+//        }
+        
+        if ([[[typeArray objectAtIndex:4] objectForKey:@"choose"] boolValue]) {
+            customStr = [[typeArray objectAtIndex:4] objectForKey:@"typeName"];
+        }else{
+            customStr = @"Measure";
+        }
+        
+        UIView *customTxtBase = [[UIView alloc] initWithFrame:CGRectMake(0, 44*5, SCREEN_WIDTH, 22)];
+        
+        customTxtBase.backgroundColor = [UIColor whiteColor];
+        
+        customText = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH*0.135, 0, SCREEN_WIDTH, customTxtBase.frame.size.height/2)];
+        
+        customText.text = customStr;
+        customText.textColor = TEXT_COLOR;
+        customText.font = [UIFont systemFontOfSize:12.0];
+        customText.backgroundColor = [UIColor clearColor];
+        
+        UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0,customTxtBase.frame.size.height-1, SCREEN_WIDTH, 1)];
+        
+        bottomLine.backgroundColor = [UIColor colorWithRed:240.0/255.0 green:240.0/255.0 blue:240.0/255.0 alpha:1];
+        
+        [optionTable addSubview:customTxtBase];
+        [customTxtBase addSubview:customText];
+        [customTxtBase addSubview:bottomLine];
+    }
+}
+
+- (void)getCustomStr:(NSNotification*)notification
+{
+    customStr = notification.object;
+    customText.text = notification.object;
     
 }
 
@@ -84,6 +136,17 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    CGFloat rowHeight = 44;
+    
+//    if (self.listType == 1 && indexPath.row == 4) {
+//        rowHeight = 66;
+//    }
+    
+    return rowHeight;
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     NSInteger row = 0;
@@ -96,6 +159,13 @@
     
     return row;
     
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    
+    //section height 不得小於1，否則無法顯示
+    return 1;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -123,7 +193,12 @@
             
             break;
         case 1:{
-            cell.textLabel.text = [NSString stringWithFormat:@"%@",[[typeArray objectAtIndex:indexPath.row] objectForKey:@"typeName"]];
+            
+            NSArray *typeNameAry = [[NSArray alloc] initWithObjects:@"World Measure",@"Measure",@"Mdeicine",@"Doctor",@"Custom", nil];
+            
+            cell.textLabel.text = [typeNameAry objectAtIndex:indexPath.row];
+            
+            customText.text = customStr;
             
             BOOL choose = [[[typeArray objectAtIndex:indexPath.row] objectForKey:@"choose"] boolValue];
             
@@ -175,6 +250,16 @@
                 if (i != indexPath.row) {
                     [[typeArray objectAtIndex:i] setObject:@"0" forKey:@"choose"];
                 }
+            }
+            
+            if (indexPath.row == 4) {
+                
+                EditOptionViewController *editOptionVC = [[EditOptionViewController alloc] init];
+                
+                editOptionVC.alarmIndex = self.alarmIndex;
+                editOptionVC.customStr = customStr;
+                
+                [self.navigationController pushViewController:editOptionVC animated:YES];
             }
             
             break;

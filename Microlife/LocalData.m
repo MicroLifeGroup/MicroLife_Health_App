@@ -39,7 +39,46 @@
 
 -(void)saveReminderData:(NSMutableArray *)dataArray{
     
-    reminderDataArray = [dataArray mutableCopy];
+   // NSMutableArray *tempArray = dataArray;
+    
+    for (int i=0; i<dataArray.count; i++) {
+        
+        for (NSUInteger j = dataArray.count-1; j>0; j--) {
+            
+            NSMutableDictionary *tempDictA = dataArray[j];
+            NSMutableDictionary *tempDictB = dataArray[j-1];
+            
+            int biggerHour = [[dataArray[j] objectForKey:@"hour"] intValue];
+            int smallerHour = [[dataArray[j-1]objectForKey:@"hour"] intValue];
+            if (biggerHour < smallerHour) {
+                
+                [dataArray removeObjectAtIndex:j-1];
+                [dataArray insertObject:tempDictA atIndex:j-1];
+                
+                [dataArray removeObjectAtIndex:j];
+                [dataArray insertObject:tempDictB atIndex:j];
+                
+            }else if (biggerHour == smallerHour) {
+                
+                int biggerMin = [[dataArray[j] objectForKey:@"min"] intValue];
+                int smallerMin = [[dataArray[j-1]objectForKey:@"min"] intValue];
+                
+                if (biggerMin < smallerMin) {
+                    
+                    [dataArray removeObjectAtIndex:j-1];
+                    [dataArray insertObject:tempDictA atIndex:j-1];
+                    
+                    [dataArray removeObjectAtIndex:j];
+                    [dataArray insertObject:tempDictB atIndex:j];
+                }
+                
+            }
+        }
+    }
+    
+    NSLog(@"dataArray = %@",dataArray);
+    
+    reminderDataArray = dataArray;
     
 }
 

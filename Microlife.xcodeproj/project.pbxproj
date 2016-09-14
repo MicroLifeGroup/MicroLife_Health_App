@@ -40,6 +40,7 @@
 		CD221DD31D41F240004D3701 /* MainReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221DD21D41F240004D3701 /* MainReminderViewController.m */; };
 		CD221DD71D41F460004D3701 /* MainSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221DD61D41F460004D3701 /* MainSettingViewController.m */; };
 		CD33D0A11D65AC6600F7DB07 /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD33D0A01D65AC6600F7DB07 /* GraphView.m */; };
+		CD613C521D88E71D00225B31 /* EditOptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD613C511D88E71D00225B31 /* EditOptionViewController.m */; };
 		CD621E9B1D76E1D4006AF5F1 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD621E981D76E1D4006AF5F1 /* FBSDKLoginKit.framework */; };
 		CD621E9C1D76E1D4006AF5F1 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD621E991D76E1D4006AF5F1 /* FBSDKCoreKit.framework */; };
 		CD621E9D1D76E1D4006AF5F1 /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD621E9A1D76E1D4006AF5F1 /* AccountKit.framework */; };
@@ -148,6 +149,8 @@
 		CD221DD61D41F460004D3701 /* MainSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainSettingViewController.m; sourceTree = "<group>"; };
 		CD33D09F1D65AC6600F7DB07 /* GraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphView.h; sourceTree = "<group>"; };
 		CD33D0A01D65AC6600F7DB07 /* GraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphView.m; sourceTree = "<group>"; };
+		CD613C501D88E71D00225B31 /* EditOptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditOptionViewController.h; sourceTree = "<group>"; };
+		CD613C511D88E71D00225B31 /* EditOptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditOptionViewController.m; sourceTree = "<group>"; };
 		CD621E981D76E1D4006AF5F1 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		CD621E991D76E1D4006AF5F1 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		CD621E9A1D76E1D4006AF5F1 /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AccountKit.framework; sourceTree = "<group>"; };
@@ -391,6 +394,8 @@
 				CD6F7D7E1D7D6840002A8CCE /* SetAlarmViewController.m */,
 				CD6B93981D829EEC00AB6018 /* AlarmDetailViewController.h */,
 				CD6B93991D829EEC00AB6018 /* AlarmDetailViewController.m */,
+				CD613C501D88E71D00225B31 /* EditOptionViewController.h */,
+				CD613C511D88E71D00225B31 /* EditOptionViewController.m */,
 				CD93A6C01D79975900292B83 /* CustomAlarmCell.h */,
 				CD93A6C11D79975900292B83 /* CustomAlarmCell.m */,
 				CD93A6C21D79975900292B83 /* CustomAlarmCell.xib */,
@@ -630,6 +635,7 @@
 				CD221D7F1D41EAD0004D3701 /* Reachability.m in Sources */,
 				CD221DBC1D41ED94004D3701 /* GlobalSettings.m in Sources */,
 				CD87033E1D76F63800CC570F /* HealthEducationViewController.m in Sources */,
+				CD613C521D88E71D00225B31 /* EditOptionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
