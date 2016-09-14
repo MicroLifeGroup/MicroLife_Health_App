@@ -37,26 +37,17 @@
     
 }
 
--(void)saveReminderData:(NSMutableDictionary *)dataDict atIndexPath:(NSInteger)dataIndex{
+-(void)saveReminderData:(NSMutableArray *)dataArray{
     
-    if (dataIndex > reminderDataArray.count) {
-        
-        [reminderDataArray addObject:dataDict];
-        
-    }else{
-        [reminderDataArray replaceObjectAtIndex:dataIndex withObject:dataDict];
-    }
+    reminderDataArray = [dataArray mutableCopy];
     
-}
-
--(NSMutableDictionary *)getReminderDataAtindex:(NSInteger)dataIndex{
-    
-    return [reminderDataArray objectAtIndex:dataIndex];
 }
 
 -(NSMutableArray *)getReminderData{
-
-    return reminderDataArray;
+    
+    return [reminderDataArray mutableCopy];
+    
 }
+
 
 @end

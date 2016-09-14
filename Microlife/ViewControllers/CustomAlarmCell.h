@@ -16,5 +16,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *measureWeek;
 @property (weak, nonatomic) IBOutlet UISwitch *alarmSwitch;
 @property (nonatomic) int type;
-
+@property (nonatomic) NSInteger cellIndex;
 @end

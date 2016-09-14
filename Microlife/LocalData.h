@@ -15,10 +15,8 @@
 
 +(LocalData *)sharedInstance;
 
--(void)saveReminderData:(NSMutableDictionary *)dataDict atIndexPath:(NSInteger)dataIndex;
-
--(NSMutableDictionary *)getReminderDataAtindex:(NSInteger)dataIndex;
-
 -(NSMutableArray *)getReminderData;
+
+-(void)saveReminderData:(NSMutableArray *)dataArray;
 
 @end

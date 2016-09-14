@@ -20,11 +20,16 @@
     
     NSMutableArray *typeArray;
     NSMutableArray *weekArray;
+    
+    NSMutableDictionary *tempDict;
+    NSMutableArray *reminderArray;
 }
 
 @end
 
 @implementation SetAlarmViewController
+
+static NSString *identifier = @"Cell";
 
 @synthesize isCreate;
 
@@ -39,13 +44,21 @@
 
 -(void)initParameter{
     
+    reminderArray = [[LocalData sharedInstance] getReminderData];
+    hourArray = [NSMutableArray new];
+    minArray = [NSMutableArray new];
+    weekArray = [[NSMutableArray alloc] initWithCapacity:0];
+    typeArray = [[NSMutableArray alloc] initWithCapacity:0];
+    
     if (isCreate) {
         [self initAlarmParameter];
     }else{
-        reminderDict = [[LocalData sharedInstance] getReminderDataAtindex:self.alarmIndex];
+        
+        tempDict = [reminderArray objectAtIndex:self.alarmIndex];
+        
+        weekArray = [tempDict objectForKey:@"week"];
+        typeArray = [tempDict objectForKey:@"type"];
     }
-    
-    NSLog(@"123");
     
 }
 
@@ -67,10 +80,6 @@
     NSString *minStr = [dateStr substringWithRange:NSMakeRange(3, 2)];
     
     NSLog(@"dateStr = %@, hourStr = %@, minStr = %@",dateStr,hourStr,minStr);
-    
-    
-    weekArray = [[NSMutableArray alloc] initWithCapacity:0];
-    typeArray = [[NSMutableArray alloc] initWithCapacity:0];
     
     NSArray *weekNameArray = [[NSArray alloc] initWithObjects:@"Sunday",@"Monday",@"Tuesday",@"Wednesday",@"Thursday",@"Friday",@"Saturday", nil];
     
@@ -99,24 +108,20 @@
             chooseType = [NSNumber numberWithInt:0];
         }
         
-        
-        
         NSMutableDictionary *typeDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:typeName,@"typeName",
                                          chooseType,@"choose",nil];
         
         [typeArray addObject:typeDict];
     }
     
-    reminderDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:hourStr,@"hour",
+    tempDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:hourStr,@"hour",
                                   minStr,@"min",
                                   weekArray,@"week",
                                   typeArray,@"type",
                                   @"0",@"model",
                                   @"0",@"status",
                                   nil];
-    
-    hourArray = [NSMutableArray new];
-    minArray = [NSMutableArray new];
+
 }
 
 -(void)initInterface{
@@ -132,6 +137,8 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backButton];
     
     UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveReminder)];
+    
+    [anotherButton setTintColor:[UIColor whiteColor]];
     
     self.navigationItem.rightBarButtonItem = anotherButton;
     
@@ -168,8 +175,8 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     
-    int hourRow = [[reminderDict objectForKey:@"hour"] intValue];
-    int minRow = [[reminderDict objectForKey:@"min"] intValue];
+    int hourRow = [[tempDict objectForKey:@"hour"] intValue];
+    int minRow = [[tempDict objectForKey:@"min"] intValue];
     
     NSLog(@"hourRow = %d, minRow = %d",hourRow,minRow);
     
@@ -181,21 +188,36 @@
 
 -(void)saveReminder{
     
-    NSString *hourStr = [NSString stringWithFormat:@"%@",[hourArray objectAtIndex:[timePicker selectedRowInComponent:0]]];
+    int hourInt = [[hourArray objectAtIndex:[timePicker selectedRowInComponent:0]] intValue];
     
-    NSString *minStr = [NSString stringWithFormat:@"%@",[minArray objectAtIndex:[timePicker selectedRowInComponent:1]]];
+    int minInt = [[minArray objectAtIndex:[timePicker selectedRowInComponent:1]] intValue];
+    
+    NSLog(@"hourInt = %d",hourInt);
+    NSLog(@"minInt = %d",minInt);
+    
+    NSString *hourStr = [NSString stringWithFormat:@"%02d",hourInt];
+    
+    NSString *minStr = [NSString stringWithFormat:@"%02d",minInt];
     
     NSString *modelStr = [NSString stringWithFormat:@"%ld",(long)cellSegment.selectedSegmentIndex];
 
     
-    [reminderDict setValue:hourStr forKey:@"hour"];
-    [reminderDict setValue:minStr forKey:@"min"];
-    [reminderDict setValue:weekArray forKey:@"week"];
-    [reminderDict setValue:typeArray forKey:@"type"];
-    [reminderDict setValue:modelStr forKey:@"model"];
-    [reminderDict setValue:@"1" forKey:@"status"];
+    [tempDict setValue:hourStr forKey:@"hour"];
+    [tempDict setValue:minStr forKey:@"min"];
+    [tempDict setValue:weekArray forKey:@"week"];
+    [tempDict setValue:typeArray forKey:@"type"];
+    [tempDict setValue:modelStr forKey:@"model"];
+    [tempDict setValue:@"1" forKey:@"status"];
     
-    [[LocalData sharedInstance] saveReminderData:reminderDict atIndexPath:self.alarmIndex];
+    if (isCreate) {
+        [reminderArray addObject:tempDict];
+    }else{
+        [reminderArray replaceObjectAtIndex:self.alarmIndex withObject:tempDict];
+    }
+    
+    NSLog(@"save reminderArray = %@",reminderArray);
+    
+    [[LocalData sharedInstance] saveReminderData:reminderArray];
     
     [self.navigationController popViewControllerAnimated:YES];
     
@@ -215,10 +237,8 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-
-    static NSString *identifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier ];
+    UITableViewCell *cell;
     
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
@@ -232,11 +252,17 @@
     
     cell.textLabel.text = cellTitle;
     
-    UILabel *introLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-SCREEN_WIDTH*0.5-SCREEN_WIDTH*0.1, 0, SCREEN_WIDTH*0.5, 44)];
+    UILabel *introLabel;
+    
+    if (introLabel == nil) {
+        introLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-SCREEN_WIDTH*0.5-SCREEN_WIDTH*0.1, 0, SCREEN_WIDTH*0.5, 44)];
+        
+        [cell addSubview:introLabel];
+    }
     
     introLabel.textAlignment = NSTextAlignmentRight;
     introLabel.textColor = TEXT_COLOR;
-
+    introLabel.text = @"";
     
     UIImage *segmentBpImg = [self resizeImage:[UIImage imageNamed:@"reminder_btn_a_bp_0"]];
     UIImage *segmentWeImg = [self resizeImage:[UIImage imageNamed:@"reminder_btn_a_we_0"]];
@@ -248,11 +274,13 @@
                           segmentBtImg,
                           nil];
     
+    [cellSegment removeFromSuperview];
+    
     cellSegment = [[UISegmentedControl alloc] initWithItems:itemArray];
     
     cellSegment.frame = CGRectMake(self.view.frame.size.width-SCREEN_WIDTH*0.6-SCREEN_WIDTH*0.04, cell.frame.size.height/2-SCREEN_HEIGHT*0.044/2, SCREEN_WIDTH*0.6, SCREEN_HEIGHT*0.044);
     
-    cellSegment.selectedSegmentIndex = [[reminderDict objectForKey:@"model"] intValue];
+    cellSegment.selectedSegmentIndex = [[tempDict objectForKey:@"model"] intValue];
     
     cellSegment.tintColor = STANDER_COLOR;
     
@@ -266,38 +294,44 @@
     switch (indexPath.row) {
         case 0:{
             
-            NSMutableArray *chooseWeek = [reminderDict objectForKey:@"week"];
-            
-            NSString *weekStr;
+            NSMutableArray *chooseWeek = [tempDict objectForKey:@"week"];
+            NSLog(@"chooseWeek ====> %@",chooseWeek);
+            NSString *weekStr = @"";
             
             for (int i=0; i<chooseWeek.count; i++) {
                 
                 if([[[chooseWeek objectAtIndex:i] objectForKey:@"choose"] boolValue]){
-                    weekStr = [weekStr stringByAppendingFormat:@"%@",[[chooseWeek objectAtIndex:i] objectForKey:@"weekName"]];
-                    NSLog(@"weekStr = %@",weekStr);
                     
-                    introLabel.text = weekStr;
+                    if([weekStr isEqualToString:@""]){
+                        weekStr = [NSString stringWithFormat:@"%@",[[chooseWeek objectAtIndex:i] objectForKey:@"weekName"]];
+                    }else{
+                       weekStr = [weekStr stringByAppendingFormat:@", %@",[[chooseWeek objectAtIndex:i] objectForKey:@"weekName"]];
+                    }
+                    
+                    
+            
+                    NSLog(@"weekStr = %@",weekStr);
                 }
             }
             
-            [cell addSubview:introLabel];
-         }   
+            introLabel.text = weekStr;
+            
+         }
             break;
         
         case 1:{
-            NSMutableArray *chooseType = [reminderDict objectForKey:@"type"];
+            NSMutableArray *chooseType = [tempDict objectForKey:@"type"];
             NSString *typeStr;
             
             for (int i=0; i<chooseType.count; i++) {
                 
                 if([[[chooseType objectAtIndex:i] objectForKey:@"choose"] boolValue]){
                     typeStr = [[chooseType objectAtIndex:i] objectForKey:@"typeName"];
-                    
-                    introLabel.text = typeStr;
                 }
             }
             
-            [cell addSubview:introLabel];
+            introLabel.text = typeStr;
+            
         }
             
             break;
@@ -313,6 +347,7 @@
             break;
     }
     
+    
     return  cell;
     
 }
@@ -324,7 +359,7 @@
     
     detailVC.listType = (int)indexPath.row;
     
-    detailVC.reminderDict = reminderDict;
+    detailVC.reminderDict = tempDict;
     
     if (indexPath.row != 2) {
         [self.navigationController pushViewController:detailVC animated:YES];
@@ -413,6 +448,7 @@
 
 #pragma mark - Navigation Delegate
 -(void)backToReminderVC{
+    
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
