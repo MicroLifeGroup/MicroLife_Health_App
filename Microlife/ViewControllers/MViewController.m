@@ -70,11 +70,11 @@
 
 }
 
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     
-    return NO;
+    //return NO;
+    return UIInterfaceOrientationPortrait;
 }
 
 -(BOOL)shouldAutorotate
