@@ -36,10 +36,7 @@
     }else{
         imgScale = 2.5;
     }
-    
-    [tapTimer invalidate];
-    tapTimer = nil;
-    canTap = YES;
+
     nameBtnAry = [[NSMutableArray alloc] initWithCapacity:0];
     circelSize = screen.bounds.size.width*0.3;
 }
@@ -157,11 +154,53 @@
     UIView *btnSnapShot = [self snapshotViewWithInputView:showListBtn];
     
     [self.delegate showListButtonTapped:btnSnapShot];
+    [self.delegate sendChartType:self.type];
 }
 
 -(void)createChart:(int)chartType{
     
-    chart = [[GraphView alloc]initWithFrame:CGRectMake(0, 0, chartView.frame.size.width, chartView.frame.size.height) withChartType:chartType];
+    NSInteger dataCount = 0;
+    
+    if (chartType != 5) {
+        switch (dateSegIndex) {
+            case 0:
+                dataCount = 24;
+                break;
+                
+            case 1:
+                dataCount = 7;
+                break;
+                
+            case 2:
+                dataCount = 31;
+                break;
+                
+            case 3:
+                dataCount = 12;
+                break;
+                
+            default:
+                break;
+        }
+    }else{
+        
+        switch (dateSegIndex) {
+            case 0:
+                dataCount = 60;
+                break;
+            case 1:
+                dataCount = 4;
+                break;
+            case 2:
+                dataCount = 24;
+                break;
+            default:
+                break;
+        }
+        
+    }
+    
+    chart = [[GraphView alloc] initWithFrame:CGRectMake(0, 0, chartView.frame.size.width, chartView.frame.size.height) withChartType:chartType withDataCount:dataCount];
     
     chart.delegate = self;
     chart.indicatorMode = YES;
@@ -237,14 +276,25 @@
     switch (BPCurveTime) {
         case 0:
             BPTimeImage = [UIImage imageNamed:@"history_icon_a_all"];
+            [BPCircle setCircleTitleText:@"ALL\nAvg.SYS/DIA"];
+            [BPCircle setcircleValueText:@"150/90"];
+            [BPCircle setCircleUnitText:@"mmHg"];
+            
+            [BPCircle setCircleValueFrame];
             break;
             
         case 1:
             BPTimeImage = [UIImage imageNamed:@"history_icon_a_am"];
+            [BPCircle setCircleTitleText:@"AM\nAvg.SYS/DIA"];
+            [BPCircle setcircleValueText:@"148/88"];
+            [BPCircle setCircleUnitText:@"mmHg"];
             break;
             
         case 2:
             BPTimeImage = [UIImage imageNamed:@"history_icon_a_pm"];
+            [BPCircle setCircleTitleText:@"PM\nAvg.SYS/DIA"];
+            [BPCircle setcircleValueText:@"145/85"];
+            [BPCircle setCircleUnitText:@"mmHg"];
             break;
             
         default:
@@ -290,66 +340,108 @@
 
 -(void)initBPHealthCircle{
     
-    int circleCount = 5;
+    int circleCount = 3;
     
     float totalWidth = 10+circleCount*(circelSize+10);
     
     [healthStatusScroll setContentSize:CGSizeMake(totalWidth, healthStatusScroll.frame.size.height)];
     
-    float startX = 0;
     
-    for (int i=0; i < circleCount; i++) {
-        
-        if (i==0) {
-            startX += 10;
-        }
-        
-        StatusCircleView *BPCircle = [[StatusCircleView alloc] initWithFrame:CGRectMake(startX+i*(circelSize+10), healthStatusScroll.frame.size.height/2-circelSize/2, circelSize, circelSize)];
-        
-        switch (i) {
-            case 0:
-                [BPCircle setCircleTitleText:@"ALL\nAvg.SYS/DIA"];
-                [BPCircle setcircleValueText:@"150/90"];
-                [BPCircle setCircleUnitText:@"mmHg"];
-                break;
+    BPCircle = [[StatusCircleView alloc] initWithFrame:CGRectMake(10, healthStatusScroll.frame.size.height/2-circelSize/2, circelSize, circelSize)];
+    
+    [BPCircle setCircleTitleText:@"ALL\nAvg.SYS/DIA"];
+    [BPCircle setcircleValueText:@"150/90"];
+    [BPCircle setCircleUnitText:@"mmHg"];
+    
+    [BPCircle setCircleValueFrame];
+    [healthStatusScroll addSubview:BPCircle];
+    //測試
+    [self setBadgeNumberForCircle:BPCircle withNumber:15];
+    
+    
+    
+    StatusCircleView *AFIBCircle = [[StatusCircleView alloc] initWithFrame:CGRectMake(10+circelSize+10, healthStatusScroll.frame.size.height/2-circelSize/2, circelSize, circelSize)];
+    
+    [AFIBCircle setCircleTitleText:@"AFIB\nFrequency/DIA"];
+    [AFIBCircle setTextColorWithRange:NSMakeRange(0, 4) withColor:CIRCEL_RED];
+    [AFIBCircle setcircleValueText:@"14"];
+    [AFIBCircle setCircleUnitText:@""];
+    
+    [AFIBCircle setCircleValueFrame];
+    [healthStatusScroll addSubview:AFIBCircle];
+    //測試
+    [self setBadgeNumberForCircle:AFIBCircle withNumber:5];
+    
+    
+    
+    StatusCircleView *FreqCircle = [[StatusCircleView alloc] initWithFrame:CGRectMake(10+2*(circelSize+10), healthStatusScroll.frame.size.height/2-circelSize/2, circelSize, circelSize)];
+    
+    [FreqCircle setCircleTitleText:@"\nFrequency"];
+    [FreqCircle setcircleValueText:@"15"];
+    FreqCircle.PADImgView.hidden = NO;
+    
+    [FreqCircle setCircleValueFrame];
+    [healthStatusScroll addSubview:FreqCircle];
+    //測試
+    [self setBadgeNumberForCircle:FreqCircle withNumber:100];
+    
+    
+//    float startX = 0;
+//    
+//    for (int i=0; i < circleCount; i++) {
+//        
+//        if (i==0) {
+//            startX += 10;
+//        }
+//        
+//        CGRect circleFrame = CGRectMake(startX+i*(circelSize+10), healthStatusScroll.frame.size.height/2-circelSize/2, circelSize, circelSize);
+//        
+//        StatusCircleView *BPCircle = [[StatusCircleView alloc] initWithFrame:circleFrame];
+//        
+//        switch (i) {
+//            case 0:
+//                [BPCircle setCircleTitleText:@"ALL\nAvg.SYS/DIA"];
+//                [BPCircle setcircleValueText:@"150/90"];
+//                [BPCircle setCircleUnitText:@"mmHg"];
+//                break;
+    
+//            case 1:
+//                [BPCircle setCircleTitleText:@"AM\nAvg.SYS/DIA"];
+//                [BPCircle setcircleValueText:@"140/85"];
+//                [BPCircle setCircleUnitText:@"mmHg"];
+//                break;
+//                
+//            case 2:
+//                [BPCircle setCircleTitleText:@"PM\nAvg.SYS/DIA"];
+//                [BPCircle setcircleValueText:@"151/92"];
+//                [BPCircle setCircleUnitText:@"mmHg"];
+//                break;
                 
-            case 1:
-                [BPCircle setCircleTitleText:@"AM\nAvg.SYS/DIA"];
-                [BPCircle setcircleValueText:@"140/85"];
-                [BPCircle setCircleUnitText:@"mmHg"];
-                break;
-                
-            case 2:
-                [BPCircle setCircleTitleText:@"PM\nAvg.SYS/DIA"];
-                [BPCircle setcircleValueText:@"151/92"];
-                [BPCircle setCircleUnitText:@"mmHg"];
-                break;
-                
-            case 3:
-                [BPCircle setCircleTitleText:@"AFIB\nFrequency/DIA"];
-                [BPCircle setTextColorWithRange:NSMakeRange(0, 4) withColor:CIRCEL_RED];
-                [BPCircle setcircleValueText:@"14"];
-                [BPCircle setCircleUnitText:@""];
-                break;
-                
-            case 4:
-                [BPCircle setCircleTitleText:@"\nFrequency"];
-                [BPCircle setcircleValueText:@"15"];
-                BPCircle.PADImgView.hidden = NO;
-                break;
-                
-            default:
-                break;
-        }
-        
-        [BPCircle setCircleFrame];
-        
-        [healthStatusScroll addSubview:BPCircle];
-        [self setBadgeNumberForCircle:BPCircle withNumber:97+i];
-    }
+//            case 1:
+//                [BPCircle setCircleTitleText:@"AFIB\nFrequency/DIA"];
+//                [BPCircle setTextColorWithRange:NSMakeRange(0, 4) withColor:CIRCEL_RED];
+//                [BPCircle setcircleValueText:@"14"];
+//                [BPCircle setCircleUnitText:@""];
+//                break;
+//                
+//            case 2:
+//                [BPCircle setCircleTitleText:@"\nFrequency"];
+//                [BPCircle setcircleValueText:@"15"];
+//                BPCircle.PADImgView.hidden = NO;
+//                break;
+//                
+//            default:
+//                break;
+//        }
+//        
+//        [BPCircle setCircleValueFrame];
+//        
+//        [healthStatusScroll addSubview:BPCircle];
+    
+    
+//    }
     
 }
-
 
 -(void)setBadgeNumberForCircle:(StatusCircleView*)circleView withNumber:(int)number{
     
@@ -480,7 +572,7 @@
     [weightCircle setCircleTitleText:@"Avg. WEI"];
     [weightCircle setcircleValueText:@"80"];
     [weightCircle setCircleUnitText:@"kg"];
-    [weightCircle setCircleFrame];
+    [weightCircle setCircleValueFrame];
     
     [healthStatusScroll setContentSize:CGSizeMake(healthStatusScroll.frame.size.width, healthStatusScroll.frame.size.height)];
         
@@ -552,7 +644,7 @@
     [lastTemp setCircleTitleText:@"Last\nBody Temp."];
     [lastTemp setcircleValueText:@"36.5°C"];
     [lastTemp setCircleUnitText:@""];
-    [lastTemp setCircleFrame];
+    [lastTemp setCircleValueFrame];
     
     
     avgTemp = [[StatusCircleView alloc] initWithFrame:CGRectMake(healthStatusScroll.frame.size.width/2+10, healthStatusScroll.frame.size.height/2-circelSize/2, circelSize, circelSize)];
@@ -560,7 +652,7 @@
     [avgTemp setCircleTitleText:@"Avg.\nBody Temp."];
     [avgTemp setcircleValueText:@"37.0°C"];
     [avgTemp setCircleUnitText:@""];
-    [avgTemp setCircleFrame];
+    [avgTemp setCircleValueFrame];
     
     [healthStatusScroll addSubview:lastTemp];
     [healthStatusScroll addSubview:avgTemp];
@@ -649,9 +741,13 @@
     
     topSegment.frame = CGRectMake(5, segBase.frame.size.height/2-29/2, screen.bounds.size.width-10, 29);
     
+    [topSegment addTarget:self action:@selector(dateSegmentAction:) forControlEvents:UIControlEventValueChanged];
+    
     topSegment.tintColor = STANDER_COLOR;
 
     topSegment.selectedSegmentIndex = 0;
+    
+    dateSegIndex = topSegment.selectedSegmentIndex;
     
     UIFont *font = [UIFont systemFontOfSize:18.0f];
     
@@ -671,13 +767,9 @@
     
     dateSegIndex = segment.selectedSegmentIndex;
     
-}
-
--(void)setTapStatus{
+    [chart removeFromSuperview];
+    [self createChart:chart.chartType];
     
-    [tapTimer invalidate];
-    tapTimer = nil;
-    canTap = YES;
 }
 
 -(void)prevCurveAction{
@@ -687,17 +779,6 @@
     [chart removeFromSuperview];
     [self createChart:currentType];
     
-    /*
-    if(canTap == YES){
-        if (curveScroll.contentOffset.x != 0) {
-            [curveScroll setContentOffset:CGPointMake(curveScroll.contentOffset.x-self.bounds.size.width,0) animated:YES];
-            
-            canTap = NO;
-            
-            tapTimer = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(setTapStatus) userInfo:nil repeats:NO];
-        }
-    }
-     */
 }
 
 -(void)nextCurveAction{
@@ -707,17 +788,6 @@
     [chart removeFromSuperview];
     [self createChart:currentType];
     
-    /*
-    if (canTap == YES ) {
-        if (curveScroll.contentOffset.x != curveScroll.contentSize.width-self.bounds.size.width) {
-            [curveScroll setContentOffset:CGPointMake(curveScroll.contentOffset.x+self.bounds.size.width,0) animated:YES];
-            
-            canTap = NO;
-            
-            tapTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(setTapStatus) userInfo:nil repeats:NO];
-        }
-    }
-     */
 }
 
 -(void)TouchBeginGraphView{

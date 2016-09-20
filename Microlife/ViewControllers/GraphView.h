@@ -21,6 +21,8 @@
     float imgScale;
     float dataXLength; //資料X軸長度
     float dataYLength; //資料Y軸長度
+    
+    NSInteger dataCount;
 }
 
 @property (nonatomic) int chartType;
@@ -56,7 +58,7 @@
 
 @property (nonatomic) NSMutableArray *chartDataArray; //圖表資料
 
-- (id)initWithFrame:(CGRect)frame withChartType:(int)type;
+- (id)initWithFrame:(CGRect)frame withChartType:(int)type withDataCount:(NSInteger)count;
 
 @property (weak)id<GraphViewDelegate>delegate;
 

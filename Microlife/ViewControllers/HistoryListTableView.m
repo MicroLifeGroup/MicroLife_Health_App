@@ -7,6 +7,7 @@
 //
 
 #import "HistoryListTableView.h"
+#import "BPTableViewCell.h"
 
 
 @implementation HistoryListTableView
@@ -57,6 +58,9 @@
     historyList = [[UITableView alloc] initWithFrame:CGRectMake(0, hideListBtn.frame.origin.y+hideListBtn.frame.size.height, self.frame.size.width, self.frame.size.height) style:UITableViewStylePlain];
     historyList.delegate = self;
     historyList.dataSource = self;
+    historyList.separatorStyle = UITableViewCellSeparatorStyleNone;
+    historyList.backgroundColor = [UIColor whiteColor];
+    //historyList.allowsSelection = NO;
     
     [self addSubview:historyList];
     
@@ -85,20 +89,100 @@
     return 10;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
-    static NSString *identifier = @"Cell";
+    return 1;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    UITableViewCell *cell = [historyList dequeueReusableCellWithIdentifier:identifier];
+    CGFloat rowHeight = 0;
     
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 4 || indexPath.row == 7) {
+        rowHeight = 120;
     }
     
-    cell.textLabel.text = @"223";
-    cell.detailTextLabel.text = @"123";
+    if (indexPath.row == 2 || indexPath.row == 5 || indexPath.row == 8) {
+        rowHeight = 150;
+    }
+    
+    if (indexPath.row == 3 || indexPath.row == 6 || indexPath.row == 9) {
+        rowHeight = 170;
+    }
+    
+    //120
+    //150
+    //170
+    return rowHeight;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    static NSString *identifier = @"BPCell";
+    
+    BPTableViewCell *cell;
+    
+    if (cell == nil) {
+        cell = [[BPTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    }
+    
+    UIImage *typeImage = [UIImage imageNamed:@"history_icon_a_list_bpm"];
+    
+    if (indexPath.row == 0) {
+        typeImage = [UIImage imageNamed:@"history_icon_a_list_bpm_r"];
+        cell.decorateLine.backgroundColor = CIRCEL_RED;
+    }
+    
+    if (indexPath.row == 1) {
+        typeImage = [UIImage imageNamed:@"history_icon_a_list_pad_r"];
+        cell.decorateLine.backgroundColor = CIRCEL_RED;
+    }
+    
+    if (indexPath.row == 3) {
+        typeImage = [UIImage imageNamed:@"history_icon_a_list_pad"];
+        cell.decorateLine.backgroundColor = TEXT_COLOR;
+    }
+    
+    if (indexPath.row == 5) {
+        typeImage = [UIImage imageNamed:@"history_icon_a_list_afib_r"];
+        cell.decorateLine.backgroundColor = CIRCEL_RED;
+    }
+    
+    if (indexPath.row == 7) {
+        typeImage = [UIImage imageNamed:@"history_icon_a_list_afib"];
+        cell.decorateLine.backgroundColor = TEXT_COLOR;
+    }
+    
+    if (indexPath.row == 4 || indexPath.row == 7) {
+        
+        cell.hasRecord = YES;
+        
+    }
+    
+    if (indexPath.row == 2 || indexPath.row == 5 || indexPath.row == 8) {
+        
+        cell.hasImage = YES;
+        
+    }
+    
+    if (indexPath.row == 3 || indexPath.row == 6 || indexPath.row == 9) {
+        
+        cell.hasRecord = YES;
+        cell.hasImage = YES;
+    }
+    
+    cell.typeImage.image = typeImage;
     
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"showEditVC" object:nil];
+    
+    
 }
 
 /*

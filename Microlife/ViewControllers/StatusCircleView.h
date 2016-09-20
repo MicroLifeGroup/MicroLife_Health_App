@@ -22,5 +22,5 @@
 -(void)setCircleTitleText:(NSString*)titleText;
 -(void)setcircleValueText:(NSString*)valueText;
 -(void)setCircleUnitText:(NSString*)UnitText;
--(void)setCircleFrame;
+-(void)setCircleValueFrame;
 @end

@@ -223,8 +223,6 @@ static NSString *identifier = @"AlarmCell";
        alarmCell.measureWeek.text = [NSString stringWithFormat:@"%@, %@",typeStr,weekStr];
     }
     
-    
-    
     if(switchOn){
         alarmCell.alarmSwitch.on = YES;
     }else{

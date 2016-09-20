@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		CD1F87721D49F56D00A44074 /* StatusCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1F87711D49F56D00A44074 /* StatusCircleView.m */; };
 		CD212A691D758136007E53A0 /* HistoryListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD212A681D758136007E53A0 /* HistoryListTableView.m */; };
+		CD21FD5E1D8F93C0009BC8CF /* BPTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD21FD5C1D8F93C0009BC8CF /* BPTableViewCell.m */; };
+		CD21FD5F1D8F93C0009BC8CF /* BPTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD21FD5D1D8F93C0009BC8CF /* BPTableViewCell.xib */; };
+		CD21FD611D8FE35F009BC8CF /* 0.png in Resources */ = {isa = PBXBuildFile; fileRef = CD21FD601D8FE35F009BC8CF /* 0.png */; };
+		CD21FD671D900320009BC8CF /* EditListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD21FD661D900320009BC8CF /* EditListViewController.m */; };
 		CD221D451D41EA80004D3701 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D441D41EA80004D3701 /* main.m */; };
 		CD221D481D41EA80004D3701 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D471D41EA80004D3701 /* AppDelegate.m */; };
 		CD221D4B1D41EA80004D3701 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D4A1D41EA80004D3701 /* ViewController.m */; };
@@ -85,6 +89,12 @@
 		CD1F87711D49F56D00A44074 /* StatusCircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusCircleView.m; sourceTree = "<group>"; };
 		CD212A671D758136007E53A0 /* HistoryListTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryListTableView.h; sourceTree = "<group>"; };
 		CD212A681D758136007E53A0 /* HistoryListTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryListTableView.m; sourceTree = "<group>"; };
+		CD21FD5B1D8F93C0009BC8CF /* BPTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BPTableViewCell.h; sourceTree = "<group>"; };
+		CD21FD5C1D8F93C0009BC8CF /* BPTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BPTableViewCell.m; sourceTree = "<group>"; };
+		CD21FD5D1D8F93C0009BC8CF /* BPTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BPTableViewCell.xib; sourceTree = "<group>"; };
+		CD21FD601D8FE35F009BC8CF /* 0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0.png; sourceTree = "<group>"; };
+		CD21FD651D900320009BC8CF /* EditListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditListViewController.h; sourceTree = "<group>"; };
+		CD21FD661D900320009BC8CF /* EditListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditListViewController.m; sourceTree = "<group>"; };
 		CD221D401D41EA80004D3701 /* Microlife.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Microlife.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD221D441D41EA80004D3701 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CD221D461D41EA80004D3701 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -221,6 +231,7 @@
 		CD221D371D41EA80004D3701 = {
 			isa = PBXGroup;
 			children = (
+				CD21FD601D8FE35F009BC8CF /* 0.png */,
 				CD221D781D41EAAF004D3701 /* Frameworks */,
 				CD221D421D41EA80004D3701 /* Microlife */,
 				CD221D5C1D41EA81004D3701 /* MicrolifeTests */,
@@ -410,12 +421,17 @@
 				CD221DCC1D41F102004D3701 /* MainHistoryViewController.m */,
 				CD8E42271D48523300A8695B /* HistoryPageView.h */,
 				CD8E42281D48523300A8695B /* HistoryPageView.m */,
+				CD21FD651D900320009BC8CF /* EditListViewController.h */,
+				CD21FD661D900320009BC8CF /* EditListViewController.m */,
 				CD1F87701D49F56D00A44074 /* StatusCircleView.h */,
 				CD1F87711D49F56D00A44074 /* StatusCircleView.m */,
 				CD33D09F1D65AC6600F7DB07 /* GraphView.h */,
 				CD33D0A01D65AC6600F7DB07 /* GraphView.m */,
 				CD212A671D758136007E53A0 /* HistoryListTableView.h */,
 				CD212A681D758136007E53A0 /* HistoryListTableView.m */,
+				CD21FD5B1D8F93C0009BC8CF /* BPTableViewCell.h */,
+				CD21FD5C1D8F93C0009BC8CF /* BPTableViewCell.m */,
+				CD21FD5D1D8F93C0009BC8CF /* BPTableViewCell.xib */,
 			);
 			name = History;
 			sourceTree = "<group>";
@@ -567,6 +583,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD21FD611D8FE35F009BC8CF /* 0.png in Resources */,
+				CD21FD5F1D8F93C0009BC8CF /* BPTableViewCell.xib in Resources */,
 				CD93A6C41D79975900292B83 /* CustomAlarmCell.xib in Resources */,
 				CD221D531D41EA80004D3701 /* LaunchScreen.storyboard in Resources */,
 				CD221D501D41EA80004D3701 /* Assets.xcassets in Resources */,
@@ -628,6 +646,8 @@
 				CD87033B1D76F62400CC570F /* NotificationViewController.m in Sources */,
 				CD221D891D41EAD9004D3701 /* UserManagerClass.m in Sources */,
 				CD221D451D41EA80004D3701 /* main.m in Sources */,
+				CD21FD671D900320009BC8CF /* EditListViewController.m in Sources */,
+				CD21FD5E1D8F93C0009BC8CF /* BPTableViewCell.m in Sources */,
 				CD6B939A1D829EEC00AB6018 /* AlarmDetailViewController.m in Sources */,
 				CD221DBD1D41ED94004D3701 /* LocalizeUtilities.m in Sources */,
 				CD6B939E1D82B47300AB6018 /* LocalData.m in Sources */,
