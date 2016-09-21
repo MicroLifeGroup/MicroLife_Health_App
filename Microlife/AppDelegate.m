@@ -17,7 +17,30 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+//     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"everLaunched"])
+//    {
+//        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"everLaunched"];
+//        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];
+//    }
+//    else{
+//        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstLaunch"];
+//    }
+//    
+//    // 這裡判斷是否第一次
+//    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"])
+//    {
+//        UIViewController *vc=[storyboard instantiateViewControllerWithIdentifier:@"NavViewController"];
+//        _window.rootViewController=vc;
+//        [_window makeKeyAndVisible];
+//    }
+//    else
+//    {
+//        UIViewController *vc=[storyboard instantiateViewControllerWithIdentifier:@"UserLoginViewController"];
+//        _window.rootViewController=vc;
+//        [_window makeKeyAndVisible];
+//    }
     
     [[FBSDKApplicationDelegate sharedInstance] application:application
                              didFinishLaunchingWithOptions:launchOptions];

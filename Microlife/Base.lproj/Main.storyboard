@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="Idv-ex-our">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="VN1-WJ-ScD">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -20,10 +20,24 @@
             </objects>
             <point key="canvasLocation" x="408" y="1957"/>
         </scene>
+        <!--Nav View Controller-->
+        <scene sceneID="wLd-gT-0Ze">
+            <objects>
+                <viewController storyboardIdentifier="NavViewController" id="VN1-WJ-ScD" customClass="NavViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VAQ-vs-N4x">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eDy-6l-IK4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1633" y="1532"/>
+        </scene>
         <!--User Login View Controller-->
         <scene sceneID="IZu-eB-vMS">
             <objects>
-                <viewController id="Idv-ex-our" customClass="UserLoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="UserLoginViewController" id="Idv-ex-our" customClass="UserLoginViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WIo-K4-W0m">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -33,7 +47,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Start"/>
                                 <connections>
-                                    <segue destination="Hxb-ch-aWD" kind="modal" id="bDF-5L-1j9"/>
+                                    <segue destination="Hxb-ch-aWD" kind="modal" id="Jpk-Qd-bAJ"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -137,7 +151,8 @@
         <!--Tab Bar Controller-->
         <scene sceneID="W5P-kf-pt0">
             <objects>
-                <tabBarController id="Hxb-ch-aWD" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarViewController" id="Hxb-ch-aWD" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="BrK-j5-cOl"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="zsa-tV-VHS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>

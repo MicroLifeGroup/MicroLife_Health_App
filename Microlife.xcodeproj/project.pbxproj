@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C430D1551D9262500095A9F3 /* NavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C430D1541D9262500095A9F3 /* NavViewController.m */; };
 		CD1F87721D49F56D00A44074 /* StatusCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1F87711D49F56D00A44074 /* StatusCircleView.m */; };
 		CD212A691D758136007E53A0 /* HistoryListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD212A681D758136007E53A0 /* HistoryListTableView.m */; };
 		CD21FD5E1D8F93C0009BC8CF /* BPTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD21FD5C1D8F93C0009BC8CF /* BPTableViewCell.m */; };
@@ -85,6 +86,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C430D1531D9262500095A9F3 /* NavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavViewController.h; sourceTree = "<group>"; };
+		C430D1541D9262500095A9F3 /* NavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavViewController.m; sourceTree = "<group>"; };
 		CD1F87701D49F56D00A44074 /* StatusCircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusCircleView.h; sourceTree = "<group>"; };
 		CD1F87711D49F56D00A44074 /* StatusCircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusCircleView.m; sourceTree = "<group>"; };
 		CD212A671D758136007E53A0 /* HistoryListTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryListTableView.h; sourceTree = "<group>"; };
@@ -228,6 +231,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C430D1521D9262160095A9F3 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				C430D1531D9262500095A9F3 /* NavViewController.h */,
+				C430D1541D9262500095A9F3 /* NavViewController.m */,
+			);
+			name = Navigation;
+			sourceTree = "<group>";
+		};
 		CD221D371D41EA80004D3701 = {
 			isa = PBXGroup;
 			children = (
@@ -340,6 +352,7 @@
 		CD221D8A1D41EAE4004D3701 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				C430D1521D9262160095A9F3 /* Navigation */,
 				CD8703321D76F5FE00CC570F /* SideBar */,
 				CD221DC41D41EE2E004D3701 /* User */,
 				CD221DC31D41EE2C004D3701 /* History */,
@@ -546,7 +559,7 @@
 				TargetAttributes = {
 					CD221D3F1D41EA80004D3701 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 45ZW733CY8;
+						DevelopmentTeam = YB82RWTT2B;
 					};
 					CD221D581D41EA81004D3701 = {
 						CreatedOnToolsVersion = 7.3;
@@ -647,6 +660,7 @@
 				CD221D891D41EAD9004D3701 /* UserManagerClass.m in Sources */,
 				CD221D451D41EA80004D3701 /* main.m in Sources */,
 				CD21FD671D900320009BC8CF /* EditListViewController.m in Sources */,
+				C430D1551D9262500095A9F3 /* NavViewController.m in Sources */,
 				CD21FD5E1D8F93C0009BC8CF /* BPTableViewCell.m in Sources */,
 				CD6B939A1D829EEC00AB6018 /* AlarmDetailViewController.m in Sources */,
 				CD221DBD1D41ED94004D3701 /* LocalizeUtilities.m in Sources */,
