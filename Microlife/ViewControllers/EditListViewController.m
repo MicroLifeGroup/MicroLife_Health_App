@@ -7,21 +7,38 @@
 //
 
 #import "EditListViewController.h"
+#import <AVFoundation/AVFoundation.h>
+#import <AudioToolbox/AudioServices.h>
 
 @interface EditListViewController ()<UITextViewDelegate,UIImagePickerControllerDelegate>{
-    UIView *actionBtnBase;
-    UITextView *noteTextView;
+    UIView *actionBtnBase;      //功能列
+    UITextView *noteTextView;   //文字輸入框
     UIScrollView *noteScroll;
     UIImagePickerController *imagePicker;
-    UIImageView *photoImage;
-    UIImage *tempImg;
+    UIImageView *photoImage;    //相簿圖片
+    UIImage *tempImg;           //相簿圖片暫存
     float navHeight;
-    UIButton *recordBtn;
+    UIButton *recordBtn;        //錄音鈕
     float keyboardHeight;
+    UIView *recordView;         //錄音狀態列
+    UIButton *deleteImgBtn;
     
-    UIImageView *animateBase;
+    UIImageView *animateBase;   //錄音特效放大view-淺色
+    UIImageView *animateView;   //錄音特效view-深色
     
-    UIImageView *animateView;
+    AVAudioPlayer *audioPlayer;
+    AVAudioRecorder *audioRecoder;
+    
+    UIButton *playRecordBtn;
+    NSString *recordTimeStr;
+    UILabel *recordTimeLab;
+    UIView *recordRedView;
+    
+    UILabel *playTimeLab;
+    NSTimer *recordTimer;
+    
+    BOOL isRecord;
+    BOOL isPlay;
 }
 
 @end
@@ -61,6 +78,54 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillChangeFrameNotification object:nil];
     
+    //錄音初始化
+    
+    // Set the audio file
+    NSArray *pathComponents = [NSArray arrayWithObjects:
+                               [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
+                               @"MyAudioMemo.m4a",
+                               nil];
+    
+    NSURL *outputFileURL = [NSURL fileURLWithPathComponents:pathComponents];
+    
+    // Setup audio session
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+    
+    //提高音量
+    [session setCategory:AVAudioSessionCategoryPlayAndRecord error: nil];
+    UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
+    AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
+                             sizeof (audioRouteOverride),&audioRouteOverride);
+    
+    
+    // Define the recorder setting
+    NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc] init];
+    
+    
+    [recordSetting setValue:[NSNumber numberWithInt:kAudioFormatMPEG4AAC] forKey:AVFormatIDKey];
+    [recordSetting setValue:[NSNumber numberWithFloat:44100.0] forKey:AVSampleRateKey];
+    [recordSetting setValue:[NSNumber numberWithInt: 2] forKey:AVNumberOfChannelsKey];
+    
+    // Initiate and prepare the recorder
+    audioRecoder = [[AVAudioRecorder alloc] initWithURL:outputFileURL settings:recordSetting error:NULL];
+    audioRecoder.delegate = self;
+    audioRecoder.meteringEnabled = YES;
+    [audioRecoder prepareToRecord];
+    
+    isRecord = NO;
+    isPlay = NO;
+    
+}
+
+- (NSString *)getPathFile {
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentPath = [paths firstObject];
+    NSString *dbPath = [documentPath stringByAppendingPathComponent:@"sound.caf"];
+    
+    NSLog(@"%@",dbPath);
+    return dbPath;
 }
 
 -(void)initInterface{
@@ -69,9 +134,9 @@
     
     UIColor *lineColor = [UIColor colorWithRed:231.0/255.0 green:232.0/255.0 blue:235.0/255.0 alpha:1];
     
-    actionBtnBase = [[UIView alloc] initWithFrame:CGRectMake(-1, SCREEN_HEIGHT-navHeight-SCREEN_HEIGHT*0.063, SCREEN_WIDTH+2, SCREEN_HEIGHT*0.063)];
-//    actionBtnBase.layer.borderWidth = 1.0f;
-//    actionBtnBase.layer.borderColor = [UIColor colorWithRed:231.0/255.0 green:232.0/255.0 blue:235.0/255.0 alpha:1].CGColor;
+    actionBtnBase = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-navHeight-SCREEN_HEIGHT*0.063, SCREEN_WIDTH, SCREEN_HEIGHT*0.063)];
+    
+    actionBtnBase.backgroundColor = [UIColor whiteColor];
     
     UIView *topLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, actionBtnBase.frame.size.width, 1)];
     
@@ -104,11 +169,22 @@
     
     [recordBtn setImage:[UIImage imageNamed:@"history_icon_a_rec_0"] forState:UIControlStateNormal];
     
+
+    
+    recordTimeLab = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH*0.773, 0, SCREEN_WIDTH*0.16, actionBtnBase.frame.size.height)];
+    
+    recordTimeLab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:20];
+    
+    recordRedView = [[UIView alloc] initWithFrame:CGRectMake(recordTimeLab.frame.origin.x+recordTimeLab.frame.size.width+5, actionBtnBase.frame.size.height/2-5, 10, 10)];
+
+    recordRedView.backgroundColor = CIRCEL_RED;
+    recordRedView.layer.cornerRadius = recordRedView.frame.size.width/2;
+   
     float scrollHeight = self.view.frame.size.height-actionBtnBase.frame.size.height-navHeight;
     
     noteScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, scrollHeight)];
     
-    [noteScroll setContentSize:CGSizeMake(self.view.frame.size.width, noteScroll.frame.size.height-navHeight)];
+    [noteScroll setContentSize:CGSizeMake(self.view.frame.size.width, noteScroll.frame.size.height-navHeight+100)];
 
     
     noteTextView = [[UITextView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2-self.view.frame.size.width*0.9/2, 0, self.view.frame.size.width*0.9, SCREEN_HEIGHT*0.074)];
@@ -118,20 +194,76 @@
     noteTextView.delegate = self;
     
     
+    float deleteIconSize = 35/self.imgScale;
+    
     photoImage = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2-self.view.frame.size.width*0.9/2, noteTextView.frame.origin.y+noteTextView.frame.size.height+self.view.frame.size.height*0.018, self.view.frame.size.width*0.9, 100)];
     
+    photoImage.userInteractionEnabled = YES;
+    
+    deleteImgBtn = [[UIButton alloc] initWithFrame:CGRectMake(photoImage.frame.size.width-5-deleteIconSize, 5, deleteIconSize, deleteIconSize)];
+    
+    [deleteImgBtn setImage:[UIImage imageNamed:@"history_icon_a_cancel"] forState:UIControlStateNormal];
+    
+    [deleteImgBtn addTarget:self action:@selector(deleteImg) forControlEvents:UIControlEventTouchUpInside];
     
     imagePicker = [[UIImagePickerController alloc]init];
     
     imagePicker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
     
+    
+    recordView = [[UIView alloc] initWithFrame:CGRectMake(0, actionBtnBase.frame.origin.y-SCREEN_HEIGHT*0.063, SCREEN_WIDTH, SCREEN_HEIGHT*0.063)];
+    
+    recordView.backgroundColor = [UIColor colorWithRed:210.0/255.0 green:220.0/255.0 blue:238.0/255.0 alpha:1];
+    
+    float recordIconSize = 66/self.imgScale;
+    
+    playRecordBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH*0.03, recordView.frame.size.height/2-recordIconSize/2, recordIconSize, recordIconSize)];
+    
+    [playRecordBtn setImage:[UIImage imageNamed:@"history_icon_a_note_play"] forState:UIControlStateNormal];
+    [playRecordBtn addTarget:self action:@selector(playRecord) forControlEvents:UIControlEventTouchUpInside];
+    
+    float soundWidth = 29/self.imgScale;
+    float soundHeight = 45/self.imgScale;
+    
+    playTimeLab = [[UILabel alloc] initWithFrame:CGRectMake(recordView.frame.size.width/2-SCREEN_WIDTH*0.173/2+soundWidth, 0, SCREEN_WIDTH*0.173, recordView.frame.size.height)];
+    
+    playTimeLab.textColor = STANDER_COLOR;
+    playTimeLab.text = @"00:00";
+    playTimeLab.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:20];
+    
+    UIImageView *soundIcon = [[UIImageView alloc] initWithFrame:CGRectMake(playTimeLab.frame.origin.x-soundWidth-5, recordView.frame.size.height/2-soundHeight/2, soundWidth, soundHeight)];
+    
+    soundIcon.image = [UIImage imageNamed:@"history_icon_a_voice"];
+    
+    UIButton *deleteRecordBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-SCREEN_WIDTH*0.026-deleteIconSize, recordView.frame.size.height/2-deleteIconSize/2, deleteIconSize, deleteIconSize)];
+    
+    [deleteRecordBtn setImage:[UIImage imageNamed:@"history_icon_a_cancel"] forState:UIControlStateNormal];
+    [deleteRecordBtn addTarget:self action:@selector(deleteReocrd) forControlEvents:UIControlEventTouchUpInside];
+    
+    if (tempImg == nil) {
+        deleteImgBtn.hidden = YES;
+    }else{
+        deleteImgBtn.hidden = NO;
+    }
+    
     [self.view addSubview:noteScroll];
+    [noteScroll addSubview:noteTextView];
+    [noteScroll addSubview:photoImage];
+    [photoImage addSubview:deleteImgBtn];
+    
+    [self.view addSubview:recordView];
+    [recordView addSubview:playRecordBtn];
+    [recordView addSubview:soundIcon];
+    [recordView addSubview:playTimeLab];
+    [recordView addSubview:deleteRecordBtn];
+    
+    
     [self.view addSubview:actionBtnBase];
     [actionBtnBase addSubview:cameraBtn];
     [actionBtnBase addSubview:albumBtn];
     [actionBtnBase addSubview:recordBtn];
-    [noteScroll addSubview:noteTextView];
-    [noteScroll addSubview:photoImage];
+    [actionBtnBase addSubview:recordTimeLab];
+    [actionBtnBase addSubview:recordRedView];
     
 }
 
@@ -139,6 +271,8 @@
     keyboardHeight = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;
     
     actionBtnBase.frame = CGRectMake(0, actionBtnBase.frame.origin.y-keyboardHeight-actionBtnBase.frame.size.height, actionBtnBase.frame.size.width, actionBtnBase.frame.size.height);
+    
+    recordView.frame = CGRectMake(0, actionBtnBase.frame.origin.y-recordView.frame.size.height, recordView.frame.size.width, recordView.frame.size.height);
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -168,10 +302,53 @@
         NSLog(@"tempImg.size.height = %f",tempImg.size.height);
         
         photoImage.frame = CGRectMake(photoImage.frame.origin.x, photoImage.frame.origin.y,img_width, img_height);
+        deleteImgBtn.hidden = NO;
+    }else{
+        deleteImgBtn.hidden = YES;
     }
 }
 
 #pragma mark - Button actions
+-(void)playRecord{
+
+    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:audioRecoder.url error:nil];
+    [audioPlayer setDelegate:self];
+    
+    if (!isPlay) {
+        isPlay = YES;
+        
+        [playRecordBtn setImage:[UIImage imageNamed:@"history_icon_a_note_stop"] forState:UIControlStateNormal];
+        
+        [audioPlayer play];
+        
+        recordTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(trackRecordTime) userInfo:nil repeats:YES];
+    }else{
+        isPlay = NO;
+        
+        [playRecordBtn setImage:[UIImage imageNamed:@"history_icon_a_note_play"] forState:UIControlStateNormal];
+        
+        [audioPlayer pause];
+        
+        [recordTimer invalidate];
+    }
+    
+    NSLog(@"audioPlayer.currentTime = %f",audioPlayer.currentTime);
+    
+    NSLog(@"playRecord");
+}
+
+-(void)deleteReocrd{
+      [audioPlayer stop];
+    
+    NSLog(@"deleteReocrd");
+}
+
+-(void)deleteImg{
+    NSLog(@"deleteImg");
+    
+}
+
+
 -(void)openCamera{
     
     imagePicker.delegate = self;
@@ -199,6 +376,14 @@
     
     if ( gesture.state == UIGestureRecognizerStateBegan ) {
         NSLog(@"Long Press began");
+        isRecord = YES;
+        AVAudioSession *session = [AVAudioSession sharedInstance];
+        [session setActive:YES error:nil];
+        
+        // Start recording
+        [audioRecoder record];
+        
+        recordTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(trackRecordTime) userInfo:nil repeats:YES];
         
         animateBase = [[UIImageView alloc] initWithFrame:circleFrame];
         
@@ -230,6 +415,13 @@
     
     if ( gesture.state == UIGestureRecognizerStateEnded ) {
         NSLog(@"Long Press end");
+        isRecord = NO;
+        [audioRecoder stop];
+        
+        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+        [audioSession setActive:NO error:nil];
+        
+        [recordTimer invalidate];
         
         [animateBase removeFromSuperview];
         [animateView removeFromSuperview];
@@ -237,6 +429,39 @@
         animateBase.hidden = YES;
         animateView.hidden = YES;
     }
+}
+
+-(void)trackRecordTime{
+    
+    int recordMin;
+    int recordSec;
+    
+    if (isRecord) {
+        recordMin = audioRecoder.currentTime/60;
+        recordSec = audioRecoder.currentTime-recordMin*60;
+        
+        recordTimeStr = [NSString stringWithFormat:@"%02d:%02d",recordMin,recordSec];
+        
+        recordTimeLab.text = recordTimeStr;
+        
+        NSLog(@"recordTimeLab = %@",recordTimeLab.text);
+        
+    }else{
+        recordMin = audioPlayer.currentTime/60;
+        recordSec = audioPlayer.currentTime-recordMin*60;
+        playTimeLab.text = [NSString stringWithFormat:@"%02d:%02d",recordMin,recordSec];
+        NSLog(@"playTimeLab = %@",playTimeLab.text);
+    }
+    
+    
+    
+    
+    
+}
+
+- (void) audioRecorderDidFinishRecording:(AVAudioRecorder *)avrecorder successfully:(BOOL)flag{
+    
+    NSLog(@"flag = %d",flag);
 }
 
 
@@ -272,7 +497,7 @@
 
     photoImage.frame = CGRectMake(photoImage.frame.origin.x, noteTextView.frame.origin.y+noteTextView.frame.size.height+self.view.frame.size.height*0.018, photoImage.frame.size.width, photoImage.frame.size.height);
     
-    float scrollContent = noteTextView.frame.size.height+self.view.frame.size.height*0.018+photoImage.frame.size.height;
+    float scrollContent = noteTextView.frame.size.height+self.view.frame.size.height*0.018+photoImage.frame.size.height+100;
     
     [noteScroll setContentSize:CGSizeMake(self.view.frame.size.width, scrollContent)];
 }
@@ -282,7 +507,14 @@
     if ([text isEqualToString:@"\n"]) {
         [noteTextView resignFirstResponder];
         
-        actionBtnBase.frame = CGRectMake(-1, SCREEN_HEIGHT-navHeight-SCREEN_HEIGHT*0.063, SCREEN_WIDTH+2, SCREEN_HEIGHT*0.063);
+        [UIView transitionWithView:self.view duration:0.1 options:UIViewAnimationOptionTransitionNone animations:^{
+            
+            actionBtnBase.frame = CGRectMake(-1, SCREEN_HEIGHT-navHeight-SCREEN_HEIGHT*0.063, SCREEN_WIDTH+2, SCREEN_HEIGHT*0.063);
+            recordView.frame =  CGRectMake(0, actionBtnBase.frame.origin.y-SCREEN_HEIGHT*0.063, SCREEN_WIDTH, SCREEN_HEIGHT*0.063);
+            
+        } completion:^(BOOL finished) {
+            //
+        }];
     }
     
     return YES;
