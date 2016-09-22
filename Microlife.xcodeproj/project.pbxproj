@@ -58,11 +58,19 @@
 		CD763CC11D93AE36000726F3 /* WeightTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD763CBF1D93AE36000726F3 /* WeightTableViewCell.xib */; };
 		CD763CC81D93E0DE000726F3 /* BodyTempTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD763CC61D93E0DE000726F3 /* BodyTempTableViewCell.m */; };
 		CD763CC91D93E0DE000726F3 /* BodyTempTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD763CC71D93E0DE000726F3 /* BodyTempTableViewCell.xib */; };
+		CD763CDA1D94121E000726F3 /* OverBPTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD763CD71D94121E000726F3 /* OverBPTableViewCell.m */; };
+		CD763CDB1D94121E000726F3 /* OverWeightTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD763CD91D94121E000726F3 /* OverWeightTableViewCell.m */; };
+		CD763CE81D941239000726F3 /* BloodPressurePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD763CDD1D941239000726F3 /* BloodPressurePickerView.m */; };
+		CD763CE91D941239000726F3 /* DatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD763CDF1D941239000726F3 /* DatePickerView.m */; };
+		CD763CEA1D941239000726F3 /* OverViewCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD763CE11D941239000726F3 /* OverViewCircleView.m */; };
+		CD763CEB1D941239000726F3 /* OverViewObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CD763CE31D941239000726F3 /* OverViewObject.m */; };
+		CD763CEC1D941239000726F3 /* PULPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD763CE51D941239000726F3 /* PULPickerView.m */; };
+		CD763CED1D941239000726F3 /* TimePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD763CE71D941239000726F3 /* TimePickerView.m */; };
+		CD763CF01D94124B000726F3 /* OverTempTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD763CEF1D94124B000726F3 /* OverTempTableViewCell.m */; };
 		CD8703201D76E83A00CC570F /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD87031F1D76E83A00CC570F /* Bolts.framework */; };
 		CD8703291D76ED0A00CC570F /* FacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703241D76ED0A00CC570F /* FacebookLoginViewController.m */; };
 		CD87032A1D76ED0A00CC570F /* ForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703261D76ED0A00CC570F /* ForgotPasswordViewController.m */; };
 		CD87032B1D76ED0A00CC570F /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703281D76ED0A00CC570F /* RegisterViewController.m */; };
-		CD8703311D76F47B00CC570F /* CirleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703301D76F47B00CC570F /* CirleView.m */; };
 		CD8703391D76F62400CC570F /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703341D76F62400CC570F /* AboutViewController.m */; };
 		CD87033A1D76F62400CC570F /* LogoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703361D76F62400CC570F /* LogoutViewController.m */; };
 		CD87033B1D76F62400CC570F /* NotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703381D76F62400CC570F /* NotificationViewController.m */; };
@@ -185,6 +193,24 @@
 		CD763CC51D93E0DE000726F3 /* BodyTempTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BodyTempTableViewCell.h; sourceTree = "<group>"; };
 		CD763CC61D93E0DE000726F3 /* BodyTempTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BodyTempTableViewCell.m; sourceTree = "<group>"; };
 		CD763CC71D93E0DE000726F3 /* BodyTempTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BodyTempTableViewCell.xib; sourceTree = "<group>"; };
+		CD763CD61D94121E000726F3 /* OverBPTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverBPTableViewCell.h; sourceTree = "<group>"; };
+		CD763CD71D94121E000726F3 /* OverBPTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverBPTableViewCell.m; sourceTree = "<group>"; };
+		CD763CD81D94121E000726F3 /* OverWeightTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverWeightTableViewCell.h; sourceTree = "<group>"; };
+		CD763CD91D94121E000726F3 /* OverWeightTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverWeightTableViewCell.m; sourceTree = "<group>"; };
+		CD763CDC1D941239000726F3 /* BloodPressurePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BloodPressurePickerView.h; sourceTree = "<group>"; };
+		CD763CDD1D941239000726F3 /* BloodPressurePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BloodPressurePickerView.m; sourceTree = "<group>"; };
+		CD763CDE1D941239000726F3 /* DatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerView.h; sourceTree = "<group>"; };
+		CD763CDF1D941239000726F3 /* DatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerView.m; sourceTree = "<group>"; };
+		CD763CE01D941239000726F3 /* OverViewCircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverViewCircleView.h; sourceTree = "<group>"; };
+		CD763CE11D941239000726F3 /* OverViewCircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverViewCircleView.m; sourceTree = "<group>"; };
+		CD763CE21D941239000726F3 /* OverViewObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverViewObject.h; sourceTree = "<group>"; };
+		CD763CE31D941239000726F3 /* OverViewObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverViewObject.m; sourceTree = "<group>"; };
+		CD763CE41D941239000726F3 /* PULPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PULPickerView.h; sourceTree = "<group>"; };
+		CD763CE51D941239000726F3 /* PULPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PULPickerView.m; sourceTree = "<group>"; };
+		CD763CE61D941239000726F3 /* TimePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimePickerView.h; sourceTree = "<group>"; };
+		CD763CE71D941239000726F3 /* TimePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimePickerView.m; sourceTree = "<group>"; };
+		CD763CEE1D94124B000726F3 /* OverTempTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverTempTableViewCell.h; sourceTree = "<group>"; };
+		CD763CEF1D94124B000726F3 /* OverTempTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverTempTableViewCell.m; sourceTree = "<group>"; };
 		CD87031F1D76E83A00CC570F /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		CD8703231D76ED0A00CC570F /* FacebookLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookLoginViewController.h; sourceTree = "<group>"; };
 		CD8703241D76ED0A00CC570F /* FacebookLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookLoginViewController.m; sourceTree = "<group>"; };
@@ -192,8 +218,6 @@
 		CD8703261D76ED0A00CC570F /* ForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordViewController.m; sourceTree = "<group>"; };
 		CD8703271D76ED0A00CC570F /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		CD8703281D76ED0A00CC570F /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
-		CD87032F1D76F47B00CC570F /* CirleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CirleView.h; sourceTree = "<group>"; };
-		CD8703301D76F47B00CC570F /* CirleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CirleView.m; sourceTree = "<group>"; };
 		CD8703331D76F62400CC570F /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		CD8703341D76F62400CC570F /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		CD8703351D76F62400CC570F /* LogoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogoutViewController.h; sourceTree = "<group>"; };
@@ -411,10 +435,26 @@
 		CD221DC11D41EE27004D3701 /* Overview */ = {
 			isa = PBXGroup;
 			children = (
-				CD87032F1D76F47B00CC570F /* CirleView.h */,
-				CD8703301D76F47B00CC570F /* CirleView.m */,
 				CD221DCE1D41F22A004D3701 /* MainOverviewViewController.h */,
 				CD221DCF1D41F22A004D3701 /* MainOverviewViewController.m */,
+				CD763CD61D94121E000726F3 /* OverBPTableViewCell.h */,
+				CD763CD71D94121E000726F3 /* OverBPTableViewCell.m */,
+				CD763CD81D94121E000726F3 /* OverWeightTableViewCell.h */,
+				CD763CD91D94121E000726F3 /* OverWeightTableViewCell.m */,
+				CD763CEE1D94124B000726F3 /* OverTempTableViewCell.h */,
+				CD763CEF1D94124B000726F3 /* OverTempTableViewCell.m */,
+				CD763CDC1D941239000726F3 /* BloodPressurePickerView.h */,
+				CD763CDD1D941239000726F3 /* BloodPressurePickerView.m */,
+				CD763CDE1D941239000726F3 /* DatePickerView.h */,
+				CD763CDF1D941239000726F3 /* DatePickerView.m */,
+				CD763CE01D941239000726F3 /* OverViewCircleView.h */,
+				CD763CE11D941239000726F3 /* OverViewCircleView.m */,
+				CD763CE21D941239000726F3 /* OverViewObject.h */,
+				CD763CE31D941239000726F3 /* OverViewObject.m */,
+				CD763CE41D941239000726F3 /* PULPickerView.h */,
+				CD763CE51D941239000726F3 /* PULPickerView.m */,
+				CD763CE61D941239000726F3 /* TimePickerView.h */,
+				CD763CE71D941239000726F3 /* TimePickerView.m */,
 			);
 			name = Overview;
 			sourceTree = "<group>";
@@ -647,6 +687,7 @@
 				CD87033A1D76F62400CC570F /* LogoutViewController.m in Sources */,
 				CD221DD71D41F460004D3701 /* MainSettingViewController.m in Sources */,
 				CD221D4B1D41EA80004D3701 /* ViewController.m in Sources */,
+				CD763CDA1D94121E000726F3 /* OverBPTableViewCell.m in Sources */,
 				CD212A691D758136007E53A0 /* HistoryListTableView.m in Sources */,
 				CD1F87721D49F56D00A44074 /* StatusCircleView.m in Sources */,
 				CD763CC81D93E0DE000726F3 /* BodyTempTableViewCell.m in Sources */,
@@ -664,19 +705,26 @@
 				CD87032B1D76ED0A00CC570F /* RegisterViewController.m in Sources */,
 				CD221D871D41EAD9004D3701 /* DataBaseClass.m in Sources */,
 				CD221D881D41EAD9004D3701 /* SystemConfigClass.m in Sources */,
-				CD8703311D76F47B00CC570F /* CirleView.m in Sources */,
 				CD221DCD1D41F102004D3701 /* MainHistoryViewController.m in Sources */,
+				CD763CE81D941239000726F3 /* BloodPressurePickerView.m in Sources */,
 				CD221DD01D41F22A004D3701 /* MainOverviewViewController.m in Sources */,
 				CD221DCA1D41EF6E004D3701 /* UserLoginViewController.m in Sources */,
 				CD87032A1D76ED0A00CC570F /* ForgotPasswordViewController.m in Sources */,
 				CD8703291D76ED0A00CC570F /* FacebookLoginViewController.m in Sources */,
+				CD763CEA1D941239000726F3 /* OverViewCircleView.m in Sources */,
 				CD221DBE1D41ED94004D3701 /* SFCommonCalendar.m in Sources */,
+				CD763CED1D941239000726F3 /* TimePickerView.m in Sources */,
 				CD221D9A1D41EAEF004D3701 /* FMDatabaseAdditions.m in Sources */,
 				CD221DBF1D41ED94004D3701 /* ShareCommon.m in Sources */,
 				CD763CC01D93AE36000726F3 /* WeightTableViewCell.m in Sources */,
+				CD763CF01D94124B000726F3 /* OverTempTableViewCell.m in Sources */,
+				CD763CEC1D941239000726F3 /* PULPickerView.m in Sources */,
 				CD221DD31D41F240004D3701 /* MainReminderViewController.m in Sources */,
 				CD33D0A11D65AC6600F7DB07 /* GraphView.m in Sources */,
+				CD763CDB1D94121E000726F3 /* OverWeightTableViewCell.m in Sources */,
 				CD87033B1D76F62400CC570F /* NotificationViewController.m in Sources */,
+				CD763CE91D941239000726F3 /* DatePickerView.m in Sources */,
+				CD763CEB1D941239000726F3 /* OverViewObject.m in Sources */,
 				CD221D891D41EAD9004D3701 /* UserManagerClass.m in Sources */,
 				CD221D451D41EA80004D3701 /* main.m in Sources */,
 				CD21FD671D900320009BC8CF /* EditListViewController.m in Sources */,
