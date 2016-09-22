@@ -52,11 +52,13 @@
 
 -(void)alarmSwitchAction{
     
-    //NSMutableDictionary *timeDict = [[[SettingParameterClass sharedInstance] returnAlarmData] objectAtIndex:self.flag];
+    NSMutableArray * reminderArray = [[LocalData sharedInstance] getReminderData];
     
-    //NSString *switchStatus = [NSString stringWithFormat:@"%d",self.alarmSwitch.on];
+    NSMutableDictionary *reminderDict = [reminderArray objectAtIndex:self.cellIndex];
     
-    //[timeDict setObject:switchStatus forKey:@"status"];
+    NSNumber *switchStatus = [NSNumber numberWithBool:self.alarmSwitch.on];
+    
+    [reminderDict setObject:switchStatus forKey:@"status"];
     
     NSLog(@"alarm switch");
     

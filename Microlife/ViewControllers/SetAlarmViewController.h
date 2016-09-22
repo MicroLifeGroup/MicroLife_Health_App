@@ -11,5 +11,5 @@
 @interface SetAlarmViewController : MViewController
 
 @property (nonatomic) BOOL isCreate;
-@property (weak, nonatomic) IBOutlet UIDatePicker *alarmDatePicker;
+@property (nonatomic) NSInteger alarmIndex;
 @end

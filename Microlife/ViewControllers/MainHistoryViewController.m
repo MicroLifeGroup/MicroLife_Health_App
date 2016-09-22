@@ -8,6 +8,7 @@
 
 #import "MainHistoryViewController.h"
 #import "HistoryPageView.h"
+#import "EditListViewController.h"
 
 @interface MainHistoryViewController ()<UINavigationControllerDelegate, UIScrollViewDelegate,HistoryPageViewDelegate,HistoryListDelegate>{
     UIPageControl *pageControl;
@@ -33,7 +34,7 @@
 }
 
 -(void)initParameter{
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentEditVC) name:@"showEditVC" object:nil];
 }
 
 -(void)initInterface{
@@ -164,6 +165,12 @@
     
 }
 
+-(void)presentEditVC{
+    
+    EditListViewController *editListVC = [[EditListViewController alloc] init];
+    [self.navigationController pushViewController:editListVC animated:YES];
+}
+
 #pragma mark - profileBtAction (導覽列左邊按鍵方法)
 -(void)profileBtAction {
     
@@ -183,14 +190,13 @@
     }
 }
 
-
 #pragma mark - HistoryPageView Delegate
 -(void)showListButtonTapped:(UIView *)btnSnapShot{
     
     [listsView removeFromSuperview];
     
     listsView = [[HistoryListTableView alloc] initWithFrame:CGRectMake(0, self.tabBarController.tabBar.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height)];
-    
+    listsView.listType = pageControl.currentPage;
     listsView.delegate = self;
     [listsView.hideListBtn addSubview:btnSnapShot];
     

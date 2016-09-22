@@ -98,15 +98,14 @@
     
 }
 
--(void)setCircleFrame{
+-(void)setCircleValueFrame{
     
     circleTitle.frame = CGRectMake(self.frame.size.width/2-SCREEN_WIDTH*0.213/2, SCREEN_HEIGHT*0.025, SCREEN_WIDTH*0.213, SCREEN_HEIGHT*0.037);
     
     circleValue.frame = CGRectMake(self.frame.size.width/2-SCREEN_WIDTH*0.213/2, self.frame.size.height/2-SCREEN_HEIGHT*0.037/2, SCREEN_WIDTH*0.213, SCREEN_HEIGHT*0.037);
     
     circleUnit.frame = CGRectMake(self.frame.size.width/2-SCREEN_WIDTH*0.213/2, circleValue.frame.origin.y+circleValue.frame.size.height+10, SCREEN_WIDTH*0.213, SCREEN_HEIGHT*0.037);
-    
-    
+
 }
 
 /*

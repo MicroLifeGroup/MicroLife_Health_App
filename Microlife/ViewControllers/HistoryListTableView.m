@@ -7,7 +7,9 @@
 //
 
 #import "HistoryListTableView.h"
-
+#import "BPTableViewCell.h"
+#import "WeightTableViewCell.h"
+#import "BodyTempTableViewCell.h"
 
 @implementation HistoryListTableView
 
@@ -57,6 +59,9 @@
     historyList = [[UITableView alloc] initWithFrame:CGRectMake(0, hideListBtn.frame.origin.y+hideListBtn.frame.size.height, self.frame.size.width, self.frame.size.height) style:UITableViewStylePlain];
     historyList.delegate = self;
     historyList.dataSource = self;
+    historyList.separatorStyle = UITableViewCellSeparatorStyleNone;
+    historyList.backgroundColor = [UIColor whiteColor];
+    //historyList.allowsSelection = NO;
     
     [self addSubview:historyList];
     
@@ -85,20 +90,243 @@
     return 10;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
-    static NSString *identifier = @"Cell";
+    return 1;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    UITableViewCell *cell = [historyList dequeueReusableCellWithIdentifier:identifier];
+    CGFloat rowHeight = 0;
     
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    switch (self.listType) {
+        case 0:
+            if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 4 || indexPath.row == 7) {
+                rowHeight = 120;
+            }
+            
+            if (indexPath.row == 2 || indexPath.row == 5 || indexPath.row == 8) {
+                rowHeight = 150;
+            }
+            
+            if (indexPath.row == 3 || indexPath.row == 6 || indexPath.row == 9) {
+                rowHeight = 170;
+            }
+            
+            //120
+            //150
+            //170
+            
+            //record 20
+            //image 30
+            break;
+        case 1:
+            
+            if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 4 || indexPath.row == 7) {
+                rowHeight = 190;
+            }
+            
+            if (indexPath.row == 2 || indexPath.row == 5 || indexPath.row == 8) {
+                rowHeight = 210;
+            }
+            
+            if (indexPath.row == 3 || indexPath.row == 6 || indexPath.row == 9) {
+                rowHeight = 230;
+            }
+            break;
+        case 2:
+            if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 4 || indexPath.row == 7) {
+                rowHeight = 120;
+            }
+            
+            if (indexPath.row == 2 || indexPath.row == 5 || indexPath.row == 8) {
+                rowHeight = 150;
+            }
+            
+            if (indexPath.row == 3 || indexPath.row == 6 || indexPath.row == 9) {
+                rowHeight = 170;
+            }
+    
+            break;
+        default:
+            break;
     }
     
-    cell.textLabel.text = @"223";
-    cell.detailTextLabel.text = @"123";
+    
+    return rowHeight;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    static NSString *identifier;
+    
+    
+    UITableViewCell *cell;
+    
+    switch (self.listType) {
+        case 0:{
+            identifier = @"BPCell";
+            
+            BPTableViewCell *BPCell;
+            
+            if (BPCell == nil) {
+                BPCell = [[BPTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            }
+            
+            UIImage *typeImage = [UIImage imageNamed:@"history_icon_a_list_bpm"];
+            
+            if (indexPath.row == 0) {
+                typeImage = [UIImage imageNamed:@"history_icon_a_list_bpm_r"];
+                BPCell.decorateLine.backgroundColor = CIRCEL_RED;
+            }
+            
+            if (indexPath.row == 1) {
+                typeImage = [UIImage imageNamed:@"history_icon_a_list_pad_r"];
+                BPCell.decorateLine.backgroundColor = CIRCEL_RED;
+            }
+            
+            if (indexPath.row == 3) {
+                typeImage = [UIImage imageNamed:@"history_icon_a_list_pad"];
+                BPCell.decorateLine.backgroundColor = TEXT_COLOR;
+            }
+            
+            if (indexPath.row == 5) {
+                typeImage = [UIImage imageNamed:@"history_icon_a_list_afib_r"];
+                BPCell.decorateLine.backgroundColor = CIRCEL_RED;
+            }
+            
+            if (indexPath.row == 7) {
+                typeImage = [UIImage imageNamed:@"history_icon_a_list_afib"];
+                BPCell.decorateLine.backgroundColor = TEXT_COLOR;
+            }
+            
+            if (indexPath.row == 4 || indexPath.row == 7) {
+                
+                BPCell.hasRecord = YES;
+                
+            }
+            
+            if (indexPath.row == 2 || indexPath.row == 5 || indexPath.row == 8) {
+                
+                BPCell.hasImage = YES;
+                
+            }
+            
+            if (indexPath.row == 3 || indexPath.row == 6 || indexPath.row == 9) {
+                
+                BPCell.hasRecord = YES;
+                BPCell.hasImage = YES;
+            }
+            
+            BPCell.typeImage.image = typeImage;
+            
+            return BPCell;
+        }
+            
+            break;
+        case 1:{
+            
+            identifier = @"WeightCell";
+            
+            WeightTableViewCell *weightCell;
+            
+            if (weightCell == nil) {
+                weightCell = [[WeightTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            }
+            
+            UIImage *typeImage = [UIImage imageNamed:@"history_icon_a_list_ws"];
+            
+            if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 3 || indexPath.row == 5 || indexPath.row == 7) {
+                typeImage = [UIImage imageNamed:@"history_icon_a_list_ws_r"];
+                weightCell.decorateLine.backgroundColor = CIRCEL_RED;
+            }
+            
+            
+            if (indexPath.row == 4 || indexPath.row == 7) {
+                
+                weightCell.hasRecord = YES;
+                
+            }
+            
+            if (indexPath.row == 2 || indexPath.row == 5 || indexPath.row == 8) {
+                
+                weightCell.hasImage = YES;
+                
+            }
+            
+            if (indexPath.row == 3 || indexPath.row == 6 || indexPath.row == 9) {
+                
+                weightCell.hasRecord = YES;
+                weightCell.hasImage = YES;
+            }
+            
+            weightCell.typeImage.image = typeImage;
+            
+            return weightCell;
+        }
+            
+        
+            break;
+        case 2:{
+            identifier = @"TempCell";
+            
+            BodyTempTableViewCell *BDTempCell;
+            
+            if (BDTempCell == nil) {
+                BDTempCell = [[BodyTempTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            }
+            
+            UIImage *typeImage = [UIImage imageNamed:@"history_icon_a_list_ncfr"];
+            
+            if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 3 || indexPath.row == 5 || indexPath.row == 7) {
+                typeImage = [UIImage imageNamed:@"history_icon_a_list_ncfr_r"];
+                BDTempCell.decorateLine.backgroundColor = CIRCEL_RED;
+            }
+            
+            
+            if (indexPath.row == 4 || indexPath.row == 7) {
+                
+                BDTempCell.hasRecord = YES;
+                
+            }
+            
+            if (indexPath.row == 2 || indexPath.row == 5 || indexPath.row == 8) {
+                
+                BDTempCell.hasImage = YES;
+                
+            }
+            
+            if (indexPath.row == 3 || indexPath.row == 6 || indexPath.row == 9) {
+                
+                BDTempCell.hasRecord = YES;
+                BDTempCell.hasImage = YES;
+            }
+            
+            BDTempCell.typeImage.image = typeImage;
+            
+
+            
+            BDTempCell.frame = CGRectMake(BDTempCell.frame.origin.x, BDTempCell.frame.origin.y, self.frame.size.width, BDTempCell.frame.size.height);
+            
+            return BDTempCell;
+        }
+            
+            break;
+        default:
+            break;
+    }
+    
     
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"showEditVC" object:nil];
+    
+    
 }
 
 /*

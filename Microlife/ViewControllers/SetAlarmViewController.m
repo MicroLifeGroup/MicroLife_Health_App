@@ -7,13 +7,29 @@
 //
 
 #import "SetAlarmViewController.h"
+#import "AlarmDetailViewController.h"
 
-@interface SetAlarmViewController ()<UIPickerViewDelegate,UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource>
-
+@interface SetAlarmViewController ()<UIPickerViewDelegate,UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource>{
+    
+    UITableView *settingTable;
+    NSMutableDictionary *reminderDict;
+    UIPickerView *timePicker;
+    UISegmentedControl *cellSegment;
+    NSMutableArray *hourArray;
+    NSMutableArray *minArray;
+    
+    NSMutableArray *typeArray;
+    NSMutableArray *weekArray;
+    
+    NSMutableDictionary *tempDict;
+    NSMutableArray *reminderArray;
+}
 
 @end
 
 @implementation SetAlarmViewController
+
+static NSString *identifier = @"Cell";
 
 @synthesize isCreate;
 
@@ -23,9 +39,90 @@
     
     [self initParameter];
     [self initInterface];
+    
 }
 
 -(void)initParameter{
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getCustomStr:) name:@"customStr" object:nil];
+    
+    reminderArray = [[LocalData sharedInstance] getReminderData];
+    hourArray = [NSMutableArray new];
+    minArray = [NSMutableArray new];
+    weekArray = [[NSMutableArray alloc] initWithCapacity:0];
+    typeArray = [[NSMutableArray alloc] initWithCapacity:0];
+    
+    if (isCreate) {
+        [self initAlarmParameter];
+    }else{
+        
+        tempDict = [reminderArray objectAtIndex:self.alarmIndex];
+        
+        weekArray = [tempDict objectForKey:@"week"];
+        typeArray = [tempDict objectForKey:@"type"];
+    }
+    
+}
+
+-(void)initAlarmParameter{
+    
+    NSDate *currentDay = [NSDate date];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"hh:mm";
+    
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    
+    NSLog(@"The Current Time is %@",[dateFormatter stringFromDate:currentDay]);
+    
+    NSString *dateStr = [dateFormatter stringFromDate:currentDay];
+    
+    NSString *hourStr = [dateStr substringToIndex:2];
+    
+    NSString *minStr = [dateStr substringWithRange:NSMakeRange(3, 2)];
+    
+    NSLog(@"dateStr = %@, hourStr = %@, minStr = %@",dateStr,hourStr,minStr);
+    
+    NSArray *weekNameArray = [[NSArray alloc] initWithObjects:@"Sunday",@"Monday",@"Tuesday",@"Wednesday",@"Thursday",@"Friday",@"Saturday", nil];
+    
+    for (int i=0; i<weekNameArray.count; i++) {
+        
+        NSString *weekName = [NSString stringWithFormat:@"%@",[weekNameArray objectAtIndex:i]];
+        
+        NSMutableDictionary *weekDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:weekName,@"weekName",
+                                         @"0",@"choose",nil];
+        
+        [weekArray addObject:weekDict];
+        
+    }
+    
+    NSArray *typeNameArray = [[NSArray alloc] initWithObjects:@"World Measure",@"Measure",@"Medicine",@"Doctor",@"Custom", nil];
+    
+    for (int i=0; i<typeNameArray.count; i++) {
+        
+        NSString *typeName = [NSString stringWithFormat:@"%@",[typeNameArray objectAtIndex:i]];
+        
+        NSNumber *chooseType;
+        
+        if (i==0) {
+            chooseType = [NSNumber numberWithInt:1];
+        }else{
+            chooseType = [NSNumber numberWithInt:0];
+        }
+        
+        NSMutableDictionary *typeDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:typeName,@"typeName",
+                                         chooseType,@"choose",nil];
+        
+        [typeArray addObject:typeDict];
+    }
+    
+    tempDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:hourStr,@"hour",
+                                  minStr,@"min",
+                                  weekArray,@"week",
+                                  typeArray,@"type",
+                                  @"0",@"model",
+                                  @"0",@"status",
+                                  nil];
 
 }
 
@@ -41,38 +138,94 @@
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backButton];
     
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveReminder)];
+    
+    [saveButton setTintColor:[UIColor whiteColor]];
+    
+    self.navigationItem.rightBarButtonItem = saveButton;
+    
     if (isCreate) {
         self.navigationItem.title = @"Add reminder";
     }else{
         self.navigationItem.title = @"Edit reminder";
     }
     
-    UIPickerView *timePicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT*0.322)];
+    timePicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT*0.322)];
     timePicker.delegate = self;
     timePicker.dataSource = self;
-    
-    [timePicker selectRow:0 inComponent:0 animated:NO];
-    [timePicker selectRow:0 inComponent:1 animated:NO];
     
     [self.view addSubview:timePicker];
     
     UILabel *hourLabel = [[UILabel alloc] initWithFrame:CGRectMake(timePicker.frame.size.width/2-SCREEN_WIDTH*0.12/2, timePicker.frame.size.height/2-SCREEN_HEIGHT*0.06/2, SCREEN_WIDTH*0.12, SCREEN_HEIGHT*0.06)];
     hourLabel.text = @"hours";
-    hourLabel.font = [UIFont systemFontOfSize:18];
+    hourLabel.font = [UIFont systemFontOfSize:15];
     [timePicker addSubview:hourLabel];
     
     UILabel *minLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH*0.74, timePicker.frame.size.height/2-SCREEN_HEIGHT*0.06/2, SCREEN_WIDTH*0.126, SCREEN_HEIGHT*0.06)];
     minLabel.text = @"min";
-    minLabel.font = [UIFont systemFontOfSize:18];
+    minLabel.font = [UIFont systemFontOfSize:15];
     [timePicker addSubview:minLabel];
     
-    UITableView *settingTable = [[UITableView alloc] initWithFrame:CGRectMake(0, timePicker.frame.origin.y+timePicker.frame.size.height, SCREEN_WIDTH, SCREEN_HEIGHT*0.449) style:UITableViewStyleGrouped];
+    settingTable = [[UITableView alloc] initWithFrame:CGRectMake(0, timePicker.frame.origin.y+timePicker.frame.size.height, SCREEN_WIDTH, SCREEN_HEIGHT*0.8) style:UITableViewStyleGrouped];
     
     settingTable.delegate = self;
     settingTable.dataSource = self;
     settingTable.scrollEnabled = NO;
+    settingTable.backgroundColor = TABLE_BACKGROUND;
     
     [self.view addSubview:settingTable];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    int hourRow = [[tempDict objectForKey:@"hour"] intValue];
+    int minRow = [[tempDict objectForKey:@"min"] intValue];
+    
+    NSLog(@"hourRow = %d, minRow = %d",hourRow,minRow);
+    
+    [timePicker selectRow:hourRow inComponent:0 animated:NO];
+    [timePicker selectRow:minRow inComponent:1 animated:NO];
+    
+    [settingTable reloadData];
+}
+
+- (void)getCustomStr:(NSNotification*)notification
+{
+    [[typeArray objectAtIndex:4] setObject:notification.object forKey:@"typeName"];
+    
+}
+
+-(void)saveReminder{
+    
+    int hourInt = [[hourArray objectAtIndex:[timePicker selectedRowInComponent:0]] intValue];
+    
+    int minInt = [[minArray objectAtIndex:[timePicker selectedRowInComponent:1]] intValue];
+    
+    NSString *hourStr = [NSString stringWithFormat:@"%02d",hourInt];
+    
+    NSString *minStr = [NSString stringWithFormat:@"%02d",minInt];
+    
+    NSString *modelStr = [NSString stringWithFormat:@"%ld",(long)cellSegment.selectedSegmentIndex];
+
+    
+    [tempDict setValue:hourStr forKey:@"hour"];
+    [tempDict setValue:minStr forKey:@"min"];
+    [tempDict setValue:weekArray forKey:@"week"];
+    [tempDict setValue:typeArray forKey:@"type"];
+    [tempDict setValue:modelStr forKey:@"model"];
+    [tempDict setValue:@"1" forKey:@"status"];
+    
+    if (isCreate) {
+        [reminderArray addObject:tempDict];
+    }else{
+        [reminderArray replaceObjectAtIndex:self.alarmIndex withObject:tempDict];
+    }
+    
+    
+    [[LocalData sharedInstance] saveReminderData:reminderArray];
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    
 }
 
 #pragma mark - Table view delegate
@@ -89,10 +242,8 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-
-    static NSString *identifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier ];
+    UITableViewCell *cell;
     
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
@@ -106,11 +257,17 @@
     
     cell.textLabel.text = cellTitle;
     
-    UILabel *introLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-SCREEN_WIDTH*0.5-SCREEN_WIDTH*0.1, 0, SCREEN_WIDTH*0.5, 44)];
+    UILabel *introLabel;
+    
+    if (introLabel == nil) {
+        introLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-SCREEN_WIDTH*0.5-SCREEN_WIDTH*0.1, 0, SCREEN_WIDTH*0.5, 44)];
+        
+        [cell addSubview:introLabel];
+    }
     
     introLabel.textAlignment = NSTextAlignmentRight;
     introLabel.textColor = TEXT_COLOR;
-
+    introLabel.text = @"";
     
     UIImage *segmentBpImg = [self resizeImage:[UIImage imageNamed:@"reminder_btn_a_bp_0"]];
     UIImage *segmentWeImg = [self resizeImage:[UIImage imageNamed:@"reminder_btn_a_we_0"]];
@@ -122,11 +279,14 @@
                           segmentBtImg,
                           nil];
     
-    UISegmentedControl *cellSegment = [[UISegmentedControl alloc] initWithItems:itemArray];
+    [cellSegment removeFromSuperview];
+    
+    cellSegment = [[UISegmentedControl alloc] initWithItems:itemArray];
     
     cellSegment.frame = CGRectMake(self.view.frame.size.width-SCREEN_WIDTH*0.6-SCREEN_WIDTH*0.04, cell.frame.size.height/2-SCREEN_HEIGHT*0.044/2, SCREEN_WIDTH*0.6, SCREEN_HEIGHT*0.044);
     
-    cellSegment.selectedSegmentIndex = 0;
+    cellSegment.selectedSegmentIndex = [[tempDict objectForKey:@"model"] intValue];
+    
     cellSegment.tintColor = STANDER_COLOR;
     
     
@@ -136,48 +296,91 @@
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    if(indexPath.row == 0){
-        introLabel.text = @"Never";
-        [cell addSubview:introLabel];
+    switch (indexPath.row) {
+        case 0:{
+            
+            int repeatCount = 0;
+            
+            NSMutableArray *chooseWeek = [tempDict objectForKey:@"week"];
+            NSString *weekStr = @"";
+            
+            for (int i=0; i<chooseWeek.count; i++) {
+                
+                if([[[chooseWeek objectAtIndex:i] objectForKey:@"choose"] boolValue]){
+                    
+                    repeatCount++;
+                    
+                    if([weekStr isEqualToString:@""]){
+                        weekStr = [NSString stringWithFormat:@"%@",[[chooseWeek objectAtIndex:i] objectForKey:@"weekName"]];
+                    }else{
+                       weekStr = [weekStr stringByAppendingFormat:@", %@",[[chooseWeek objectAtIndex:i] objectForKey:@"weekName"]];
+                    }
+                    
+                }
+            }
+            
+            if (repeatCount == 0) {
+                weekStr = @"Never";
+            }
+            
+            if (repeatCount == 7) {
+                weekStr = @"Everyday";
+            }
+            
+            introLabel.text = weekStr;
+            
+         }
+            break;
+        
+        case 1:{
+            NSMutableArray *chooseType = [tempDict objectForKey:@"type"];
+            NSString *typeStr;
+            
+            for (int i=0; i<chooseType.count; i++) {
+                
+                if([[[chooseType objectAtIndex:i] objectForKey:@"choose"] boolValue]){
+                    typeStr = [[chooseType objectAtIndex:i] objectForKey:@"typeName"];
+                }
+            }
+            
+            introLabel.text = typeStr;
+            
+        }
+            
+            break;
+        
+        case 2:
+            
+            [cell addSubview:cellSegment];
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            break;
+        
+            
+        default:
+            break;
     }
     
-    if(indexPath.row == 1){
-        introLabel.text = @"World Measure";
-        [cell addSubview:introLabel];
-    }
-    
-    if (indexPath.row == 2) {
-        [cell addSubview:cellSegment];
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
     
     return  cell;
     
 }
 
--(UIImage *)resizeImage:(UIImage *)image{
-    
-//    CGRect rect = CGRectMake(0,0,SCREEN_HEIGHT*0.044,SCREEN_HEIGHT*0.044);
-//    UIGraphicsBeginImageContext( rect.size );
-//    [image drawInRect:rect];
-//    UIImage *picture1 = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    
-//    NSData *imageData = UIImagePNGRepresentation(picture1);
-//    UIImage *resizeeImg = [UIImage imageWithData:imageData];
-    
-    UIImage *originalImage = image;
-    UIImage *scaledImage =
-    [UIImage imageWithCGImage:[originalImage CGImage]
-                        scale:(originalImage.scale * self.imgScale)
-                  orientation:(originalImage.imageOrientation)];
-    
-    return scaledImage;
-}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    AlarmDetailViewController *detailVC = [[AlarmDetailViewController alloc] init];
+    
+    detailVC.listType = (int)indexPath.row;
+    
+    detailVC.reminderDict = tempDict;
+    detailVC.alarmIndex = self.alarmIndex;
+    
+    if (indexPath.row != 2) {
+        [self.navigationController pushViewController:detailVC animated:YES];
+    }
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     
 }
 
@@ -205,38 +408,6 @@
 
 }
 
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    NSMutableArray *hourArray = [NSMutableArray new];
-    NSMutableArray *minArray = [NSMutableArray new];
-    
-    for (int i=0; i<24; i++) {
-        
-        NSNumber *hourNum = [NSNumber numberWithInt:i];
-        
-        [hourArray addObject:hourNum];
-    }
-    
-    for (int i=0; i<60; i++) {
-        
-        NSNumber *minNum = [NSNumber numberWithInt:i];
-        
-        [minArray addObject:minNum];
-    }
-    
-    NSString *rowTitle;
-    
-    if(component == 0){
-        rowTitle = [NSString stringWithFormat:@"%02d",[[hourArray objectAtIndex:row] intValue]];
-    }
-    
-    if(component == 1){
-        rowTitle = [NSString stringWithFormat:@"%02d",[[minArray objectAtIndex:row] intValue]];
-    }
-
-    return rowTitle;
-}
-
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
 {
     UILabel* pickTitle = (UILabel*)view;
@@ -247,9 +418,6 @@
         pickTitle.textAlignment = NSTextAlignmentCenter;
         pickTitle.numberOfLines = 1;
     }
-    
-    NSMutableArray *hourArray = [NSMutableArray new];
-    NSMutableArray *minArray = [NSMutableArray new];
     
     for (int i=0; i<24; i++) {
         
@@ -277,6 +445,7 @@
     
     // Fill the label text here
     pickTitle.text = rowTitle;
+    
     return pickTitle;
 }
 
@@ -293,6 +462,7 @@
 
 #pragma mark - Navigation Delegate
 -(void)backToReminderVC{
+    
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

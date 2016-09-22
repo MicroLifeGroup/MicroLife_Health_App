@@ -54,6 +54,8 @@
 #define CIRCEL_RED ([UIColor colorWithRed:231.0/255.0 green:26.0/255.0 blue:15.0/255.0 alpha:1])
 
 #define DARKTEXT_COLOR ([UIColor colorWithRed:28.0/255.0 green:28.0/255.0 blue:28.0/255.0 alpha:1])
+
+#define TABLE_BACKGROUND ([UIColor colorWithRed:248.0/255.0 green:248.0/255.0 blue:248.0/255.0 alpha:1])
 //
 
 /******************/

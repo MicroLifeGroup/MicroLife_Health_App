@@ -51,13 +51,15 @@
 
 @synthesize chartDataArray,graphUnitLabel,lineIntroLabel,lineIntroImg,targetIntroLabel,targetIntroImg,normalIntroLabel,normalIntroImg,startTimeLabel,endTimeLabel,secNormalValue,normalValue,targetValue,secTargetValue,indicatorMode;
 
-- (id)initWithFrame:(CGRect)frame withChartType:(int)type;
+- (id)initWithFrame:(CGRect)frame withChartType:(int)type withDataCount:(NSInteger)count;
 {
     self = [super initWithFrame:frame];
     if (self) {
         
         self.chartType = type;
-        
+        dataCount = count;
+        NSLog(@"type = %d",type);
+        NSLog(@"count = %d",count);
         [self initParameter];
         [self initInterface];
     }
@@ -97,9 +99,6 @@
         tempDevided = 5;
         tempPlus = 25;
     }
-    
-    //測試用資料
-    
     
     int plusValue = 0;
     int devidedValue = 0;
@@ -146,7 +145,7 @@
     int maxValue = 0;
     int minValue = 280;
     
-    for (int i=0; i<31; i++) {
+    for (int i=0; i<dataCount; i++) {
         
         NSNumber *yValue = [NSNumber numberWithInteger:(arc4random() % devidedValue)+plusValue];
         
@@ -166,9 +165,6 @@
         
     }
     
-    NSLog(@"minValue = %d, maxValue = %d",minValue,maxValue);
-    
-    //
     
     maxValue += maxValue*0.1;
     minValue -= minValue*0.1;
@@ -180,8 +176,7 @@
             //chartMinValue = 20;
             chartMaxValue = maxValue;
             chartMinValue = minValue;
-            NSLog(@"chartMaxValue = %f",chartMaxValue);
-            NSLog(@"chartMaxValue = %f",chartMinValue);
+
             targetValue = 130;
             normalValue = 135;
             secNormalValue = 85;
@@ -191,24 +186,21 @@
             //PUL
             chartMaxValue = 200;
             chartMinValue = 40;
-            plusValue = 150;
-            devidedValue = 10;
+            
             targetValue = 75;
             break;
         case 2:
             //體重
             chartMaxValue = 150.0;
             chartMinValue = 5.0;
-            plusValue = 55;
-            devidedValue = 20;
+            
             targetValue = 60;
             break;
         case 3:
             //BMI
             chartMaxValue = 90;
             chartMinValue = 10;
-            plusValue = 20;
-            devidedValue = 10;
+            
             normalValue = 23;
             targetValue = 25;
             break;
@@ -217,8 +209,7 @@
             //FAT
             chartMaxValue = 60;
             chartMinValue = 5;
-            plusValue = 20;
-            devidedValue = 5;
+            
             normalValue = 24;
             targetValue = 9;
             break;
@@ -227,8 +218,7 @@
             chartMaxValue = 42.0;
             chartMinValue = 25.0;
             normalValue = 37.5;
-            plusValue= 35;
-            devidedValue = 5;
+            
             break;
             
         default:
@@ -237,7 +227,7 @@
 
     
     
-    dataXLength = chartDataArray.count-1;
+    dataXLength = dataCount-1;
     dataYLength = chartMaxValue-chartMinValue;
     
 }

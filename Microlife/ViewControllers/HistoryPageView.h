@@ -13,10 +13,12 @@
 
 @protocol HistoryPageViewDelegate <NSObject>
 
+//圖表觸控偵測
 -(void)GraphViewScrollBegin;
 -(void)GraphViewScrollEnd;
-
+//下方歷史列表
 -(void)showListButtonTapped:(UIView *)btnSnapShot;
+-(void)sendChartType:(int)type;
 
 @end
 
@@ -36,13 +38,13 @@
     UIButton *showListBtn;
     NSUInteger dateSegIndex;
     NSUInteger typSegIndex;
-    NSTimer *tapTimer;
-    BOOL canTap;
+    
+    //泡泡框大小
     float circelSize;
+    
     //血壓機按鈕
     UIButton *SYSBtn;
     UIButton *PULBtn;
-    
     UIButton *BPTimeBtn;
     int BPCurveTime; //0=all 1=am 2=pm
     
@@ -53,11 +55,15 @@
     NSMutableArray *weightBtnAry;
     GraphView *chart;
     
+    //體重狀態泡泡框
     StatusCircleView *weightCircle;
     StatusCircleView *lastTemp;
     StatusCircleView *avgTemp;
+    
     //體溫按鈕
     NSMutableArray *nameBtnAry;
+    
+    StatusCircleView *BPCircle;
 
 }
 
@@ -66,17 +72,27 @@
 @property (nonatomic, strong) UIView *curveControlBase;
 @property (nonatomic) int type;//0=BloodPressure 1=Weight 2=Temperature
 
+//設定時間segment
 -(void)setSegment:(NSArray *)array;
+//設定時間Label
 -(void)setTimeLabelTitle:(NSString *)title;
-//-(void)setCurveScrollContent:(UIScrollView *)scrollView withPages:(int)pages;
+
+//設定未測量日期
 -(void)setAbsentDaysText:(int)absentDays andFaceIcon:(UIImage *)iconImg;
 
+
+//初始血壓功能按鈕
 -(void)initBPCurveControlButton;
+//初始體重功能按鈕
 -(void)initWeightCurveControlButton;
+//初始體溫功能按鈕
 -(void)initTempCurveControlButtonWithArray:(NSMutableArray *)dataArray;
 
+//初始血壓泡泡框
 -(void)initBPHealthCircle;
+//初始體重泡泡框
 -(void)initWeightHealthCircle;
+//初始體溫泡泡框
 -(void)initTempHealthCircle;
 
 

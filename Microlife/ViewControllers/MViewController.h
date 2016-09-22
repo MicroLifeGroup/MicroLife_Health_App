@@ -29,4 +29,6 @@
 -(void)SidebarBtn;
 -(void)sidebarClose;
 
+-(UIImage *)resizeImage:(UIImage *)image;
+
 @end

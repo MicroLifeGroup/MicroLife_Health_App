@@ -13,6 +13,7 @@
 @interface MainReminderViewController ()<UITableViewDelegate, UITableViewDataSource>{
     
     UITableView *alarmTable;
+    NSMutableArray *reminderArray;
 }
 
 @end
@@ -32,6 +33,32 @@ static NSString *identifier = @"AlarmCell";
 
 -(void)initParameter{
     
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    reminderArray = [[LocalData sharedInstance] getReminderData];
+    
+    
+    if(alarmTable == nil){
+        alarmTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStyleGrouped];
+    }
+    
+    
+    alarmTable.delegate = self;
+    alarmTable.dataSource = self;
+    alarmTable.backgroundColor = TABLE_BACKGROUND;
+    
+    [self.view addSubview:alarmTable];
+    
+    if (reminderArray.count == 0) {
+        alarmTable.hidden = YES;
+    }else{
+        alarmTable.hidden = NO;
+    }
+    
+    [alarmTable reloadData];
 }
 
 -(void)initInterface{
@@ -46,7 +73,6 @@ static NSString *identifier = @"AlarmCell";
     [leftItemBt addTarget:self action:@selector(profileBtAction) forControlEvents:UIControlEventTouchUpInside];
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:leftItemBt];
-    
     
     float clockImgWidth = 303/self.imgScale;
     float clockImgHeight = 316/self.imgScale;
@@ -76,7 +102,9 @@ static NSString *identifier = @"AlarmCell";
     
     [self.view addSubview:reminderIntro];
     
-    UIButton *addAlarmBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2-SCREEN_WIDTH*0.2/2, reminderIntro.frame.origin.y+reminderIntro.frame.size.height+SCREEN_HEIGHT*0.029, SCREEN_WIDTH*0.2, SCREEN_WIDTH*0.2)];
+    float addAlarmBtnSize = 142/self.imgScale;
+    
+    UIButton *addAlarmBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2-SCREEN_WIDTH*0.2/2, reminderIntro.frame.origin.y+reminderIntro.frame.size.height+SCREEN_HEIGHT*0.029, addAlarmBtnSize, addAlarmBtnSize)];
 
     [addAlarmBtn setBackgroundImage:[UIImage imageNamed:@"overview_btn_a_add_m"] forState:UIControlStateNormal];
     
@@ -92,19 +120,19 @@ static NSString *identifier = @"AlarmCell";
     [navAddButton addTarget:self action:@selector(addAlarmAction) forControlEvents:UIControlEventTouchUpInside];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:navAddButton];
-    
-    alarmTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStyleGrouped];
-    
-    alarmTable.delegate = self;
-    alarmTable.dataSource = self;
-    
-    [self.view addSubview:alarmTable];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 3;
+    return reminderArray.count;
     
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+  
+    //section height 不得小於1，否則無法顯示
+    return 1;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -117,36 +145,89 @@ static NSString *identifier = @"AlarmCell";
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    CustomAlarmCell *alarmCell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    CustomAlarmCell *alarmCell;
     
     if (alarmCell == nil) {
         alarmCell = [[CustomAlarmCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     
-    if (indexPath.row == 0) {
-        alarmCell.iconImage.image = [UIImage imageNamed:@"reminder_icon_a_bp"];
-        alarmCell.typeTitle.text = @"BP";
-        alarmCell.timeLabel.text = @"08:12";
-        alarmCell.measureWeek.text = @"World Measure, Weekdays";
-        
+    int model = [[[reminderArray objectAtIndex:indexPath.row] objectForKey:@"model"] intValue];
+    
+    UIImage *modelImg;
+    NSString *typeText;
+    
+    switch (model) {
+        case 0:
+            modelImg = [UIImage imageNamed:@"reminder_icon_a_bp"];
+            typeText = @"BP";
+            break;
+            
+        case 1:
+            modelImg = [UIImage imageNamed:@"reminder_icon_a_we"];
+            typeText = @"Weight";
+            break;
+            
+        case 2:
+            modelImg = [UIImage imageNamed:@"reminder_icon_a_bt"];
+            typeText = @"Body Temp.";
+            break;
+            
+        default:
+            break;
     }
     
-    if (indexPath.row == 1) {
-        alarmCell.iconImage.image = [UIImage imageNamed:@"reminder_icon_a_we"];
-        alarmCell.typeTitle.text = @"Weight";
-        alarmCell.timeLabel.text = @"08:13";
-        alarmCell.measureWeek.text = @"World Measure, Weekdays";
+    NSLog(@"cell init reminderArray=%@",reminderArray);
+    
+    NSDictionary *dict = [reminderArray objectAtIndex:indexPath.row];
+    
+    NSString *alarmHour = [NSString stringWithFormat:@"%@",[dict objectForKey:@"hour"]];
+    
+    NSString *alarmMin = [NSString stringWithFormat:@"%@",[dict objectForKey:@"min"]];
+    
+    NSMutableArray *chooseWeek = [dict objectForKey:@"week"];
+    
+    NSString *weekStr = @"";
+    
+    for (int i=0; i<chooseWeek.count; i++) {
         
+        if([[[chooseWeek objectAtIndex:i] objectForKey:@"choose"] boolValue]){
+            weekStr = [weekStr stringByAppendingFormat:@"%@",[[chooseWeek objectAtIndex:i] objectForKey:@"weekName"]];
+            NSLog(@"VC weekStr = %@",weekStr);
+            
+        }
+    }
+
+    alarmCell.cellIndex = indexPath.row;
+    
+    NSMutableArray *chooseType = [dict objectForKey:@"type"];
+    
+    NSString *typeStr;
+    
+    for (int i=0; i<chooseType.count; i++) {
+        
+        if([[[chooseType objectAtIndex:i] objectForKey:@"choose"] boolValue]){
+            typeStr = [[chooseType objectAtIndex:i] objectForKey:@"typeName"];
+            
+        }
     }
     
-    if (indexPath.row == 2) {
-        alarmCell.iconImage.image = [UIImage imageNamed:@"reminder_icon_a_bt"];
-        alarmCell.typeTitle.text = @"Body Temp.";
-        alarmCell.timeLabel.text = @"08:14";
-        alarmCell.measureWeek.text = @"World Measure, Weekdays";
-        
+    BOOL switchOn = [[dict objectForKey:@"status"] boolValue];
+    
+    alarmCell.iconImage.image = modelImg;
+    alarmCell.typeTitle.text = typeText;
+    alarmCell.timeLabel.text = [NSString stringWithFormat:@"%@:%@",alarmHour,alarmMin];
+    
+    if ([weekStr isEqualToString:@""]) {
+        alarmCell.measureWeek.text = [NSString stringWithFormat:@"%@%@",typeStr,weekStr];
+    }else{
+       alarmCell.measureWeek.text = [NSString stringWithFormat:@"%@, %@",typeStr,weekStr];
     }
     
+    if(switchOn){
+        alarmCell.alarmSwitch.on = YES;
+    }else{
+        alarmCell.alarmSwitch.on = NO;
+    }
     
     return alarmCell;
     
@@ -159,8 +240,49 @@ static NSString *identifier = @"AlarmCell";
     SetAlarmViewController *setAlarmVC = [[SetAlarmViewController alloc] init];
     
     setAlarmVC.isCreate = NO;
+    setAlarmVC.alarmIndex = indexPath.row;
+
     
     [self.navigationController pushViewController:setAlarmVC animated:YES];
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        //remove the deleted object from your data source.
+        //If your data source is an NSMutableArray, do this
+        
+        [reminderArray removeObjectAtIndex:indexPath.row];
+        
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        
+        [[LocalData sharedInstance] saveReminderData:reminderArray];
+    
+        NSLog(@"Delete reminderArray %@",reminderArray);
+        
+        if(reminderArray.count == 0){
+            alarmTable.hidden = YES;
+        }
+        
+        /*
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
+        
+        UIAlertController *deleteAlert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Are you sure you want to delete the data?" , nil) message:@"" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            
+
+        }];
+        
+        [deleteAlert addAction:cancel];
+        [deleteAlert addAction:okAction];
+        */
+    }
+    
+    [self performSelector:@selector(reloadTableView) withObject:nil afterDelay:0.25];
+    
+}
+
+-(void)reloadTableView{
+    [alarmTable reloadData];
 }
 
 #pragma mark - Navigation Action
@@ -174,24 +296,21 @@ static NSString *identifier = @"AlarmCell";
     SetAlarmViewController *addReminderVC = [[SetAlarmViewController alloc] init];
     
     addReminderVC.isCreate = YES;
+    addReminderVC.alarmIndex = reminderArray.count+1;
     
     [self.navigationController pushViewController:addReminderVC animated:YES];
     
 }
 
--(void)editReminderAction{
-    
-    SetAlarmViewController *setAlarmVC = [[SetAlarmViewController alloc] init];
-    
-    setAlarmVC.isCreate = NO;
-    
-    [self.navigationController pushViewController:setAlarmVC animated:YES];
-}
-
 #pragma mark - profileBtAction (導覽列左邊按鍵方法)
 -(void)profileBtAction {
     
+    [alarmTable reloadData];
+    
+    NSLog(@"getReminderData %@",[[LocalData sharedInstance] getReminderData]);
+    NSLog(@"reminderArray %@",reminderArray);
     [self SidebarBtn];
+    
 }
 
 - (void)didReceiveMemoryWarning {
