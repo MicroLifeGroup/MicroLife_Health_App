@@ -559,7 +559,10 @@
 				TargetAttributes = {
 					CD221D3F1D41EA80004D3701 = {
 						CreatedOnToolsVersion = 7.3;
+<<<<<<< HEAD
 						DevelopmentTeam = HRMRU6B33Q;
+=======
+>>>>>>> 2127aad0497f67fd7d4e90115edede6dc6a35ffd
 					};
 					CD221D581D41EA81004D3701 = {
 						CreatedOnToolsVersion = 7.3;

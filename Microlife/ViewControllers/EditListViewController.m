@@ -179,7 +179,8 @@
 
     recordRedView.backgroundColor = CIRCEL_RED;
     recordRedView.layer.cornerRadius = recordRedView.frame.size.width/2;
-   
+    recordRedView.hidden = YES;
+    
     float scrollHeight = self.view.frame.size.height-actionBtnBase.frame.size.height-navHeight;
     
     noteScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, scrollHeight)];
@@ -210,10 +211,11 @@
     
     imagePicker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
     
-    
     recordView = [[UIView alloc] initWithFrame:CGRectMake(0, actionBtnBase.frame.origin.y-SCREEN_HEIGHT*0.063, SCREEN_WIDTH, SCREEN_HEIGHT*0.063)];
     
     recordView.backgroundColor = [UIColor colorWithRed:210.0/255.0 green:220.0/255.0 blue:238.0/255.0 alpha:1];
+    
+    recordView.hidden = YES;
     
     float recordIconSize = 66/self.imgScale;
     
@@ -316,7 +318,7 @@
     
     if (!isPlay) {
         isPlay = YES;
-        
+        playTimeLab.text = @"00:00";
         [playRecordBtn setImage:[UIImage imageNamed:@"history_icon_a_note_stop"] forState:UIControlStateNormal];
         
         [audioPlayer play];
@@ -338,12 +340,21 @@
 }
 
 -(void)deleteReocrd{
-      [audioPlayer stop];
+    
+    [playRecordBtn setImage:[UIImage imageNamed:@"history_icon_a_note_play"] forState:UIControlStateNormal];
+    [recordTimer invalidate];
+    recordView.hidden = YES;
+    [audioPlayer stop];
+    isPlay = NO;
     
     NSLog(@"deleteReocrd");
 }
 
 -(void)deleteImg{
+    
+    photoImage.image = nil;
+    deleteImgBtn.hidden = YES;
+    
     NSLog(@"deleteImg");
     
 }
@@ -376,7 +387,11 @@
     
     if ( gesture.state == UIGestureRecognizerStateBegan ) {
         NSLog(@"Long Press began");
+        [recordTimer invalidate];
         isRecord = YES;
+        recordView.hidden = YES;
+        recordRedView.hidden = NO;
+        recordTimeLab.text = @"00:00";
         AVAudioSession *session = [AVAudioSession sharedInstance];
         [session setActive:YES error:nil];
         
@@ -437,6 +452,7 @@
     int recordSec;
     
     if (isRecord) {
+        
         recordMin = audioRecoder.currentTime/60;
         recordSec = audioRecoder.currentTime-recordMin*60;
         
@@ -449,21 +465,30 @@
     }else{
         recordMin = audioPlayer.currentTime/60;
         recordSec = audioPlayer.currentTime-recordMin*60;
+        
         playTimeLab.text = [NSString stringWithFormat:@"%02d:%02d",recordMin,recordSec];
         NSLog(@"playTimeLab = %@",playTimeLab.text);
     }
-    
-    
-    
-    
     
 }
 
 - (void) audioRecorderDidFinishRecording:(AVAudioRecorder *)avrecorder successfully:(BOOL)flag{
     
+    playTimeLab.text = recordTimeStr;
+    recordView.hidden = NO;
+    recordRedView.hidden = YES;
+    recordTimeLab.text = @"";
     NSLog(@"flag = %d",flag);
 }
 
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
+{
+    playTimeLab.text = recordTimeStr;
+    [playRecordBtn setImage:[UIImage imageNamed:@"history_icon_a_note_play"] forState:UIControlStateNormal];
+    [recordTimer invalidate];
+    isPlay = NO;
+    NSLog(@"audioPlayerDidFinishPlaying");
+}
 
 #pragma mark - Photo delegate
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
