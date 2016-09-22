@@ -13,7 +13,6 @@
 @interface MainHistoryViewController ()<UINavigationControllerDelegate, UIScrollViewDelegate,HistoryPageViewDelegate,HistoryListDelegate>{
     UIPageControl *pageControl;
     HistoryListTableView *listsView;
-    int listType;
 
 }
 
@@ -191,17 +190,13 @@
     }
 }
 
--(void)sendChartType:(int)type{
-    listType = type;
-}
-
 #pragma mark - HistoryPageView Delegate
 -(void)showListButtonTapped:(UIView *)btnSnapShot{
     
     [listsView removeFromSuperview];
     
     listsView = [[HistoryListTableView alloc] initWithFrame:CGRectMake(0, self.tabBarController.tabBar.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height)];
-    listsView.listType = listType;
+    listsView.listType = pageControl.currentPage;
     listsView.delegate = self;
     [listsView.hideListBtn addSubview:btnSnapShot];
     

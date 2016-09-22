@@ -154,7 +154,7 @@
     UIView *btnSnapShot = [self snapshotViewWithInputView:showListBtn];
     
     [self.delegate showListButtonTapped:btnSnapShot];
-    [self.delegate sendChartType:self.type];
+
 }
 
 -(void)createChart:(int)chartType{
