@@ -507,7 +507,6 @@
 				TargetAttributes = {
 					CD221D3F1D41EA80004D3701 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 45ZW733CY8;
 					};
 					CD221D581D41EA81004D3701 = {
 						CreatedOnToolsVersion = 7.3;
