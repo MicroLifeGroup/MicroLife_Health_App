@@ -24,7 +24,7 @@
 #import "OverWeightTableViewCell.h"
 #import "OverTempTableViewCell.h"
 
-
+#import "GraphView.h"
 
 @interface MainOverviewViewController () <UITableViewDelegate,UITableViewDataSource> {
     
@@ -147,8 +147,6 @@
     //產生模糊畫面
     //----------------------------------
     UIView *blurView;
-    
-    
     
 }
 
@@ -603,6 +601,7 @@
     [bloodPressureView addSubview:bpRainbowBarBt];
     
 }
+
 
 #pragma mark - sysDia and pul CurveBt Action
 -(void)sysDiaAndPulCurveBtAction:(UIButton *)sender {
