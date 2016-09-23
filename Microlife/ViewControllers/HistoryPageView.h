@@ -18,7 +18,6 @@
 -(void)GraphViewScrollEnd;
 //下方歷史列表
 -(void)showListButtonTapped:(UIView *)btnSnapShot;
--(void)sendChartType:(int)type;
 
 @end
 

@@ -272,7 +272,7 @@
 - (void)keyboardWillShow:(NSNotification *)notification {
     keyboardHeight = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;
     
-    actionBtnBase.frame = CGRectMake(0, actionBtnBase.frame.origin.y-keyboardHeight-actionBtnBase.frame.size.height, actionBtnBase.frame.size.width, actionBtnBase.frame.size.height);
+    actionBtnBase.frame = CGRectMake(0, actionBtnBase.frame.origin.y-keyboardHeight, actionBtnBase.frame.size.width, actionBtnBase.frame.size.height);
     
     recordView.frame = CGRectMake(0, actionBtnBase.frame.origin.y-recordView.frame.size.height, recordView.frame.size.width, recordView.frame.size.height);
 }
@@ -315,6 +315,7 @@
 
     audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:audioRecoder.url error:nil];
     [audioPlayer setDelegate:self];
+    
     
     if (!isPlay) {
         isPlay = YES;
@@ -385,13 +386,16 @@
     
     CGRect circleFrame = CGRectMake(recordBtn.center.x-recordCircelSize/2, recordBtn.center.y-recordCircelSize/2, recordCircelSize, recordCircelSize);
     
+    UIImageView *whiteMicro;
+    
     if ( gesture.state == UIGestureRecognizerStateBegan ) {
         NSLog(@"Long Press began");
         [recordTimer invalidate];
         isRecord = YES;
         recordView.hidden = YES;
         recordRedView.hidden = NO;
-        recordTimeLab.text = @"00:00";
+        recordTimeStr = @"00:00";
+        recordTimeLab.text = recordTimeStr;
         AVAudioSession *session = [AVAudioSession sharedInstance];
         [session setActive:YES error:nil];
         
@@ -401,25 +405,29 @@
         recordTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(trackRecordTime) userInfo:nil repeats:YES];
         
         animateBase = [[UIImageView alloc] initWithFrame:circleFrame];
-        
         animateBase.image = [UIImage imageNamed:@"history_ef_a_1"];
         
-        
         animateView = [[UIImageView alloc] initWithFrame:circleFrame];
-        
         animateView.image = [UIImage imageNamed:@"history_ef_a_2"];
         
+        float whiteMicroWidth = 26/self.imgScale;
+        float whiteMicroHeight = 47/self.imgScale;
         
+        whiteMicro = [[UIImageView alloc] initWithFrame:CGRectMake(animateBase.frame.size.width/2-whiteMicroWidth/2, animateBase.frame.size.height/2-whiteMicroHeight/2, whiteMicroWidth, whiteMicroHeight)];
+        
+        whiteMicro.image = [UIImage imageNamed:@"history_icon_a_rec_1"];
+
         [actionBtnBase addSubview:animateBase];
         [actionBtnBase addSubview:animateView];
         [actionBtnBase bringSubviewToFront:animateBase];
         [actionBtnBase bringSubviewToFront:animateView];
+        [animateBase addSubview:whiteMicro];
         
         //UIViewKeyframeAnimationOptionAutoreverse |
         
         [UIView animateKeyframesWithDuration:2.0 delay:0.0 options: UIViewKeyframeAnimationOptionRepeat animations:^{
             [UIView addKeyframeWithRelativeStartTime:0.0 relativeDuration:0.2 animations:^{
-                animateBase.alpha = 1;
+                
                 animateView.transform =  CGAffineTransformMakeScale(1.5, 1.5);
             }];
             [UIView addKeyframeWithRelativeStartTime:0.2 relativeDuration:0.2 animations:^{
@@ -440,7 +448,7 @@
         
         [animateBase removeFromSuperview];
         [animateView removeFromSuperview];
-        
+        [whiteMicro removeFromSuperview];
         animateBase.hidden = YES;
         animateView.hidden = YES;
     }
@@ -473,6 +481,10 @@
 }
 
 - (void) audioRecorderDidFinishRecording:(AVAudioRecorder *)avrecorder successfully:(BOOL)flag{
+    
+    if ([recordTimeStr isEqualToString:@""] || recordTimeStr == nil) {
+        recordTimeStr = @"00:00";
+    }
     
     playTimeLab.text = recordTimeStr;
     recordView.hidden = NO;
