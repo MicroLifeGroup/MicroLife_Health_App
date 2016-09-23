@@ -22,7 +22,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
     if (self) {
-        NSLog(@"a");
         // Initialization code
         
         NSArray *arrayOfViews = [[NSBundle mainBundle] loadNibNamed:@"BPTableViewCell" owner:self options:nil];
