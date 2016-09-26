@@ -22,7 +22,7 @@
 
 @property (nonatomic, strong) UITableView *historyList;
 @property (nonatomic, strong) UIView *hideListBtn;
-@property (nonatomic) int listType;
+@property (nonatomic) NSInteger listType;
 @property (weak) id<HistoryListDelegate> delegate;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "MViewController.h"
 
-@interface MainOverviewViewController : MViewController
+@interface MainOverviewViewController : MViewController <UIScrollViewDelegate>
+
 
 @end

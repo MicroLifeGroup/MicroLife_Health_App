@@ -13,8 +13,7 @@
 @interface MainHistoryViewController ()<UINavigationControllerDelegate, UIScrollViewDelegate,HistoryPageViewDelegate,HistoryListDelegate>{
     UIPageControl *pageControl;
     HistoryListTableView *listsView;
-    int listType;
-
+    UIImageView *titleImgView;
 }
 
 @end
@@ -59,6 +58,8 @@
     [contentScroll setShowsVerticalScrollIndicator:NO];
     [contentScroll setScrollsToTop:NO];
     [contentScroll setDelegate:self];
+    
+    [self setNavigationImage];
     
     CGFloat width, height;
     width = contentScroll.frame.size.width;
@@ -125,6 +126,36 @@
     
 }
 
+-(void)setNavigationImage{
+    
+    UIImage *titleImg;
+    
+    switch (pageControl.currentPage) {
+        case 0:
+            titleImg = [UIImage imageNamed:@"history_icon_a_bpm"];
+            break;
+            
+        case 1:
+            titleImg = [UIImage imageNamed:@"history_icon_a_ws"];
+            break;
+            
+        case 2:
+            titleImg = [UIImage imageNamed:@"history_icon_a_ncfr"];
+            break;
+            
+        default:
+            break;
+    }
+    
+    titleImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    titleImgView.image = titleImg;
+    
+    titleImgView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    self.navigationItem.titleView = titleImgView;
+    
+}
+
 -(void)setNavgationTitle{
     
     //***********  navigationController 相關初始化設定  **********
@@ -137,6 +168,7 @@
     //改變 statusBarStyle(字體變白色)
     //先將 info.plist 中的 View controller-based status bar appearance 設為 NO
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+
     
     //設定leftBarButtonItem(profileBt)
     UIButton *leftItemBt = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.height, self.navigationController.navigationBar.frame.size.height)];
@@ -187,12 +219,8 @@
         NSInteger currentPage = ((scrollView.contentOffset.x - width / 2) / width) + 1;
         
         [pageControl setCurrentPage:currentPage];
-        
+        [self setNavigationImage];
     }
-}
-
--(void)sendChartType:(int)type{
-    listType = type;
 }
 
 #pragma mark - HistoryPageView Delegate
@@ -201,7 +229,7 @@
     [listsView removeFromSuperview];
     
     listsView = [[HistoryListTableView alloc] initWithFrame:CGRectMake(0, self.tabBarController.tabBar.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height)];
-    listsView.listType = listType;
+    listsView.listType = pageControl.currentPage;
     listsView.delegate = self;
     [listsView.hideListBtn addSubview:btnSnapShot];
     

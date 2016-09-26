@@ -226,7 +226,7 @@
     }
 
     
-    
+    //MARK:計算資料範圍值
     dataXLength = dataCount-1;
     dataYLength = chartMaxValue-chartMinValue;
     
@@ -439,6 +439,8 @@
     chartBottomWidth = SCREEN_HEIGHT*0.044;
     chartRightWidth = SCREEN_WIDTH*0.04;
     
+    
+    //MARK:計算比例
     xScaleSize = (self.frame.size.width-chartLeftWidth-chartRightWidth)/dataXLength;
     yScaleSize = (self.frame.size.height-chartTopWidth-chartBottomWidth)/dataYLength;
     
@@ -652,7 +654,7 @@
         CGContextStrokePath(targetLine);
     }
     
-    //圖表範圍
+    //MARK:圖表範圍
     
     CGContextRef graphContext = UIGraphicsGetCurrentContext();
     CGContextSetRGBStrokeColor(graphContext, 0.0, 61.0/255.0, 165.0/255.0, 1);
