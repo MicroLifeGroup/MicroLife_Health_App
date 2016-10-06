@@ -6,25 +6,15 @@
 //  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
 
-#import "FMDatabase.h"
-#import "FMDatabaseAdditions.h"
-#import "FMDatabasePool.h"
-#import "FMDatabaseQueue.h"
+#import "SQLiteClass.h"
 
-
-@interface DataBaseClass : NSObject
+@interface DataBaseClass : SQLiteClass
 {
-    FMDatabase *database;
+    
 }
 
-- (BOOL)openDatabase;
-- (void)closeDatabase;
+@property int TotalUsers;
 
 - (id)initWithOpenDataBase;
 - (NSString *)ArrayToString:(NSMutableArray *)Array;//
--(NSString*)getAppNowDateTime;//yyyyMMdd HH:mm:ss
--(NSString*)getCurrentUserAccount;
-
-
-
 @end

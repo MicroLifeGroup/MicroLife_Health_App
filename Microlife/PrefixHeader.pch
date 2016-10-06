@@ -26,6 +26,12 @@
 #import "StyleCommon.h"
 #import "LocalData.h"
 
+//Database
+#import "BPMClass.h"
+#import "WeightClass.h"
+#import "EventClass.h"
+#import "BTClass.h"
+
 #endif
 
 #endif /* PrefixHeader_pch */

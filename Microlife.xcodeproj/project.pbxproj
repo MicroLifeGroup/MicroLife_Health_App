@@ -25,9 +25,6 @@
 		CD221D771D41EAA1004D3701 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD221D761D41EAA1004D3701 /* libsqlite3.tbd */; };
 		CD221D7E1D41EAD0004D3701 /* CheckNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D7B1D41EAD0004D3701 /* CheckNetwork.m */; };
 		CD221D7F1D41EAD0004D3701 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D7D1D41EAD0004D3701 /* Reachability.m */; };
-		CD221D871D41EAD9004D3701 /* DataBaseClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D821D41EAD9004D3701 /* DataBaseClass.m */; };
-		CD221D881D41EAD9004D3701 /* SystemConfigClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D841D41EAD9004D3701 /* SystemConfigClass.m */; };
-		CD221D891D41EAD9004D3701 /* UserManagerClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D861D41EAD9004D3701 /* UserManagerClass.m */; };
 		CD221D8D1D41EAE4004D3701 /* MViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D8C1D41EAE4004D3701 /* MViewController.m */; };
 		CD221D991D41EAEF004D3701 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D901D41EAEF004D3701 /* FMDatabase.m */; };
 		CD221D9A1D41EAEF004D3701 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D921D41EAEF004D3701 /* FMDatabaseAdditions.m */; };
@@ -51,6 +48,11 @@
 		CD621E9D1D76E1D4006AF5F1 /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD621E9A1D76E1D4006AF5F1 /* AccountKit.framework */; };
 		CD621E9F1D76E1EB006AF5F1 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD621E9E1D76E1EB006AF5F1 /* SafariServices.framework */; };
 		CD621EA11D76E1F5006AF5F1 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD621EA01D76E1F5006AF5F1 /* Accounts.framework */; };
+		CD641FE21DA5F2F6002843CA /* BPMClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FE11DA5F2F6002843CA /* BPMClass.m */; };
+		CD641FE51DA5FBA4002843CA /* WeightClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FE41DA5FBA4002843CA /* WeightClass.m */; };
+		CD641FE81DA60604002843CA /* EventClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FE71DA60604002843CA /* EventClass.m */; };
+		CD641FEB1DA636B6002843CA /* BTClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FEA1DA636B6002843CA /* BTClass.m */; };
+		CD641FEF1DA641BA002843CA /* BLEDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FEE1DA641BA002843CA /* BLEDataClass.m */; };
 		CD6B939A1D829EEC00AB6018 /* AlarmDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B93991D829EEC00AB6018 /* AlarmDetailViewController.m */; };
 		CD6B939E1D82B47300AB6018 /* LocalData.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B939D1D82B47300AB6018 /* LocalData.m */; };
 		CD6F7D7F1D7D6840002A8CCE /* SetAlarmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6F7D7E1D7D6840002A8CCE /* SetAlarmViewController.m */; };
@@ -78,6 +80,15 @@
 		CD8E42291D48523300A8695B /* HistoryPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8E42281D48523300A8695B /* HistoryPageView.m */; };
 		CD93A6C31D79975900292B83 /* CustomAlarmCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD93A6C11D79975900292B83 /* CustomAlarmCell.m */; };
 		CD93A6C41D79975900292B83 /* CustomAlarmCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD93A6C21D79975900292B83 /* CustomAlarmCell.xib */; };
+		CDAFD5971DA37BA30021262D /* GoogleAppUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDAFD5901DA37BA30021262D /* GoogleAppUtilities.framework */; };
+		CDAFD5981DA37BA30021262D /* GoogleAuthUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDAFD5911DA37BA30021262D /* GoogleAuthUtilities.framework */; };
+		CDAFD5991DA37BA30021262D /* GoogleNetworkingUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDAFD5921DA37BA30021262D /* GoogleNetworkingUtilities.framework */; };
+		CDAFD59A1DA37BA30021262D /* GoogleSignIn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CDAFD5931DA37BA30021262D /* GoogleSignIn.bundle */; };
+		CDAFD59B1DA37BA30021262D /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDAFD5941DA37BA30021262D /* GoogleSignIn.framework */; };
+		CDAFD59C1DA37BA30021262D /* GoogleSymbolUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDAFD5951DA37BA30021262D /* GoogleSymbolUtilities.framework */; };
+		CDAFD59D1DA37BA30021262D /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDAFD5961DA37BA30021262D /* GoogleUtilities.framework */; };
+		CDAFD5A01DA3945B0021262D /* SQLiteClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CDAFD59F1DA3945B0021262D /* SQLiteClass.m */; };
+		CDAFD5A61DA3948E0021262D /* DataBaseClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CDAFD5A41DA3948E0021262D /* DataBaseClass.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,12 +142,6 @@
 		CD221D7B1D41EAD0004D3701 /* CheckNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckNetwork.m; sourceTree = "<group>"; };
 		CD221D7C1D41EAD0004D3701 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		CD221D7D1D41EAD0004D3701 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		CD221D811D41EAD9004D3701 /* DataBaseClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataBaseClass.h; sourceTree = "<group>"; };
-		CD221D821D41EAD9004D3701 /* DataBaseClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataBaseClass.m; sourceTree = "<group>"; };
-		CD221D831D41EAD9004D3701 /* SystemConfigClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemConfigClass.h; sourceTree = "<group>"; };
-		CD221D841D41EAD9004D3701 /* SystemConfigClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemConfigClass.m; sourceTree = "<group>"; };
-		CD221D851D41EAD9004D3701 /* UserManagerClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserManagerClass.h; sourceTree = "<group>"; };
-		CD221D861D41EAD9004D3701 /* UserManagerClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserManagerClass.m; sourceTree = "<group>"; };
 		CD221D8B1D41EAE4004D3701 /* MViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MViewController.h; sourceTree = "<group>"; };
 		CD221D8C1D41EAE4004D3701 /* MViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MViewController.m; sourceTree = "<group>"; };
 		CD221D8F1D41EAEF004D3701 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
@@ -181,6 +186,16 @@
 		CD621E9A1D76E1D4006AF5F1 /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AccountKit.framework; sourceTree = "<group>"; };
 		CD621E9E1D76E1EB006AF5F1 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		CD621EA01D76E1F5006AF5F1 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		CD641FE01DA5F2F6002843CA /* BPMClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BPMClass.h; sourceTree = "<group>"; };
+		CD641FE11DA5F2F6002843CA /* BPMClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BPMClass.m; sourceTree = "<group>"; };
+		CD641FE31DA5FBA4002843CA /* WeightClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeightClass.h; sourceTree = "<group>"; };
+		CD641FE41DA5FBA4002843CA /* WeightClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeightClass.m; sourceTree = "<group>"; };
+		CD641FE61DA60604002843CA /* EventClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventClass.h; sourceTree = "<group>"; };
+		CD641FE71DA60604002843CA /* EventClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventClass.m; sourceTree = "<group>"; };
+		CD641FE91DA636B6002843CA /* BTClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTClass.h; sourceTree = "<group>"; };
+		CD641FEA1DA636B6002843CA /* BTClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTClass.m; sourceTree = "<group>"; };
+		CD641FED1DA641BA002843CA /* BLEDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEDataClass.h; sourceTree = "<group>"; };
+		CD641FEE1DA641BA002843CA /* BLEDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLEDataClass.m; sourceTree = "<group>"; };
 		CD6B93981D829EEC00AB6018 /* AlarmDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmDetailViewController.h; sourceTree = "<group>"; };
 		CD6B93991D829EEC00AB6018 /* AlarmDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmDetailViewController.m; sourceTree = "<group>"; };
 		CD6B939C1D82B47300AB6018 /* LocalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalData.h; sourceTree = "<group>"; };
@@ -231,6 +246,17 @@
 		CD93A6C01D79975900292B83 /* CustomAlarmCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAlarmCell.h; sourceTree = "<group>"; };
 		CD93A6C11D79975900292B83 /* CustomAlarmCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAlarmCell.m; sourceTree = "<group>"; };
 		CD93A6C21D79975900292B83 /* CustomAlarmCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomAlarmCell.xib; sourceTree = "<group>"; };
+		CDAFD5901DA37BA30021262D /* GoogleAppUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAppUtilities.framework; sourceTree = "<group>"; };
+		CDAFD5911DA37BA30021262D /* GoogleAuthUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAuthUtilities.framework; sourceTree = "<group>"; };
+		CDAFD5921DA37BA30021262D /* GoogleNetworkingUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleNetworkingUtilities.framework; sourceTree = "<group>"; };
+		CDAFD5931DA37BA30021262D /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleSignIn.bundle; sourceTree = "<group>"; };
+		CDAFD5941DA37BA30021262D /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignIn.framework; sourceTree = "<group>"; };
+		CDAFD5951DA37BA30021262D /* GoogleSymbolUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSymbolUtilities.framework; sourceTree = "<group>"; };
+		CDAFD5961DA37BA30021262D /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleUtilities.framework; sourceTree = "<group>"; };
+		CDAFD59E1DA3945B0021262D /* SQLiteClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLiteClass.h; sourceTree = "<group>"; };
+		CDAFD59F1DA3945B0021262D /* SQLiteClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLiteClass.m; sourceTree = "<group>"; };
+		CDAFD5A41DA3948E0021262D /* DataBaseClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataBaseClass.m; sourceTree = "<group>"; };
+		CDAFD5A51DA3948E0021262D /* DataBaseClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataBaseClass.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,12 +264,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDAFD5991DA37BA30021262D /* GoogleNetworkingUtilities.framework in Frameworks */,
 				CD621EA11D76E1F5006AF5F1 /* Accounts.framework in Frameworks */,
+				CDAFD59B1DA37BA30021262D /* GoogleSignIn.framework in Frameworks */,
+				CDAFD5981DA37BA30021262D /* GoogleAuthUtilities.framework in Frameworks */,
 				CD621E9F1D76E1EB006AF5F1 /* SafariServices.framework in Frameworks */,
+				CDAFD5971DA37BA30021262D /* GoogleAppUtilities.framework in Frameworks */,
+				CDAFD59C1DA37BA30021262D /* GoogleSymbolUtilities.framework in Frameworks */,
 				CD621E9B1D76E1D4006AF5F1 /* FBSDKLoginKit.framework in Frameworks */,
 				CD621E9D1D76E1D4006AF5F1 /* AccountKit.framework in Frameworks */,
 				CD621E9C1D76E1D4006AF5F1 /* FBSDKCoreKit.framework in Frameworks */,
 				CD221D771D41EAA1004D3701 /* libsqlite3.tbd in Frameworks */,
+				CDAFD59D1DA37BA30021262D /* GoogleUtilities.framework in Frameworks */,
 				CD8703201D76E83A00CC570F /* Bolts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -299,6 +331,7 @@
 		CD221D421D41EA80004D3701 /* Microlife */ = {
 			isa = PBXGroup;
 			children = (
+				CD641FEC1DA640A1002843CA /* BLEDataClass */,
 				CD6B939B1D82B40A00AB6018 /* LocalData */,
 				CD221D791D41EAD0004D3701 /* CheckNetwork */,
 				CD221D801D41EAD9004D3701 /* SQLLite */,
@@ -348,6 +381,13 @@
 		CD221D781D41EAAF004D3701 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CDAFD5901DA37BA30021262D /* GoogleAppUtilities.framework */,
+				CDAFD5911DA37BA30021262D /* GoogleAuthUtilities.framework */,
+				CDAFD5921DA37BA30021262D /* GoogleNetworkingUtilities.framework */,
+				CDAFD5931DA37BA30021262D /* GoogleSignIn.bundle */,
+				CDAFD5941DA37BA30021262D /* GoogleSignIn.framework */,
+				CDAFD5951DA37BA30021262D /* GoogleSymbolUtilities.framework */,
+				CDAFD5961DA37BA30021262D /* GoogleUtilities.framework */,
 				CD87031F1D76E83A00CC570F /* Bolts.framework */,
 				CD621EA01D76E1F5006AF5F1 /* Accounts.framework */,
 				CD621E9E1D76E1EB006AF5F1 /* SafariServices.framework */,
@@ -373,12 +413,18 @@
 		CD221D801D41EAD9004D3701 /* SQLLite */ = {
 			isa = PBXGroup;
 			children = (
-				CD221D811D41EAD9004D3701 /* DataBaseClass.h */,
-				CD221D821D41EAD9004D3701 /* DataBaseClass.m */,
-				CD221D831D41EAD9004D3701 /* SystemConfigClass.h */,
-				CD221D841D41EAD9004D3701 /* SystemConfigClass.m */,
-				CD221D851D41EAD9004D3701 /* UserManagerClass.h */,
-				CD221D861D41EAD9004D3701 /* UserManagerClass.m */,
+				CDAFD59E1DA3945B0021262D /* SQLiteClass.h */,
+				CDAFD59F1DA3945B0021262D /* SQLiteClass.m */,
+				CDAFD5A51DA3948E0021262D /* DataBaseClass.h */,
+				CDAFD5A41DA3948E0021262D /* DataBaseClass.m */,
+				CD641FE01DA5F2F6002843CA /* BPMClass.h */,
+				CD641FE11DA5F2F6002843CA /* BPMClass.m */,
+				CD641FE31DA5FBA4002843CA /* WeightClass.h */,
+				CD641FE41DA5FBA4002843CA /* WeightClass.m */,
+				CD641FE61DA60604002843CA /* EventClass.h */,
+				CD641FE71DA60604002843CA /* EventClass.m */,
+				CD641FE91DA636B6002843CA /* BTClass.h */,
+				CD641FEA1DA636B6002843CA /* BTClass.m */,
 			);
 			path = SQLLite;
 			sourceTree = "<group>";
@@ -524,6 +570,15 @@
 			name = User;
 			sourceTree = "<group>";
 		};
+		CD641FEC1DA640A1002843CA /* BLEDataClass */ = {
+			isa = PBXGroup;
+			children = (
+				CD641FED1DA641BA002843CA /* BLEDataClass.h */,
+				CD641FEE1DA641BA002843CA /* BLEDataClass.m */,
+			);
+			name = BLEDataClass;
+			sourceTree = "<group>";
+		};
 		CD6B939B1D82B40A00AB6018 /* LocalData */ = {
 			isa = PBXGroup;
 			children = (
@@ -656,6 +711,7 @@
 				CD763CC91D93E0DE000726F3 /* BodyTempTableViewCell.xib in Resources */,
 				CD21FD5F1D8F93C0009BC8CF /* BPTableViewCell.xib in Resources */,
 				CD763CC11D93AE36000726F3 /* WeightTableViewCell.xib in Resources */,
+				CDAFD59A1DA37BA30021262D /* GoogleSignIn.bundle in Resources */,
 				CD93A6C41D79975900292B83 /* CustomAlarmCell.xib in Resources */,
 				CD221D531D41EA80004D3701 /* LaunchScreen.storyboard in Resources */,
 				CD221D501D41EA80004D3701 /* Assets.xcassets in Resources */,
@@ -687,12 +743,15 @@
 				CD87033A1D76F62400CC570F /* LogoutViewController.m in Sources */,
 				CD221DD71D41F460004D3701 /* MainSettingViewController.m in Sources */,
 				CD221D4B1D41EA80004D3701 /* ViewController.m in Sources */,
+				CD641FE51DA5FBA4002843CA /* WeightClass.m in Sources */,
 				CD763CDA1D94121E000726F3 /* OverBPTableViewCell.m in Sources */,
 				CD212A691D758136007E53A0 /* HistoryListTableView.m in Sources */,
 				CD1F87721D49F56D00A44074 /* StatusCircleView.m in Sources */,
+				CD641FE81DA60604002843CA /* EventClass.m in Sources */,
 				CD763CC81D93E0DE000726F3 /* BodyTempTableViewCell.m in Sources */,
 				CD6F7D7F1D7D6840002A8CCE /* SetAlarmViewController.m in Sources */,
 				CD8E42291D48523300A8695B /* HistoryPageView.m in Sources */,
+				CDAFD5A61DA3948E0021262D /* DataBaseClass.m in Sources */,
 				CD221D9B1D41EAEF004D3701 /* FMDatabasePool.m in Sources */,
 				CD221D9D1D41EAEF004D3701 /* FMResultSet.m in Sources */,
 				CD221D7E1D41EAD0004D3701 /* CheckNetwork.m in Sources */,
@@ -700,11 +759,10 @@
 				CD221D8D1D41EAE4004D3701 /* MViewController.m in Sources */,
 				CD93A6C31D79975900292B83 /* CustomAlarmCell.m in Sources */,
 				CD221D9C1D41EAEF004D3701 /* FMDatabaseQueue.m in Sources */,
+				CD641FEB1DA636B6002843CA /* BTClass.m in Sources */,
 				CD221D991D41EAEF004D3701 /* FMDatabase.m in Sources */,
 				CD221D481D41EA80004D3701 /* AppDelegate.m in Sources */,
 				CD87032B1D76ED0A00CC570F /* RegisterViewController.m in Sources */,
-				CD221D871D41EAD9004D3701 /* DataBaseClass.m in Sources */,
-				CD221D881D41EAD9004D3701 /* SystemConfigClass.m in Sources */,
 				CD221DCD1D41F102004D3701 /* MainHistoryViewController.m in Sources */,
 				CD763CE81D941239000726F3 /* BloodPressurePickerView.m in Sources */,
 				CD221DD01D41F22A004D3701 /* MainOverviewViewController.m in Sources */,
@@ -714,10 +772,13 @@
 				CD763CEA1D941239000726F3 /* OverViewCircleView.m in Sources */,
 				CD221DBE1D41ED94004D3701 /* SFCommonCalendar.m in Sources */,
 				CD763CED1D941239000726F3 /* TimePickerView.m in Sources */,
+				CDAFD5A01DA3945B0021262D /* SQLiteClass.m in Sources */,
 				CD221D9A1D41EAEF004D3701 /* FMDatabaseAdditions.m in Sources */,
 				CD221DBF1D41ED94004D3701 /* ShareCommon.m in Sources */,
 				CD763CC01D93AE36000726F3 /* WeightTableViewCell.m in Sources */,
+				CD641FE21DA5F2F6002843CA /* BPMClass.m in Sources */,
 				CD763CF01D94124B000726F3 /* OverTempTableViewCell.m in Sources */,
+				CD641FEF1DA641BA002843CA /* BLEDataClass.m in Sources */,
 				CD763CEC1D941239000726F3 /* PULPickerView.m in Sources */,
 				CD221DD31D41F240004D3701 /* MainReminderViewController.m in Sources */,
 				CD33D0A11D65AC6600F7DB07 /* GraphView.m in Sources */,
@@ -725,7 +786,6 @@
 				CD87033B1D76F62400CC570F /* NotificationViewController.m in Sources */,
 				CD763CE91D941239000726F3 /* DatePickerView.m in Sources */,
 				CD763CEB1D941239000726F3 /* OverViewObject.m in Sources */,
-				CD221D891D41EAD9004D3701 /* UserManagerClass.m in Sources */,
 				CD221D451D41EA80004D3701 /* main.m in Sources */,
 				CD21FD671D900320009BC8CF /* EditListViewController.m in Sources */,
 				C430D1551D9262500095A9F3 /* NavViewController.m in Sources */,

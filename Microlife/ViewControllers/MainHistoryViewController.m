@@ -31,6 +31,60 @@
     [self initParameter];
     [self initInterface];
     
+    [BPMClass sharedInstance].BPM_ID = 2234;
+    [BPMClass sharedInstance].accountID = 1;
+    [BPMClass sharedInstance].SYS = 280;
+    [BPMClass sharedInstance].DIA = 30;
+    [BPMClass sharedInstance].PUL = 40;
+    [BPMClass sharedInstance].PUL_Unit = 0;
+    [BPMClass sharedInstance].SYS_Unit = 0;
+    [BPMClass sharedInstance].date = @"aaaaaa";
+    [BPMClass sharedInstance].BPM_Note = @"bbbbbb";
+    [BPMClass sharedInstance].BPM_PhotoPath = @"ccccc";
+    [BPMClass sharedInstance].BPM_RecordingPath = @"ddddd";
+    
+    
+    [WeightClass sharedInstance].weightID = 1234;
+    [WeightClass sharedInstance].accountID = 2;
+    [WeightClass sharedInstance].weight = 70;
+    [WeightClass sharedInstance].weightUnit = 0;
+    [WeightClass sharedInstance].water = 40;
+    [WeightClass sharedInstance].muscle = 10;
+    [WeightClass sharedInstance].skeleton = 20;
+    [WeightClass sharedInstance].organFat = 30;
+    [WeightClass sharedInstance].bodyFat = 40;
+    [WeightClass sharedInstance].BMI = 22;
+    [WeightClass sharedInstance].BMR = 33;
+    [WeightClass sharedInstance].date = @"bbbbb";
+    [WeightClass sharedInstance].weight_PhotoPath = @"uuuuu";
+    [WeightClass sharedInstance].weight_Note = @"gggggg";
+    [WeightClass sharedInstance].weight_RecordingPath = @"hhhhhh";
+    
+    
+    [EventClass sharedInstance].eventID = 212;
+    [EventClass sharedInstance].accountID = 123;
+    [EventClass sharedInstance].eventTime = @"asdasd";
+    [EventClass sharedInstance].type = @"azxczxc";
+    [EventClass sharedInstance].event = @"ckckcjhd";
+    
+    [BTClass sharedInstance].BT_ID = 25524;
+    [BTClass sharedInstance].accountID = 123;
+    [BTClass sharedInstance].eventID = 123123;
+    [BTClass sharedInstance].bodyTemp = @"azxczxc";
+    [BTClass sharedInstance].roomTmep = @"ckckcjhd";
+    [BTClass sharedInstance].BT_PhotoPath = @"uuuuu";
+    [BTClass sharedInstance].BT_Note = @"gggggg";
+    [BTClass sharedInstance].BT_RecordingPath = @"hhhhhh";
+    
+    [[BPMClass sharedInstance] insertData];
+    [[WeightClass sharedInstance] insertData];
+    [[EventClass sharedInstance] insertData];
+    [[BTClass sharedInstance] insertData];
+    
+    NSLog(@"BPMClass selectAllData = %@",[[BPMClass sharedInstance] selectAllData]);
+    NSLog(@"WeightClass selectAllData = %@",[[WeightClass sharedInstance] selectAllData]);
+    NSLog(@"EventClass selectAllData = %@",[[EventClass sharedInstance] selectAllData]);
+    NSLog(@"BTClass selectAllData = %@",[[BTClass sharedInstance] selectAllData]);
 }
 
 -(void)initParameter{
@@ -201,6 +255,7 @@
 -(void)presentEditVC{
     
     EditListViewController *editListVC = [[EditListViewController alloc] init];
+    
     [self.navigationController pushViewController:editListVC animated:YES];
 }
 

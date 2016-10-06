@@ -7,45 +7,41 @@
 //
 
 #import "AppDelegate.h"
+#import <GoogleSignIn/GoogleSignIn.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
-@interface AppDelegate ()
+@interface AppDelegate ()<GIDSignInDelegate>{
+    int loginType;  //0 = FB  1 = Google;
+}
 
 @end
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-//     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"everLaunched"])
-//    {
-//        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"everLaunched"];
-//        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];
-//    }
-//    else{
-//        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstLaunch"];
-//    }
-//    
-//    // 這裡判斷是否第一次
-//    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"])
-//    {
-//        UIViewController *vc=[storyboard instantiateViewControllerWithIdentifier:@"NavViewController"];
-//        _window.rootViewController=vc;
-//        [_window makeKeyAndVisible];
-//    }
-//    else
-//    {
-//        UIViewController *vc=[storyboard instantiateViewControllerWithIdentifier:@"UserLoginViewController"];
-//        _window.rootViewController=vc;
-//        [_window makeKeyAndVisible];
-//    }
+
+    [GIDSignIn sharedInstance].delegate = self;
     
     [[FBSDKApplicationDelegate sharedInstance] application:application
                              didFinishLaunchingWithOptions:launchOptions];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFBNotification) name:@"FBLogin" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveGoogleNotification) name:@"GoogleLogin" object:nil];
+    
     return YES;
+}
+
+-(void)getFacebookStatus{
+    
+}
+
+- (void)receiveFBNotification{
+    loginType = 0;
+}
+
+- (void)receiveGoogleNotification{
+    loginType = 1;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -73,11 +69,21 @@
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                          openURL:url
-                                                sourceApplication:sourceApplication
-                                                       annotation:annotation
-            ];
+    
+    if (loginType == 0) {
+        return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                              openURL:url
+                                                    sourceApplication:sourceApplication
+                                                           annotation:annotation];
+    }
+    
+    return [[GIDSignIn sharedInstance] handleURL:url
+                               sourceApplication:sourceApplication
+                                      annotation:annotation];
+}
+
+-(void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error{
+    
 }
 
 //當textField已經结束被編輯，會委托代理調用這個方法
