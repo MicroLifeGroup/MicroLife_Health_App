@@ -43,6 +43,8 @@
 		CD221DD71D41F460004D3701 /* MainSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221DD61D41F460004D3701 /* MainSettingViewController.m */; };
 		CD33D0A11D65AC6600F7DB07 /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD33D0A01D65AC6600F7DB07 /* GraphView.m */; };
 		CD613C521D88E71D00225B31 /* EditOptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD613C511D88E71D00225B31 /* EditOptionViewController.m */; };
+		CD616E6D1DA737D50080EDC5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD616E6C1DA737D50080EDC5 /* libz.tbd */; };
+		CD616E6F1DA738540080EDC5 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD616E6E1DA738540080EDC5 /* AddressBook.framework */; };
 		CD621E9B1D76E1D4006AF5F1 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD621E981D76E1D4006AF5F1 /* FBSDKLoginKit.framework */; };
 		CD621E9C1D76E1D4006AF5F1 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD621E991D76E1D4006AF5F1 /* FBSDKCoreKit.framework */; };
 		CD621E9D1D76E1D4006AF5F1 /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD621E9A1D76E1D4006AF5F1 /* AccountKit.framework */; };
@@ -53,6 +55,24 @@
 		CD641FE81DA60604002843CA /* EventClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FE71DA60604002843CA /* EventClass.m */; };
 		CD641FEB1DA636B6002843CA /* BTClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FEA1DA636B6002843CA /* BTClass.m */; };
 		CD641FEF1DA641BA002843CA /* BLEDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FEE1DA641BA002843CA /* BLEDataClass.m */; };
+		CD6420161DA6476F002843CA /* BPMProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FF21DA6476F002843CA /* BPMProtocol.m */; };
+		CD6420171DA6476F002843CA /* CommandType.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FF41DA6476F002843CA /* CommandType.m */; };
+		CD6420181DA6476F002843CA /* CommProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FF61DA6476F002843CA /* CommProcess.m */; };
+		CD6420191DA6476F002843CA /* CurrentAndMData.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FF81DA6476F002843CA /* CurrentAndMData.m */; };
+		CD64201A1DA6476F002843CA /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FFA1DA6476F002843CA /* DeviceInfo.m */; };
+		CD64201B1DA6476F002843CA /* DRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FFC1DA6476F002843CA /* DRecord.m */; };
+		CD64201C1DA6476F002843CA /* EBodyMeasureData.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FFE1DA6476F002843CA /* EBodyMeasureData.m */; };
+		CD64201D1DA6476F002843CA /* EBodyProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6420001DA6476F002843CA /* EBodyProtocol.m */; };
+		CD64201E1DA6476F002843CA /* Function.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6420021DA6476F002843CA /* Function.m */; };
+		CD64201F1DA6476F002843CA /* HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6420041DA6476F002843CA /* HexString.m */; };
+		CD6420201DA6476F002843CA /* MyBluetoothLE.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6420071DA6476F002843CA /* MyBluetoothLE.m */; };
+		CD6420211DA6476F002843CA /* OscillationData.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6420091DA6476F002843CA /* OscillationData.m */; };
+		CD6420221DA6476F002843CA /* PulseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64200B1DA6476F002843CA /* PulseInfo.m */; };
+		CD6420231DA6476F002843CA /* PulseRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64200D1DA6476F002843CA /* PulseRecord.m */; };
+		CD6420241DA6476F002843CA /* ThermoMeasureData.m in Sources */ = {isa = PBXBuildFile; fileRef = CD64200F1DA6476F002843CA /* ThermoMeasureData.m */; };
+		CD6420251DA6476F002843CA /* ThermoProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6420111DA6476F002843CA /* ThermoProtocol.m */; };
+		CD6420261DA6476F002843CA /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6420131DA6476F002843CA /* User.m */; };
+		CD6420271DA6476F002843CA /* VersionData.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6420151DA6476F002843CA /* VersionData.m */; };
 		CD6B939A1D829EEC00AB6018 /* AlarmDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B93991D829EEC00AB6018 /* AlarmDetailViewController.m */; };
 		CD6B939E1D82B47300AB6018 /* LocalData.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B939D1D82B47300AB6018 /* LocalData.m */; };
 		CD6F7D7F1D7D6840002A8CCE /* SetAlarmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6F7D7E1D7D6840002A8CCE /* SetAlarmViewController.m */; };
@@ -181,6 +201,8 @@
 		CD33D0A01D65AC6600F7DB07 /* GraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphView.m; sourceTree = "<group>"; };
 		CD613C501D88E71D00225B31 /* EditOptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditOptionViewController.h; sourceTree = "<group>"; };
 		CD613C511D88E71D00225B31 /* EditOptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditOptionViewController.m; sourceTree = "<group>"; };
+		CD616E6C1DA737D50080EDC5 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		CD616E6E1DA738540080EDC5 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		CD621E981D76E1D4006AF5F1 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		CD621E991D76E1D4006AF5F1 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		CD621E9A1D76E1D4006AF5F1 /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AccountKit.framework; sourceTree = "<group>"; };
@@ -196,6 +218,43 @@
 		CD641FEA1DA636B6002843CA /* BTClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTClass.m; sourceTree = "<group>"; };
 		CD641FED1DA641BA002843CA /* BLEDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEDataClass.h; sourceTree = "<group>"; };
 		CD641FEE1DA641BA002843CA /* BLEDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLEDataClass.m; sourceTree = "<group>"; };
+		CD641FF11DA6476F002843CA /* BPMProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BPMProtocol.h; sourceTree = "<group>"; };
+		CD641FF21DA6476F002843CA /* BPMProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BPMProtocol.m; sourceTree = "<group>"; };
+		CD641FF31DA6476F002843CA /* CommandType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandType.h; sourceTree = "<group>"; };
+		CD641FF41DA6476F002843CA /* CommandType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandType.m; sourceTree = "<group>"; };
+		CD641FF51DA6476F002843CA /* CommProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommProcess.h; sourceTree = "<group>"; };
+		CD641FF61DA6476F002843CA /* CommProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommProcess.m; sourceTree = "<group>"; };
+		CD641FF71DA6476F002843CA /* CurrentAndMData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentAndMData.h; sourceTree = "<group>"; };
+		CD641FF81DA6476F002843CA /* CurrentAndMData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentAndMData.m; sourceTree = "<group>"; };
+		CD641FF91DA6476F002843CA /* DeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceInfo.h; sourceTree = "<group>"; };
+		CD641FFA1DA6476F002843CA /* DeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceInfo.m; sourceTree = "<group>"; };
+		CD641FFB1DA6476F002843CA /* DRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRecord.h; sourceTree = "<group>"; };
+		CD641FFC1DA6476F002843CA /* DRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRecord.m; sourceTree = "<group>"; };
+		CD641FFD1DA6476F002843CA /* EBodyMeasureData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EBodyMeasureData.h; sourceTree = "<group>"; };
+		CD641FFE1DA6476F002843CA /* EBodyMeasureData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EBodyMeasureData.m; sourceTree = "<group>"; };
+		CD641FFF1DA6476F002843CA /* EBodyProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EBodyProtocol.h; sourceTree = "<group>"; };
+		CD6420001DA6476F002843CA /* EBodyProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EBodyProtocol.m; sourceTree = "<group>"; };
+		CD6420011DA6476F002843CA /* Function.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Function.h; sourceTree = "<group>"; };
+		CD6420021DA6476F002843CA /* Function.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Function.m; sourceTree = "<group>"; };
+		CD6420031DA6476F002843CA /* HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HexString.h; sourceTree = "<group>"; };
+		CD6420041DA6476F002843CA /* HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HexString.m; sourceTree = "<group>"; };
+		CD6420051DA6476F002843CA /* IdeabusSDK_MicroLife.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdeabusSDK_MicroLife.h; sourceTree = "<group>"; };
+		CD6420061DA6476F002843CA /* MyBluetoothLE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBluetoothLE.h; sourceTree = "<group>"; };
+		CD6420071DA6476F002843CA /* MyBluetoothLE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBluetoothLE.m; sourceTree = "<group>"; };
+		CD6420081DA6476F002843CA /* OscillationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscillationData.h; sourceTree = "<group>"; };
+		CD6420091DA6476F002843CA /* OscillationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OscillationData.m; sourceTree = "<group>"; };
+		CD64200A1DA6476F002843CA /* PulseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PulseInfo.h; sourceTree = "<group>"; };
+		CD64200B1DA6476F002843CA /* PulseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PulseInfo.m; sourceTree = "<group>"; };
+		CD64200C1DA6476F002843CA /* PulseRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PulseRecord.h; sourceTree = "<group>"; };
+		CD64200D1DA6476F002843CA /* PulseRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PulseRecord.m; sourceTree = "<group>"; };
+		CD64200E1DA6476F002843CA /* ThermoMeasureData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThermoMeasureData.h; sourceTree = "<group>"; };
+		CD64200F1DA6476F002843CA /* ThermoMeasureData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThermoMeasureData.m; sourceTree = "<group>"; };
+		CD6420101DA6476F002843CA /* ThermoProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThermoProtocol.h; sourceTree = "<group>"; };
+		CD6420111DA6476F002843CA /* ThermoProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThermoProtocol.m; sourceTree = "<group>"; };
+		CD6420121DA6476F002843CA /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		CD6420131DA6476F002843CA /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		CD6420141DA6476F002843CA /* VersionData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionData.h; sourceTree = "<group>"; };
+		CD6420151DA6476F002843CA /* VersionData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionData.m; sourceTree = "<group>"; };
 		CD6B93981D829EEC00AB6018 /* AlarmDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmDetailViewController.h; sourceTree = "<group>"; };
 		CD6B93991D829EEC00AB6018 /* AlarmDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmDetailViewController.m; sourceTree = "<group>"; };
 		CD6B939C1D82B47300AB6018 /* LocalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalData.h; sourceTree = "<group>"; };
@@ -264,6 +323,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD616E6F1DA738540080EDC5 /* AddressBook.framework in Frameworks */,
+				CD616E6D1DA737D50080EDC5 /* libz.tbd in Frameworks */,
 				CDAFD5991DA37BA30021262D /* GoogleNetworkingUtilities.framework in Frameworks */,
 				CD621EA11D76E1F5006AF5F1 /* Accounts.framework in Frameworks */,
 				CDAFD59B1DA37BA30021262D /* GoogleSignIn.framework in Frameworks */,
@@ -310,6 +371,7 @@
 			isa = PBXGroup;
 			children = (
 				CD21FD601D8FE35F009BC8CF /* 0.png */,
+				CD641FF01DA6476F002843CA /* sdk */,
 				CD221D781D41EAAF004D3701 /* Frameworks */,
 				CD221D421D41EA80004D3701 /* Microlife */,
 				CD221D5C1D41EA81004D3701 /* MicrolifeTests */,
@@ -381,6 +443,8 @@
 		CD221D781D41EAAF004D3701 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CD616E6E1DA738540080EDC5 /* AddressBook.framework */,
+				CD616E6C1DA737D50080EDC5 /* libz.tbd */,
 				CDAFD5901DA37BA30021262D /* GoogleAppUtilities.framework */,
 				CDAFD5911DA37BA30021262D /* GoogleAuthUtilities.framework */,
 				CDAFD5921DA37BA30021262D /* GoogleNetworkingUtilities.framework */,
@@ -579,6 +643,50 @@
 			name = BLEDataClass;
 			sourceTree = "<group>";
 		};
+		CD641FF01DA6476F002843CA /* sdk */ = {
+			isa = PBXGroup;
+			children = (
+				CD641FF11DA6476F002843CA /* BPMProtocol.h */,
+				CD641FF21DA6476F002843CA /* BPMProtocol.m */,
+				CD641FF31DA6476F002843CA /* CommandType.h */,
+				CD641FF41DA6476F002843CA /* CommandType.m */,
+				CD641FF51DA6476F002843CA /* CommProcess.h */,
+				CD641FF61DA6476F002843CA /* CommProcess.m */,
+				CD641FF71DA6476F002843CA /* CurrentAndMData.h */,
+				CD641FF81DA6476F002843CA /* CurrentAndMData.m */,
+				CD641FF91DA6476F002843CA /* DeviceInfo.h */,
+				CD641FFA1DA6476F002843CA /* DeviceInfo.m */,
+				CD641FFB1DA6476F002843CA /* DRecord.h */,
+				CD641FFC1DA6476F002843CA /* DRecord.m */,
+				CD641FFD1DA6476F002843CA /* EBodyMeasureData.h */,
+				CD641FFE1DA6476F002843CA /* EBodyMeasureData.m */,
+				CD641FFF1DA6476F002843CA /* EBodyProtocol.h */,
+				CD6420001DA6476F002843CA /* EBodyProtocol.m */,
+				CD6420011DA6476F002843CA /* Function.h */,
+				CD6420021DA6476F002843CA /* Function.m */,
+				CD6420031DA6476F002843CA /* HexString.h */,
+				CD6420041DA6476F002843CA /* HexString.m */,
+				CD6420051DA6476F002843CA /* IdeabusSDK_MicroLife.h */,
+				CD6420061DA6476F002843CA /* MyBluetoothLE.h */,
+				CD6420071DA6476F002843CA /* MyBluetoothLE.m */,
+				CD6420081DA6476F002843CA /* OscillationData.h */,
+				CD6420091DA6476F002843CA /* OscillationData.m */,
+				CD64200A1DA6476F002843CA /* PulseInfo.h */,
+				CD64200B1DA6476F002843CA /* PulseInfo.m */,
+				CD64200C1DA6476F002843CA /* PulseRecord.h */,
+				CD64200D1DA6476F002843CA /* PulseRecord.m */,
+				CD64200E1DA6476F002843CA /* ThermoMeasureData.h */,
+				CD64200F1DA6476F002843CA /* ThermoMeasureData.m */,
+				CD6420101DA6476F002843CA /* ThermoProtocol.h */,
+				CD6420111DA6476F002843CA /* ThermoProtocol.m */,
+				CD6420121DA6476F002843CA /* User.h */,
+				CD6420131DA6476F002843CA /* User.m */,
+				CD6420141DA6476F002843CA /* VersionData.h */,
+				CD6420151DA6476F002843CA /* VersionData.m */,
+			);
+			path = sdk;
+			sourceTree = "<group>";
+		};
 		CD6B939B1D82B40A00AB6018 /* LocalData */ = {
 			isa = PBXGroup;
 			children = (
@@ -743,27 +851,37 @@
 				CD87033A1D76F62400CC570F /* LogoutViewController.m in Sources */,
 				CD221DD71D41F460004D3701 /* MainSettingViewController.m in Sources */,
 				CD221D4B1D41EA80004D3701 /* ViewController.m in Sources */,
+				CD6420201DA6476F002843CA /* MyBluetoothLE.m in Sources */,
 				CD641FE51DA5FBA4002843CA /* WeightClass.m in Sources */,
 				CD763CDA1D94121E000726F3 /* OverBPTableViewCell.m in Sources */,
+				CD6420221DA6476F002843CA /* PulseInfo.m in Sources */,
 				CD212A691D758136007E53A0 /* HistoryListTableView.m in Sources */,
 				CD1F87721D49F56D00A44074 /* StatusCircleView.m in Sources */,
+				CD64201B1DA6476F002843CA /* DRecord.m in Sources */,
 				CD641FE81DA60604002843CA /* EventClass.m in Sources */,
 				CD763CC81D93E0DE000726F3 /* BodyTempTableViewCell.m in Sources */,
+				CD6420251DA6476F002843CA /* ThermoProtocol.m in Sources */,
 				CD6F7D7F1D7D6840002A8CCE /* SetAlarmViewController.m in Sources */,
 				CD8E42291D48523300A8695B /* HistoryPageView.m in Sources */,
 				CDAFD5A61DA3948E0021262D /* DataBaseClass.m in Sources */,
+				CD6420181DA6476F002843CA /* CommProcess.m in Sources */,
+				CD6420161DA6476F002843CA /* BPMProtocol.m in Sources */,
 				CD221D9B1D41EAEF004D3701 /* FMDatabasePool.m in Sources */,
+				CD64201A1DA6476F002843CA /* DeviceInfo.m in Sources */,
 				CD221D9D1D41EAEF004D3701 /* FMResultSet.m in Sources */,
 				CD221D7E1D41EAD0004D3701 /* CheckNetwork.m in Sources */,
 				CD221DC01D41ED94004D3701 /* StyleCommon.m in Sources */,
 				CD221D8D1D41EAE4004D3701 /* MViewController.m in Sources */,
 				CD93A6C31D79975900292B83 /* CustomAlarmCell.m in Sources */,
+				CD6420211DA6476F002843CA /* OscillationData.m in Sources */,
 				CD221D9C1D41EAEF004D3701 /* FMDatabaseQueue.m in Sources */,
 				CD641FEB1DA636B6002843CA /* BTClass.m in Sources */,
 				CD221D991D41EAEF004D3701 /* FMDatabase.m in Sources */,
 				CD221D481D41EA80004D3701 /* AppDelegate.m in Sources */,
+				CD64201E1DA6476F002843CA /* Function.m in Sources */,
 				CD87032B1D76ED0A00CC570F /* RegisterViewController.m in Sources */,
 				CD221DCD1D41F102004D3701 /* MainHistoryViewController.m in Sources */,
+				CD6420231DA6476F002843CA /* PulseRecord.m in Sources */,
 				CD763CE81D941239000726F3 /* BloodPressurePickerView.m in Sources */,
 				CD221DD01D41F22A004D3701 /* MainOverviewViewController.m in Sources */,
 				CD221DCA1D41EF6E004D3701 /* UserLoginViewController.m in Sources */,
@@ -772,6 +890,7 @@
 				CD763CEA1D941239000726F3 /* OverViewCircleView.m in Sources */,
 				CD221DBE1D41ED94004D3701 /* SFCommonCalendar.m in Sources */,
 				CD763CED1D941239000726F3 /* TimePickerView.m in Sources */,
+				CD6420241DA6476F002843CA /* ThermoMeasureData.m in Sources */,
 				CDAFD5A01DA3945B0021262D /* SQLiteClass.m in Sources */,
 				CD221D9A1D41EAEF004D3701 /* FMDatabaseAdditions.m in Sources */,
 				CD221DBF1D41ED94004D3701 /* ShareCommon.m in Sources */,
@@ -779,25 +898,32 @@
 				CD641FE21DA5F2F6002843CA /* BPMClass.m in Sources */,
 				CD763CF01D94124B000726F3 /* OverTempTableViewCell.m in Sources */,
 				CD641FEF1DA641BA002843CA /* BLEDataClass.m in Sources */,
+				CD6420261DA6476F002843CA /* User.m in Sources */,
 				CD763CEC1D941239000726F3 /* PULPickerView.m in Sources */,
 				CD221DD31D41F240004D3701 /* MainReminderViewController.m in Sources */,
+				CD64201F1DA6476F002843CA /* HexString.m in Sources */,
 				CD33D0A11D65AC6600F7DB07 /* GraphView.m in Sources */,
 				CD763CDB1D94121E000726F3 /* OverWeightTableViewCell.m in Sources */,
 				CD87033B1D76F62400CC570F /* NotificationViewController.m in Sources */,
 				CD763CE91D941239000726F3 /* DatePickerView.m in Sources */,
 				CD763CEB1D941239000726F3 /* OverViewObject.m in Sources */,
+				CD64201C1DA6476F002843CA /* EBodyMeasureData.m in Sources */,
 				CD221D451D41EA80004D3701 /* main.m in Sources */,
+				CD6420191DA6476F002843CA /* CurrentAndMData.m in Sources */,
 				CD21FD671D900320009BC8CF /* EditListViewController.m in Sources */,
 				C430D1551D9262500095A9F3 /* NavViewController.m in Sources */,
 				CD21FD5E1D8F93C0009BC8CF /* BPTableViewCell.m in Sources */,
 				CD6B939A1D829EEC00AB6018 /* AlarmDetailViewController.m in Sources */,
 				CD221DBD1D41ED94004D3701 /* LocalizeUtilities.m in Sources */,
+				CD6420171DA6476F002843CA /* CommandType.m in Sources */,
+				CD6420271DA6476F002843CA /* VersionData.m in Sources */,
 				CD6B939E1D82B47300AB6018 /* LocalData.m in Sources */,
 				CD8703391D76F62400CC570F /* AboutViewController.m in Sources */,
 				CD221D7F1D41EAD0004D3701 /* Reachability.m in Sources */,
 				CD221DBC1D41ED94004D3701 /* GlobalSettings.m in Sources */,
 				CD87033E1D76F63800CC570F /* HealthEducationViewController.m in Sources */,
 				CD613C521D88E71D00225B31 /* EditOptionViewController.m in Sources */,
+				CD64201D1DA6476F002843CA /* EBodyProtocol.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -948,7 +1074,8 @@
 				INFOPLIST_FILE = Microlife/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.rex.Microlife;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Microlife.MicrolifeHealth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -968,7 +1095,8 @@
 				INFOPLIST_FILE = Microlife/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.rex.Microlife;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Microlife.MicrolifeHealth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

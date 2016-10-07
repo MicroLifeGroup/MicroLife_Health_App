@@ -10,7 +10,7 @@
 
 @interface BTClass : DataBaseClass
 
-@property (nonatomic) int BT_ID;                    //額溫槍ID
+@property (nonatomic) NSString * BT_ID;                    //額溫槍ID
 @property (nonatomic) int accountID;                //會員ID
 @property (nonatomic) int eventID;                  //事件ID 與EVENTList的ID相對應
 @property (nonatomic) NSString *bodyTemp;           //體溫

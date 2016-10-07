@@ -9,6 +9,7 @@
 #import "MainHistoryViewController.h"
 #import "HistoryPageView.h"
 #import "EditListViewController.h"
+#import "BLEDataClass.h"
 
 @interface MainHistoryViewController ()<UINavigationControllerDelegate, UIScrollViewDelegate,HistoryPageViewDelegate,HistoryListDelegate>{
     UIPageControl *pageControl;
@@ -31,6 +32,7 @@
     [self initParameter];
     [self initInterface];
     
+    /*
     [BPMClass sharedInstance].BPM_ID = 2234;
     [BPMClass sharedInstance].accountID = 1;
     [BPMClass sharedInstance].SYS = 280;
@@ -70,6 +72,7 @@
     [BTClass sharedInstance].BT_ID = 25524;
     [BTClass sharedInstance].accountID = 123;
     [BTClass sharedInstance].eventID = 123123;
+    [BTClass sharedInstance].date = @"";
     [BTClass sharedInstance].bodyTemp = @"azxczxc";
     [BTClass sharedInstance].roomTmep = @"ckckcjhd";
     [BTClass sharedInstance].BT_PhotoPath = @"uuuuu";
@@ -85,6 +88,9 @@
     NSLog(@"WeightClass selectAllData = %@",[[WeightClass sharedInstance] selectAllData]);
     NSLog(@"EventClass selectAllData = %@",[[EventClass sharedInstance] selectAllData]);
     NSLog(@"BTClass selectAllData = %@",[[BTClass sharedInstance] selectAllData]);
+     */
+    
+    BLEDataClass *BLEData = [[BLEDataClass alloc] init];
 }
 
 -(void)initParameter{

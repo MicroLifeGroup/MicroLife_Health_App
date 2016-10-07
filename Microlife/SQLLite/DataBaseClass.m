@@ -73,7 +73,7 @@
 
 -(void)CREATE_BTList{
     
-    NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS BTList( BT_ID INTEGER NULL PRIMARY KEY , accountID INTEGER, eventID INTEGER, bodyTemp TEXT, roomTmep TEXT, date TEXT, BT_PhotoPath TEXT, BT_Note TEXT, BT_RecordingPath TEXT);";
+    NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS BTList( BT_ID TEXT NULL , accountID INTEGER, eventID INTEGER, bodyTemp TEXT, roomTmep TEXT, date TEXT, BT_PhotoPath TEXT, BT_Note TEXT, BT_RecordingPath TEXT);";
     //建立資料表
     [self CREATE_TABLE:SQLStr];
     

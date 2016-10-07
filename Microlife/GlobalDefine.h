@@ -35,10 +35,12 @@
 #define kAverageMETFormat         @"%2.1f"
 #define kAverageResistanceFormat  @"%i"
 
+//Google
+#define kClientID @"1075601993941-b70ihq5e0gqmpp0eelfsbaup1nqcsjv2.apps.googleusercontent.com"
 
 //Rex
-#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
-#define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
+//#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
+//#define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
 #define SCREEN_MAX_LENGTH (MAX(SCREEN_WIDTH, SCREEN_HEIGHT))
 #define SCREEN_MIN_LENGTH (MIN(SCREEN_WIDTH, SCREEN_HEIGHT))
 

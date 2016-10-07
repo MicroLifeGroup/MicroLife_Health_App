@@ -7,7 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "IdeabusSDK_MicroLife.h"
 
-@interface BLEDataClass : NSObject
+@interface BLEDataClass : NSObject<ConnectStateDelegate,ThermoDataResponseDelegate,BPMDataResponseDelegate,MyBluetoothLEDelegate>{
+    
+    ThermoProtocol *thermoProtocol;
+    BPMProtocol *bPMProtocol;
+    
+    BOOL isChecking;
+    NSString *cur_uuid;
+    ConnectState connectState;
+    NSTimer *checkThermTimer;
+}
 
 @end

@@ -7,8 +7,9 @@
 //
 
 #import "ViewController.h"
+#import <GoogleSignIn/GoogleSignIn.h>
 
-@interface ViewController ()
+@interface ViewController ()<GIDSignInUIDelegate>
 
 
 
@@ -26,11 +27,17 @@
     [super viewDidLoad];
 
     [self loginVC];
+    
+    [GIDSignIn sharedInstance].clientID = kClientID;
+    
+    NSLog(@"[GIDSignIn sharedInstance].clientID = %@",[GIDSignIn sharedInstance].clientID);
 }
 
 -(void)loginVC{
     UIView *loginView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height*0.8)];
-    [loginView setBackgroundColor:[UIColor colorWithRed:241/255.0 green:242/255.0 blue:245/255.0 alpha:0.95]];
+    [loginView setBackgroundColor:[UIColor colorWithRed:241.0/255.0 green:242.0/255.0 blue:245.0/255.0 alpha:0.95]];
+    
+    loginView.backgroundColor = [UIColor redColor];
     [self.view addSubview:loginView];
     
     
@@ -84,9 +91,9 @@
     //login
     loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     loginBtn.frame = CGRectMake(0 , self.view.frame.size.height*0.46, self.view.frame.size.width, self.view.frame.size.height/11);
-    loginBtn.backgroundColor = [UIColor colorWithRed:168/255 green:168/255 blue:165/255 alpha:0.4];
+    loginBtn.backgroundColor = [UIColor colorWithRed:168.0/255.0 green:168.0/255.0 blue:165.0/255.0 alpha:0.4];
     [loginBtn setTitle:@"Log in" forState:UIControlStateNormal];
-    [loginBtn setTitleColor:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:0.9] forState:UIControlStateNormal];
+    [loginBtn setTitleColor:[UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:0.9] forState:UIControlStateNormal];
     loginBtn.titleLabel.font = [UIFont systemFontOfSize:26];
     loginBtn.userInteractionEnabled = NO;
     
@@ -101,7 +108,7 @@
     forgetBtn.frame = CGRectMake(0 , self.view.frame.size.height*0.55, self.view.frame.size.width, btnheight);
     forgetBtn.backgroundColor = [UIColor clearColor];
     [forgetBtn setTitle:@"Forgot password?" forState:UIControlStateNormal];
-    [forgetBtn setTitleColor:[UIColor colorWithRed:1/255 green:1/255 blue:255/255 alpha:1.0] forState:UIControlStateNormal];
+    [forgetBtn setTitleColor:[UIColor colorWithRed:1.0/255.0 green:1.0/255.0 blue:255.0/255.0 alpha:1.0] forState:UIControlStateNormal];
     forgetBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     
     [forgetBtn addTarget:self action:@selector(forgetBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -222,9 +229,61 @@
     [self connectFacebook];
     NSLog(@"fb");
 }
+
 -(void)loginGooglePlusClick{
-    NSLog(@"google");
+    
+    NSLog(@"loginGoogle");
+    
+    if (![CheckNetwork isExistenceNetwork]) {
+        [self showAlert:NSLocalizedString(@"Connect fail", nil) message:NSLocalizedString(@"Please check your wifi", nil)];
+        
+        return;
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"GoogleLogin" object:nil];
+    
+    GIDSignIn* signIn = [GIDSignIn sharedInstance];
+    signIn.shouldFetchBasicProfile = YES;
+    signIn.delegate = self;
+    signIn.uiDelegate = self;
+    
+    
+    [[GIDSignIn sharedInstance] signIn];
 }
+
+- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user
+     withError:(NSError *)error {
+    // Perform any operations on signed in user here.
+    NSString *userId = user.userID;                  // For client-side use only!
+    NSString *idToken = user.authentication.idToken; // Safe to send to the server
+    NSString *fullName = user.profile.name;
+    NSString *givenName = user.profile.givenName;
+    NSString *familyName = user.profile.familyName;
+    NSString *email = user.profile.email;
+    
+    NSLog(@"userId = %@",userId);
+    NSLog(@"idToken = %@",idToken);
+    NSLog(@"fullName = %@",fullName);
+    NSLog(@"givenName = %@",givenName);
+    NSLog(@"familyName = %@",familyName);
+    NSLog(@"email = %@",email);
+    
+    
+    // [START_EXCLUDE]
+    NSDictionary *statusText = @{@"statusText":
+                                     [NSString stringWithFormat:@"Signed in user: %@",
+                                      fullName]};
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"ToggleAuthUINotification"
+     object:nil
+     userInfo:statusText];
+    // [END_EXCLUDE]
+    
+    
+    //[cloudClass postDataSync:sendParam APIName:kAPI_commlogin EventId:CloudAPIEvent_commlogin];
+    
+}
+
 
 
 -(void)loginBtnClicked{
@@ -307,14 +366,21 @@
 }
 
 
-
-
-
 -(void)textFieldDone:(UITextField*)textField
 {
     [textField resignFirstResponder];
 }
 
+-(void)showAlert:(NSString *)title message:(NSString *)message{
+    
+    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleDefault handler:nil];
+    
+    [alertView addAction:okAction];
+    
+    [self presentViewController:alertView animated:YES completion:nil];
+}
 
 
 

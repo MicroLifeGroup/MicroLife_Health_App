@@ -32,6 +32,10 @@
 #import "EventClass.h"
 #import "BTClass.h"
 
+
+//Network
+#import "CheckNetwork.h"
+
 #endif
 
 #endif /* PrefixHeader_pch */
