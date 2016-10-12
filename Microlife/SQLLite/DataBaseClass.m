@@ -49,7 +49,7 @@
     
     //    NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS SYSTEM( VerID INTEGER PRIMARY KEY, OPENDAY TEXT, TIMEOUT INT, NOWPAGE INTEGER, NOWID INTEGER, PURCHASE TEXT,ATT1 TEXT,ATT2 TEXT,ATT3 TEXT,ATT4 TEXT,ATT5 TEXT);";
     
-    NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS BPMList( BPM_ID INTEGER NULL PRIMARY KEY , accountID INTEGER ,SYS INTEGER, DIA INTEGER, PUL INTEGER, SYS_Unit INTEGER, PUL_Unit INTEGER, date TEXT, BPM_PhotoPath TEXT, BPM_Note TEXT, BPM_RecordingPath TEXT);";
+    NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS BPMList( BPM_ID INTEGER NULL PRIMARY KEY AUTOINCREMENT, accountID INTEGER ,SYS INTEGER, DIA INTEGER, PUL INTEGER, PAD INTEGER, AFIB INTEGER,SYS_Unit INTEGER, PUL_Unit INTEGER, date TEXT, BPM_PhotoPath TEXT, BPM_Note TEXT, BPM_RecordingPath TEXT);";
     //建立資料表
     [self CREATE_TABLE:SQLStr];
     
@@ -57,7 +57,7 @@
 
 -(void)CREATE_WeightList{
     
-    NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS WeightList( weightID INTEGER NULL PRIMARY KEY , accountID INTEGER,weight INTEGER, weightUnit INTEGER, BMI INTEGER, bodyFat INTEGER, water INTEGER, skeleton INTEGER, muscle INTEGER, BMR INTEGER, organFat INTEGER, date TEXT, weight_PhotoPath TEXT,  weight_Note TEXT, weight_RecordingPath TEXT);";
+    NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS WeightList( weightID INTEGER NULL PRIMARY KEY AUTOINCREMENT, accountID INTEGER,weight INTEGER, weightUnit INTEGER, BMI INTEGER, bodyFat INTEGER, water INTEGER, skeleton INTEGER, muscle INTEGER, BMR INTEGER, organFat INTEGER, date TEXT, weight_PhotoPath TEXT,  weight_Note TEXT, weight_RecordingPath TEXT);";
     //建立資料表
     [self CREATE_TABLE:SQLStr];
     
@@ -65,7 +65,7 @@
 
 -(void)CREATE_EventList{
     
-    NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS EventList( eventID INTEGER NULL PRIMARY KEY , accountID INTEGER,event TEXT, type TEXT, eventTime TEXT);";
+    NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS EventList( eventID INTEGER NULL PRIMARY KEY AUTOINCREMENT, accountID INTEGER,event TEXT, type TEXT, eventTime TEXT);";
     //建立資料表
     [self CREATE_TABLE:SQLStr];
     
@@ -73,11 +73,12 @@
 
 -(void)CREATE_BTList{
     
-    NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS BTList( BT_ID TEXT NULL , accountID INTEGER, eventID INTEGER, bodyTemp TEXT, roomTmep TEXT, date TEXT, BT_PhotoPath TEXT, BT_Note TEXT, BT_RecordingPath TEXT);";
+    NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS BTList( BT_ID INTEGER PRIMARY KEY AUTOINCREMENT , accountID INTEGER, eventID INTEGER, bodyTemp TEXT, roomTmep TEXT, date TEXT, BT_PhotoPath TEXT, BT_Note TEXT, BT_RecordingPath TEXT);";
     //建立資料表
     [self CREATE_TABLE:SQLStr];
     
 }
+
 //= 創建資料表END
 
 //= 寫入資料表END ===================================================================================================================

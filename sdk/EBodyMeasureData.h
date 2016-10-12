@@ -20,6 +20,8 @@
 
 -(int)getMonth;
 
+-(int)getDay;
+
 -(int)getHour;
 
 -(int)getMinute;

@@ -156,7 +156,9 @@ float THER_FREQUESCY_LONG = 1.0;
         return;
     }
     NSArray *array = [[NSArray alloc] initWithObjects:uuid, nil];
+    
     [self.myBluetooth imConnectUUIDs:array];
+    
 }
 
 //斷線,透過onConnectionState返回斷線狀態

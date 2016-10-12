@@ -28,11 +28,30 @@
 				<string>com.googleusercontent.apps.1075601993941-b70ihq5e0gqmpp0eelfsbaup1nqcsjv2</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb1130337897060526</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>CLIENT_ID</key>
 	<string>1075601993941-b70ihq5e0gqmpp0eelfsbaup1nqcsjv2.apps.googleusercontent.com</string>
+	<key>FacebookAppID</key>
+	<string>1130337897060526</string>
+	<key>FacebookDisplayName</key>
+	<string>Microlife</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>REVERSED_CLIENT_ID</key>

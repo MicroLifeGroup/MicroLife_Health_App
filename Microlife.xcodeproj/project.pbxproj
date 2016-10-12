@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C430D1551D9262500095A9F3 /* NavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C430D1541D9262500095A9F3 /* NavViewController.m */; };
+		CD1E2A091DAC871C00069009 /* BLEDataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1E2A081DAC871C00069009 /* BLEDataHandler.m */; };
 		CD1F87721D49F56D00A44074 /* StatusCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1F87711D49F56D00A44074 /* StatusCircleView.m */; };
 		CD212A691D758136007E53A0 /* HistoryListTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD212A681D758136007E53A0 /* HistoryListTableView.m */; };
 		CD21FD5E1D8F93C0009BC8CF /* BPTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD21FD5C1D8F93C0009BC8CF /* BPTableViewCell.m */; };
@@ -54,7 +55,6 @@
 		CD641FE51DA5FBA4002843CA /* WeightClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FE41DA5FBA4002843CA /* WeightClass.m */; };
 		CD641FE81DA60604002843CA /* EventClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FE71DA60604002843CA /* EventClass.m */; };
 		CD641FEB1DA636B6002843CA /* BTClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FEA1DA636B6002843CA /* BTClass.m */; };
-		CD641FEF1DA641BA002843CA /* BLEDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FEE1DA641BA002843CA /* BLEDataClass.m */; };
 		CD6420161DA6476F002843CA /* BPMProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FF21DA6476F002843CA /* BPMProtocol.m */; };
 		CD6420171DA6476F002843CA /* CommandType.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FF41DA6476F002843CA /* CommandType.m */; };
 		CD6420181DA6476F002843CA /* CommProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FF61DA6476F002843CA /* CommProcess.m */; };
@@ -131,6 +131,8 @@
 /* Begin PBXFileReference section */
 		C430D1531D9262500095A9F3 /* NavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavViewController.h; sourceTree = "<group>"; };
 		C430D1541D9262500095A9F3 /* NavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavViewController.m; sourceTree = "<group>"; };
+		CD1E2A071DAC871C00069009 /* BLEDataHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEDataHandler.h; sourceTree = "<group>"; };
+		CD1E2A081DAC871C00069009 /* BLEDataHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLEDataHandler.m; sourceTree = "<group>"; };
 		CD1F87701D49F56D00A44074 /* StatusCircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusCircleView.h; sourceTree = "<group>"; };
 		CD1F87711D49F56D00A44074 /* StatusCircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusCircleView.m; sourceTree = "<group>"; };
 		CD212A671D758136007E53A0 /* HistoryListTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryListTableView.h; sourceTree = "<group>"; };
@@ -216,8 +218,6 @@
 		CD641FE71DA60604002843CA /* EventClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventClass.m; sourceTree = "<group>"; };
 		CD641FE91DA636B6002843CA /* BTClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTClass.h; sourceTree = "<group>"; };
 		CD641FEA1DA636B6002843CA /* BTClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTClass.m; sourceTree = "<group>"; };
-		CD641FED1DA641BA002843CA /* BLEDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEDataClass.h; sourceTree = "<group>"; };
-		CD641FEE1DA641BA002843CA /* BLEDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLEDataClass.m; sourceTree = "<group>"; };
 		CD641FF11DA6476F002843CA /* BPMProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BPMProtocol.h; sourceTree = "<group>"; };
 		CD641FF21DA6476F002843CA /* BPMProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BPMProtocol.m; sourceTree = "<group>"; };
 		CD641FF31DA6476F002843CA /* CommandType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandType.h; sourceTree = "<group>"; };
@@ -637,8 +637,8 @@
 		CD641FEC1DA640A1002843CA /* BLEDataClass */ = {
 			isa = PBXGroup;
 			children = (
-				CD641FED1DA641BA002843CA /* BLEDataClass.h */,
-				CD641FEE1DA641BA002843CA /* BLEDataClass.m */,
+				CD1E2A071DAC871C00069009 /* BLEDataHandler.h */,
+				CD1E2A081DAC871C00069009 /* BLEDataHandler.m */,
 			);
 			name = BLEDataClass;
 			sourceTree = "<group>";
@@ -884,6 +884,7 @@
 				CD6420231DA6476F002843CA /* PulseRecord.m in Sources */,
 				CD763CE81D941239000726F3 /* BloodPressurePickerView.m in Sources */,
 				CD221DD01D41F22A004D3701 /* MainOverviewViewController.m in Sources */,
+				CD1E2A091DAC871C00069009 /* BLEDataHandler.m in Sources */,
 				CD221DCA1D41EF6E004D3701 /* UserLoginViewController.m in Sources */,
 				CD87032A1D76ED0A00CC570F /* ForgotPasswordViewController.m in Sources */,
 				CD8703291D76ED0A00CC570F /* FacebookLoginViewController.m in Sources */,
@@ -897,7 +898,6 @@
 				CD763CC01D93AE36000726F3 /* WeightTableViewCell.m in Sources */,
 				CD641FE21DA5F2F6002843CA /* BPMClass.m in Sources */,
 				CD763CF01D94124B000726F3 /* OverTempTableViewCell.m in Sources */,
-				CD641FEF1DA641BA002843CA /* BLEDataClass.m in Sources */,
 				CD6420261DA6476F002843CA /* User.m in Sources */,
 				CD763CEC1D941239000726F3 /* PULPickerView.m in Sources */,
 				CD221DD31D41F240004D3701 /* MainReminderViewController.m in Sources */,

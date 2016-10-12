@@ -128,6 +128,7 @@
 
 
 -(void)fbLogin{
+    
     FBSDKLoginButton *loginButton = [[FBSDKLoginButton alloc] init];
     // 將臉書登入按鈕置中
     loginButton.frame = CGRectMake(100, 100, 180, 33);
@@ -135,6 +136,7 @@
     
     loginButton.readPermissions =
     @[@"public_profile", @"email", @"user_friends"];
+    
 }
 
 //-(void) logout
@@ -161,16 +163,5 @@
     
 
 }
-
-
-
-
-
-
-
-
-
-
-    
 
 @end

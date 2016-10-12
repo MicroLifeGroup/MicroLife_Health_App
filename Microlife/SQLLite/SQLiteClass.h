@@ -16,8 +16,6 @@
 @interface SQLiteClass : NSObject
 {
     sqlite3 *database;  //資料庫
-    
-    
 
 }
 

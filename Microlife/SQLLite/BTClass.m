@@ -44,17 +44,42 @@
 -(NSMutableArray *)selectAllData{
     
     
-    NSString *Command = [NSString stringWithFormat:@"SELECT BT_ID, accountID, eventID, bodyTemp, roomTmep ,date ,BT_PhotoPath, BT_Note, BT_RecordingPath FROM BTList"];
+    //NSString *Command = [NSString stringWithFormat:@"SELECT BT_ID, accountID, eventID, bodyTemp, roomTmep ,date ,BT_PhotoPath, BT_Note, BT_RecordingPath FROM BTList"];
+    
+    NSString *Command = [NSString stringWithFormat:@"SELECT * FROM BTList ORDER BY date DESC"];
     
     NSMutableArray* DataArray = [self SELECT:Command Num:9];//SELECT:指令：幾筆欄位
-    return DataArray;
+    
+    NSMutableArray *returnArray = [NSMutableArray new];
+    
+    for (int i=0; i<DataArray.count; i++) {
+        
+        NSMutableArray *resultArray = [DataArray objectAtIndex:i];
+
+        if(![[resultArray objectAtIndex:0] isEqualToString:@"Can not find data!"]){
+            NSDictionary *dataDict = [[NSDictionary alloc] initWithObjectsAndKeys:[resultArray objectAtIndex:0],@"BT_ID",
+                                      [resultArray objectAtIndex:1],@"accountID",
+                                      [resultArray objectAtIndex:2],@"eventID",
+                                      [resultArray objectAtIndex:3],@"bodyTemp",
+                                      [resultArray objectAtIndex:4],@"roomTmep",
+                                      [resultArray objectAtIndex:5],@"date",
+                                      [resultArray objectAtIndex:6],@"BT_PhotoPath",
+                                      [resultArray objectAtIndex:7],@"BT_Note",
+                                      [resultArray objectAtIndex:8],@"BT_RecordingPath",nil];
+            
+            [returnArray addObject:dataDict];
+        }
+    }
+
+    
+    return returnArray;
 }
 
 - (void)updateData{
 
     
-    NSString *SQLStr = [NSString stringWithFormat:@"UPDATE BTList SET BT_ID = \"%@\", accountID = \"%d\", eventID = \"%d\", bodyTemp = \"%@\", roomTmep = \"%@\",date = \"%@\",BT_PhotoPath = \"%@\",BT_Note = \"%@\",BT_RecordingPath = \"%@\""
-                        ,BT_ID , accountID, eventID, bodyTemp, roomTmep,date,BT_PhotoPath,BT_Note,BT_RecordingPath];
+    NSString *SQLStr = [NSString stringWithFormat:@"UPDATE BTList SET  accountID = \"%d\", eventID = \"%d\", bodyTemp = \"%@\", roomTmep = \"%@\",date = \"%@\",BT_PhotoPath = \"%@\",BT_Note = \"%@\",BT_RecordingPath = \"%@\" WHERE BT_ID = \"%d\""
+                         , accountID, eventID, bodyTemp, roomTmep,date,BT_PhotoPath,BT_Note,BT_RecordingPath ,BT_ID];
     
     
     [self COLUMN_UPDATE:SQLStr];
@@ -64,7 +89,7 @@
 -(void)insertData{
     
     
-    NSString *SQLStr = [NSString stringWithFormat:@"INSERT OR REPLACE INTO BTList( BT_ID, accountID, eventID, bodyTemp, roomTmep, date, BT_PhotoPath, BT_Note, BT_RecordingPath) VALUES( \"%@\", \"%d\",\"%d\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\");",BT_ID, accountID , eventID, bodyTemp, roomTmep, date, BT_PhotoPath, BT_Note, BT_RecordingPath];
+    NSString *SQLStr = [NSString stringWithFormat:@"INSERT OR REPLACE INTO BTList( accountID, eventID, bodyTemp, roomTmep, date, BT_PhotoPath, BT_Note, BT_RecordingPath) VALUES(  \"%d\",\"%d\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\");", accountID , eventID, bodyTemp, roomTmep, date, BT_PhotoPath, BT_Note, BT_RecordingPath];
     
     [self COLUMN_INSERT:SQLStr];
 }

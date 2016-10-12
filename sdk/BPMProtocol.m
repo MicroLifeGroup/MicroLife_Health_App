@@ -781,7 +781,7 @@ float BPM_FREQUESCY_LONG = 1.0;
 
 - (void)handleReceived:(NSString* )message{
     [Function printLog:[NSString stringWithFormat:@"Protocol Class handleReceived message -> %@", message]];
-    
+    //BPM
     bool isSuccess;
     
     //DeviceStatus* ds;

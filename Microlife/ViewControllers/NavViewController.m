@@ -7,11 +7,14 @@
 //
 
 #import "NavViewController.h"
+#import "UserLoginViewController.h"
+
 
 @implementation NavViewController
 {
     UIPageControl *pageControl;
     UIScrollView *navScrollView;
+    UserLoginViewController *loginVC;
 }
 @synthesize navImageArray,navTextArray;
 
@@ -129,10 +132,20 @@
 
 -(void)clickNextPageBtn
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc=[storyboard instantiateViewControllerWithIdentifier:@"UserLoginViewController"];
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    UIViewController *vc=[storyboard instantiateViewControllerWithIdentifier:@"UserLoginViewController"];
+//    
+//    [self presentViewController:vc animated:YES completion:nil];
     
-    [self presentViewController:vc animated:YES completion:nil];
+    
+    if (loginVC == nil) {
+        
+        loginVC = (UserLoginViewController*)[self.storyboard instantiateViewControllerWithIdentifier:@"UserLoginViewController"];
+    }
+    
+    [appDelegate.window setRootViewController:loginVC];
+    
+    [appDelegate.window makeKeyAndVisible];
 }
 
 @end
