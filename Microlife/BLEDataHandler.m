@@ -249,7 +249,7 @@
     NSString *hour = [NSString stringWithFormat:@"%02d",[data getHour]];
     NSString *minute = [NSString stringWithFormat:@"%02d",[data getMinute]];
     
-    NSString *date = [NSString stringWithFormat:@"%@/%@/%@ %@:%@",yearString,month,day,hour,minute];
+    NSString *date = [NSString stringWithFormat:@"%@-%@-%@ %@:%@",yearString,month,day,hour,minute];
     
     //[BTClass sharedInstance].BT_ID = cur_uuid;
     [BTClass sharedInstance].accountID = 123;
@@ -316,7 +316,7 @@
         NSString *hour = [NSString stringWithFormat:@"%02d",curMdata.hour];
         NSString *minute = [NSString stringWithFormat:@"%02d",curMdata.minute];
         
-        NSString *date = [NSString stringWithFormat:@"%@/%@/%@ %@:%@",yearString,month,day,hour,minute];
+        NSString *date = [NSString stringWithFormat:@"%@-%@-%@ %@:%@",yearString,month,day,hour,minute];
         
         [BPMClass sharedInstance].accountID = 521;
         [BPMClass sharedInstance].SYS = curMdata.systole;
@@ -391,7 +391,7 @@
     NSString *hour = [NSString stringWithFormat:@"%02d",[eBodyMeasureData getHour]];
     NSString *minute = [NSString stringWithFormat:@"%02d",[eBodyMeasureData getMinute]];
     
-    NSString *date = [NSString stringWithFormat:@"%@/%@/%@ %@:%@",year,month,day,hour,minute];
+    NSString *date = [NSString stringWithFormat:@"%@-%@-%@ %@:%@",year,month,day,hour,minute];
     
     [WeightClass sharedInstance].accountID = 521;
     [WeightClass sharedInstance].weight = [eBodyMeasureData getWeight];

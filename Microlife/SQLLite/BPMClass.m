@@ -45,39 +45,55 @@
     
     //NSString *Command = [NSString stringWithFormat:@"SELECT BPM_ID,accountID,SYS,DIA,PUL,SYS_Unit,PUL_Unit,date,BPM_PhotoPath,BPM_Note,BPM_RecordingPath FROM BPMList"];
     
-    NSString *Command = [NSString stringWithFormat:@"SELECT * FROM BPMList"];
+    NSString *Command = [NSString stringWithFormat:@"SELECT * FROM BPMList ORDER BY date DESC"];
     
     NSMutableArray* DataArray = [self SELECT:Command Num:13];//SELECT:指令：幾筆欄位
     
-    NSMutableArray *returnArray = [NSMutableArray new];
     
-    for (int i=0; i<DataArray.count; i++) {
+    return DataArray;
+}
+
+-(NSMutableArray *)selectPUL:(int)dataRange{
+    
+    NSMutableArray* resultArray= [NSMutableArray new];
+    
+    for (int i = dataRange; i > 0 ; i--) {
         
-        NSMutableArray *resultArray = [DataArray objectAtIndex:i];
+        NSLog(@"i=%d",i);
         
-        if(![[resultArray objectAtIndex:0] isEqualToString:@"Can not find data!"]){
-            NSDictionary *dataDict = [[NSDictionary alloc] initWithObjectsAndKeys:[resultArray objectAtIndex:0],@"BPM_ID",
-                                      [resultArray objectAtIndex:1],@"accountID",
-                                      [resultArray objectAtIndex:2],@"SYS",
-                                      [resultArray objectAtIndex:3],@"DIA",
-                                      [resultArray objectAtIndex:4],@"PUL",
-                                      [resultArray objectAtIndex:5],@"PAD",
-                                      [resultArray objectAtIndex:6],@"AFIB",
-                                      [resultArray objectAtIndex:7],@"SYS_Unit",
-                                      [resultArray objectAtIndex:8],@"PUL_Unit",
-                                      [resultArray objectAtIndex:9],@"date",
-                                      [resultArray objectAtIndex:10],@"BPM_PhotoPath",
-                                      [resultArray objectAtIndex:11],@"BPM_Note",
-                                      [resultArray objectAtIndex:12],@"BPM_RecordingPath",
-                                      nil];
-            
-            [returnArray addObject:dataDict];
+        NSMutableArray* DataArray = [NSMutableArray new];
+        
+        NSString *Command = [NSString stringWithFormat:@"SELECT PUL, STRFTIME(\"%%Y-%%m-%%d\",\"date\") FROM BPMList WHERE DATE(date) = STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d day\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accontID];
+        
+        DataArray = [self SELECT:Command Num:2];//SELECT:指令：幾筆欄位
+        
+        NSString *latestTime = [NSString stringWithFormat:@"%@",[[DataArray firstObject] firstObject]];
+        
+        if (![latestTime isEqualToString:@"Can not find data!"]) {
+            latestTime = [NSString stringWithFormat:@"%@",[[DataArray objectAtIndex:i] objectAtIndex:1]];
+        }else{
+            latestTime = @"0";
         }
-    
+        
+        float sum = 0;
+        
+        NSNumber *avgPUL = [NSNumber numberWithFloat:0.0];
+        
+        for (int i=0; i<DataArray.count; i++) {
+            sum += [[[DataArray objectAtIndex:i] firstObject] intValue];
+        }
+        
+        avgPUL = [NSNumber numberWithFloat:sum/DataArray.count];
+        
+        NSDictionary *resultDict = [[NSDictionary alloc] initWithObjectsAndKeys:avgPUL,@"PUL",
+                                    latestTime,@"date",nil];
+        
+        [resultArray addObject:resultDict];
+        
     }
     
+    return resultArray;
     
-    return returnArray;
 }
 
 - (void)updateData{

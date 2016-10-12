@@ -23,6 +23,7 @@
 +(BTClass*) sharedInstance;
 
 -(NSMutableArray *)selectAllData;
+-(NSMutableArray *)selectTemp:(int)dataRange;
 -(void)insertData;
 - (void)updateData;
 

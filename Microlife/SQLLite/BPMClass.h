@@ -29,6 +29,7 @@
 +(BPMClass*) sharedInstance;
 
 -(NSDictionary *)selectAllData;
+-(NSMutableArray *)selectPUL:(int)dataRange;
 -(void)insertData;
 - (void)updateData;
 

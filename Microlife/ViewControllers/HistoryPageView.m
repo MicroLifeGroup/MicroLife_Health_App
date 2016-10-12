@@ -172,7 +172,7 @@
                 break;
                 
             case 2:
-                dataCount = 31;
+                dataCount = 30;
                 break;
                 
             case 3:

@@ -13,6 +13,8 @@
     NSUserDefaults *defaults;
 }
 
+@property (nonatomic) int accontID;
+
 +(LocalData *)sharedInstance;
 
 -(NSMutableArray *)getReminderData;

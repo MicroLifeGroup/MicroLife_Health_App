@@ -162,9 +162,7 @@
         if (yValueNum.intValue < minValue && self.chartType == 0) {
             minValue = yValueNum.intValue;
         }
-        
     }
-    
     
     maxValue += maxValue*0.1;
     minValue -= minValue*0.1;
@@ -172,8 +170,7 @@
     switch (self.chartType) {
         case 0:
             //SYS/DIA
-            //chartMaxValue = 280;
-            //chartMinValue = 20;
+            
             chartMaxValue = maxValue;
             chartMinValue = minValue;
 
@@ -182,49 +179,101 @@
             secNormalValue = 85;
             secTargetValue = 83;
             break;
-        case 1:
+        case 1:{
             //PUL
+            [chartDataArray removeAllObjects];
+            
+            NSMutableArray *PULArry = [[BPMClass sharedInstance] selectPUL:dataCount];
+            
+            for (int i = 0; i<PULArry.count; i++) {
+                [chartDataArray addObject:[[PULArry objectAtIndex:i] objectForKey:@"PUL"]];
+            }
+            
+            
             chartMaxValue = 200;
             chartMinValue = 40;
             
             targetValue = 75;
+        }
             break;
-        case 2:
+        case 2:{
+            
             //體重
+            [chartDataArray removeAllObjects];
+            
+            NSMutableArray *weightArry = [[WeightClass sharedInstance] selectWeight:dataCount];
+            
+            for (int i = 0; i<weightArry.count; i++) {
+                [chartDataArray addObject:[[weightArry objectAtIndex:i] objectForKey:@"weight"]];
+            }
+            
             chartMaxValue = 150.0;
             chartMinValue = 5.0;
             
             targetValue = 60;
+        }
+            
             break;
-        case 3:
+        case 3:{
             //BMI
+            
+            [chartDataArray removeAllObjects];
+            
+            NSMutableArray *BMIArry = [[WeightClass sharedInstance] selectBMI:dataCount];
+            
+            for (int i = 0; i<BMIArry.count; i++) {
+                [chartDataArray addObject:[[BMIArry objectAtIndex:i] objectForKey:@"BMI"]];
+            }
+            
             chartMaxValue = 90;
             chartMinValue = 10;
             
             normalValue = 23;
             targetValue = 25;
+        }
+            
             break;
             
-        case 4:
+        case 4:{
             //FAT
+            
+            [chartDataArray removeAllObjects];
+            
+            NSMutableArray *bodyFatArry = [[WeightClass sharedInstance] selectBodyFat:dataCount];
+            
+            for (int i = 0; i<bodyFatArry.count; i++) {
+                [chartDataArray addObject:[[bodyFatArry objectAtIndex:i] objectForKey:@"bodyFat"]];
+            }
+            
             chartMaxValue = 60;
             chartMinValue = 5;
             
             normalValue = 24;
             targetValue = 9;
+        }
+            
             break;
-        case 5:
+        case 5:{
             //溫度
+            [chartDataArray removeAllObjects];
+            
+            NSMutableArray *BTListArry = [[BTClass sharedInstance] selectTemp:dataCount];
+            
+            for (int i = 0; i<BTListArry.count; i++) {
+                [chartDataArray addObject:[[BTListArry objectAtIndex:i] objectForKey:@"temp"]];
+            }
+            
             chartMaxValue = 42.0;
             chartMinValue = 25.0;
             normalValue = 37.5;
+
+        }
             
             break;
             
         default:
             break;
     }
-
     
     //MARK:計算資料範圍值
     dataXLength = dataCount-1;
@@ -466,7 +515,7 @@
     valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, self.frame.size.width*0.146, indicatorView.frame.size.height-3)];
     
     valueLabel.textColor = [UIColor whiteColor];
-    valueLabel.text = @"123/87";
+    valueLabel.text = @"135/87";
     valueLabel.font = [UIFont systemFontOfSize:16.0];
     valueLabel.textAlignment = NSTextAlignmentCenter;
     
@@ -661,10 +710,16 @@
     CGContextSetLineWidth(graphContext, 3.0);
     CGContextSetLineJoin(graphContext, kCGLineJoinRound);
     
+    NSLog(@"chartDataArray = %@",chartDataArray);
+    
     for (int i=0; i<chartDataArray.count; i++) {
         
         //float xValue = [[xPointAry objectAtIndex:i] floatValue];
         float yValue = [[chartDataArray objectAtIndex:i] floatValue];
+        
+        if (yValue <= chartMinValue) {
+            yValue = chartMinValue;
+        }
         
         if (normalValue != 0) {
             [self setChartLineDot:i yPoint:yValue normalValue:normalValue];

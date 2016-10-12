@@ -48,38 +48,131 @@
     
     NSMutableArray* DataArray = [self SELECT:Command Num:15];//SELECT:指令：幾筆欄位
     
-    NSMutableArray *returnArray = [NSMutableArray new];
     
-    for (int i=0; i<DataArray.count; i++) {
+    return DataArray;
+}
+
+-(NSMutableArray *)selectWeight:(int)dataRange{
+    
+    NSMutableArray* resultArray= [NSMutableArray new];
+    
+    for (int i = dataRange; i > 0 ; i--) {
         
-        NSMutableArray *resultArray = [DataArray objectAtIndex:i];
+        NSMutableArray* DataArray = [NSMutableArray new];
         
-        if(![[resultArray objectAtIndex:0] isEqualToString:@"Can not find data!"]){
-            NSDictionary *dataDict = [[NSDictionary alloc] initWithObjectsAndKeys:[resultArray objectAtIndex:0],@"eventID",
-                                      [resultArray objectAtIndex:1],@"accountID",
-                                      [resultArray objectAtIndex:2],@"weight",
-                                      [resultArray objectAtIndex:3],@"weightUnit",
-                                      [resultArray objectAtIndex:4],@"BMI",
-                                      [resultArray objectAtIndex:5],@"bodyFat",
-                                      [resultArray objectAtIndex:6],@"water",
-                                      [resultArray objectAtIndex:7],@"skeleton",
-                                      [resultArray objectAtIndex:8],@"muscle",
-                                      [resultArray objectAtIndex:9],@"BMR",
-                                      [resultArray objectAtIndex:10],@"organFat",
-                                      [resultArray objectAtIndex:11],@"date",
-                                      [resultArray objectAtIndex:12],@"weight_PhotoPath",
-                                      [resultArray objectAtIndex:13],@"weight_Note",
-                                      [resultArray objectAtIndex:14],@"weight_RecordingPath",
-                                      
-                                      nil];
-            
-            [returnArray addObject:dataDict];
+        NSString *Command = [NSString stringWithFormat:@"SELECT weight, STRFTIME(\"%%Y-%%m-%%d\",\"date\") FROM WeightList WHERE DATE(date) = STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d day\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accontID];
+        
+        DataArray = [self SELECT:Command Num:2];//SELECT:指令：幾筆欄位
+        
+        NSString *latestTime = [NSString stringWithFormat:@"%@",[[DataArray firstObject] firstObject]];
+        
+        if (![latestTime isEqualToString:@"Can not find data!"]) {
+            latestTime = [NSString stringWithFormat:@"%@",[[DataArray objectAtIndex:i] objectAtIndex:1]];
+        }else{
+            latestTime = @"0";
         }
+        
+        float sum = 0;
+        
+        NSNumber *avgWeight = [NSNumber numberWithFloat:0.0];
+        
+        for (int i=0; i<DataArray.count; i++) {
+            sum += [[[DataArray objectAtIndex:i] firstObject] intValue];
+        }
+        
+        avgWeight = [NSNumber numberWithFloat:sum/DataArray.count];
+        
+        NSDictionary *resultDict = [[NSDictionary alloc] initWithObjectsAndKeys:avgWeight,@"weight",
+                                    latestTime,@"date",nil];
+        
+        [resultArray addObject:resultDict];
         
     }
     
+    return resultArray;
     
-    return returnArray;
+}
+
+-(NSMutableArray *)selectBMI:(int)dataRange{
+    
+    NSMutableArray* resultArray= [NSMutableArray new];
+    
+    for (int i = dataRange; i > 0 ; i--) {
+        
+        NSMutableArray* DataArray = [NSMutableArray new];
+        
+        NSString *Command = [NSString stringWithFormat:@"SELECT BMI, STRFTIME(\"%%Y-%%m-%%d\",\"date\") FROM WeightList WHERE DATE(date) = STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d day\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accontID];
+        
+        DataArray = [self SELECT:Command Num:2];//SELECT:指令：幾筆欄位
+        
+        NSString *latestTime = [NSString stringWithFormat:@"%@",[[DataArray firstObject] firstObject]];
+        
+        if (![latestTime isEqualToString:@"Can not find data!"]) {
+            latestTime = [NSString stringWithFormat:@"%@",[[DataArray objectAtIndex:i] objectAtIndex:1]];
+        }else{
+            latestTime = @"0";
+        }
+        
+        float sum = 0;
+        
+        NSNumber *avgBMI = [NSNumber numberWithFloat:0.0];
+        
+        for (int i=0; i<DataArray.count; i++) {
+            sum += [[[DataArray objectAtIndex:i] firstObject] intValue];
+        }
+        
+        avgBMI = [NSNumber numberWithFloat:sum/DataArray.count];
+        
+        NSDictionary *resultDict = [[NSDictionary alloc] initWithObjectsAndKeys:avgBMI,@"BMI",
+                                    latestTime,@"date",nil];
+        
+        [resultArray addObject:resultDict];
+        
+    }
+    
+    return resultArray;
+    
+}
+
+-(NSMutableArray *)selectBodyFat:(int)dataRange{
+    
+    NSMutableArray* resultArray= [NSMutableArray new];
+    
+    for (int i = dataRange; i > 0 ; i--) {
+        
+        NSMutableArray* DataArray = [NSMutableArray new];
+        
+        NSString *Command = [NSString stringWithFormat:@"SELECT bodyFat, STRFTIME(\"%%Y-%%m-%%d\",\"date\") FROM WeightList WHERE DATE(date) = STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d day\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accontID];
+        
+        DataArray = [self SELECT:Command Num:2];//SELECT:指令：幾筆欄位
+        
+        NSString *latestTime = [NSString stringWithFormat:@"%@",[[DataArray firstObject] firstObject]];
+        
+        if (![latestTime isEqualToString:@"Can not find data!"]) {
+            latestTime = [NSString stringWithFormat:@"%@",[[DataArray objectAtIndex:i] objectAtIndex:1]];
+        }else{
+            latestTime = @"0";
+        }
+        
+        float sum = 0;
+        
+        NSNumber *avgFat = [NSNumber numberWithFloat:0.0];
+        
+        for (int i=0; i<DataArray.count; i++) {
+            sum += [[[DataArray objectAtIndex:i] firstObject] intValue];
+        }
+        
+        avgFat = [NSNumber numberWithFloat:sum/DataArray.count];
+        
+        NSDictionary *resultDict = [[NSDictionary alloc] initWithObjectsAndKeys:avgFat,@"bodyFat",
+                                    latestTime,@"date",nil];
+        
+        [resultArray addObject:resultDict];
+        
+    }
+    
+    return resultArray;
+    
 }
 
 - (void)updateData{

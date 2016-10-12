@@ -30,6 +30,10 @@
 +(WeightClass*) sharedInstance;
 
 -(NSMutableArray *)selectAllData;
+-(NSMutableArray *)selectWeight:(int)dataRange;
+-(NSMutableArray *)selectBodyFat:(int)dataRange;
+-(NSMutableArray *)selectBMI:(int)dataRange;
+
 -(void)insertData;
 - (void)updateData;
 

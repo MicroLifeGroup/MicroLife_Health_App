@@ -46,34 +46,58 @@
     
     //NSString *Command = [NSString stringWithFormat:@"SELECT BT_ID, accountID, eventID, bodyTemp, roomTmep ,date ,BT_PhotoPath, BT_Note, BT_RecordingPath FROM BTList"];
     
-    NSString *Command = [NSString stringWithFormat:@"SELECT * FROM BTList ORDER BY date DESC"];
+    NSString *Command = [NSString stringWithFormat:@"SELECT * FROM BTList ORDER BY date DESC Where accountID = %d",[LocalData sharedInstance].accontID];
     
     NSMutableArray* DataArray = [self SELECT:Command Num:9];//SELECT:指令：幾筆欄位
     
-    NSMutableArray *returnArray = [NSMutableArray new];
-    
-    for (int i=0; i<DataArray.count; i++) {
-        
-        NSMutableArray *resultArray = [DataArray objectAtIndex:i];
+    return DataArray;
+}
 
-        if(![[resultArray objectAtIndex:0] isEqualToString:@"Can not find data!"]){
-            NSDictionary *dataDict = [[NSDictionary alloc] initWithObjectsAndKeys:[resultArray objectAtIndex:0],@"BT_ID",
-                                      [resultArray objectAtIndex:1],@"accountID",
-                                      [resultArray objectAtIndex:2],@"eventID",
-                                      [resultArray objectAtIndex:3],@"bodyTemp",
-                                      [resultArray objectAtIndex:4],@"roomTmep",
-                                      [resultArray objectAtIndex:5],@"date",
-                                      [resultArray objectAtIndex:6],@"BT_PhotoPath",
-                                      [resultArray objectAtIndex:7],@"BT_Note",
-                                      [resultArray objectAtIndex:8],@"BT_RecordingPath",nil];
-            
-            [returnArray addObject:dataDict];
+-(NSMutableArray *)selectTemp:(int)dataRange{
+
+    NSMutableArray* resultArray= [NSMutableArray new];
+    
+    for (int i = dataRange; i > 0 ; i--) {
+    
+    NSMutableArray* DataArray = [NSMutableArray new];
+        
+    NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp, STRFTIME(\"%%H:%%M\",\"date\") FROM BTList WHERE TIME(date) = STRFTIME(\"%%H:%%M\",\"now\", \"localtime\",\"-%d hour\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accontID];
+    
+        NSLog(@"Command = %@",Command);
+        
+        DataArray = [self SELECT:Command Num:2];//SELECT:指令：幾筆欄位
+        
+        float sumTemp = 0;
+        
+        NSNumber *avgTemp = [NSNumber numberWithFloat:0.0];
+        
+        NSString *latestTime = [NSString stringWithFormat:@"%@",[[DataArray firstObject] firstObject]];
+        NSLog(@"latestTime =%@",latestTime);
+        
+        if (![latestTime isEqualToString:@"Can not find data!"]) {
+            latestTime = [NSString stringWithFormat:@"%@",[[DataArray objectAtIndex:i] objectAtIndex:1]];
+        }else{
+            latestTime = @"0";
         }
+        
+        for (int i=0; i<DataArray.count; i++) {
+            sumTemp += [[[DataArray objectAtIndex:i] firstObject] intValue];
+        }
+        
+        avgTemp = [NSNumber numberWithFloat:sumTemp/DataArray.count];
+        
+        NSDictionary *resultDict = [[NSDictionary alloc] initWithObjectsAndKeys:avgTemp,@"temp",
+                                    latestTime,@"date",nil];
+        
+        [resultArray addObject:resultDict];
+
     }
 
+    NSLog(@"resultArray = %@",resultArray);
     
-    return returnArray;
+    return resultArray;
 }
+
 
 - (void)updateData{
 
