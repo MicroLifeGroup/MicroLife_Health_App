@@ -24,6 +24,7 @@
 
 -(NSMutableArray *)selectAllData;
 -(NSMutableArray *)selectTemp:(int)dataRange;
+-(NSMutableArray *)selectCurrentHour;
 -(void)insertData;
 - (void)updateData;
 

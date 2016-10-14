@@ -164,7 +164,7 @@
     if (chartType != 5) {
         switch (dateSegIndex) {
             case 0:
-                dataCount = 24;
+                dataCount = -1;
                 break;
                 
             case 1:
@@ -186,7 +186,7 @@
         
         switch (dateSegIndex) {
             case 0:
-                dataCount = 60;
+                dataCount = -1;
                 break;
             case 1:
                 dataCount = 4;

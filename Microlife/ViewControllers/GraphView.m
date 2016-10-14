@@ -167,6 +167,8 @@
     maxValue += maxValue*0.1;
     minValue -= minValue*0.1;
     
+    NSMutableArray *selectDataAry = [[NSMutableArray alloc] initWithCapacity:0];
+    
     switch (self.chartType) {
         case 0:
             //SYS/DIA
@@ -183,10 +185,10 @@
             //PUL
             [chartDataArray removeAllObjects];
             
-            NSMutableArray *PULArry = [[BPMClass sharedInstance] selectPUL:dataCount];
+            selectDataAry = [[BPMClass sharedInstance] selectPUL:dataCount];
             
-            for (int i = 0; i<PULArry.count; i++) {
-                [chartDataArray addObject:[[PULArry objectAtIndex:i] objectForKey:@"PUL"]];
+            for (int i = 0; i<selectDataAry.count; i++) {
+                [chartDataArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"PUL"]];
             }
             
             
@@ -201,10 +203,17 @@
             //體重
             [chartDataArray removeAllObjects];
             
-            NSMutableArray *weightArry = [[WeightClass sharedInstance] selectWeight:dataCount];
+            if (dataCount == -1) {
+                
+                selectDataAry = [[WeightClass sharedInstance] selectCurrentDay];
+            }else{
+                selectDataAry = [[WeightClass sharedInstance] selectWeight:dataCount];
+                
+                dataCount = selectDataAry.count;
+            }
             
-            for (int i = 0; i<weightArry.count; i++) {
-                [chartDataArray addObject:[[weightArry objectAtIndex:i] objectForKey:@"weight"]];
+            for (int i = 0; i<selectDataAry.count; i++) {
+                [chartDataArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"weight"]];
             }
             
             chartMaxValue = 150.0;
@@ -219,10 +228,10 @@
             
             [chartDataArray removeAllObjects];
             
-            NSMutableArray *BMIArry = [[WeightClass sharedInstance] selectBMI:dataCount];
+            selectDataAry = [[WeightClass sharedInstance] selectBMI:dataCount];
             
-            for (int i = 0; i<BMIArry.count; i++) {
-                [chartDataArray addObject:[[BMIArry objectAtIndex:i] objectForKey:@"BMI"]];
+            for (int i = 0; i<selectDataAry.count; i++) {
+                [chartDataArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"BMI"]];
             }
             
             chartMaxValue = 90;
@@ -239,11 +248,13 @@
             
             [chartDataArray removeAllObjects];
             
-            NSMutableArray *bodyFatArry = [[WeightClass sharedInstance] selectBodyFat:dataCount];
+           selectDataAry = [[WeightClass sharedInstance] selectBodyFat:dataCount];
             
-            for (int i = 0; i<bodyFatArry.count; i++) {
-                [chartDataArray addObject:[[bodyFatArry objectAtIndex:i] objectForKey:@"bodyFat"]];
+            for (int i = 0; i<selectDataAry.count; i++) {
+                [chartDataArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"bodyFat"]];
             }
+            
+            
             
             chartMaxValue = 60;
             chartMinValue = 5;
@@ -257,12 +268,20 @@
             //溫度
             [chartDataArray removeAllObjects];
             
-            NSMutableArray *BTListArry = [[BTClass sharedInstance] selectTemp:dataCount];
             
-            for (int i = 0; i<BTListArry.count; i++) {
-                [chartDataArray addObject:[[BTListArry objectAtIndex:i] objectForKey:@"temp"]];
+            if (dataCount == -1) {
+                selectDataAry = [[BTClass sharedInstance] selectCurrentHour];
+                dataCount = selectDataAry.count;
+                
+            }else{
+                selectDataAry = [[BTClass sharedInstance] selectTemp:dataCount];
             }
             
+            
+            for (int i = 0; i<selectDataAry.count; i++) {
+                [chartDataArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"temp"]];
+            }
+            NSLog(@"chartDataArray  %@",chartDataArray);
             chartMaxValue = 42.0;
             chartMinValue = 25.0;
             normalValue = 37.5;
@@ -840,15 +859,17 @@
     
     CGFloat dataMargin = (self.frame.size.width-chartLeftWidth-chartRightWidth)/dataXLength;
     
-    int dataIndex = touchedPoint.x/dataMargin-1;
+    int dataIndex = touchedPoint.x/dataMargin;
+    
+    //NSLog(@"dataIndex = %d",dataIndex);
     
     if (dataIndex < chartDataArray.count ) {
         
         float floatVal = [[chartDataArray objectAtIndex:dataIndex] floatValue];
         
         if(self.chartType == 0 || self.chartType == 5){
-            float secFloatVal = [[secGraphYData objectAtIndex:dataIndex] floatValue];
-            
+            //float secFloatVal = [[secGraphYData objectAtIndex:dataIndex] floatValue];
+            float secFloatVal = 0;
             if(self.chartType == 0){
                valueLabel.text = [NSString stringWithFormat:@"%.0f/%.0f",floatVal,secFloatVal];
             }else{

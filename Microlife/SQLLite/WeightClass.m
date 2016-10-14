@@ -142,7 +142,9 @@
         
         NSMutableArray* DataArray = [NSMutableArray new];
         
-        NSString *Command = [NSString stringWithFormat:@"SELECT bodyFat, STRFTIME(\"%%Y-%%m-%%d\",\"date\") FROM WeightList WHERE DATE(date) = STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d day\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
+        NSString *Command = [NSString stringWithFormat:@"SELECT bodyFat, STRFTIME(\"%%Y-%%m-%%d\",\"date\") FROM WeightList WHERE strftime(\"%%Y-%%m-%%d\", \"date\") = strftime(\"%%Y-%%m-%%d\", \"now\", \"localtime\", \"-%d day\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
+        
+        
         
         DataArray = [self SELECT:Command Num:2];//SELECT:指令：幾筆欄位
         
@@ -170,6 +172,42 @@
         [resultArray addObject:resultDict];
         
     }
+    
+    return resultArray;
+    
+}
+
+-(NSMutableArray *)selectCurrentDay{
+    
+    NSMutableArray *resultArray = [NSMutableArray new];
+    
+    NSString *Command = [NSString stringWithFormat:@"SELECT weight, STRFTIME(\"%%Y-%%m-%%d\",\"date\") FROM WeightList WHERE strftime(\"%%Y-%%m-%%d\", \"date\") = strftime(\"%%Y-%%m-%%d\", \"now\", \"localtime\") AND accountID = %d ORDER BY date DESC",[LocalData sharedInstance].accountID];
+    
+    NSMutableArray* DataArray = [NSMutableArray new];
+    
+    DataArray = [self SELECT:Command Num:2];//SELECT:指令：幾筆欄位
+    
+    NSString *dateStr = [NSString stringWithFormat:@"%@",[[DataArray firstObject] firstObject]];
+    
+    for (int i=0; i<DataArray.count; i++) {
+        
+        NSNumber *weightNum = [NSNumber numberWithFloat:[[[DataArray objectAtIndex:i] firstObject] floatValue]];
+        
+        if (![dateStr isEqualToString:@"Can not find data!"]) {
+            dateStr = [NSString stringWithFormat:@"%@",[[DataArray objectAtIndex:i] objectAtIndex:1]];
+        }else{
+            dateStr = @"0";
+        }
+        
+        
+        NSDictionary *resultDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                    weightNum,@"weight",
+                                    dateStr,@"date",nil];
+        
+        [resultArray addObject:resultDict];
+    }
+    
+    NSLog(@"resultArray = %@",resultArray);
     
     return resultArray;
     

@@ -33,6 +33,7 @@
 -(NSMutableArray *)selectWeight:(int)dataRange;
 -(NSMutableArray *)selectBodyFat:(int)dataRange;
 -(NSMutableArray *)selectBMI:(int)dataRange;
+-(NSMutableArray *)selectCurrentDay;
 
 -(void)insertData;
 - (void)updateData;

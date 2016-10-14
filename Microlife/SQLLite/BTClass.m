@@ -63,7 +63,7 @@
     
         NSMutableArray* DataArray = [NSMutableArray new];
         
-        NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp, STRFTIME(\"%%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", date) > strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
+        NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp, STRFTIME(\"%%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", \"date\") > strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
         
         DataArray = [self SELECT:Command Num:2];//SELECT:指令：幾筆欄位
         
@@ -86,7 +86,7 @@
         }
         
         for (int i=0; i<DataArray.count; i++) {
-            sumTemp += [[[DataArray objectAtIndex:i] firstObject] intValue];
+            sumTemp += [[[DataArray objectAtIndex:i] firstObject] floatValue];
         }
         
         if (i < DataArray.count) {
@@ -94,7 +94,6 @@
         }else{
             avgTemp = [NSNumber numberWithFloat:0.0];
         }
-        
         
         NSDictionary *resultDict = [[NSDictionary alloc] initWithObjectsAndKeys:avgTemp,@"temp",
                                     latestTime,@"date",nil];
@@ -107,7 +106,51 @@
     
     return resultArray;
     
-//    NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp, STRFTIME(\"%%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", date) > strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
+    
+}
+
+-(NSMutableArray *)selectCurrentHour{
+    
+    NSMutableArray* resultArray= [NSMutableArray new];
+    
+    NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp, STRFTIME(\"%%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", \"date\") = strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\") AND accountID = %d ORDER BY date DESC",[LocalData sharedInstance].accountID];
+    
+    NSMutableArray* DataArray = [NSMutableArray new];
+    
+    DataArray = [self SELECT:Command Num:2];//SELECT:指令：幾筆欄位
+    
+    NSLog(@"DataArray = %@",DataArray);
+    
+    NSString *dateStr = [NSString stringWithFormat:@"%@",[[DataArray firstObject] firstObject]];
+    
+    if (![dateStr isEqualToString:@"Can not find data!"]) {
+        
+        for (int i=DataArray.count-1; i>=0; i--) {
+            NSLog(@"i========%d",i);
+            NSNumber *bodyTempNum = [NSNumber numberWithFloat:[[[DataArray objectAtIndex:i] firstObject] floatValue]];
+            
+            if (![dateStr isEqualToString:@"Can not find data!"]) {
+                dateStr = [NSString stringWithFormat:@"%@",[[DataArray objectAtIndex:i] objectAtIndex:1]];
+            }else{
+                dateStr = @"0";
+            }
+            
+            
+            NSDictionary *resultDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                        bodyTempNum,@"temp",
+                                        dateStr,@"date",nil];
+            
+            [resultArray addObject:resultDict];
+        }
+    }
+    
+    
+    
+    
+    
+    NSLog(@"resultArray = %@",resultArray);
+    
+    return resultArray;
 }
 
 
@@ -125,7 +168,7 @@
 -(void)insertData{
     
     
-    NSString *SQLStr = [NSString stringWithFormat:@"INSERT OR REPLACE INTO BTList( accountID, eventID, bodyTemp, roomTmep, date, BT_PhotoPath, BT_Note, BT_RecordingPath) VALUES(  \"%d\",\"%d\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\");", accountID , eventID, bodyTemp, roomTmep, date, BT_PhotoPath, BT_Note, BT_RecordingPath];
+    NSString *SQLStr = [NSString stringWithFormat:@"INSERT INTO BTList( accountID, eventID, bodyTemp, roomTmep, date, BT_PhotoPath, BT_Note, BT_RecordingPath) VALUES(  \"%d\",\"%d\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\");", accountID , eventID, bodyTemp, roomTmep, date, BT_PhotoPath, BT_Note, BT_RecordingPath];
     
     [self COLUMN_INSERT:SQLStr];
 }
