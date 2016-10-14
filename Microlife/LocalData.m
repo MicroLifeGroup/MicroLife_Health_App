@@ -35,8 +35,6 @@
         reminderDataArray = [[NSMutableArray alloc] init];
     }
     
-    self.accontID = 123;
-    
 }
 
 -(void)saveReminderData:(NSMutableArray *)dataArray{

@@ -36,9 +36,6 @@
     NSLog(@"[BTClass sharedInstance] = %@", [[BTClass sharedInstance] selectAllData]);
     NSLog(@"[BPMClass sharedInstance] = %@", [[BPMClass sharedInstance] selectAllData]);
     
-    
-    NSLog(@"chartDataArray = %@",[[BTClass sharedInstance] selectTemp:7]);
-    
     BLEDataHandler *handler = [[BLEDataHandler alloc] init];
     
     [handler protocolStart];

@@ -45,7 +45,7 @@
     
     //NSString *Command = [NSString stringWithFormat:@"SELECT BPM_ID,accountID,SYS,DIA,PUL,SYS_Unit,PUL_Unit,date,BPM_PhotoPath,BPM_Note,BPM_RecordingPath FROM BPMList"];
     
-    NSString *Command = [NSString stringWithFormat:@"SELECT * FROM BPMList ORDER BY date DESC"];
+    NSString *Command = [NSString stringWithFormat:@"SELECT * FROM BPMList WHERE accountID = %d ORDER BY date DESC",[LocalData sharedInstance].accountID];
     
     NSMutableArray* DataArray = [self SELECT:Command Num:13];//SELECT:指令：幾筆欄位
     
@@ -63,7 +63,7 @@
         
         NSMutableArray* DataArray = [NSMutableArray new];
         
-        NSString *Command = [NSString stringWithFormat:@"SELECT PUL, STRFTIME(\"%%Y-%%m-%%d\",\"date\") FROM BPMList WHERE DATE(date) = STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d day\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accontID];
+        NSString *Command = [NSString stringWithFormat:@"SELECT PUL, STRFTIME(\"%%Y-%%m-%%d\",\"date\") FROM BPMList WHERE DATE(date) = STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d day\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
         
         DataArray = [self SELECT:Command Num:2];//SELECT:指令：幾筆欄位
         

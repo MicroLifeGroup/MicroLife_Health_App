@@ -13,7 +13,7 @@
     NSUserDefaults *defaults;
 }
 
-@property (nonatomic) int accontID;
+@property (nonatomic) int accountID;
 
 +(LocalData *)sharedInstance;
 

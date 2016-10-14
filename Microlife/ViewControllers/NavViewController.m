@@ -127,6 +127,8 @@
      UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *vc=[storyboard instantiateViewControllerWithIdentifier:@"TabBarViewController"];
     
+    [LocalData sharedInstance].accountID = -1;
+    
     [self presentViewController:vc animated:YES completion:nil];
 }
 

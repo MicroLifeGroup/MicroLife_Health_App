@@ -710,7 +710,7 @@
     CGContextSetLineWidth(graphContext, 3.0);
     CGContextSetLineJoin(graphContext, kCGLineJoinRound);
     
-    NSLog(@"chartDataArray = %@",chartDataArray);
+    //NSLog(@"chartDataArray = %@",chartDataArray);
     
     for (int i=0; i<chartDataArray.count; i++) {
         
@@ -736,7 +736,7 @@
     
     //SYS/DIS 室溫 測試用假資料
     
-    if(self.chartType == 0 || self.chartType == 5){
+    if(self.chartType == 0 /*|| self.chartType == 5*/){
         
         CGContextRef secGraphContext = UIGraphicsGetCurrentContext();
         
@@ -840,14 +840,28 @@
     
     CGFloat dataMargin = (self.frame.size.width-chartLeftWidth-chartRightWidth)/dataXLength;
     
-    int dataIndex = (touchedPoint.x)/dataMargin-1;
+    int dataIndex = touchedPoint.x/dataMargin-1;
     
     if (dataIndex < chartDataArray.count ) {
         
+        float floatVal = [[chartDataArray objectAtIndex:dataIndex] floatValue];
+        
         if(self.chartType == 0 || self.chartType == 5){
-            valueLabel.text = [NSString stringWithFormat:@"%@/%@",[chartDataArray objectAtIndex:dataIndex],[secGraphYData objectAtIndex:dataIndex]];
+            float secFloatVal = [[secGraphYData objectAtIndex:dataIndex] floatValue];
+            
+            if(self.chartType == 0){
+               valueLabel.text = [NSString stringWithFormat:@"%.0f/%.0f",floatVal,secFloatVal];
+            }else{
+                valueLabel.text = [NSString stringWithFormat:@"%.1f/%.1f",floatVal,secFloatVal];
+            }
+            
         }else{
-            valueLabel.text = [NSString stringWithFormat:@"%@",[chartDataArray objectAtIndex:dataIndex]];
+            if (self.chartType == 2){
+                valueLabel.text = [NSString stringWithFormat:@"%.1f",floatVal];
+            }else{
+                valueLabel.text = [NSString stringWithFormat:@"%.0f",floatVal];
+            }
+            
         }
     }
 }

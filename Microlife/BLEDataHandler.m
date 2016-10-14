@@ -30,6 +30,7 @@
 }
 
 -(void)protocolStart{
+
     checkThermTimer = [NSTimer scheduledTimerWithTimeInterval:0.2f target:self selector:@selector(changeConnect) userInfo:nil repeats:YES];
 }
 
@@ -38,6 +39,8 @@
     bPMProtocol = [[BPMProtocol alloc] getInstanceSimulation:NO PrintLog:YES];
     bPMProtocol.dataResponseDelegate = self;
     bPMProtocol.connectStateDelegate = self;
+    
+    [bPMProtocol enableBluetooth];
 }
 
 -(void)initBTProtocal{
@@ -59,6 +62,7 @@
 
 -(void)changeConnect
 {
+    
     /*
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDate *date = [NSDate date];
@@ -226,6 +230,13 @@
 
 #pragma mark - BT Command delegate
 
+-(void)onResponseDeviceInfo:(NSString *)macAddress workMode:(int)workMode batteryVoltage:(float)batteryVoltage
+{
+    NSLog(@"macAddress:%@",macAddress);
+    NSLog(@"workMode:%d",workMode);
+    NSLog(@"batteryVoltage:%f",batteryVoltage);
+}
+
 -(void)onResponseUploadMeasureData:(ThermoMeasureData *)data
 {
     //NSLog(@"%@",[data toString]);
@@ -251,8 +262,9 @@
     
     NSString *date = [NSString stringWithFormat:@"%@-%@-%@ %@:%@",yearString,month,day,hour,minute];
     
-    //[BTClass sharedInstance].BT_ID = cur_uuid;
-    [BTClass sharedInstance].accountID = 123;
+
+    [BTClass sharedInstance].accountID = [LocalData sharedInstance].accountID;
+    
     [BTClass sharedInstance].eventID = 1;
     
     [BTClass sharedInstance].date = date;
@@ -265,7 +277,7 @@
     
     [[BTClass sharedInstance] insertData];
     
-    NSLog(@"[BTClass sharedInstance] = %@", [[BTClass sharedInstance] selectAllData]);
+    NSLog(@"BTClass  insert data  = %@", [[BTClass sharedInstance] selectAllData]);
     
     [thermoProtocol disconnect];
     
@@ -318,7 +330,7 @@
         
         NSString *date = [NSString stringWithFormat:@"%@-%@-%@ %@:%@",yearString,month,day,hour,minute];
         
-        [BPMClass sharedInstance].accountID = 521;
+        [BPMClass sharedInstance].accountID = [LocalData sharedInstance].accountID;
         [BPMClass sharedInstance].SYS = curMdata.systole;
         [BPMClass sharedInstance].DIA = curMdata.dia;
         [BPMClass sharedInstance].PUL = curMdata.hr;
@@ -333,7 +345,7 @@
         
         [[BPMClass sharedInstance] insertData];
         
-        NSLog(@"[BPMClass sharedInstance] = %@", [[BPMClass sharedInstance] selectAllData]);
+        NSLog(@"BPMClass insert data = %@", [[BPMClass sharedInstance] selectAllData]);
         
     }
     NSLog(@"\n=== currentData end ===");
@@ -393,9 +405,8 @@
     
     NSString *date = [NSString stringWithFormat:@"%@-%@-%@ %@:%@",year,month,day,hour,minute];
     
-    [WeightClass sharedInstance].accountID = 521;
+    [WeightClass sharedInstance].accountID = [LocalData sharedInstance].accountID;
     [WeightClass sharedInstance].weight = [eBodyMeasureData getWeight];
-    [WeightClass sharedInstance].weight = 0;
     [WeightClass sharedInstance].date = date;
     [WeightClass sharedInstance].water = [eBodyMeasureData getWater];
     [WeightClass sharedInstance].bodyFat = [eBodyMeasureData getFat];
@@ -410,7 +421,7 @@
     
     [[WeightClass sharedInstance] insertData];
     
-    NSLog(@"[WeightClass sharedInstance] = %@", [[WeightClass sharedInstance] selectAllData]);
+    NSLog(@"WeightClass  insert data  = %@", [[WeightClass sharedInstance] selectAllData]);
     
     [eBodyProtocol disconnect];
     

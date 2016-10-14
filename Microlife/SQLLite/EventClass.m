@@ -44,7 +44,7 @@
     
     //NSString *Command = [NSString stringWithFormat:@"SELECT eventID, accountID, event, type, eventTime FROM EventList"];
     
-    NSString *Command = [NSString stringWithFormat:@"SELECT * FROM EventList"];
+    NSString *Command = [NSString stringWithFormat:@"SELECT * FROM EventList WHERE accountID = %d ORDER BY date DESC",[LocalData sharedInstance].accountID];
     
     NSMutableArray* DataArray = [self SELECT:Command Num:5];//SELECT:指令：幾筆欄位    
     
@@ -54,8 +54,8 @@
 
 - (void)updateData{
 
-    NSString *SQLStr = [NSString stringWithFormat:@"UPDATE EventList SET  accountID = \"%d\", event = \"%@\", type = \"%@\", eventTime = \"%@\" WHERE eventID = \"%d\""
-                         , accountID, type, event, eventTime ,eventID];
+    NSString *SQLStr = [NSString stringWithFormat:@"UPDATE EventList SET  accountID = \"%d\", event = \"%@\", type = \"%@\", eventTime = \"%@\" WHERE eventID = \"%d\" AND accountID = %d"
+                         , accountID, type, event, eventTime ,eventID, [LocalData sharedInstance].accountID];
     
     
     [self COLUMN_UPDATE:SQLStr];

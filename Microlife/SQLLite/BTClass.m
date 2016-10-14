@@ -46,7 +46,7 @@
     
     //NSString *Command = [NSString stringWithFormat:@"SELECT BT_ID, accountID, eventID, bodyTemp, roomTmep ,date ,BT_PhotoPath, BT_Note, BT_RecordingPath FROM BTList"];
     
-    NSString *Command = [NSString stringWithFormat:@"SELECT * FROM BTList ORDER BY date DESC Where accountID = %d",[LocalData sharedInstance].accontID];
+    NSString *Command = [NSString stringWithFormat:@"SELECT * FROM BTList WHERE accountID = %d ORDER BY date DESC",[LocalData sharedInstance].accountID];
     
     NSMutableArray* DataArray = [self SELECT:Command Num:9];//SELECT:指令：幾筆欄位
     
@@ -57,13 +57,13 @@
 
     NSMutableArray* resultArray= [NSMutableArray new];
     
+    NSLog(@"dataRange = %d",dataRange);
+    
     for (int i = dataRange; i > 0 ; i--) {
     
-    NSMutableArray* DataArray = [NSMutableArray new];
+        NSMutableArray* DataArray = [NSMutableArray new];
         
-    NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp, STRFTIME(\"%%H:%%M\",\"date\") FROM BTList WHERE TIME(date) = STRFTIME(\"%%H:%%M\",\"now\", \"localtime\",\"-%d hour\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accontID];
-    
-        NSLog(@"Command = %@",Command);
+        NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp, STRFTIME(\"%%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", date) > strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
         
         DataArray = [self SELECT:Command Num:2];//SELECT:指令：幾筆欄位
         
@@ -72,10 +72,15 @@
         NSNumber *avgTemp = [NSNumber numberWithFloat:0.0];
         
         NSString *latestTime = [NSString stringWithFormat:@"%@",[[DataArray firstObject] firstObject]];
-        NSLog(@"latestTime =%@",latestTime);
+        //NSLog(@"latestTime =%@",latestTime);
         
         if (![latestTime isEqualToString:@"Can not find data!"]) {
-            latestTime = [NSString stringWithFormat:@"%@",[[DataArray objectAtIndex:i] objectAtIndex:1]];
+            if (i < DataArray.count) {
+                latestTime = [NSString stringWithFormat:@"%@",[[DataArray objectAtIndex:i] objectAtIndex:1]];
+            }else{
+                latestTime = @"0";
+            }
+
         }else{
             latestTime = @"0";
         }
@@ -84,7 +89,12 @@
             sumTemp += [[[DataArray objectAtIndex:i] firstObject] intValue];
         }
         
-        avgTemp = [NSNumber numberWithFloat:sumTemp/DataArray.count];
+        if (i < DataArray.count) {
+            avgTemp = [NSNumber numberWithFloat:sumTemp/DataArray.count];
+        }else{
+            avgTemp = [NSNumber numberWithFloat:0.0];
+        }
+        
         
         NSDictionary *resultDict = [[NSDictionary alloc] initWithObjectsAndKeys:avgTemp,@"temp",
                                     latestTime,@"date",nil];
@@ -96,6 +106,8 @@
     NSLog(@"resultArray = %@",resultArray);
     
     return resultArray;
+    
+//    NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp, STRFTIME(\"%%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", date) > strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
 }
 
 

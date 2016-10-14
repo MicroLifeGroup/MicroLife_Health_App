@@ -43,8 +43,8 @@
 -(NSMutableArray *)selectAllData{
     
     //NSString *Command = [NSString stringWithFormat:@"SELECT weightID, accountID, weight, weightUnit, BMI, bodyFat, water, skeleton, muscle, BMR, organFat, date, weight_PhotoPath, weight_Note, weight_RecordingPath FROM WeightList"];
-    
-    NSString *Command = [NSString stringWithFormat:@"SELECT * FROM WeightList"];
+
+    NSString *Command = [NSString stringWithFormat:@"SELECT * FROM WeightList WHERE accountID = %d ORDER BY date DESC",[LocalData sharedInstance].accountID];
     
     NSMutableArray* DataArray = [self SELECT:Command Num:15];//SELECT:指令：幾筆欄位
     
@@ -60,7 +60,7 @@
         
         NSMutableArray* DataArray = [NSMutableArray new];
         
-        NSString *Command = [NSString stringWithFormat:@"SELECT weight, STRFTIME(\"%%Y-%%m-%%d\",\"date\") FROM WeightList WHERE DATE(date) = STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d day\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accontID];
+        NSString *Command = [NSString stringWithFormat:@"SELECT weight, STRFTIME(\"%%Y-%%m-%%d\",\"date\") FROM WeightList WHERE DATE(date) = STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d day\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
         
         DataArray = [self SELECT:Command Num:2];//SELECT:指令：幾筆欄位
         
@@ -101,7 +101,7 @@
         
         NSMutableArray* DataArray = [NSMutableArray new];
         
-        NSString *Command = [NSString stringWithFormat:@"SELECT BMI, STRFTIME(\"%%Y-%%m-%%d\",\"date\") FROM WeightList WHERE DATE(date) = STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d day\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accontID];
+        NSString *Command = [NSString stringWithFormat:@"SELECT BMI, STRFTIME(\"%%Y-%%m-%%d\",\"date\") FROM WeightList WHERE DATE(date) = STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d day\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
         
         DataArray = [self SELECT:Command Num:2];//SELECT:指令：幾筆欄位
         
@@ -142,7 +142,7 @@
         
         NSMutableArray* DataArray = [NSMutableArray new];
         
-        NSString *Command = [NSString stringWithFormat:@"SELECT bodyFat, STRFTIME(\"%%Y-%%m-%%d\",\"date\") FROM WeightList WHERE DATE(date) = STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d day\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accontID];
+        NSString *Command = [NSString stringWithFormat:@"SELECT bodyFat, STRFTIME(\"%%Y-%%m-%%d\",\"date\") FROM WeightList WHERE DATE(date) = STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d day\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
         
         DataArray = [self SELECT:Command Num:2];//SELECT:指令：幾筆欄位
         
@@ -177,8 +177,8 @@
 
 - (void)updateData{
     
-    NSString *SQLStr = [NSString stringWithFormat:@"UPDATE WeightList SET weightID = \"%d\", accountID = \"%d\", weight = \"%d\", weightUnit = \"%d\", BMI = \"%d\" ,body_fat = \"%d\",water = \"%d\" , skeleton = \"%d\",muscle = \"%d\",BMR = \"%d\",organ_fat = \"%d\",date = \"%@\",weight_PhotoPath = \"%@\", weight_Note = \"%@\",weight_RecordingPath = \"%@\""
-                        ,weightID , accountID, weight, weightUnit, BMI, bodyFat, water,skeleton,muscle,BMR,organFat,date,weight_PhotoPath,weight_Note,weight_RecordingPath];
+    NSString *SQLStr = [NSString stringWithFormat:@"UPDATE WeightList SET, accountID = \"%d\", weight = \"%d\", weightUnit = \"%d\", BMI = \"%d\" ,body_fat = \"%d\",water = \"%d\" , skeleton = \"%d\",muscle = \"%d\",BMR = \"%d\",organ_fat = \"%d\",date = \"%@\",weight_PhotoPath = \"%@\", weight_Note = \"%@\",weight_RecordingPath = \"%@\" WHERE weightID = \"%d\" "
+                        , accountID, weight, weightUnit, BMI, bodyFat, water,skeleton,muscle,BMR,organFat,date,weight_PhotoPath,weight_Note,weight_RecordingPath,weightID];
     
     [self COLUMN_UPDATE:SQLStr];
     
