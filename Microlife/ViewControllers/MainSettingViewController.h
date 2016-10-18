@@ -7,7 +7,25 @@
 //
 
 #import "MViewController.h"
+#import "MainOverviewViewController.h"
 
-@interface MainSettingViewController : MViewController
+
+
+@interface MainSettingViewController : MViewController<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
+    
+    UIScrollView *settingSV;
+    UIView *syncview;
+    UIButton *bpmbBtn;
+    UITableView *DeviceManagementTV;
+    
+    
+}
+
+@property (nonatomic,retain) UIScrollView *settingSV;
+@property (nonatomic,retain) UIView *syncview;
+@property (nonatomic,retain) UIButton *bpmbBtn;
+@property (nonatomic,retain) UITableView *DeviceManagementTV;
+
+
 
 @end

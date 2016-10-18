@@ -22,6 +22,8 @@
     [super viewDidLoad];
     [self forgotPasswordVC];
     
+    [self nav];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -52,12 +54,19 @@
     attentionL.text = @"Please enter the email address,\nthen reset your password and login again.";
     attentionL.numberOfLines = 2 ; //[agreeL.text length];
     [self.view addSubview:attentionL];
-
+    
+    UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(0, emailY, self.view.frame.size.width, 2)];
+    line1.backgroundColor = [UIColor lightGrayColor];
+    line1.alpha = 0.4;
+    [self.view addSubview:line1];
+    
+    UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(0, emailY+textH, self.view.frame.size.width, 2)];
+    line2.backgroundColor = [UIColor lightGrayColor];
+    line2.alpha = 0.4;
+    [self.view addSubview:line2];
     
     
-    
-    
-    UIView *emailV = [[UIView alloc] initWithFrame:CGRectMake(0, emailY , self.view.frame.size.width, textH)];
+    UIView *emailV = [[UIView alloc] initWithFrame:CGRectMake(0, emailY+1 , self.view.frame.size.width, textH)];
     emailV.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:emailV];
     
@@ -70,7 +79,7 @@
     
     
     // UITextField初始化
-    femailTextField = [[UITextField alloc] initWithFrame:CGRectMake(textH, emailY+1, self.view.frame.size.width, self.view.frame.size.height/13)];
+    femailTextField = [[UITextField alloc] initWithFrame:CGRectMake(textH, emailY+1, self.view.frame.size.width, textH)];
     // 設定預設文字內容
     femailTextField.placeholder = @"E-mail";
     //emailTextField.text = @"";
@@ -109,8 +118,8 @@
     [sendBtn addTarget:self action:@selector(sendBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:sendBtn];
-
-
+    
+    
 }
 -(void)sendBtnClick{
     
@@ -121,7 +130,7 @@
 
 -(void)sendBtnEnable{
     
-    sendBtn.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0.675 alpha:1.0];
+    sendBtn.backgroundColor = [UIColor colorWithRed:0 green:61.0/255.0 blue:165.0/255.0 alpha:1.0];
     sendBtn.userInteractionEnabled = YES;
     NSLog(@"send sucess");
     
@@ -150,7 +159,7 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     NSLog(@"textFieldDidEndEditing:%@",textField.text);
     
-  
+    
     
     if ( femailTextField.text.length > 0 ) {
         [self sendBtnEnable];
@@ -172,7 +181,7 @@
     }else{
         [self sendBtnDisable];
     }
-
+    
     
     return false;
 }
@@ -218,9 +227,9 @@
         {
             NSRange rangeOfInavlidChars = [string rangeOfCharacterFromSet: tmpInvalidMutableCharSet];
             if(rangeOfInavlidChars.length != 0 || [string isEqualToString:@""])
-              
-            
-            return NO;
+                
+                
+                return NO;
         }
         
         //取得域名部分
@@ -232,8 +241,8 @@
             NSRange rangeOfInavlidChars=[string rangeOfCharacterFromSet:tmpInvalidMutableCharSet];
             if(rangeOfInavlidChars.length !=0 || [string isEqualToString:@""])
                 
-           
-            return NO;
+                
+                return NO;
             
         }
         NSLog(@"email ok");
@@ -247,6 +256,41 @@
     }
 }
 
+-(void)nav{
+    
+    UIButton *titleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    titleBtn.frame = CGRectMake(0 ,0, self.view.frame.size.width, self.view.frame.size.height*0.09);
+    titleBtn.backgroundColor = [UIColor colorWithRed:0 green:61.0/255.0 blue:165.0/255.0 alpha:1];
+    [titleBtn setTitle:@"Forgot password" forState:UIControlStateNormal];
+    [titleBtn setTitleEdgeInsets:UIEdgeInsetsMake(self.view.frame.size.height*0.02, 0, 0, 0)];
+    titleBtn.titleLabel.font = [UIFont systemFontOfSize:22];
+    //[button setBackgroundColor:[UIColor blueColor]];
+    [titleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    titleBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    //[gobackBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+    titleBtn.userInteractionEnabled = NO;
+    
+    [self.view addSubview:titleBtn];
+    
+    
+    UIButton *navbackBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    navbackBtn.frame = CGRectMake(0, self.view.frame.size.height*0.026, self.view.frame.size.height*0.05, self.view.frame.size.height*0.05);
+    [navbackBtn setImage:[UIImage imageNamed:@"all_btn_a_back"] forState:UIControlStateNormal ];
+    navbackBtn.backgroundColor = [UIColor clearColor];
+    navbackBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    
+    [navbackBtn addTarget:self action:@selector(gobackClick) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    [self.view addSubview:navbackBtn];
+    
+    
+    
+}
+
+-(void)gobackClick{
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+}
 
 
 

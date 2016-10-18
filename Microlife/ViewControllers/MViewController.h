@@ -15,6 +15,7 @@
     AppDelegate *appDelegate;
     UIButton *sidebarcloseBtn;
     UIView *circleview;
+    UIView *circle2view;
     //Global Array
     
 }

@@ -11,6 +11,10 @@
 @interface LocalData : NSObject{
     NSMutableArray *reminderDataArray;
     NSUserDefaults *defaults;
+    
+    
+    //Allen
+    NSMutableArray *memberDataArray;
 }
 
 @property (nonatomic) int accountID;
@@ -21,4 +25,8 @@
 
 -(void)saveReminderData:(NSMutableArray *)dataArray;
 
+
+//Allen
+-(void)saveMemberProfile:(NSDictionary *)memberDict;
+-(NSMutableArray *)returnMemberProfile;
 @end

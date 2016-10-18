@@ -7,9 +7,8 @@
 //
 
 #import "ViewController.h"
-#import <GoogleSignIn/GoogleSignIn.h>
 
-@interface ViewController ()<GIDSignInUIDelegate>
+@interface ViewController ()
 
 
 
@@ -25,20 +24,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     [self loginVC];
-    
-    [GIDSignIn sharedInstance].clientID = kClientID;
-    
-    NSLog(@"[GIDSignIn sharedInstance].clientID = %@",[GIDSignIn sharedInstance].clientID);
+    [self nav];
 }
 
 -(void)loginVC{
-    UIView *loginView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height*0.8)];
-    [loginView setBackgroundColor:[UIColor colorWithRed:241.0/255.0 green:242.0/255.0 blue:245.0/255.0 alpha:0.95]];
-    
-    loginView.backgroundColor = [UIColor redColor];
-    [self.view addSubview:loginView];
+    UIView *loginView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height*1.0)];
+    [loginView setBackgroundColor:[UIColor colorWithRed:241/255.0 green:242/255.0 blue:245/255.0 alpha:0.95]];
+    [self.navigationController.view addSubview:loginView];
     
     
     
@@ -47,73 +41,89 @@
     
     //臉書
     connectFacebookBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    connectFacebookBtn.frame = CGRectMake(self.view.frame.size.width*0.08 , self.view.frame.size.height/7-10, btnwidth, btnheight);
+    connectFacebookBtn.frame = CGRectMake(self.view.frame.size.width*0.08 , self.view.frame.size.height/7, btnwidth, btnheight);
     connectFacebookBtn.backgroundColor = [UIColor clearColor];
     
     [connectFacebookBtn setImage:[UIImage imageNamed:@"all_btn_a_fb"] forState:UIControlStateNormal];
     [connectFacebookBtn addTarget:self action:@selector(connectFacebookClick) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.view addSubview:connectFacebookBtn];
+    [loginView addSubview:connectFacebookBtn];
     
     
     //google
     loginGooglePlusBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    loginGooglePlusBtn.frame = CGRectMake(self.view.frame.size.width*0.92-btnwidth , self.view.frame.size.height/7-10, btnwidth, btnheight);
+    loginGooglePlusBtn.frame = CGRectMake(self.view.frame.size.width*0.92-btnwidth , self.view.frame.size.height/7, btnwidth, btnheight);
     loginGooglePlusBtn.backgroundColor = [UIColor clearColor];
     
     [loginGooglePlusBtn setImage:[UIImage imageNamed:@"all_btn_a_gp"] forState:UIControlStateNormal];
     [loginGooglePlusBtn addTarget:self action:@selector(loginGooglePlusClick) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.view addSubview:loginGooglePlusBtn];
+    [loginView addSubview:loginGooglePlusBtn];
     
     //分隔線
-    UIView *loginline1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.28, self.view.frame.size.height*0.26, self.view.frame.size.width*0.17, 2.6)];
+    UIView *loginline1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.28, self.view.frame.size.height*0.25, self.view.frame.size.width*0.17, 2.6)];
     [loginline1 setBackgroundColor:[UIColor colorWithRed:205/255.0 green:205/255.0 blue:205/255.0 alpha:1.0]];
     
-    [self.view addSubview:loginline1];
+    [loginView addSubview:loginline1];
     
-    UIView *loginline2 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.55, self.view.frame.size.height*0.26, self.view.frame.size.width*0.17, 2.6)];
+    UIView *loginline2 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.55, self.view.frame.size.height*0.25, self.view.frame.size.width*0.17, 2.6)];
     [loginline2 setBackgroundColor:[UIColor colorWithRed:205/255.0 green:205/255.0 blue:205/255.0 alpha:1.0]];
     
-    [self.view addSubview:loginline2];
+    [loginView addSubview:loginline2];
     
     
     //or
-    UILabel *orl = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.45, self.view.frame.size.height*0.23, self.view.frame.size.width*0.1, self.view.frame.size.width*0.1)];
+    UILabel *orl = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.45, self.view.frame.size.height*0.22, self.view.frame.size.width*0.1, self.view.frame.size.width*0.1)];
     orl.textColor = [UIColor blackColor];
     orl.alpha = 0.9;
     orl.font = [UIFont systemFontOfSize:22];
     orl.textAlignment = NSTextAlignmentCenter;
     orl.text = @"Or";
-    [self.view addSubview:orl];
+    [loginView addSubview:orl];
     
     
     //login
     loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    loginBtn.frame = CGRectMake(0 , self.view.frame.size.height*0.46, self.view.frame.size.width, self.view.frame.size.height/11);
-    loginBtn.backgroundColor = [UIColor colorWithRed:168.0/255.0 green:168.0/255.0 blue:165.0/255.0 alpha:0.4];
+    loginBtn.frame = CGRectMake(0 , self.view.frame.size.height*0.46, self.view.frame.size.width, self.view.frame.size.height*0.084);
+    loginBtn.backgroundColor = [UIColor colorWithRed:168/255 green:168/255 blue:165/255 alpha:0.4];
     [loginBtn setTitle:@"Log in" forState:UIControlStateNormal];
-    [loginBtn setTitleColor:[UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:0.9] forState:UIControlStateNormal];
+    [loginBtn setTitleColor:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:0.9] forState:UIControlStateNormal];
     loginBtn.titleLabel.font = [UIFont systemFontOfSize:26];
     loginBtn.userInteractionEnabled = NO;
     
     [loginBtn addTarget:self action:@selector(loginBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-    loginBtn.userInteractionEnabled = YES;
     
-    [self.view addSubview:loginBtn];
+    
+    [loginView addSubview:loginBtn];
+    
+    //到註冊頁面
+    UIButton *goRegBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    goRegBtn.frame = CGRectMake(0 , self.view.frame.size.height*0.555, self.view.frame.size.width, self.view.frame.size.height*0.084);
+    goRegBtn.backgroundColor = [UIColor colorWithRed:0/255 green:61.0/255.0 blue:165.0/255.0 alpha:1.0];
+    [goRegBtn setTitle:@"Register" forState:UIControlStateNormal];
+    [goRegBtn setTitleColor:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:0.9] forState:UIControlStateNormal];
+    goRegBtn.titleLabel.font = [UIFont systemFontOfSize:26];
+    goRegBtn.userInteractionEnabled = YES;
+    
+    [goRegBtn addTarget:self action:@selector(goRegBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    [loginView addSubview:goRegBtn];
+    
+    
     
     
     //忘記密碼
     UIButton *forgetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    forgetBtn.frame = CGRectMake(0 , self.view.frame.size.height*0.55, self.view.frame.size.width, btnheight);
+    forgetBtn.frame = CGRectMake(0 , self.view.frame.size.height*0.66, self.view.frame.size.width, btnheight);
     forgetBtn.backgroundColor = [UIColor clearColor];
     [forgetBtn setTitle:@"Forgot password?" forState:UIControlStateNormal];
-    [forgetBtn setTitleColor:[UIColor colorWithRed:1.0/255.0 green:1.0/255.0 blue:255.0/255.0 alpha:1.0] forState:UIControlStateNormal];
+    [forgetBtn setTitleColor:[UIColor colorWithRed:1/255 green:1/255 blue:255/255 alpha:1.0] forState:UIControlStateNormal];
     forgetBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     
     [forgetBtn addTarget:self action:@selector(forgetBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.view addSubview:forgetBtn];
+    [loginView addSubview:forgetBtn];
     
     
     
@@ -129,20 +139,20 @@
     emailImgV.image = emailImg;
     
     emailImgV.contentMode = UIViewContentModeScaleToFill;
-    [self.view addSubview :emailImgV];
+    [loginView addSubview :emailImgV];
     
     UIView *passwordview = [[UIView alloc] initWithFrame:CGRectMake(0, emailY+textH+2.5 , self.view.frame.size.width*0.2, textH)];
     passwordview.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:passwordview];
+    [loginView addSubview:passwordview];
     
     UIImageView *passwordImgV = [[UIImageView alloc] initWithFrame:CGRectMake(textH*0.2, emailY+textH+2.5+textH*0.2, textH*0.6, textH*0.6)];
     UIImage *passwordImg= [UIImage imageNamed:@"all_icon_a_password"];
     passwordImgV.image = passwordImg;
     
     passwordImgV.contentMode = UIViewContentModeScaleToFill;
-    [self.view addSubview :passwordImgV];
+    [loginView addSubview :passwordImgV];
     
-        
+    
     // UITextField初始化
     emailTextField = [[UITextField alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.2 , emailY, self.view.frame.size.width, self.view.frame.size.height/13)];
     // 設定預設文字內容
@@ -170,8 +180,8 @@
     emailTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     
     // 判断textField是否处于编辑模式
-//    BOOL ret = emailTextField.isEditing;
-//    emailTextField.clearsOnBeginEditing = YES;
+    //    BOOL ret = emailTextField.isEditing;
+    //    emailTextField.clearsOnBeginEditing = YES;
     
     
     // UITextField初始化
@@ -202,15 +212,15 @@
     passwordTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     
     // 判断textField是否处于编辑模式
-//    BOOL ret1 = passwordTextField.isEditing;
-//    passwordTextField.clearsOnBeginEditing = YES;
+    //    BOOL ret1 = passwordTextField.isEditing;
+    //    passwordTextField.clearsOnBeginEditing = YES;
     
     
     
     
     // 將TextField加入View
-    [self.view addSubview:emailTextField];
-    [self.view addSubview:passwordTextField];
+    [loginView addSubview:emailTextField];
+    [loginView addSubview:passwordTextField];
     
     
     emailTextField.delegate = self;
@@ -220,76 +230,113 @@
     
     
     //    [UITextField addTarget:self action:@selector(textFieldDone:) forControlEvents:UIControlEventEditingDidEndOnExit];
-     NSLog(@"ok");
+    NSLog(@"ok");
     
-
+    
 }
 
 -(void)connectFacebookClick{
     [self connectFacebook];
     NSLog(@"fb");
 }
-
 -(void)loginGooglePlusClick{
-    
-    NSLog(@"loginGoogle");
-    
-    if (![CheckNetwork isExistenceNetwork]) {
-        [self showAlert:NSLocalizedString(@"Connect fail", nil) message:NSLocalizedString(@"Please check your wifi", nil)];
-        
-        return;
-    }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"GoogleLogin" object:nil];
-    
-    GIDSignIn* signIn = [GIDSignIn sharedInstance];
-    signIn.shouldFetchBasicProfile = YES;
-    signIn.delegate = self;
-    signIn.uiDelegate = self;
-    
-    
-    [[GIDSignIn sharedInstance] signIn];
+    NSLog(@"google");
 }
 
-- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user
-     withError:(NSError *)error {
-    // Perform any operations on signed in user here.
-    NSString *userId = user.userID;                  // For client-side use only!
-    NSString *idToken = user.authentication.idToken; // Safe to send to the server
-    NSString *fullName = user.profile.name;
-    NSString *givenName = user.profile.givenName;
-    NSString *familyName = user.profile.familyName;
-    NSString *email = user.profile.email;
-    
-    NSLog(@"userId = %@",userId);
-    NSLog(@"idToken = %@",idToken);
-    NSLog(@"fullName = %@",fullName);
-    NSLog(@"givenName = %@",givenName);
-    NSLog(@"familyName = %@",familyName);
-    NSLog(@"email = %@",email);
-    
-    
-    // [START_EXCLUDE]
-    NSDictionary *statusText = @{@"statusText":
-                                     [NSString stringWithFormat:@"Signed in user: %@",
-                                      fullName]};
-    [[NSNotificationCenter defaultCenter]
-     postNotificationName:@"ToggleAuthUINotification"
-     object:nil
-     userInfo:statusText];
-    // [END_EXCLUDE]
-    
-    
-    //[cloudClass postDataSync:sendParam APIName:kAPI_commlogin EventId:CloudAPIEvent_commlogin];
-    
-}
 
 
 
 -(void)loginBtnClicked{
     
-    NSLog(@"loginBtn");
+    [self validateEmail:emailTextField.text];
+    
+    if(passwordTextField.text.length<6 ||passwordTextField.text.length>12){
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Alert" message:@"Error password! Please enter between 6-12 numbers or letters." preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:nil];
+        
+        [alertController addAction:confirmAction];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:cancelAction];
+        
+        
+        [self presentViewController:alertController animated:YES completion:nil];
+    }else{
+        NSLog(@"password ok");
+    }
+    
+    
+    
+    
+    NSLog(@"registerBtnClick");
 }
+
+-(BOOL)validateEmail:(NSString*)email
+{
+    if((0 != [email rangeOfString:@"@"].length) &&
+       (0 != [email rangeOfString:@"."].length))
+    {
+        NSCharacterSet* tmpInvalidCharSet = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
+        NSMutableCharacterSet* tmpInvalidMutableCharSet = [tmpInvalidCharSet mutableCopy] ;
+        [tmpInvalidMutableCharSet removeCharactersInString:@"_-"];
+        
+        /*
+         *使用compare option 来设定比较规则，如
+         *NSCaseInsensitiveSearch是不区分大小写
+         *NSLiteralSearch 进行完全比较,区分大小写
+         *NSNumericSearch 只比较定符串的个数，而不比较字符串的字面值
+         */
+        NSRange range1 = [email rangeOfString:@"@"
+                                      options:NSCaseInsensitiveSearch];
+        
+        //取得用户名部分
+        NSString* userNameString = [email substringToIndex:range1.location];
+        NSArray* userNameArray   = [userNameString componentsSeparatedByString:@"."];
+        
+        for(NSString* string in userNameArray)
+        {
+            NSRange rangeOfInavlidChars = [string rangeOfCharacterFromSet: tmpInvalidMutableCharSet];
+            if(rangeOfInavlidChars.length != 0 || [string isEqualToString:@""])
+                
+                return NO;
+        }
+        
+        //取得域名部分
+        NSString *domainString = [email substringFromIndex:range1.location+1];
+        NSArray *domainArray   = [domainString componentsSeparatedByString:@"."];
+        
+        for(NSString *string in domainArray)
+        {
+            NSRange rangeOfInavlidChars=[string rangeOfCharacterFromSet:tmpInvalidMutableCharSet];
+            if(rangeOfInavlidChars.length !=0 || [string isEqualToString:@""])
+                
+                return NO;
+            
+        }
+        NSLog(@"sucess");
+        return YES;
+    }
+    else {
+        [self errorEmailAlert];
+        NSLog(@"email格式不正確");
+        return NO;
+        
+    }
+}
+
+-(void)errorEmailAlert{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Alert" message:@"Error Email! Please enter again." preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:nil];
+    
+    [alertController addAction:confirmAction];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:cancelAction];
+    
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
 
 -(void)forgetBtnClick{
     UIViewController *ForgotPasswordVC = [[UIViewController alloc ]init];
@@ -297,7 +344,7 @@
     ForgotPasswordVC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     
     [self presentViewController:ForgotPasswordVC animated:true completion:nil];
-
+    
     NSLog(@"forgetBtn");
 }
 
@@ -343,7 +390,7 @@
     NSLog(@"textFieldDidEndEditing:%@",textField.text);
     
     if (emailTextField.text.length != 0 && passwordTextField.text.length != 0) {
-        loginBtn.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0.625 alpha:1.0];
+        loginBtn.backgroundColor = [UIColor colorWithRed:0 green:61.0/255.0 blue:165.0/255.0 alpha:1.0];
         loginBtn.userInteractionEnabled = YES;
         
         NSLog(@"o");
@@ -352,6 +399,9 @@
         //        NSLog(@"n");
         
     }
+    
+    
+    
 }
 
 // 按下Return後會反應的事件
@@ -363,21 +413,14 @@
 }
 
 
+
+
+
 -(void)textFieldDone:(UITextField*)textField
 {
     [textField resignFirstResponder];
 }
 
--(void)showAlert:(NSString *)title message:(NSString *)message{
-    
-    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleDefault handler:nil];
-    
-    [alertView addAction:okAction];
-    
-    [self presentViewController:alertView animated:YES completion:nil];
-}
 
 
 
@@ -385,5 +428,57 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+-(void)nav{
+    
+   
+    
+    UIButton *titleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    titleBtn.frame = CGRectMake(0 ,0, self.view.frame.size.width, self.view.frame.size.height*0.09);
+    titleBtn.backgroundColor = [UIColor colorWithRed:0 green:61.0/255.0 blue:165.0/255.0 alpha:1];
+    [titleBtn setTitle:@"Log in" forState:UIControlStateNormal];
+    [titleBtn setTitleEdgeInsets:UIEdgeInsetsMake(self.view.frame.size.height*0.02, 0, 0, 0)];
+    titleBtn.titleLabel.font = [UIFont systemFontOfSize:22];
+    //[button setBackgroundColor:[UIColor blueColor]];
+    [titleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    titleBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    //[gobackBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+    //[titleBtn addTarget:self action:@selector(gobackClick) forControlEvents:UIControlEventTouchUpInside];
+    titleBtn.userInteractionEnabled = NO;
+    [self.navigationController.view addSubview:titleBtn];
+    
+    
+    UIButton *navbackBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    navbackBtn.frame = CGRectMake(0, self.view.frame.size.height*0.026, self.view.frame.size.height*0.05, self.view.frame.size.height*0.05);
+    [navbackBtn setImage:[UIImage imageNamed:@"all_btn_a_back"] forState:UIControlStateNormal ];
+    navbackBtn.backgroundColor = [UIColor clearColor];
+    navbackBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    
+    [navbackBtn addTarget:self action:@selector(gobackClick) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    [self.navigationController.view addSubview:navbackBtn];
+    
+    
+    
+}
+
+-(void)gobackClick{
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+}
+
+-(void)goRegBtnClicked{
+    
+    UIViewController *RegisterVC = [[UIViewController alloc ]init];
+    RegisterVC = [self.storyboard instantiateViewControllerWithIdentifier:@"RegisterVC"];
+    RegisterVC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    
+    [self presentViewController:RegisterVC animated:true completion:nil];
+    
+    NSLog(@"goReg");
+    
+    
+}
+
 
 @end
