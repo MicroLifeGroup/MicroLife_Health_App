@@ -53,61 +53,130 @@
     return DataArray;
 }
 
--(NSMutableArray *)selectTemp:(int)dataRange{
+-(NSMutableArray *)selectTempWithRange:(int)dataRange count:(int)dataCount{
 
     NSMutableArray* resultArray= [NSMutableArray new];
     
-    NSLog(@"dataRange = %d",dataRange);
+    NSDate *currentDate = [NSDate date];
     
-    for (int i = dataRange; i > 0 ; i--) {
+    int queryCount = 1;
+    
+    for (int i = 0; i < dataRange ; i++) {
     
         NSMutableArray* DataArray = [NSMutableArray new];
         
-        NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp, STRFTIME(\"%%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", date) > strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
+        //roomTmep 資料庫拼錯
         
-        DataArray = [self SELECT:Command Num:2];//SELECT:指令：幾筆欄位
+        NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep, STRFTIME(\"%%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", \"date\") > strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
         
-        float sumTemp = 0;
+        DataArray = [self SELECT:Command Num:3];//SELECT:指令：幾筆欄位
         
-        NSNumber *avgTemp = [NSNumber numberWithFloat:0.0];
-        
-        NSString *latestTime = [NSString stringWithFormat:@"%@",[[DataArray firstObject] firstObject]];
-        //NSLog(@"latestTime =%@",latestTime);
-        
-        if (![latestTime isEqualToString:@"Can not find data!"]) {
-            if (i < DataArray.count) {
-                latestTime = [NSString stringWithFormat:@"%@",[[DataArray objectAtIndex:i] objectAtIndex:1]];
-            }else{
-                latestTime = @"0";
-            }
+        queryCount++;
 
-        }else{
-            latestTime = @"0";
+        NSString *latestTime = @"";
+        
+        NSDate *pastDate = [currentDate dateByAddingTimeInterval:-60.0f*60.0f*i];
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"yyyy-MM-dd";
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+        latestTime = [dateFormatter stringFromDate:pastDate];
+        
+        float sumBodyTemp = 0;
+        float sumRoomTemp = 0;
+        
+        NSNumber *avgBodyTemp = [NSNumber numberWithFloat:0.0];
+        NSNumber *avgRoomTemp = [NSNumber numberWithFloat:0.0];
+        
+        if ([[DataArray firstObject] count] != 1) {
+
+//            if (i < DataArray.count) {
+//                
+//                latestTime = [NSString stringWithFormat:@"%@",[[DataArray objectAtIndex:i] objectAtIndex:2]];
+//            }
+            
+            //算平均 使用SQL avg() 會閃退
+            for (int i=0; i<DataArray.count; i++) {
+                sumBodyTemp += [[[DataArray objectAtIndex:i] firstObject] floatValue];
+                sumRoomTemp += [[[DataArray objectAtIndex:i] objectAtIndex:1] floatValue];
+            }
         }
         
-        for (int i=0; i<DataArray.count; i++) {
-            sumTemp += [[[DataArray objectAtIndex:i] firstObject] intValue];
-        }
         
-        if (i < DataArray.count) {
-            avgTemp = [NSNumber numberWithFloat:sumTemp/DataArray.count];
-        }else{
-            avgTemp = [NSNumber numberWithFloat:0.0];
-        }
-        
-        
-        NSDictionary *resultDict = [[NSDictionary alloc] initWithObjectsAndKeys:avgTemp,@"temp",
+        avgBodyTemp = [NSNumber numberWithFloat:sumBodyTemp/DataArray.count];
+        avgRoomTemp = [NSNumber numberWithFloat:sumRoomTemp/DataArray.count];
+        NSDictionary *resultDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                    avgBodyTemp,@"temp",
+                                    avgRoomTemp,@"room",
                                     latestTime,@"date",nil];
         
         [resultArray addObject:resultDict];
 
     }
 
-    NSLog(@"resultArray = %@",resultArray);
+    NSLog(@"Temp data resultArray = %@",resultArray);
     
     return resultArray;
     
-//    NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp, STRFTIME(\"%%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", date) > strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
+}
+
+-(NSMutableArray *)selectSingleHourTempWithRange:(int)dataRange{
+    
+    NSMutableArray* resultArray= [NSMutableArray new];
+    
+    dataRange -= 1;
+    
+    NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep, STRFTIME(\"%%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", \"date\") = strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND accountID = %d ORDER BY date DESC", dataRange,[LocalData sharedInstance].accountID];
+    
+    NSMutableArray* DataArray = [NSMutableArray new];
+    
+    DataArray = [self SELECT:Command Num:3];//SELECT:指令：幾筆欄位
+    
+    NSLog(@"Command = %@",Command);
+    NSLog(@"DataArray = %@",DataArray);
+    
+    NSString *dateStr = @"";
+    
+    NSDate *currentDate = [NSDate date];
+    
+    NSDate *pastDate = [currentDate dateByAddingTimeInterval:-60.0f*60.0f*dataRange];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"HH:mm";
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    
+    dateStr = [dateFormatter stringFromDate:pastDate];
+    
+    NSNumber *bodyTempNum = [NSNumber numberWithFloat:0.0];
+    NSNumber *roomTempNum = [NSNumber numberWithFloat:0.0];
+    
+    NSLog(@"dateStr = %@",dateStr);
+    
+    for (int i=DataArray.count-1; i>=0; i--) {
+        
+        if ([[DataArray firstObject] count] != 1) {
+            bodyTempNum = [NSNumber numberWithFloat:[[[DataArray objectAtIndex:i] firstObject] floatValue]];
+            
+            roomTempNum = [NSNumber numberWithFloat:[[[DataArray objectAtIndex:i] objectAtIndex:1] floatValue]];
+            
+            //dateStr = [NSString stringWithFormat:@"%@",[[DataArray objectAtIndex:i] objectAtIndex:2]];
+        }else{
+            break;
+        }
+        
+        
+        NSDictionary *resultDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                    bodyTempNum,@"temp",
+                                    roomTempNum,@"room",
+                                    dateStr,@"date",nil];
+        
+        [resultArray addObject:resultDict];
+    }
+
+    
+    NSLog(@"current day temp resultArray = %@",resultArray);
+    
+    return resultArray;
 }
 
 
@@ -125,7 +194,7 @@
 -(void)insertData{
     
     
-    NSString *SQLStr = [NSString stringWithFormat:@"INSERT OR REPLACE INTO BTList( accountID, eventID, bodyTemp, roomTmep, date, BT_PhotoPath, BT_Note, BT_RecordingPath) VALUES(  \"%d\",\"%d\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\");", accountID , eventID, bodyTemp, roomTmep, date, BT_PhotoPath, BT_Note, BT_RecordingPath];
+    NSString *SQLStr = [NSString stringWithFormat:@"INSERT INTO BTList( accountID, eventID, bodyTemp, roomTmep, date, BT_PhotoPath, BT_Note, BT_RecordingPath) VALUES(  \"%d\",\"%d\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\");", accountID , eventID, bodyTemp, roomTmep, date, BT_PhotoPath, BT_Note, BT_RecordingPath];
     
     [self COLUMN_INSERT:SQLStr];
 }

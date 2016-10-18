@@ -23,7 +23,7 @@
 
 @interface HistoryPageView : UIView<UIScrollViewDelegate,GraphViewDelegate>{
     
-    int viewType;
+    
     float imgScale;
     UIView *segBase;
     UIScreen *screen;
@@ -63,13 +63,16 @@
     NSMutableArray *nameBtnAry;
     
     StatusCircleView *BPCircle;
+    
+    int dateIntervalIndex;
 
 }
 
 @property (nonatomic, strong) UIView *chartView;
 @property (nonatomic, strong) UIScrollView *healthStatusScroll;
 @property (nonatomic, strong) UIView *curveControlBase;
-@property (nonatomic) int type;//0=BloodPressure 1=Weight 2=Temperature
+@property (nonatomic) int chartType;//0=BloodPressure 1=Weight 2=Temperature
+@property (nonatomic) int viewType;//0=BloodPressure 1=Weight 2=Temperature
 
 //設定時間segment
 -(void)setSegment:(NSArray *)array;

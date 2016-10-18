@@ -13,7 +13,7 @@
 
 @implementation HistoryListTableView
 
-@synthesize historyList,hideListBtn;
+@synthesize historyList,hideListBtn,listDataArray;
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -35,6 +35,8 @@
     }else{
         imgScale = 2.5;
     }
+    
+    listDataArray = [[NSMutableArray alloc] initWithCapacity:0];
 
 }
 
@@ -71,6 +73,7 @@
     
     [self addSubview:downIcon];
     [self sendSubviewToBack:downIcon];
+    
 }
 
 -(void)hideListAction{
@@ -87,7 +90,10 @@
 
 #pragma mark - TableView Delegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
+    
+    NSLog(@"listDataArray = %@",listDataArray);
+    
+    return listDataArray.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{

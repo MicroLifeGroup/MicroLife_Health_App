@@ -24,5 +24,6 @@
 @property (nonatomic, strong) UIView *hideListBtn;
 @property (nonatomic) NSInteger listType;
 @property (weak) id<HistoryListDelegate> delegate;
+@property (nonatomic, strong) NSMutableArray *listDataArray;
 
 @end

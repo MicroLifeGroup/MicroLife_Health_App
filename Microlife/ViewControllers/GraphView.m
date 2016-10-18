@@ -41,8 +41,11 @@
     UIImage *mainlineIntroImg;
     NSString *normalIntroStr;
     UIImage *normalImg;
-    //測試用資料
+    
     NSMutableArray *secGraphYData;
+    NSMutableArray *dateArray;
+    
+    BOOL showSingleDay;
 }
 
 @end
@@ -51,15 +54,15 @@
 
 @synthesize chartDataArray,graphUnitLabel,lineIntroLabel,lineIntroImg,targetIntroLabel,targetIntroImg,normalIntroLabel,normalIntroImg,startTimeLabel,endTimeLabel,secNormalValue,normalValue,targetValue,secTargetValue,indicatorMode;
 
-- (id)initWithFrame:(CGRect)frame withChartType:(int)type withDataCount:(NSInteger)count;
+- (id)initWithFrame:(CGRect)frame withChartType:(int)type withDataCount:(int)count withDataRange:(NSInteger)range;
 {
     self = [super initWithFrame:frame];
     if (self) {
         
         self.chartType = type;
         dataCount = count;
-        NSLog(@"type = %d",type);
-        NSLog(@"count = %d",count);
+        dataRange = range;
+
         [self initParameter];
         [self initInterface];
     }
@@ -82,98 +85,140 @@
     
     indicatorMode = NO;
     
+    showSingleDay = NO;
+    
     targetValCount = 0;
     targetValue = 0;
     secTargetValue = 0;
-    
+    dataXLength = 0;
     secGraphYData = [[NSMutableArray alloc] initWithCapacity:0];
     
+    dateArray = [[NSMutableArray alloc] initWithCapacity:0];
+    
     //測試用資料
-    int tempDevided;
-    int tempPlus;
+//    int tempDevided;
+//    int tempPlus;
+//    
+//    if (self.chartType == 0) {
+//        tempDevided = 10;
+//        tempPlus = 80;
+//    }else{
+//        tempDevided = 5;
+//        tempPlus = 25;
+//    }
+//    
+//    int plusValue = 0;
+//    int devidedValue = 0;
+//    
+//    switch (self.chartType) {
+//        case 0:
+//            plusValue = 130;
+//            devidedValue = 10;
+//            break;
+//            
+//        case 1:
+//            plusValue = 150;
+//            devidedValue = 10;
+//            break;
+//            
+//        case 2:
+//            plusValue = 55;
+//            devidedValue = 20;
+//            
+//            break;
+//            
+//        case 3:
+//            plusValue = 20;
+//            devidedValue = 10;
+//            
+//            break;
+//            
+//        case 4:
+//            plusValue = 20;
+//            devidedValue = 5;
+//            
+//            break;
+//            
+//        case 5:
+//            plusValue= 35;
+//            devidedValue = 5;
+//            
+//            break;
+//            
+//        default:
+//            break;
+//    }
+//    
+//    int maxValue = 0;
+//    int minValue = 280;
+//    
+//    for (int i=0; i<dataCount; i++) {
+//        
+//        NSNumber *yValue = [NSNumber numberWithInteger:(arc4random() % devidedValue)+plusValue];
+//        
+//        [chartDataArray addObject:yValue];
+//        
+//        if (yValue.intValue > maxValue && self.chartType == 0) {
+//            maxValue = yValue.intValue;
+//        }
+//        
+//        NSNumber *yValueNum = [NSNumber numberWithInteger:(arc4random() % tempDevided)+tempPlus];
+//        
+//        [secGraphYData addObject:yValueNum];
+//        
+//        if (yValueNum.intValue < minValue && self.chartType == 0) {
+//            minValue = yValueNum.intValue;
+//        }
+//    }
     
-    if (self.chartType == 0) {
-        tempDevided = 10;
-        tempPlus = 80;
-    }else{
-        tempDevided = 5;
-        tempPlus = 25;
-    }
-    
-    int plusValue = 0;
-    int devidedValue = 0;
-    
-    switch (self.chartType) {
-        case 0:
-            plusValue = 130;
-            devidedValue = 10;
-            break;
-            
-        case 1:
-            plusValue = 150;
-            devidedValue = 10;
-            break;
-            
-        case 2:
-            plusValue = 55;
-            devidedValue = 20;
-            
-            break;
-            
-        case 3:
-            plusValue = 20;
-            devidedValue = 10;
-            
-            break;
-            
-        case 4:
-            plusValue = 20;
-            devidedValue = 5;
-            
-            break;
-            
-        case 5:
-            plusValue= 35;
-            devidedValue = 5;
-            
-            break;
-            
-        default:
-            break;
-    }
-    
-    int maxValue = 0;
-    int minValue = 280;
-    
-    for (int i=0; i<dataCount; i++) {
-        
-        NSNumber *yValue = [NSNumber numberWithInteger:(arc4random() % devidedValue)+plusValue];
-        
-        [chartDataArray addObject:yValue];
-        
-        if (yValue.intValue > maxValue && self.chartType == 0) {
-            maxValue = yValue.intValue;
-        }
-        
-        NSNumber *yValueNum = [NSNumber numberWithInteger:(arc4random() % tempDevided)+tempPlus];
-        
-        [secGraphYData addObject:yValueNum];
-        
-        if (yValueNum.intValue < minValue && self.chartType == 0) {
-            minValue = yValueNum.intValue;
-        }
-    }
-    
-    maxValue += maxValue*0.1;
-    minValue -= minValue*0.1;
+    NSMutableArray *selectDataAry = [[NSMutableArray alloc] initWithCapacity:0];
     
     switch (self.chartType) {
         case 0:
             //SYS/DIA
+            [chartDataArray removeAllObjects];
+            [secGraphYData removeAllObjects];
+            
+            if (dataCount == -1) {
+                selectDataAry = [[BPMClass sharedInstance] selectSingleDayBPWithRange:dataRange];
+                
+            }else{
+                selectDataAry = [[BPMClass sharedInstance] selectBPWithRange:dataRange count:dataCount];
+            }
+            
+            float maxValue = 280;
+            float minValue = 20;
+            
+            for (int i = 0; i<selectDataAry.count; i++) {
+                
+                NSNumber *SYSNum = [NSNumber numberWithInt:[[[selectDataAry objectAtIndex:i] objectForKey:@"SYS"] intValue]];
+                NSNumber *DIANum = [NSNumber numberWithInt:[[[selectDataAry objectAtIndex:i] objectForKey:@"DIA"] intValue]];
+                                
+                if (SYSNum.intValue != 0 && DIANum.intValue != 0) {
+                    if (SYSNum.intValue < maxValue) {
+                        maxValue = SYSNum.intValue;
+                    }
+                    
+                    if (DIANum.intValue > minValue) {
+                        minValue = DIANum.intValue;
+                    }
+                    
+                    maxValue -= maxValue*0.1;
+                    minValue += minValue*0.1;
+                }
+                
+                [chartDataArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"SYS"]];
+                [secGraphYData addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"DIA"]];
+                [dateArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"date"]];
+                
+            }
             
             chartMaxValue = maxValue;
             chartMinValue = minValue;
-
+            
+            NSLog(@"chartMaxValue = %f",chartMaxValue);
+            NSLog(@"chartMinValue = %f",chartMinValue);
+            
             targetValue = 130;
             normalValue = 135;
             secNormalValue = 85;
@@ -183,10 +228,16 @@
             //PUL
             [chartDataArray removeAllObjects];
             
-            NSMutableArray *PULArry = [[BPMClass sharedInstance] selectPUL:dataCount];
+            if (dataCount == -1) {
+                selectDataAry = [[BPMClass sharedInstance] selectSingleDayPULWithRange:dataRange];
+                
+            }else{
+                selectDataAry = [[BPMClass sharedInstance] selectPULWithRange:dataRange count:dataCount];
+            }
             
-            for (int i = 0; i<PULArry.count; i++) {
-                [chartDataArray addObject:[[PULArry objectAtIndex:i] objectForKey:@"PUL"]];
+            for (int i = 0; i<selectDataAry.count; i++) {
+                [chartDataArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"PUL"]];
+                [dateArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"date"]];
             }
             
             
@@ -201,10 +252,20 @@
             //體重
             [chartDataArray removeAllObjects];
             
-            NSMutableArray *weightArry = [[WeightClass sharedInstance] selectWeight:dataCount];
+            if (dataCount == -1) {
+                
+                selectDataAry = [[WeightClass sharedInstance] selectSingleDay:@"weight" range:dataRange];
+
+            }else{
+                
+                selectDataAry = [[WeightClass sharedInstance] selectData:@"weight" range:dataRange count:dataCount];
+                
+            }
             
-            for (int i = 0; i<weightArry.count; i++) {
-                [chartDataArray addObject:[[weightArry objectAtIndex:i] objectForKey:@"weight"]];
+            for (int i = 0; i<selectDataAry.count; i++) {
+                [chartDataArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"weight"]];
+                [dateArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"date"]];
+
             }
             
             chartMaxValue = 150.0;
@@ -219,10 +280,17 @@
             
             [chartDataArray removeAllObjects];
             
-            NSMutableArray *BMIArry = [[WeightClass sharedInstance] selectBMI:dataCount];
+            if (dataCount == -1) {
+                
+                selectDataAry = [[WeightClass sharedInstance] selectSingleDay:@"BMI" range:dataRange];
+            }else{
+                
+                selectDataAry = [[WeightClass sharedInstance] selectData:@"BMI" range:dataRange count:dataCount];
+            }
             
-            for (int i = 0; i<BMIArry.count; i++) {
-                [chartDataArray addObject:[[BMIArry objectAtIndex:i] objectForKey:@"BMI"]];
+            for (int i = 0; i<selectDataAry.count; i++) {
+                [chartDataArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"BMI"]];
+                [dateArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"date"]];
             }
             
             chartMaxValue = 90;
@@ -239,10 +307,19 @@
             
             [chartDataArray removeAllObjects];
             
-            NSMutableArray *bodyFatArry = [[WeightClass sharedInstance] selectBodyFat:dataCount];
+            if (dataCount == -1) {
             
-            for (int i = 0; i<bodyFatArry.count; i++) {
-                [chartDataArray addObject:[[bodyFatArry objectAtIndex:i] objectForKey:@"bodyFat"]];
+                selectDataAry = [[WeightClass sharedInstance] selectSingleDay:@"bodyFat" range:dataRange];
+            }else{
+                //selectDataAry = [[WeightClass sharedInstance] selectBMI:dataCount];
+                
+                selectDataAry = [[WeightClass sharedInstance] selectData:@"bodyFat" range:dataRange count:dataCount];
+                
+            }
+            
+            for (int i = 0; i<selectDataAry.count; i++) {
+                [chartDataArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"bodyFat"]];
+                [dateArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"date"]];
             }
             
             chartMaxValue = 60;
@@ -256,11 +333,20 @@
         case 5:{
             //溫度
             [chartDataArray removeAllObjects];
+            [secGraphYData removeAllObjects];
             
-            NSMutableArray *BTListArry = [[BTClass sharedInstance] selectTemp:dataCount];
+            if (dataCount == -1) {
+                selectDataAry = [[BTClass sharedInstance] selectSingleHourTempWithRange:dataRange];
+                
+            }else{
+                selectDataAry = [[BTClass sharedInstance] selectTempWithRange:dataRange count:dataCount];
+            }
             
-            for (int i = 0; i<BTListArry.count; i++) {
-                [chartDataArray addObject:[[BTListArry objectAtIndex:i] objectForKey:@"temp"]];
+            
+            for (int i = 0; i<selectDataAry.count; i++) {
+                [chartDataArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"temp"]];
+                [secGraphYData addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"room"]];
+                [dateArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"date"]];
             }
             
             chartMaxValue = 42.0;
@@ -275,6 +361,14 @@
             break;
     }
     
+    if(dataCount == -1){
+        showSingleDay = YES;
+    }
+    
+    NSLog(@"selectDataAry = %@",selectDataAry);
+    
+    dataCount = selectDataAry.count;
+
     //MARK:計算資料範圍值
     dataXLength = dataCount-1;
     dataYLength = chartMaxValue-chartMinValue;
@@ -476,7 +570,6 @@
     float endImgWidth = 15/imgScale;
     float endImgHeight = 13/imgScale;
     
-    
     UIImageView *endTimeImg = [[UIImageView alloc] initWithFrame:CGRectMake(bottomLine.frame.origin.x+bottomLine.frame.size.width-endImgWidth/2, bottomLine.frame.origin.y+5, endImgWidth, endImgHeight)];
     
     endTimeImg.image = [UIImage imageNamed:@"overview_chart_a_indicato"];
@@ -515,7 +608,7 @@
     valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, self.frame.size.width*0.146, indicatorView.frame.size.height-3)];
     
     valueLabel.textColor = [UIColor whiteColor];
-    valueLabel.text = @"135/87";
+    valueLabel.text = @"";
     valueLabel.font = [UIFont systemFontOfSize:16.0];
     valueLabel.textAlignment = NSTextAlignmentCenter;
     
@@ -535,7 +628,7 @@
     
     indicatorDate.textAlignment = NSTextAlignmentCenter;
     indicatorDate.textColor = [UIColor whiteColor];
-    indicatorDate.text = @"2/19";
+    indicatorDate.text = @"";
     indicatorDate.font = [UIFont systemFontOfSize:11.0];
     
     [indicatorView addSubview:indicatorDate];
@@ -736,7 +829,7 @@
     
     //SYS/DIS 室溫 測試用假資料
     
-    if(self.chartType == 0 /*|| self.chartType == 5*/){
+    if(self.chartType == 0 || self.chartType == 5){
         
         CGContextRef secGraphContext = UIGraphicsGetCurrentContext();
         
@@ -754,6 +847,10 @@
 
             float secGraphYValue = [[secGraphYData objectAtIndex:i] floatValue];
             
+            if (secGraphYValue <= chartMinValue) {
+                secGraphYValue = chartMinValue;
+            }
+            
             if (secNormalValue !=0) {
                 [self setChartLineDot:i yPoint:secGraphYValue normalValue:secNormalValue];
             }
@@ -768,17 +865,33 @@
         
         CGContextStrokePath(secGraphContext);
     }
+    
+    NSString *dateStr;
+    
+    if(showSingleDay){
+        
+        if (dateArray.count != 0) {
+            dateStr = [NSString stringWithFormat:@"%@",[dateArray firstObject]];
+        }else{
+            dateStr = @"";
+        }
+        
+    }else{
+        dateStr = [NSString stringWithFormat:@"%@ - %@",[dateArray firstObject],[dateArray lastObject]];
+    }
+    
+    [self.delegate DidFinishLoadChartAndShowDate:dateStr];
 }
 -(void)setChartLineDot:(float)xPointVal yPoint:(float)yPointVal normalValue:(float)normalVal{
     
     float dotWidth = 15/imgScale;
     float dotHeight = 15/imgScale;
     
-    UIImageView *normalDot = [[UIImageView alloc] initWithFrame:CGRectMake(chartLeftWidth+(xPointVal*xScaleSize)-dotWidth/2,chartTopWidth+(chartMaxValue-yPointVal)*yScaleSize-dotHeight/2, dotWidth, dotHeight)];
-    
     UIImage *dotImg;
     
     if(yPointVal > normalVal){
+        
+        UIImageView *normalDot = [[UIImageView alloc] initWithFrame:CGRectMake(chartLeftWidth+(xPointVal*xScaleSize)-dotWidth/2,chartTopWidth+(chartMaxValue-yPointVal)*yScaleSize-dotHeight/2, dotWidth, dotHeight)];
         
         dotImg = [UIImage imageNamed:@"overview_chart_a_dot_r"];
         
@@ -834,13 +947,20 @@
 
 -(void)showTouchedPointValue:(CGPoint)touchedPoint{
     
+    if (chartDataArray.count == 0) {
+        indicatorLine.hidden = YES;
+        return;
+    }
+    
     indicatorLine.frame = CGRectMake(touchedPoint.x, indicatorLine.frame.origin.y, indicatorLine.frame.size.width, indicatorLine.frame.size.height);
     
     indicatorLine.hidden = NO;
     
-    CGFloat dataMargin = (self.frame.size.width-chartLeftWidth-chartRightWidth)/dataXLength;
+    float dataMargin = (self.frame.size.width-chartLeftWidth-chartRightWidth)/dataCount;
     
-    int dataIndex = touchedPoint.x/dataMargin-1;
+    float index = (touchedPoint.x-chartLeftWidth)/dataMargin;
+    
+    int dataIndex = floor(index);
     
     if (dataIndex < chartDataArray.count ) {
         
@@ -861,8 +981,16 @@
             }else{
                 valueLabel.text = [NSString stringWithFormat:@"%.0f",floatVal];
             }
-            
         }
+        
+        NSString *dateStr = [NSString stringWithFormat:@"%@",[dateArray objectAtIndex:dataIndex]];
+        
+        dateStr = [dateStr substringFromIndex:5];
+                             
+        indicatorDate.text = dateStr;
+        
+    }else{
+        valueLabel.text = @"";
     }
 }
 

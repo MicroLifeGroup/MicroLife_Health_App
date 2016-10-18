@@ -15,6 +15,7 @@
     
     if (self) {
         [self setUp];
+        
     }
     return self;
 }
@@ -279,7 +280,7 @@
     
     NSLog(@"BTClass  insert data  = %@", [[BTClass sharedInstance] selectAllData]);
     
-    [thermoProtocol disconnect];
+    //[thermoProtocol disconnect];
     
 }
 
