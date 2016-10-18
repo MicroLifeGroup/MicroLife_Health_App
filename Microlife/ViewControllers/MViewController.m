@@ -103,19 +103,26 @@
     
     int BtnRedius = self.view.frame.size.height/10;
     
+    circle2view = [[UIView alloc] initWithFrame:CGRectMake(-BtnRedius*10, -BtnRedius*10, BtnRedius*20, BtnRedius*20)];
+    [circle2view setBackgroundColor:[UIColor colorWithRed:0/255.0 green:61.0/255.0 blue:165.0/255.0 alpha:0.84]];
+    circle2view.layer.cornerRadius = BtnRedius*10;
+    [[circle2view layer] setMasksToBounds:YES];
+    circle2view.hidden = YES;
+    
+    [self.tabBarController.view addSubview:circle2view];
+    
+    
     circleview = [[UIView alloc] initWithFrame:CGRectMake(-BtnRedius, -BtnRedius, BtnRedius*2, BtnRedius*2)];
-
-    [circleview setBackgroundColor:[UIColor colorWithRed:0/255.0 green:61.0/255.0 blue:165.0/255.0 alpha:0.93]];
-
+    [circleview setBackgroundColor:[UIColor colorWithRed:0/255.0 green:61.0/255.0 blue:165.0/255.0 alpha:0.84]];
     circleview.layer.cornerRadius = BtnRedius;
     [[self.circleview layer] setMasksToBounds:YES];
     self.circleview.userInteractionEnabled = YES;
     
     
     sidebarcloseBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    //[sidebarcloseBtn setBackgroundColor:[UIColor clearColor]];
+    [sidebarcloseBtn setBackgroundColor:[UIColor clearColor]];
     [sidebarcloseBtn.titleLabel setFont:[UIFont fontWithName:@"Helvetica"size:36]];
-    [sidebarcloseBtn setTitle:@"close" forState:UIControlStateNormal];
+    //[sidebarcloseBtn setTitle:@"close" forState:UIControlStateNormal];
     sidebarcloseBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     sidebarcloseBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
     [sidebarcloseBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -125,7 +132,6 @@
     [self.tabBarController.view addSubview:circleview];
     // [self.view addSubview:sidebarcloseBtn];
     [self.tabBarController.view addSubview:sidebarcloseBtn];
-    
     
     
     
@@ -150,10 +156,6 @@
     
     
     NSLog(@"personalImageView.x = %f",personalImageView.frame.origin.x);
-    
-    //personalImageView = [[UIImageView alloc] initWithImage:personImage];
-    //[personalImageView setFrame:CGRectMake(80.0f,80.0f, imageRadius, imageRadius)];
-    
     
     [personalImageView.layer setMasksToBounds:YES];
     personalImageView.layer.cornerRadius = imageRadius/2;
@@ -187,18 +189,43 @@
     [self ImformationButton];
     [self cccccolor];
     
-    //[self.navigationController.view addSubview:circleview];
+ 
     
 }
 
 -(void) sidebarClose{
     
-    [sidebarcloseBtn removeFromSuperview];
     [circleview removeFromSuperview];
+    
+    circle2view.hidden = NO;
+    
+    //[sidebarcloseBtn removeFromSuperview];
+    circle2view.transform = CGAffineTransformIdentity;
+    /* 動畫開始 */
+    [UIView beginAnimations:nil context:NULL];
+    /* 動畫時間*/
+    [UIView setAnimationDelay:0.0];
+    [UIView setAnimationDuration:0.4];
+    // 圖片放大X倍
+    circle2view.transform = CGAffineTransformMakeScale(0.0001f, 0.0001f);
+    // Commit the animation
+    
+    [UIView commitAnimations];
+    
+    //[sidebarcloseBtn removeFromSuperview];
+    
+    [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(sidebarcloseBtnClose) userInfo:nil repeats:NO];
+    
     [self cccccolor];
     
-    //[self.view removeFromSuperview];
+
     
+}
+
+
+-(void)sidebarcloseBtnClose{
+    
+    [sidebarcloseBtn removeFromSuperview];
 }
 
 -(void) ImageExpand{
@@ -211,10 +238,6 @@
     personalImageView.contentMode = UIViewContentModeScaleAspectFit;
     
     NSLog(@"personalImageView.x = %f",personalImageView.frame.origin.x);
-    
-    
-    //personalImageView = [[UIImageView alloc] initWithImage:personImage];
-    //[personalImageView setFrame:CGRectMake(80.0f,80.0f, imageRadius, imageRadius)];
     
     
     [personalImageView.layer setMasksToBounds:YES];
@@ -373,7 +396,7 @@
     
     [self presentViewController:HealthEducationVC animated:YES completion:nil];
     
-    HealthEducationVC.view.backgroundColor = [UIColor blackColor];
+    HealthEducationVC.view.backgroundColor = [UIColor whiteColor];
     HealthEducationVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
     self.definesPresentationContext = YES;
 

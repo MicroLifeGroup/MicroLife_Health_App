@@ -35,6 +35,10 @@
         reminderDataArray = [[NSMutableArray alloc] init];
     }
     
+    if (reminderDataArray == nil) {
+        reminderDataArray = [[NSMutableArray alloc] init];
+    }
+    
 }
 
 -(void)saveReminderData:(NSMutableArray *)dataArray{
@@ -85,6 +89,19 @@
     return [reminderDataArray mutableCopy];
     
 }
+
+-(void)saveMemberProfile:(NSDictionary *)memberDict{
+    
+    [memberDataArray addObject:memberDict];
+    
+}
+
+-(NSMutableArray *)returnMemberProfile{
+    
+    return memberDataArray;
+}
+
+
 
 
 

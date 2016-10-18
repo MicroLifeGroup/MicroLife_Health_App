@@ -7,6 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		782AACEC1DB0C78C00F987DA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AACEB1DB0C78C00F987DA /* ViewController.m */; };
+		782AACFA1DB0C81000F987DA /* ForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AACEE1DB0C81000F987DA /* ForgotPasswordViewController.m */; };
+		782AACFB1DB0C81000F987DA /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AACF01DB0C81000F987DA /* RegisterViewController.m */; };
+		782AACFC1DB0C81000F987DA /* TermofUseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AACF21DB0C81000F987DA /* TermofUseController.m */; };
+		782AACFD1DB0C81000F987DA /* MainSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AACF41DB0C81000F987DA /* MainSettingViewController.m */; };
+		782AACFE1DB0C81000F987DA /* MyDeviceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AACF61DB0C81000F987DA /* MyDeviceController.m */; };
+		782AACFF1DB0C81000F987DA /* MeasureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AACF81DB0C81000F987DA /* MeasureCell.m */; };
+		782AAD001DB0C81000F987DA /* MeasureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 782AACF91DB0C81000F987DA /* MeasureCell.xib */; };
+		782AAD161DB0C84700F987DA /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AAD021DB0C84700F987DA /* ChangePasswordViewController.m */; };
+		782AAD171DB0C84700F987DA /* AddMailNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AAD041DB0C84700F987DA /* AddMailNotificationViewController.m */; };
+		782AAD181DB0C84700F987DA /* MailNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AAD061DB0C84700F987DA /* MailNotificationViewController.m */; };
+		782AAD191DB0C84700F987DA /* EditMemberController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AAD081DB0C84700F987DA /* EditMemberController.m */; };
+		782AAD1A1DB0C84700F987DA /* MemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AAD0A1DB0C84700F987DA /* MemberCell.m */; };
+		782AAD1B1DB0C84700F987DA /* MemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 782AAD0B1DB0C84700F987DA /* MemberCell.xib */; };
+		782AAD1C1DB0C84700F987DA /* EditMailNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AAD0D1DB0C84700F987DA /* EditMailNotificationViewController.m */; };
+		782AAD1D1DB0C84700F987DA /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AAD0F1DB0C84700F987DA /* ProfileViewController.m */; };
+		782AAD1E1DB0C84700F987DA /* RiskFactorsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AAD111DB0C84700F987DA /* RiskFactorsViewController.m */; };
+		782AAD1F1DB0C84700F987DA /* RiskFactorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AAD131DB0C84700F987DA /* RiskFactorCell.m */; };
+		782AAD201DB0C84700F987DA /* RiskFactorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 782AAD141DB0C84700F987DA /* RiskFactorCell.xib */; };
 		C430D1551D9262500095A9F3 /* NavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C430D1541D9262500095A9F3 /* NavViewController.m */; };
 		CD1E2A091DAC871C00069009 /* BLEDataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1E2A081DAC871C00069009 /* BLEDataHandler.m */; };
 		CD1F87721D49F56D00A44074 /* StatusCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1F87711D49F56D00A44074 /* StatusCircleView.m */; };
@@ -17,7 +36,6 @@
 		CD21FD671D900320009BC8CF /* EditListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD21FD661D900320009BC8CF /* EditListViewController.m */; };
 		CD221D451D41EA80004D3701 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D441D41EA80004D3701 /* main.m */; };
 		CD221D481D41EA80004D3701 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D471D41EA80004D3701 /* AppDelegate.m */; };
-		CD221D4B1D41EA80004D3701 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221D4A1D41EA80004D3701 /* ViewController.m */; };
 		CD221D4E1D41EA80004D3701 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD221D4C1D41EA80004D3701 /* Main.storyboard */; };
 		CD221D501D41EA80004D3701 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD221D4F1D41EA80004D3701 /* Assets.xcassets */; };
 		CD221D531D41EA80004D3701 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD221D511D41EA80004D3701 /* LaunchScreen.storyboard */; };
@@ -41,7 +59,6 @@
 		CD221DCD1D41F102004D3701 /* MainHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221DCC1D41F102004D3701 /* MainHistoryViewController.m */; };
 		CD221DD01D41F22A004D3701 /* MainOverviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221DCF1D41F22A004D3701 /* MainOverviewViewController.m */; };
 		CD221DD31D41F240004D3701 /* MainReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221DD21D41F240004D3701 /* MainReminderViewController.m */; };
-		CD221DD71D41F460004D3701 /* MainSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD221DD61D41F460004D3701 /* MainSettingViewController.m */; };
 		CD33D0A11D65AC6600F7DB07 /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD33D0A01D65AC6600F7DB07 /* GraphView.m */; };
 		CD613C521D88E71D00225B31 /* EditOptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD613C511D88E71D00225B31 /* EditOptionViewController.m */; };
 		CD616E6D1DA737D50080EDC5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CD616E6C1DA737D50080EDC5 /* libz.tbd */; };
@@ -91,8 +108,6 @@
 		CD763CF01D94124B000726F3 /* OverTempTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD763CEF1D94124B000726F3 /* OverTempTableViewCell.m */; };
 		CD8703201D76E83A00CC570F /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD87031F1D76E83A00CC570F /* Bolts.framework */; };
 		CD8703291D76ED0A00CC570F /* FacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703241D76ED0A00CC570F /* FacebookLoginViewController.m */; };
-		CD87032A1D76ED0A00CC570F /* ForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703261D76ED0A00CC570F /* ForgotPasswordViewController.m */; };
-		CD87032B1D76ED0A00CC570F /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703281D76ED0A00CC570F /* RegisterViewController.m */; };
 		CD8703391D76F62400CC570F /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703341D76F62400CC570F /* AboutViewController.m */; };
 		CD87033A1D76F62400CC570F /* LogoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703361D76F62400CC570F /* LogoutViewController.m */; };
 		CD87033B1D76F62400CC570F /* NotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703381D76F62400CC570F /* NotificationViewController.m */; };
@@ -129,6 +144,41 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		782AACEA1DB0C78C00F987DA /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		782AACEB1DB0C78C00F987DA /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		782AACED1DB0C81000F987DA /* ForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPasswordViewController.h; sourceTree = "<group>"; };
+		782AACEE1DB0C81000F987DA /* ForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordViewController.m; sourceTree = "<group>"; };
+		782AACEF1DB0C81000F987DA /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		782AACF01DB0C81000F987DA /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		782AACF11DB0C81000F987DA /* TermofUseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TermofUseController.h; sourceTree = "<group>"; };
+		782AACF21DB0C81000F987DA /* TermofUseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TermofUseController.m; sourceTree = "<group>"; };
+		782AACF31DB0C81000F987DA /* MainSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainSettingViewController.h; sourceTree = "<group>"; };
+		782AACF41DB0C81000F987DA /* MainSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainSettingViewController.m; sourceTree = "<group>"; };
+		782AACF51DB0C81000F987DA /* MyDeviceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDeviceController.h; sourceTree = "<group>"; };
+		782AACF61DB0C81000F987DA /* MyDeviceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDeviceController.m; sourceTree = "<group>"; };
+		782AACF71DB0C81000F987DA /* MeasureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeasureCell.h; sourceTree = "<group>"; };
+		782AACF81DB0C81000F987DA /* MeasureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeasureCell.m; sourceTree = "<group>"; };
+		782AACF91DB0C81000F987DA /* MeasureCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MeasureCell.xib; sourceTree = "<group>"; };
+		782AAD011DB0C84700F987DA /* ChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
+		782AAD021DB0C84700F987DA /* ChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
+		782AAD031DB0C84700F987DA /* AddMailNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddMailNotificationViewController.h; sourceTree = "<group>"; };
+		782AAD041DB0C84700F987DA /* AddMailNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddMailNotificationViewController.m; sourceTree = "<group>"; };
+		782AAD051DB0C84700F987DA /* MailNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailNotificationViewController.h; sourceTree = "<group>"; };
+		782AAD061DB0C84700F987DA /* MailNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailNotificationViewController.m; sourceTree = "<group>"; };
+		782AAD071DB0C84700F987DA /* EditMemberController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditMemberController.h; sourceTree = "<group>"; };
+		782AAD081DB0C84700F987DA /* EditMemberController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditMemberController.m; sourceTree = "<group>"; };
+		782AAD091DB0C84700F987DA /* MemberCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberCell.h; sourceTree = "<group>"; };
+		782AAD0A1DB0C84700F987DA /* MemberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberCell.m; sourceTree = "<group>"; };
+		782AAD0B1DB0C84700F987DA /* MemberCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MemberCell.xib; sourceTree = "<group>"; };
+		782AAD0C1DB0C84700F987DA /* EditMailNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditMailNotificationViewController.h; sourceTree = "<group>"; };
+		782AAD0D1DB0C84700F987DA /* EditMailNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditMailNotificationViewController.m; sourceTree = "<group>"; };
+		782AAD0E1DB0C84700F987DA /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		782AAD0F1DB0C84700F987DA /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		782AAD101DB0C84700F987DA /* RiskFactorsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RiskFactorsViewController.h; sourceTree = "<group>"; };
+		782AAD111DB0C84700F987DA /* RiskFactorsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RiskFactorsViewController.m; sourceTree = "<group>"; };
+		782AAD121DB0C84700F987DA /* RiskFactorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RiskFactorCell.h; path = ../../RiskFactorCell.h; sourceTree = "<group>"; };
+		782AAD131DB0C84700F987DA /* RiskFactorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RiskFactorCell.m; path = ../../RiskFactorCell.m; sourceTree = "<group>"; };
+		782AAD141DB0C84700F987DA /* RiskFactorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RiskFactorCell.xib; path = ../../RiskFactorCell.xib; sourceTree = "<group>"; };
 		C430D1531D9262500095A9F3 /* NavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavViewController.h; sourceTree = "<group>"; };
 		C430D1541D9262500095A9F3 /* NavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavViewController.m; sourceTree = "<group>"; };
 		CD1E2A071DAC871C00069009 /* BLEDataHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEDataHandler.h; sourceTree = "<group>"; };
@@ -147,8 +197,6 @@
 		CD221D441D41EA80004D3701 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CD221D461D41EA80004D3701 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CD221D471D41EA80004D3701 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		CD221D491D41EA80004D3701 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = ../ViewController.h; sourceTree = "<group>"; };
-		CD221D4A1D41EA80004D3701 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = ../ViewController.m; sourceTree = "<group>"; };
 		CD221D4D1D41EA80004D3701 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CD221D4F1D41EA80004D3701 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CD221D521D41EA80004D3701 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -197,8 +245,6 @@
 		CD221DCF1D41F22A004D3701 /* MainOverviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainOverviewViewController.m; sourceTree = "<group>"; };
 		CD221DD11D41F240004D3701 /* MainReminderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainReminderViewController.h; sourceTree = "<group>"; };
 		CD221DD21D41F240004D3701 /* MainReminderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainReminderViewController.m; sourceTree = "<group>"; };
-		CD221DD51D41F460004D3701 /* MainSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainSettingViewController.h; sourceTree = "<group>"; };
-		CD221DD61D41F460004D3701 /* MainSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainSettingViewController.m; sourceTree = "<group>"; };
 		CD33D09F1D65AC6600F7DB07 /* GraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphView.h; sourceTree = "<group>"; };
 		CD33D0A01D65AC6600F7DB07 /* GraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphView.m; sourceTree = "<group>"; };
 		CD613C501D88E71D00225B31 /* EditOptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditOptionViewController.h; sourceTree = "<group>"; };
@@ -288,10 +334,6 @@
 		CD87031F1D76E83A00CC570F /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		CD8703231D76ED0A00CC570F /* FacebookLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookLoginViewController.h; sourceTree = "<group>"; };
 		CD8703241D76ED0A00CC570F /* FacebookLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookLoginViewController.m; sourceTree = "<group>"; };
-		CD8703251D76ED0A00CC570F /* ForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPasswordViewController.h; sourceTree = "<group>"; };
-		CD8703261D76ED0A00CC570F /* ForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordViewController.m; sourceTree = "<group>"; };
-		CD8703271D76ED0A00CC570F /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
-		CD8703281D76ED0A00CC570F /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		CD8703331D76F62400CC570F /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		CD8703341D76F62400CC570F /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		CD8703351D76F62400CC570F /* LogoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogoutViewController.h; sourceTree = "<group>"; };
@@ -358,6 +400,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		782AAD151DB0C84700F987DA /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				782AAD011DB0C84700F987DA /* ChangePasswordViewController.h */,
+				782AAD021DB0C84700F987DA /* ChangePasswordViewController.m */,
+				782AAD031DB0C84700F987DA /* AddMailNotificationViewController.h */,
+				782AAD041DB0C84700F987DA /* AddMailNotificationViewController.m */,
+				782AAD051DB0C84700F987DA /* MailNotificationViewController.h */,
+				782AAD061DB0C84700F987DA /* MailNotificationViewController.m */,
+				782AAD071DB0C84700F987DA /* EditMemberController.h */,
+				782AAD081DB0C84700F987DA /* EditMemberController.m */,
+				782AAD091DB0C84700F987DA /* MemberCell.h */,
+				782AAD0A1DB0C84700F987DA /* MemberCell.m */,
+				782AAD0B1DB0C84700F987DA /* MemberCell.xib */,
+				782AAD0C1DB0C84700F987DA /* EditMailNotificationViewController.h */,
+				782AAD0D1DB0C84700F987DA /* EditMailNotificationViewController.m */,
+				782AAD0E1DB0C84700F987DA /* ProfileViewController.h */,
+				782AAD0F1DB0C84700F987DA /* ProfileViewController.m */,
+				782AAD101DB0C84700F987DA /* RiskFactorsViewController.h */,
+				782AAD111DB0C84700F987DA /* RiskFactorsViewController.m */,
+				782AAD121DB0C84700F987DA /* RiskFactorCell.h */,
+				782AAD131DB0C84700F987DA /* RiskFactorCell.m */,
+				782AAD141DB0C84700F987DA /* RiskFactorCell.xib */,
+			);
+			name = Setting;
+			path = "../../../MicroLife_iOS-master/Microlife/ViewControllers";
+			sourceTree = "<group>";
+		};
 		C430D1521D9262160095A9F3 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
@@ -618,18 +688,26 @@
 		CD221DC41D41EE2E004D3701 /* User */ = {
 			isa = PBXGroup;
 			children = (
-				CD221D491D41EA80004D3701 /* ViewController.h */,
-				CD221D4A1D41EA80004D3701 /* ViewController.m */,
+				782AACEA1DB0C78C00F987DA /* ViewController.h */,
+				782AACEB1DB0C78C00F987DA /* ViewController.m */,
 				CD221DC81D41EF6E004D3701 /* UserLoginViewController.h */,
 				CD221DC91D41EF6E004D3701 /* UserLoginViewController.m */,
 				CD8703231D76ED0A00CC570F /* FacebookLoginViewController.h */,
 				CD8703241D76ED0A00CC570F /* FacebookLoginViewController.m */,
-				CD8703251D76ED0A00CC570F /* ForgotPasswordViewController.h */,
-				CD8703261D76ED0A00CC570F /* ForgotPasswordViewController.m */,
-				CD8703271D76ED0A00CC570F /* RegisterViewController.h */,
-				CD8703281D76ED0A00CC570F /* RegisterViewController.m */,
-				CD221DD51D41F460004D3701 /* MainSettingViewController.h */,
-				CD221DD61D41F460004D3701 /* MainSettingViewController.m */,
+				782AACED1DB0C81000F987DA /* ForgotPasswordViewController.h */,
+				782AACEE1DB0C81000F987DA /* ForgotPasswordViewController.m */,
+				782AACEF1DB0C81000F987DA /* RegisterViewController.h */,
+				782AACF01DB0C81000F987DA /* RegisterViewController.m */,
+				782AACF11DB0C81000F987DA /* TermofUseController.h */,
+				782AACF21DB0C81000F987DA /* TermofUseController.m */,
+				782AACF31DB0C81000F987DA /* MainSettingViewController.h */,
+				782AACF41DB0C81000F987DA /* MainSettingViewController.m */,
+				782AACF51DB0C81000F987DA /* MyDeviceController.h */,
+				782AACF61DB0C81000F987DA /* MyDeviceController.m */,
+				782AACF71DB0C81000F987DA /* MeasureCell.h */,
+				782AACF81DB0C81000F987DA /* MeasureCell.m */,
+				782AACF91DB0C81000F987DA /* MeasureCell.xib */,
+				782AAD151DB0C84700F987DA /* Setting */,
 			);
 			name = User;
 			sourceTree = "<group>";
@@ -778,7 +856,6 @@
 				TargetAttributes = {
 					CD221D3F1D41EA80004D3701 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 45ZW733CY8;
 					};
 					CD221D581D41EA81004D3701 = {
 						CreatedOnToolsVersion = 7.3;
@@ -817,9 +894,12 @@
 			files = (
 				CD21FD611D8FE35F009BC8CF /* 0.png in Resources */,
 				CD763CC91D93E0DE000726F3 /* BodyTempTableViewCell.xib in Resources */,
+				782AAD1B1DB0C84700F987DA /* MemberCell.xib in Resources */,
 				CD21FD5F1D8F93C0009BC8CF /* BPTableViewCell.xib in Resources */,
 				CD763CC11D93AE36000726F3 /* WeightTableViewCell.xib in Resources */,
+				782AAD001DB0C81000F987DA /* MeasureCell.xib in Resources */,
 				CDAFD59A1DA37BA30021262D /* GoogleSignIn.bundle in Resources */,
+				782AAD201DB0C84700F987DA /* RiskFactorCell.xib in Resources */,
 				CD93A6C41D79975900292B83 /* CustomAlarmCell.xib in Resources */,
 				CD221D531D41EA80004D3701 /* LaunchScreen.storyboard in Resources */,
 				CD221D501D41EA80004D3701 /* Assets.xcassets in Resources */,
@@ -849,13 +929,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD87033A1D76F62400CC570F /* LogoutViewController.m in Sources */,
-				CD221DD71D41F460004D3701 /* MainSettingViewController.m in Sources */,
-				CD221D4B1D41EA80004D3701 /* ViewController.m in Sources */,
 				CD6420201DA6476F002843CA /* MyBluetoothLE.m in Sources */,
 				CD641FE51DA5FBA4002843CA /* WeightClass.m in Sources */,
 				CD763CDA1D94121E000726F3 /* OverBPTableViewCell.m in Sources */,
 				CD6420221DA6476F002843CA /* PulseInfo.m in Sources */,
 				CD212A691D758136007E53A0 /* HistoryListTableView.m in Sources */,
+				782AAD1C1DB0C84700F987DA /* EditMailNotificationViewController.m in Sources */,
 				CD1F87721D49F56D00A44074 /* StatusCircleView.m in Sources */,
 				CD64201B1DA6476F002843CA /* DRecord.m in Sources */,
 				CD641FE81DA60604002843CA /* EventClass.m in Sources */,
@@ -865,6 +944,7 @@
 				CD8E42291D48523300A8695B /* HistoryPageView.m in Sources */,
 				CDAFD5A61DA3948E0021262D /* DataBaseClass.m in Sources */,
 				CD6420181DA6476F002843CA /* CommProcess.m in Sources */,
+				782AACFD1DB0C81000F987DA /* MainSettingViewController.m in Sources */,
 				CD6420161DA6476F002843CA /* BPMProtocol.m in Sources */,
 				CD221D9B1D41EAEF004D3701 /* FMDatabasePool.m in Sources */,
 				CD64201A1DA6476F002843CA /* DeviceInfo.m in Sources */,
@@ -875,29 +955,37 @@
 				CD93A6C31D79975900292B83 /* CustomAlarmCell.m in Sources */,
 				CD6420211DA6476F002843CA /* OscillationData.m in Sources */,
 				CD221D9C1D41EAEF004D3701 /* FMDatabaseQueue.m in Sources */,
+				782AAD1F1DB0C84700F987DA /* RiskFactorCell.m in Sources */,
 				CD641FEB1DA636B6002843CA /* BTClass.m in Sources */,
 				CD221D991D41EAEF004D3701 /* FMDatabase.m in Sources */,
+				782AAD181DB0C84700F987DA /* MailNotificationViewController.m in Sources */,
 				CD221D481D41EA80004D3701 /* AppDelegate.m in Sources */,
 				CD64201E1DA6476F002843CA /* Function.m in Sources */,
-				CD87032B1D76ED0A00CC570F /* RegisterViewController.m in Sources */,
+				782AAD191DB0C84700F987DA /* EditMemberController.m in Sources */,
 				CD221DCD1D41F102004D3701 /* MainHistoryViewController.m in Sources */,
 				CD6420231DA6476F002843CA /* PulseRecord.m in Sources */,
 				CD763CE81D941239000726F3 /* BloodPressurePickerView.m in Sources */,
+				782AAD161DB0C84700F987DA /* ChangePasswordViewController.m in Sources */,
 				CD221DD01D41F22A004D3701 /* MainOverviewViewController.m in Sources */,
 				CD1E2A091DAC871C00069009 /* BLEDataHandler.m in Sources */,
+				782AACFE1DB0C81000F987DA /* MyDeviceController.m in Sources */,
 				CD221DCA1D41EF6E004D3701 /* UserLoginViewController.m in Sources */,
-				CD87032A1D76ED0A00CC570F /* ForgotPasswordViewController.m in Sources */,
 				CD8703291D76ED0A00CC570F /* FacebookLoginViewController.m in Sources */,
 				CD763CEA1D941239000726F3 /* OverViewCircleView.m in Sources */,
 				CD221DBE1D41ED94004D3701 /* SFCommonCalendar.m in Sources */,
 				CD763CED1D941239000726F3 /* TimePickerView.m in Sources */,
 				CD6420241DA6476F002843CA /* ThermoMeasureData.m in Sources */,
+				782AACFB1DB0C81000F987DA /* RegisterViewController.m in Sources */,
 				CDAFD5A01DA3945B0021262D /* SQLiteClass.m in Sources */,
+				782AAD1D1DB0C84700F987DA /* ProfileViewController.m in Sources */,
 				CD221D9A1D41EAEF004D3701 /* FMDatabaseAdditions.m in Sources */,
 				CD221DBF1D41ED94004D3701 /* ShareCommon.m in Sources */,
+				782AACEC1DB0C78C00F987DA /* ViewController.m in Sources */,
 				CD763CC01D93AE36000726F3 /* WeightTableViewCell.m in Sources */,
 				CD641FE21DA5F2F6002843CA /* BPMClass.m in Sources */,
+				782AACFA1DB0C81000F987DA /* ForgotPasswordViewController.m in Sources */,
 				CD763CF01D94124B000726F3 /* OverTempTableViewCell.m in Sources */,
+				782AACFF1DB0C81000F987DA /* MeasureCell.m in Sources */,
 				CD6420261DA6476F002843CA /* User.m in Sources */,
 				CD763CEC1D941239000726F3 /* PULPickerView.m in Sources */,
 				CD221DD31D41F240004D3701 /* MainReminderViewController.m in Sources */,
@@ -907,12 +995,14 @@
 				CD87033B1D76F62400CC570F /* NotificationViewController.m in Sources */,
 				CD763CE91D941239000726F3 /* DatePickerView.m in Sources */,
 				CD763CEB1D941239000726F3 /* OverViewObject.m in Sources */,
+				782AACFC1DB0C81000F987DA /* TermofUseController.m in Sources */,
 				CD64201C1DA6476F002843CA /* EBodyMeasureData.m in Sources */,
 				CD221D451D41EA80004D3701 /* main.m in Sources */,
 				CD6420191DA6476F002843CA /* CurrentAndMData.m in Sources */,
 				CD21FD671D900320009BC8CF /* EditListViewController.m in Sources */,
 				C430D1551D9262500095A9F3 /* NavViewController.m in Sources */,
 				CD21FD5E1D8F93C0009BC8CF /* BPTableViewCell.m in Sources */,
+				782AAD171DB0C84700F987DA /* AddMailNotificationViewController.m in Sources */,
 				CD6B939A1D829EEC00AB6018 /* AlarmDetailViewController.m in Sources */,
 				CD221DBD1D41ED94004D3701 /* LocalizeUtilities.m in Sources */,
 				CD6420171DA6476F002843CA /* CommandType.m in Sources */,
@@ -920,7 +1010,9 @@
 				CD6B939E1D82B47300AB6018 /* LocalData.m in Sources */,
 				CD8703391D76F62400CC570F /* AboutViewController.m in Sources */,
 				CD221D7F1D41EAD0004D3701 /* Reachability.m in Sources */,
+				782AAD1A1DB0C84700F987DA /* MemberCell.m in Sources */,
 				CD221DBC1D41ED94004D3701 /* GlobalSettings.m in Sources */,
+				782AAD1E1DB0C84700F987DA /* RiskFactorsViewController.m in Sources */,
 				CD87033E1D76F63800CC570F /* HealthEducationViewController.m in Sources */,
 				CD613C521D88E71D00225B31 /* EditOptionViewController.m in Sources */,
 				CD64201D1DA6476F002843CA /* EBodyProtocol.m in Sources */,
@@ -1066,6 +1158,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1087,6 +1180,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
