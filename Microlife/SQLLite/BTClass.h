@@ -23,8 +23,11 @@
 +(BTClass*) sharedInstance;
 
 -(NSMutableArray *)selectAllData;
--(NSMutableArray *)selectTemp:(int)dataRange;
--(NSMutableArray *)selectCurrentHour;
+-(NSMutableArray *)selectTempWithRange:(int)dataRange count:(int)dataCount;
+-(NSMutableArray *)selectSingleHourTempWithRange:(int)dataRange;
+
+-(NSMutableArray *)selectAllDataAtRange:(int)dataRange count:(int)dataCount;
+
 -(void)insertData;
 - (void)updateData;
 

@@ -32,9 +32,9 @@
     [self initParameter];
     [self initInterface];
     
-    NSLog(@"[WeightClass sharedInstance] = %@", [[WeightClass sharedInstance] selectAllData]);
-    NSLog(@"[BTClass sharedInstance] = %@", [[BTClass sharedInstance] selectAllData]);
-    NSLog(@"[BPMClass sharedInstance] = %@", [[BPMClass sharedInstance] selectAllData]);
+   // NSLog(@"[WeightClass sharedInstance] = %@", [[WeightClass sharedInstance] selectAllData]);
+    //NSLog(@"[BTClass sharedInstance] = %@", [[BTClass sharedInstance] selectAllData]);
+   // NSLog(@"[BPMClass sharedInstance] = %@", [[BPMClass sharedInstance] selectAllData]);
     
     BLEDataHandler *handler = [[BLEDataHandler alloc] init];
     
@@ -44,6 +44,12 @@
 
 -(void)initParameter{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentEditVC) name:@"showEditVC" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveListNotification:) name:@"showBPList" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveListNotification:) name:@"showWeightList" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveListNotification:) name:@"showTempList" object:nil];
 }
 
 -(void)initInterface{
@@ -78,28 +84,31 @@
     
     HistoryPageView *BPView = [[HistoryPageView alloc] initWithFrame:CGRectMake(0, 0, contentScroll.frame.size.width, height)];
     BPView.delegate = self;
-    BPView.type = 0;
+    BPView.chartType = 0;
+    BPView.viewType = 0;
     [BPView initBPCurveControlButton];
     [BPView setSegment:[NSArray arrayWithObjects:@"DAY", @"WEEK", @"MONTH", @"YEAR", nil]];
-    [BPView setTimeLabelTitle:@"26/07/2016"];
+    //[BPView setTimeLabelTitle:@"26/07/2016"];
     [BPView initBPHealthCircle];
     [BPView setAbsentDaysText:20 andFaceIcon:[UIImage imageNamed:@"history_icon_a_face_2"]];
     
     HistoryPageView *weightView = [[HistoryPageView alloc] initWithFrame:CGRectMake(width, 0, contentScroll.frame.size.width, height)];
     weightView.delegate = self;
-    weightView.type = 2;
+    weightView.chartType = 2;
+    weightView.viewType = 1;
     [weightView initWeightCurveControlButton];
     [weightView setSegment:[NSArray arrayWithObjects:@"DAY", @"WEEK", @"MONTH", @"YEAR", nil]];
-    [weightView setTimeLabelTitle:@"26/07/2016"];
+    //[weightView setTimeLabelTitle:@"26/07/2016"];
     [weightView initWeightHealthCircle];
     [weightView setAbsentDaysText:100 andFaceIcon:[UIImage imageNamed:@"history_icon_a_face_3"]];
     
     
     HistoryPageView *tempView = [[HistoryPageView alloc] initWithFrame:CGRectMake(width*2, 0, contentScroll.frame.size.width, height)];
     tempView.delegate = self;
-    tempView.type = 5;
+    tempView.chartType = 5;
+    tempView.viewType = 2;
     [tempView setSegment:[NSArray arrayWithObjects:@"1HR", @"4HR", @"24HR", nil]];
-    [tempView setTimeLabelTitle:@"26/07/2016"];
+    //[tempView setTimeLabelTitle:@"26/07/2016"];
     [tempView initTempHealthCircle];
     [tempView setAbsentDaysText:0 andFaceIcon:[UIImage imageNamed:@"history_icon_a_face_1"]];
     
@@ -231,6 +240,34 @@
         [pageControl setCurrentPage:currentPage];
         [self setNavigationImage];
     }
+}
+
+- (void) receiveListNotification:(NSNotification *) notification{
+
+    NSDictionary *userInfo = notification.userInfo;
+    
+    int dataCount = [[userInfo objectForKey:@"dataCount"] intValue];
+    int dataRange = [[userInfo objectForKey:@"dataRange"] intValue];
+    
+    switch (pageControl.currentPage) {
+        case 0:
+            NSLog(@"BPClass all Data ==  %@",[[WeightClass sharedInstance] selectAllDataAtRange:dataRange count:dataCount]);
+            break;
+        case 1:
+            
+            NSLog(@"WeightClass all Data ==  %@",[[WeightClass sharedInstance] selectAllDataAtRange:dataRange count:dataCount]);
+            
+            listsView.listDataArray = [[WeightClass sharedInstance] selectAllDataAtRange:dataRange count:dataCount];
+            
+            break;
+        case 2:
+            
+            NSLog(@"TempClass all Data ==  %@",[[WeightClass sharedInstance] selectAllDataAtRange:dataRange count:dataCount]);
+            break;
+        default:
+            break;
+    }
+    
 }
 
 #pragma mark - HistoryPageView Delegate

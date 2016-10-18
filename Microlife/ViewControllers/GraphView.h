@@ -12,6 +12,7 @@
 
 -(void)TouchBeginGraphView;
 -(void)TouchEndGraphView;
+-(void)DidFinishLoadChartAndShowDate:(NSString *)datString;
 
 @end
 
@@ -22,7 +23,8 @@
     float dataXLength; //資料X軸長度
     float dataYLength; //資料Y軸長度
     
-    NSInteger dataCount;
+    NSInteger dataRange;
+    int dataCount;
 }
 
 @property (nonatomic) int chartType;
@@ -58,7 +60,7 @@
 
 @property (nonatomic) NSMutableArray *chartDataArray; //圖表資料
 
-- (id)initWithFrame:(CGRect)frame withChartType:(int)type withDataCount:(NSInteger)count;
+- (id)initWithFrame:(CGRect)frame withChartType:(int)type withDataCount:(int)count withDataRange:(NSInteger)range;
 
 @property (weak)id<GraphViewDelegate>delegate;
 

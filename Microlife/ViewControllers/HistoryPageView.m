@@ -39,6 +39,7 @@
 
     nameBtnAry = [[NSMutableArray alloc] initWithCapacity:0];
     circelSize = screen.bounds.size.width*0.3;
+    dateIntervalIndex = 1;
 }
 
 -(void)initInterface{
@@ -119,6 +120,9 @@
     UIImageView *upIcon = [[UIImageView alloc] initWithFrame:CGRectMake(screen.bounds.size.width/2-upListIconSize/2, showListBtn.frame.origin.y-5, upListIconSize, upListIconSize)];
     upIcon.image = [UIImage imageNamed:@"all_icon_a_arrow_up"];
     
+    
+    [self lockNextCurveBtn];
+    
     [self addSubview:timeLabel];
     [self addSubview:prevCurveBtn];
     [self addSubview:nextCurveBtn];
@@ -154,28 +158,32 @@
     UIView *btnSnapShot = [self snapshotViewWithInputView:showListBtn];
     
     [self.delegate showListButtonTapped:btnSnapShot];
-
-}
-
--(void)createChart:(int)chartType{
     
-    NSInteger dataCount = 0;
+    int dataRange = 0;
+    int dataCount = 0;
     
-    if (chartType != 5) {
+    //viewType 0=BloodPressure 1=Weight 2=Temperature
+    
+    NSLog(@"viewType = %d",self.viewType);
+    if (self.viewType != 2) {
         switch (dateSegIndex) {
             case 0:
+                dataRange = 1*dateIntervalIndex;
                 dataCount = -1;
                 break;
                 
             case 1:
+                dataRange = 7*dateIntervalIndex;
                 dataCount = 7;
                 break;
                 
             case 2:
+                dataRange = 30*dateIntervalIndex;
                 dataCount = 30;
                 break;
                 
             case 3:
+                dataRange = 12*dateIntervalIndex;
                 dataCount = 12;
                 break;
                 
@@ -186,13 +194,17 @@
         
         switch (dateSegIndex) {
             case 0:
+                dataRange = 1*dateIntervalIndex;
                 dataCount = -1;
                 break;
             case 1:
+                dataRange = 4*dateIntervalIndex;
                 dataCount = 4;
                 break;
             case 2:
+                dataRange = 24*dateIntervalIndex;
                 dataCount = 24;
+                
                 break;
             default:
                 break;
@@ -200,7 +212,90 @@
         
     }
     
-    chart = [[GraphView alloc] initWithFrame:CGRectMake(0, 0, chartView.frame.size.width, chartView.frame.size.height) withChartType:chartType withDataCount:dataCount];
+    NSNumber *postDataRange = [NSNumber numberWithInt:dataRange];
+    NSNumber *postDataCount = [NSNumber numberWithInt:dataCount];
+    
+    NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+                              postDataRange,@"dataRange",
+                              postDataCount,@"dataCount", nil];
+    
+    switch (self.chartType) {
+        case 0:
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"showBPList" object:nil userInfo:userInfo];
+            
+            break;
+            
+        case 1:
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"showWeightList" object:nil userInfo:userInfo];
+            break;
+            
+        case 2:
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"showTempList" object:nil userInfo:userInfo];
+            break;
+            
+        default:
+            break;
+    }
+
+}
+
+
+-(void)createChart:(int)chartType{
+    
+    NSInteger dataRange = 0;
+    int dataCount = 0;
+    
+    if (chartType != 5) {
+        switch (dateSegIndex) {
+            case 0:
+                dataRange = 1*dateIntervalIndex;
+                dataCount = -1;
+                break;
+                
+            case 1:
+                dataRange = 7*dateIntervalIndex;
+                dataCount = 7;
+                break;
+                
+            case 2:
+                dataRange = 30*dateIntervalIndex;
+                dataCount = 30;
+                break;
+                
+            case 3:
+                dataRange = 12*dateIntervalIndex;
+                dataCount = 12;
+                break;
+                
+            default:
+                break;
+        }
+    }else{
+        
+        switch (dateSegIndex) {
+            case 0:
+                dataRange = 1*dateIntervalIndex;
+                dataCount = -1;
+                break;
+            case 1:
+                dataRange = 4*dateIntervalIndex;
+                dataCount = 4;
+                break;
+            case 2:
+                dataRange = 24*dateIntervalIndex;
+                dataCount = 24;
+                
+                break;
+            default:
+                break;
+        }
+        
+    }
+    
+    chart = [[GraphView alloc] initWithFrame:CGRectMake(0, 0, chartView.frame.size.width, chartView.frame.size.height) withChartType:chartType withDataCount:dataCount withDataRange:dataRange];
     
     chart.delegate = self;
     chart.indicatorMode = YES;
@@ -776,6 +871,10 @@
     
     int currentType = chart.chartType;
     
+    dateIntervalIndex += 1;
+    
+    [self lockNextCurveBtn];
+    
     [chart removeFromSuperview];
     [self createChart:currentType];
     
@@ -785,8 +884,25 @@
     
     int currentType = chart.chartType;
     
+    
+    if (dateIntervalIndex != 0) {
+        dateIntervalIndex -= 1;
+    }
+    
+    [self lockNextCurveBtn];
+    
     [chart removeFromSuperview];
     [self createChart:currentType];
+    
+}
+
+-(void)lockNextCurveBtn{
+    
+    if(dateIntervalIndex == 1){
+        nextCurveBtn.enabled = NO;
+    }else{
+        nextCurveBtn.enabled = YES;
+    }
     
 }
 
@@ -796,6 +912,12 @@
 
 -(void)TouchEndGraphView{
     [self.delegate GraphViewScrollEnd];
+}
+
+-(void)DidFinishLoadChartAndShowDate:(NSString *)datString{
+    
+    [self setTimeLabelTitle:datString];
+    
 }
 
 /*

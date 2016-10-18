@@ -30,10 +30,11 @@
 +(WeightClass*) sharedInstance;
 
 -(NSMutableArray *)selectAllData;
--(NSMutableArray *)selectWeight:(int)dataRange;
--(NSMutableArray *)selectBodyFat:(int)dataRange;
--(NSMutableArray *)selectBMI:(int)dataRange;
--(NSMutableArray *)selectCurrentDay;
+-(NSMutableArray *)selectAllDataAtRange:(int)dataRange count:(int)dataCount;
+
+-(NSMutableArray *)selectData:(NSString *)column range:(int)dataRange count:(int)dataCount;
+
+-(NSMutableArray *)selectSingleDay:(NSString *)column range:(int)dataRange;
 
 -(void)insertData;
 - (void)updateData;
