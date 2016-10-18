@@ -75,9 +75,7 @@
             }
         }
     }
-    
-    NSLog(@"dataArray = %@",dataArray);
-    
+        
     reminderDataArray = dataArray;
     
 }
