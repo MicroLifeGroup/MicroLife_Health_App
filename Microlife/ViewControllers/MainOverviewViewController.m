@@ -8,10 +8,26 @@
 
 //pickerViews
 //-------------------------------
+//血壓
 #import "BloodPressurePickerView.h"
 #import "PULPickerView.h"
 #import "TimePickerView.h"
 #import "DatePickerView.h"
+
+//體重
+#import "WEIPickerView.h"
+#import "BMIPickerView.h"
+#import "FATPickerView.h"
+//#import "SkeletonPickerView.h"
+//#import "MusclePickerView.h"
+//#import "BMRPickerView.h"
+//#import "OrganFatPickerView.h"
+
+//溫度
+#import "OverViewTempAddView.h"
+#import "BodyTempPickerView.h"
+#import "RoomTempPickerView.h"
+
 
 //circleView
 //-------------------------------
@@ -24,6 +40,11 @@
 #import "OverWeightTableViewCell.h"
 #import "OverTempTableViewCell.h"
 
+#import "GraphView.h"
+#import "RainbowBarView.h"
+
+
+//圖表
 #import "GraphView.h"
 
 @interface MainOverviewViewController () <UITableViewDelegate,UITableViewDataSource> {
@@ -54,10 +75,12 @@
     UIScrollView *overView_scrollView;
     NSMutableArray <UIView *> *ary_overView_subViews;
     UIPageControl *page;
+    
     //三個 overview scrollView 的 subViews
     UIView *bloodPressureView;
     UIView *weightView;
     UIView *bodyTemperatureView;
+    
     
     //各頁大小圓
     //------------------------------------
@@ -76,8 +99,11 @@
     
     //pickerViewvu相關
     //-----------------------------------
-    UITextField *callPickerView;
+    UITextField *callBPPickerView;
+    UITextField *callWEIPickerView;
+    UITextField *callTempPickerView;
     
+    //血壓
     //bloodPressure
     BloodPressurePickerView *bpPickerView;
     UIToolbar *bloodPressureToolBar;
@@ -86,13 +112,61 @@
     PULPickerView *pulPickerView;
     UIToolbar *pulToolBar;
     
+    
+    //體重
+    //wei
+    WEIPickerView *weiPickerView;
+    UIToolbar *weiToolBar;
+    
+    //bmi
+    BMIPickerView *bmiPickerView;
+    UIToolbar *bmiToolBar;
+    
+    //fat
+    FATPickerView *fatPickerView;
+    UIToolbar *fatToolBar;
+    
+    //skeleton
+    //SkeletonPickerView *skeletonPickerView;
+    //UIToolbar *skeletonToolBar;
+    
+    //muscle
+    //MusclePickerView *musclePickerView;
+    //UIToolbar *muscleToolBar;
+    
+    //BMR
+    //BMRPickerView *bmrPickerView;
+    UIToolbar *bmrToolBar;
+    
+    //OrganFat
+    //OrganFatPickerView *organFatPickerView;
+    //UIToolbar *organFatToolBar;
+    
+    
+    //溫度
+    //bodyTemp
+    BodyTempPickerView *bodyTempPickerView;
+    UIToolbar *bodyTempToolBar;
+    
+    //roomTemp
+    UIToolbar *roomTempToolBar;
+    RoomTempPickerView *roomTempPickerView;
+    
+
     //time
     TimePickerView *timePickerView;
+
     UIToolbar *timeToolBar;
+    UIToolbar *weightTimeToolBar;
+    UIToolbar *tempTimeToolBar;
     
     //date
     DatePickerView *datePickerView;
+
+    
     UIToolbar *dateToolBar;
+    UIToolbar *weightDateToolBar;
+    UIToolbar *tempDateToolBar;
     
     
     
@@ -148,6 +222,27 @@
     //----------------------------------
     UIView *blurView;
     
+    
+    //RainbowBarView
+    //----------------------------------
+    RainbowBarView *rainbowViewForBp;
+    RainbowBarView *rainbowViewForBMI;
+    
+    //OverviewAddEventView
+    //----------------------------------
+    OverViewTempAddView *addTempView;
+    
+    
+    //圖表
+    UIView *BPChartArea;
+    UIView *tempChartArea;
+    UIView *weightChartArea;
+    
+    GraphView *BPChartView;
+    GraphView *weightChartView;
+    GraphView *tempChartView;
+    
+    
 }
 
 
@@ -155,11 +250,40 @@
 
 @implementation MainOverviewViewController
 
+
+-(void)aa{
+    
+    
+    bloodPressureCircleView.layer.borderColor = CIRCEL_RED.CGColor;
+    bloodPressureCircleView.sys = 180;
+    bloodPressureCircleView.dia = 80;
+    bloodPressureCircleSmallView.circleImgView = nil;
+    [pulValueBt setTitle:@"99" forState:UIControlStateNormal];
+    pulUnitLabel.text = @"bpm";
+    deviceStatus.text = @"Detected";
+    
+    
+    weightCircleView.weight = 0;
+    weightCircleSmallView.circleImgView = nil;
+    bodyFatValueLabel.text = @"11";
+    [bmiValueBt setTitle:@"26" forState:UIControlStateNormal];
+    weightCircleView.layer.borderColor = CIRCEL_RED.CGColor;
+    
+    
+    bodyTemperatureCircleView.temp = 0;
+    bodyTemperatureCircleSmallView.circleImgView = nil;
+    bodyTemperatureCircleView.layer.borderColor = CIRCEL_RED.CGColor;
+    
+
+}
+
 #pragma mark - viewNormal function
 //--------------------------------
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    
+    self.tabBarController.tabBar.tintColor = STANDER_COLOR;
     
     //***********  navigationController 相關初始化設定  **********
     //改變self.title 的字體顏色
@@ -297,16 +421,20 @@
     [self.view addSubview:overView_scrollView];
     
     //bloodPressureView
+    //********************************
     bloodPressureView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, overView_scrollView.frame.size.height)];
     bloodPressureView.backgroundColor = [UIColor clearColor];
     [overView_scrollView addSubview:bloodPressureView];
     
+    
     //weightView
+    //********************************
     weightView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, 0, bloodPressureView.frame.size.width, overView_scrollView.frame.size.height)];
     weightView.backgroundColor = [UIColor whiteColor];
     [overView_scrollView addSubview:weightView];
     
     //bodyTemperatureView
+    //********************************
     bodyTemperatureView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width * 2, 0, bloodPressureView.frame.size.width, overView_scrollView.frame.size.height)];
     bodyTemperatureView.backgroundColor = [UIColor whiteColor];
     [overView_scrollView addSubview:bodyTemperatureView];
@@ -326,21 +454,165 @@
     
     [self.view addSubview:page];
     
+
     
+    //初始化所有 ToolBars & BarButtonItems
+    [self createAllToolBarsAndBarButtonItems];
+    
+    //初始化所有PickerView
+    [self allPickerViewInit];
+    
+    
+    
+    //生成大小圓
+    [self createBloodPressureCircle];
+    [self createWeightCircle];
+    [self createBodyTemperatureCircle];
+
+    
+    //生成curveBts
+    [self createSysDiaAndPulCurveBts];
+    [self createWeiBmiFatCurveBts];
+    
+    
+    //生成 PUL Label
+    [self createPULLabel];
+    [self createDeviceModelAndStatus];
+    
+    //生成 BMI Lable
+    [self createBMILabel];
+    [self createBodyFatLabel];
+    
+    
+    //初始化 所有的callPickerViews
+    [self createCallPickerViews];
+    
+    
+    //m_tableView
+    m_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, unitHeight, self.view.frame.size.width, self.view.frame.size.height - unitHeight)];
+    m_tableView.delegate = self;
+    m_tableView.dataSource = self;
+    //m_tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    m_tableView.hidden = YES;
+    [self.view addSubview:m_tableView];
+    
+    
+    
+    //生成一個模糊畫面
+    blurView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    blurView.backgroundColor = [UIColor darkGrayColor];
+    blurView.alpha = 0.3;
+    [self.tabBarController.view addSubview:blurView];
+    blurView.hidden = YES;
+    
+    
+    //tempAdd Event View
+    addTempView = [[OverViewTempAddView alloc] initWithTempAddViewFrame:CGRectMake(0, 0, bodyTemperatureView.frame.size.width, bodyTemperatureView.frame.size.height)];
+    addTempView.hidden = NO;
+    addTempView.m_superVC = self;
+    [bodyTemperatureView addSubview:addTempView];
+    
+    
+#warning hidden
+    addTempView.hidden = YES;
+    
+    
+    //生成圖表
+    [self initChart];
+}
+
+-(void)initChart{
+    //Chart View
+    BPChartArea = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(bpRainbowBarBt.frame) + bpRainbowBarBt.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.width*0.6)];
+    
+    BPChartView = [[GraphView alloc] initWithFrame:CGRectMake(0, 0, BPChartArea.frame.size.width, BPChartArea.frame.size.height-page.frame.size.height) withChartType:0 withDataCount:14 withDataRange:14];
+    
+    [bloodPressureView addSubview:BPChartArea];
+    [BPChartArea addSubview:BPChartView];
+    
+    weightChartArea = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(bpRainbowBarBt.frame) + bpRainbowBarBt.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.width*0.6)];
+    
+    weightChartView = [[GraphView alloc] initWithFrame:CGRectMake(0, 0, weightChartArea.frame.size.width, weightChartArea.frame.size.height-page.frame.size.height) withChartType:2 withDataCount:14 withDataRange:14];
+    
+    [weightView addSubview:weightChartArea];
+    [weightChartArea addSubview:weightChartView];
+    
+    
+    tempChartArea = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(bpRainbowBarBt.frame) + bpRainbowBarBt.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.width*0.6)];
+    
+    tempChartView = [[GraphView alloc] initWithFrame:CGRectMake(0, 0, tempChartArea.frame.size.width, tempChartArea.frame.size.height-page.frame.size.height) withChartType:5 withDataCount:14 withDataRange:14];
+    [bodyTemperatureView addSubview:tempChartArea];
+    [tempChartArea addSubview:tempChartView];
+}
+
+-(void)createChartWithType:(int)type{
+    
+    
+    GraphView *chartView = [[GraphView alloc] initWithFrame:CGRectMake(0, 0, BPChartArea.frame.size.width, BPChartArea.frame.size.height-page.frame.size.height) withChartType:type withDataCount:14 withDataRange:14];
+    
+    if(type == 0 || type ==1){
+        
+        [BPChartView removeFromSuperview];
+        BPChartView = chartView;
+        [BPChartArea addSubview:BPChartView];
+    }
+    
+    if(type == 2 || type == 3 || type == 4){
+        
+        [weightChartView removeFromSuperview];
+        weightChartView = chartView;
+        [weightChartArea addSubview:weightChartView];
+    }
+    
+    if (type == 5) {
+        
+        [tempChartView removeFromSuperview];
+        tempChartView = chartView;
+        [tempChartArea addSubview:tempChartView];
+    }
+
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    
+    //getTimer 計時開始(navigationBar 顯示時間用)
+    getDateTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(getDateAndTime) userInfo:nil repeats:YES];
+    
+}
+
+
+-(void)viewDidDisappear:(BOOL)animated {
+    
+    //getDateTimer  停止
+    [getDateTimer invalidate];
+    getDateTimer = nil;
+}
+
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+
+#pragma mark - create AllToolBars & BarButtonItems
+-(void)createAllToolBarsAndBarButtonItems {
+    
+    CGFloat toolBarWidth = self.view.frame.size.width;
+    CGFloat toolBarHeight = self.view.frame.size.height/16;
     
     //**************  bloodPressureToolBar & bloodPressureToolBarBts  ***************
-    //toolBarCancelBt
+    //cancel
     UIBarButtonItem *toolBarCancelBt = [[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(toolBarCancelBtAction)];
     [toolBarCancelBt setTintColor:[UIColor darkGrayColor]];
     
     //sys
     UIBarButtonItem *sysBt = [[UIBarButtonItem alloc] initWithTitle:@"SYS" style:UIBarButtonItemStylePlain target:self action:nil];
     [sysBt setTintColor:[UIColor blackColor]];
-
+    
     //dia
     UIBarButtonItem *diaBt = [[UIBarButtonItem alloc] initWithTitle:@"DIA" style:UIBarButtonItemStylePlain target:self action:nil];
     [diaBt setTintColor:[UIColor blackColor]];
-
+    
     //Next
     UIBarButtonItem *nextBt = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(bpNextTopulBtAction)];
     
@@ -348,10 +620,10 @@
     UIBarButtonItem *space = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     
     //bloodPressureToolBar
-    bloodPressureToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/16)];
+    bloodPressureToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, toolBarWidth, toolBarHeight)];
     
     [bloodPressureToolBar setItems:@[toolBarCancelBt,space,sysBt,space,diaBt,space,nextBt] animated:NO];
-
+    
     
     
     //****************  pulToolBar & pulToolBarBts  ******************
@@ -369,7 +641,6 @@
     //pulToolbar
     pulToolBar = [[UIToolbar alloc] initWithFrame:bloodPressureToolBar.frame];
     [pulToolBar setItems:@[backTobpBt,space,pulBt,space,nextToTimeBt] animated:NO];
-    
     
     
     //****************  timeToolBar & timeToolBarBts  *******************
@@ -410,84 +681,214 @@
     [dateToolBar setItems:@[dateBackToTimeBt,space,dateBt,space,toolBarSaveBt] animated:NO];
     
     
-    //初始化所有PickerView
-    [self allPickerViewInit];
+    //****************  weiToolBar & weiToolBarBts  ******************
+    //Cancel
+    UIBarButtonItem *weiToolBarCancelBt = [[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(weightCancelBtAction)];
+    [weiToolBarCancelBt setTintColor:[UIColor darkGrayColor]];
     
     
-    //callPickerView
-    callPickerView = [[UITextField alloc] initWithFrame:CGRectMake(0,0, self.view.frame.size.width/3, self.view.frame.size.width/3)];
-    callPickerView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/5);
-    callPickerView.backgroundColor = [UIColor clearColor];
-    callPickerView.tintColor = [UIColor clearColor];
-    [callPickerView addTarget:self action:@selector(callPickerViewAction) forControlEvents:UIControlEventEditingDidBegin];
-    [self.view addSubview:callPickerView];
-    
-    callPickerView.inputView = bpPickerView.m_pickerView;
-    callPickerView.inputAccessoryView = bloodPressureToolBar;
+    //wei
+    UIBarButtonItem *weiBt = [[UIBarButtonItem alloc] initWithTitle:@"WEI" style:UIBarButtonItemStylePlain target:self action:nil];
+    [weiBt setTintColor:[UIColor blackColor]];
     
     
-    
-    //生成大小圓
-    [self createBloodPressureCircle];
-    [self createWeightCircle];
-    [self createBodyTemperatureCircle];
-
-    
-    //生成curveBts
-    [self createSysDiaAndPulCurveBts];
-    [self createWeiBmiFatCurveBts];
+    UIBarButtonItem *weiNextToBmiBt = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(weiNextToBmiBtAction)];
     
     
-    //生成 PUL Label
-    [self createPULLabel];
-    [self createDeviceModelAndStatus];
+    //weiToolBar
+    weiToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height/16)];
     
-    //生成 BMI Lable
-    [self createBMILabel];
-    [self createBodyFatLabel];
+    [weiToolBar setItems:@[weiToolBarCancelBt,space,weiBt,space,weiNextToBmiBt] animated:NO];
     
     
-    
-    //m_tableView
-    m_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, unitHeight, self.view.frame.size.width, self.view.frame.size.height - unitHeight)];
-    m_tableView.delegate = self;
-    m_tableView.dataSource = self;
-    //m_tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    m_tableView.hidden = YES;
-    [self.view addSubview:m_tableView];
+    //****************  bmiToolBar & bmiToolBarBts  ******************
+    //bmiBackToWeiBt
+    UIBarButtonItem *bmiBackToWeiBt = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(bmiBackToWeiBtAction)];
+    [bmiBackToWeiBt setTintColor:[UIColor darkGrayColor]];
     
     
+    //bmi
+    UIBarButtonItem *bmiBt = [[UIBarButtonItem alloc] initWithTitle:@"BMI" style:UIBarButtonItemStylePlain target:self action:nil];
+    [bmiBt setTintColor:[UIColor blackColor]];
     
-    //生成一個模糊畫面
-    blurView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    blurView.backgroundColor = [UIColor darkGrayColor];
-    blurView.alpha = 0.3;
-    [self.tabBarController.view addSubview:blurView];
-    blurView.hidden = YES;
+    //bmiNextToFatBt
+    UIBarButtonItem *bmiNextToFatBt = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(bmiNextToFatBTAction)];
     
-
+    //bmiToolBar
+    bmiToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0,toolBarWidth, toolBarHeight)];
+    [bmiToolBar setItems:@[bmiBackToWeiBt,space,bmiBt,space,bmiNextToFatBt] animated:NO];
+    
+    
+    //****************  fatToolBar & fatToolBarBts  ******************
+    //fatBacktoBmiBt
+    UIBarButtonItem *fatBacktoBmiBt = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(fatBackToBmiBtAction)];
+    [fatBacktoBmiBt setTintColor:[UIColor darkGrayColor]];
+    
+    //fatBt
+    UIBarButtonItem *fatBt = [[UIBarButtonItem alloc] initWithTitle:@"FAT" style:UIBarButtonItemStylePlain target:self action:nil];
+    [fatBt setTintColor:[UIColor blackColor]];
+    
+    //fatNextToWeightTime
+    UIBarButtonItem *fatNextToWeightTimeBt = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(fatNextToWeightTimeBtAction)];
+    
+    fatToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0,toolBarWidth, toolBarHeight)];
+    [fatToolBar setItems:@[fatBacktoBmiBt,space,fatBt,space,fatNextToWeightTimeBt] animated:NO];
+    
+    
+    //****************  weightTimeToolBar & weightTimeToolBarBts  ******************
+    //weightTimeBackToFatBt
+    UIBarButtonItem *weightTimeBackToFatBt = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(weightTimeBackTofatBtAction)];
+    [weightTimeBackToFatBt setTintColor:[UIColor darkGrayColor]];
+    
+    //weightTimeBt
+    UIBarButtonItem *weightTimeBt = [[UIBarButtonItem alloc] initWithTitle:@"TIME" style:UIBarButtonItemStylePlain target:self action:nil];
+    [weightTimeBt setTintColor:[UIColor blackColor]];
+    
+    
+    //weightTimeNextToDateBt
+    UIBarButtonItem *weightTimeNextToDateBt = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(weightTimeNextToWeightDateBtAction)];
+    
+    
+    //weightTimeToolBar
+    weightTimeToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0,toolBarWidth,toolBarHeight)];
+    [weightTimeToolBar setItems:@[weightTimeBackToFatBt,space,weightTimeBt,space,weightTimeNextToDateBt] animated:NO];
+    
+    
+    //****************  weightDateToolBar & weightDateToolBarBts  ******************
+    //weightDateBackToTimeBt
+    UIBarButtonItem *weightDateBackToTimeBt = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(weightDateBackToWeightTimeBtAction)];
+    [weightDateBackToTimeBt setTintColor:[UIColor darkGrayColor]];
+    
+    //weightDateBt
+    UIBarButtonItem *weightDateBt = [[UIBarButtonItem alloc] initWithTitle:@"DATE" style:UIBarButtonItemStylePlain target:self action:nil];
+    [weightDateBt setTintColor:[UIColor blackColor]];
+    
+    //weightSave
+    UIBarButtonItem *weightSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(weightSaveBtAction)];
+    
+    
+    //weightTimeToolBar
+    weightDateToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, toolBarWidth, toolBarHeight)];
+    [weightDateToolBar setItems:@[weightDateBackToTimeBt,space,weightDateBt,space,weightSave] animated:NO];
+    
+    
+    
+    //****************  bodyTempToolBar & bodyTempToolBarBts  **************
+    //bodyTempCancelBt
+    UIBarButtonItem *bodyTempCancelBt = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(bodyTempCancelBtAction)];
+    [bodyTempCancelBt setTintColor:[UIColor darkGrayColor]];
+    
+    //bodyTempBt
+    UIBarButtonItem *bodyTempBt = [[UIBarButtonItem alloc] initWithTitle:@"BODY TEMP" style:UIBarButtonItemStylePlain target:self action:nil];
+    [bodyTempBt setTintColor:[UIColor blackColor]];
+    
+    //bodyTempNextToRoomTempBt
+    UIBarButtonItem *bodyTempNextToRoomTempBt = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(bodyTempNextToRoomTempBtAction)];
+    
+    //bodyTempToolBar
+    bodyTempToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, toolBarWidth, toolBarHeight)];
+    [bodyTempToolBar setItems:@[bodyTempCancelBt,space,bodyTempBt,space,bodyTempNextToRoomTempBt] animated:NO];
+    
+    
+    //****************  roomTempToolBar & roomTempToolBarBts  **************
+    //roomTempBackToBodyTempBt
+    UIBarButtonItem *roomTempBackToBodyTempBt = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(roomTempBackToBodyTempBtAction)];
+    
+    [roomTempBackToBodyTempBt setTintColor:[UIColor darkGrayColor]];
+    
+    //roomTempBt
+    UIBarButtonItem *roomTempBt = [[UIBarButtonItem alloc] initWithTitle:@"ROOM TEMP" style:UIBarButtonItemStylePlain target:self action:nil];
+    [roomTempBt setTintColor:[UIColor blackColor]];
+    
+    
+    //roomTempNextToTempTimeBt
+    UIBarButtonItem *roomTempNextToTempTimeBt = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(roomTempNextToTempTimeBtAction)];
+    
+    //roomTempToolBar
+    roomTempToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, toolBarWidth, toolBarHeight)];
+    [roomTempToolBar setItems:@[roomTempBackToBodyTempBt,space,roomTempBt,space,roomTempNextToTempTimeBt] animated:NO];
+    
+    
+    //****************  tempTimeToolBar & tempTimeToolBarBts  **************
+    //tempTimeBackToRoomTempBt
+    UIBarButtonItem *tempTimeBackToRoomTempBt = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(tempTimeBackToRoomTempBtAction)];
+    [tempTimeBackToRoomTempBt setTintColor:[UIColor darkGrayColor]];
+    
+    //tempTimeBt
+    UIBarButtonItem *tempTimeBt = [[UIBarButtonItem alloc] initWithTitle:@"Time" style:UIBarButtonItemStylePlain target:self action:nil];
+    [tempTimeBt setTintColor:[UIColor blackColor]];
+    
+    //tempTimeNextToTempDateBt
+    UIBarButtonItem *tempTimeNextToTempDateBt = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(tempTimeNextToTempDateBtAction)];
+    
+    //tempTimeToolBar
+    tempTimeToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, toolBarWidth, toolBarHeight)];
+    [tempTimeToolBar setItems:@[tempTimeBackToRoomTempBt,space,tempTimeBt,space,tempTimeNextToTempDateBt] animated:NO];
+    
+    
+    //****************  tempDateToolBar & tempDateToolBarBts  **************
+    //tempDateBackToTempTimeBt
+    UIBarButtonItem *tempDateBackToTempTimeBt = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(tempDateBackToTempTimeBtAction)];
+    [tempDateBackToTempTimeBt setTintColor:[UIColor darkGrayColor]];
+    
+    //tempDateBt
+    UIBarButtonItem *tempDateBt = [[UIBarButtonItem alloc] initWithTitle:@"DATE" style:UIBarButtonItemStylePlain target:self action:nil];
+    [tempDateBt setTintColor:[UIColor blackColor]];
+    
+    //tempSaveBt
+    UIBarButtonItem *tempSaveBt = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(tempSaveBtAction)];
+    
+    //tempDateToolBar
+    tempDateToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, toolBarWidth, toolBarHeight)];
+    [tempDateToolBar setItems:@[tempDateBackToTempTimeBt,space,tempDateBt,space,tempSaveBt] animated:NO];
+    
 }
 
 
--(void)viewWillAppear:(BOOL)animated {
+
+#pragma mark - create callPickerViews
+//-------------------------------------
+-(void)createCallPickerViews {
     
-    //getTimer 計時開始(navigationBar 顯示時間用)
-    getDateTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(getDateAndTime) userInfo:nil repeats:YES];
+    //callBPPickerView (血壓計)
+    callBPPickerView = [[UITextField alloc] initWithFrame:CGRectMake(0,0, bloodPressureView.frame.size.width/3, bloodPressureView.frame.size.width/3)];
+    callBPPickerView.center = CGPointMake(bloodPressureView.frame.size.width/2, bloodPressureView.frame.size.height/4.5);
+    callBPPickerView.backgroundColor = [UIColor clearColor];
+    callBPPickerView.tintColor = [UIColor clearColor];
+    [callBPPickerView addTarget:self action:@selector(callPickerViewAction) forControlEvents:UIControlEventEditingDidBegin];
+    callBPPickerView.inputView = bpPickerView.m_pickerView;
+    callBPPickerView.inputAccessoryView = bloodPressureToolBar;
+    [bloodPressureView addSubview:callBPPickerView];
+    
+    //callWEIPickerView (體重計)
+    callWEIPickerView = [[UITextField alloc] initWithFrame:CGRectMake(0,0, weightView.frame.size.width/3, weightView.frame.size.width/3)];
+    callWEIPickerView.center = CGPointMake(weightView.frame.size.width/2, weightView.frame.size.height/4.5);
+    callWEIPickerView.backgroundColor = [UIColor clearColor];
+    callWEIPickerView.tintColor = [UIColor clearColor];
+    [callWEIPickerView addTarget:self action:@selector(callPickerViewAction) forControlEvents:UIControlEventEditingDidBegin];
+    callWEIPickerView.inputView = weiPickerView.m_pickerView;
+    callWEIPickerView.inputAccessoryView = weiToolBar;
+    [weightView addSubview:callWEIPickerView];
+
+    
+    
+    //callTEMPPickerView (溫度計)
+    callTempPickerView = [[UITextField alloc] initWithFrame:CGRectMake(0,0, bodyTemperatureView.frame.size.width/3, bodyTemperatureView.frame.size.width/3)];
+    callTempPickerView.center = CGPointMake(bodyTemperatureView.frame.size.width/2, bodyTemperatureView.frame.size.height/4.5);
+    callTempPickerView.backgroundColor = [UIColor clearColor];
+    callTempPickerView.tintColor = [UIColor clearColor];
+    [callTempPickerView addTarget:self action:@selector(callPickerViewAction) forControlEvents:UIControlEventEditingDidBegin];
+    
+    callTempPickerView.inputView = bodyTempPickerView.m_pickerView;
+    callTempPickerView.inputAccessoryView = bodyTempToolBar;
+    
+    [bodyTemperatureView addSubview:callTempPickerView];
+
     
 }
 
 
--(void)viewDidDisappear:(BOOL)animated {
-    
-    //getDateTimer  停止
-    [getDateTimer invalidate];
-    getDateTimer = nil;
-}
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
 
 
 #pragma mark - 生成 bloodPressure 大小圓
@@ -500,8 +901,10 @@
     [bloodPressureView addSubview:bloodPressureCircleView];
     
     bloodPressureCircleView.circleViewTitleString = @"SYS/DIA";
-    bloodPressureCircleView.circleViewValueString = @"130/75";
     bloodPressureCircleView.circleViewUnitString = @"mmHg";
+    bloodPressureCircleView.device = 0; //0:血壓計
+    bloodPressureCircleView.sys = 180;
+    bloodPressureCircleView.dia = 73;
     [bloodPressureCircleView setString];
     
     //bloodPressure 藍色小圓
@@ -511,6 +914,10 @@
     bloodPressureCircleSmallView.backgroundColor = [UIColor whiteColor];
     bloodPressureCircleSmallView.circleImgView.image = [UIImage imageNamed:@"overview_icon_a_bpm"];
     [bloodPressureView addSubview:bloodPressureCircleSmallView];
+    
+    
+    
+    
 }
 
 #pragma mark - 生成 weight 大小圓
@@ -523,8 +930,9 @@
     [weightView addSubview:weightCircleView];
     
     weightCircleView.circleViewTitleString = @"Weight";
-    weightCircleView.circleViewValueString = @"65";
     weightCircleView.circleViewUnitString = @"kg";
+    weightCircleView.device = 1; //1:體重計
+    weightCircleView.weight = 65.8;
     [weightCircleView setString];
     
     
@@ -550,8 +958,9 @@
     [bodyTemperatureView addSubview:bodyTemperatureCircleView];
     
     bodyTemperatureCircleView.circleViewTitleString = @"Body Temp.";
-    bodyTemperatureCircleView.circleViewValueString = @"36.2℃";
     bodyTemperatureCircleView.circleViewUnitString = @"";
+    bodyTemperatureCircleView.device = 2; //2:溫度計
+    bodyTemperatureCircleView.temp = 34.5;
     [bodyTemperatureCircleView setString];
     
     
@@ -562,7 +971,6 @@
     bodyTemperatureCircleSmallView.backgroundColor = [UIColor whiteColor];
     bodyTemperatureCircleSmallView.circleImgView.image = [UIImage imageNamed:@"overview_icon_a_ncfr_b"];
     [bodyTemperatureView addSubview:bodyTemperatureCircleSmallView];
-    
     
 }
 
@@ -600,6 +1008,13 @@
     isBPRainbowBarBtSelected = NO;
     [bloodPressureView addSubview:bpRainbowBarBt];
     
+    
+    //rainbowViewForBp
+    rainbowViewForBp = [[RainbowBarView alloc] initWithRainbowView:CGRectMake(0, CGRectGetMaxY(bpRainbowBarBt.frame) + bpRainbowBarBt.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.width*0.6)];
+    [rainbowViewForBp checkRainbowbarValue:1 sys:bloodPressureCircleView.sys dia:bloodPressureCircleView.dia];
+    [bloodPressureView addSubview:rainbowViewForBp];
+    rainbowViewForBp.hidden = YES;
+    
 }
 
 
@@ -614,6 +1029,8 @@
         [pulCurveBt setTitleColor:STANDER_COLOR forState:UIControlStateNormal];
         [pulCurveBt setBackgroundImage:[UIImage imageNamed:@"all_btn_a_0"] forState:UIControlStateNormal];
         
+        [self createChartWithType:0];
+        
     }
     else if (sender == pulCurveBt) {
         
@@ -623,6 +1040,7 @@
         [pulCurveBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [pulCurveBt setBackgroundImage:[UIImage imageNamed:@"all_btn_a_1"] forState:UIControlStateNormal];
         
+        [self createChartWithType:1];
     }
     
 }
@@ -635,14 +1053,23 @@
     if (isBPRainbowBarBtSelected) {
         
         [bpRainbowBarBt setBackgroundImage:[UIImage imageNamed:@"overview_btn_a_bar_1"] forState:UIControlStateNormal];
+        
+        [rainbowViewForBp checkRainbowbarValue:1 sys:bloodPressureCircleView.sys dia:bloodPressureCircleView.dia];
+        
+        BPChartView.hidden = YES;
+        rainbowViewForBp.hidden = NO;
     }
     else {
         
         
         [bpRainbowBarBt setBackgroundImage:[UIImage imageNamed:@"overview_btn_a_bar_0"] forState:UIControlStateNormal];
+        
+        BPChartView.hidden = NO;
+        rainbowViewForBp.hidden = YES;
     }
     
 }
+
 
 
 #pragma mark - WEI BMI FAT CurveBT
@@ -688,8 +1115,14 @@
     [weightRainbowBarBt addTarget:self action:@selector(weightRainbowBarBtAction:) forControlEvents:UIControlEventTouchUpInside];
     isweightRainbowBarBtSelected = NO;
     [weightView addSubview:weightRainbowBarBt];
-
     
+    
+    //rainbowViewForBp
+    rainbowViewForBMI = [[RainbowBarView alloc] initWithRainbowView:CGRectMake(0, CGRectGetMaxY(weightRainbowBarBt.frame) + weightRainbowBarBt.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.width*0.6)];
+    [rainbowViewForBMI checkBMIValue:17.9];
+    [weightView addSubview:rainbowViewForBMI];
+    rainbowViewForBMI.hidden = YES;
+
 }
 
 #pragma WEI BMI FAT curveBt Action
@@ -706,6 +1139,9 @@
         [fatCurveBt setTitleColor:STANDER_COLOR forState:UIControlStateNormal];
         [fatCurveBt setBackgroundImage:[UIImage imageNamed:@"all_btn_a_0"] forState:UIControlStateNormal];
         
+        [self createChartWithType:2];
+        
+        
     }
     else if (sender == bmiCurveBt) {
         
@@ -718,6 +1154,7 @@
         [fatCurveBt setTitleColor:STANDER_COLOR forState:UIControlStateNormal];
         [fatCurveBt setBackgroundImage:[UIImage imageNamed:@"all_btn_a_0"] forState:UIControlStateNormal];
         
+        [self createChartWithType:3];
     }
     else if (sender == fatCurveBt) {
         
@@ -730,8 +1167,8 @@
         [fatCurveBt setTitleColor:[UIColor whiteColor]forState:UIControlStateNormal];
         [fatCurveBt setBackgroundImage:[UIImage imageNamed:@"all_btn_a_1"] forState:UIControlStateNormal];
         
+        [self createChartWithType:4];
     }
-    
     
 }
 
@@ -743,10 +1180,18 @@
     if (isweightRainbowBarBtSelected) {
         
         [weightRainbowBarBt setBackgroundImage:[UIImage imageNamed:@"overview_btn_a_bar_1"] forState:UIControlStateNormal];
+        
+        [rainbowViewForBMI checkBMIValue:35];
+        
+        weightChartView.hidden = YES;
+        rainbowViewForBMI.hidden = NO;
     }
     else {
         
         [weightRainbowBarBt setBackgroundImage:[UIImage imageNamed:@"overview_btn_a_bar_0"] forState:UIControlStateNormal];
+        
+        weightChartView.hidden = NO;
+        rainbowViewForBMI.hidden = YES;
     }
     
 }
@@ -873,6 +1318,40 @@
     
     //Date
     datePickerView = [[DatePickerView alloc] initWithDatePickerViewFrame:CGRectMake(0, 0, pickerViewWidth, pickerViewHeight)];
+    
+    //weight *******************
+    //WEI
+    weiPickerView = [[WEIPickerView alloc] initWithWeiPickerView:CGRectMake(0, 0, pickerViewWidth, pickerViewHeight)];
+    
+    //BMI
+    bmiPickerView = [[BMIPickerView alloc] initWithBMIPickerView:CGRectMake(0, 0, pickerViewWidth, pickerViewHeight)];
+
+    
+    //FAT
+    fatPickerView = [[FATPickerView alloc] initWithFATPickerView:CGRectMake(0, 0, pickerViewWidth, pickerViewHeight)];
+    
+    
+    //Skeleton
+    //skeletonPickerView = [[SkeletonPickerView alloc] initWithSkeletonPickerView:CGRectMake(0, 0, pickerViewWidth, pickerViewHeight)];
+    
+    //Muscle
+    //musclePickerView = [[MusclePickerView alloc] initWithMusclePickerView:CGRectMake(0, 0, pickerViewWidth, pickerViewHeight)];
+    
+    //BMR
+    //bmrPickerView = [[BMRPickerView alloc] initWithBMRPickerView:CGRectMake(0, 0, pickerViewWidth, pickerViewHeight)];
+    
+    //OrganFat
+    //organFatPickerView = [[OrganFatPickerView alloc] initWithOrganFatPickerView:CGRectMake(0, 0, pickerViewWidth, pickerViewHeight)];
+    
+    
+
+    //Temp  *********************
+    //BodyTemp
+    bodyTempPickerView = [[BodyTempPickerView alloc] initWithBodyTempPickerView:CGRectMake(0, 0, pickerViewWidth, pickerViewHeight)];
+    
+    //RoomTemp
+    roomTempPickerView = [[RoomTempPickerView alloc] initWithRoomTempPickerView:CGRectMake(0, 0, pickerViewWidth, pickerViewHeight)];
+    
     
 }
 
@@ -1003,76 +1482,77 @@
     [pickerView selectRow:row inComponent:component animated:YES];
 }
 
-#pragma mark - toolBarBtAction
+#pragma mark - toolBarBtActions
 //---------------------------------------------------------------
-//bloodPressure
+//bloodPressure  *********************
 -(void)toolBarCancelBtAction {
     
     blurView.hidden = YES;
-    [callPickerView resignFirstResponder];
-    callPickerView.inputView = bpPickerView.m_pickerView;
-    callPickerView.inputAccessoryView = bloodPressureToolBar;
+    [callBPPickerView resignFirstResponder];
+    callBPPickerView.inputView = bpPickerView.m_pickerView;
+    callBPPickerView.inputAccessoryView = bloodPressureToolBar;
 
 }
 
 -(void)bpNextTopulBtAction {
 
-    [callPickerView resignFirstResponder];
-    callPickerView.inputView = pulPickerView.m_pickerView;
-    callPickerView.inputAccessoryView = pulToolBar;
-    [callPickerView becomeFirstResponder];
+    [callBPPickerView resignFirstResponder];
+    callBPPickerView.inputView = pulPickerView.m_pickerView;
+    callBPPickerView.inputAccessoryView = pulToolBar;
+    [callBPPickerView becomeFirstResponder];
 }
 
 
 //pul
 -(void)pulBackTobpBtAction {
     
-    [callPickerView resignFirstResponder];
-    callPickerView.inputView = bpPickerView.m_pickerView;
-    callPickerView.inputAccessoryView = bloodPressureToolBar;
-    [callPickerView becomeFirstResponder];
+    [callBPPickerView resignFirstResponder];
+    callBPPickerView.inputView = bpPickerView.m_pickerView;
+    callBPPickerView.inputAccessoryView = bloodPressureToolBar;
+    [callBPPickerView becomeFirstResponder];
 }
 
 
 -(void)pulNextToTimeBtAction {
     
-    [callPickerView resignFirstResponder];
-    callPickerView.inputView = timePickerView.m_pickerView;
-    callPickerView.inputAccessoryView = timeToolBar;
-    [callPickerView becomeFirstResponder];
+    [callBPPickerView resignFirstResponder];
+    callBPPickerView.inputView = timePickerView.m_pickerView;
+    callBPPickerView.inputAccessoryView = timeToolBar;
+    [callBPPickerView becomeFirstResponder];
 }
 
 
-//time
+//bp time
 -(void)timeBackToPulBtAction {
     
-    [callPickerView resignFirstResponder];
-    callPickerView.inputView = pulPickerView.m_pickerView;
-    callPickerView.inputAccessoryView = pulToolBar;
-    [callPickerView becomeFirstResponder];
+    [callBPPickerView resignFirstResponder];
+    callBPPickerView.inputView = pulPickerView.m_pickerView;
+    callBPPickerView.inputAccessoryView = pulToolBar;
+    [callBPPickerView becomeFirstResponder];
 }
+
 
 -(void)timeNextToDateBtAction {
     
-    [callPickerView resignFirstResponder];
-    callPickerView.inputView = datePickerView.m_pickerView;
-    callPickerView.inputAccessoryView = dateToolBar;
-    [callPickerView becomeFirstResponder];
+    [callBPPickerView resignFirstResponder];
+    callBPPickerView.inputView = datePickerView.m_pickerView;
+    callBPPickerView.inputAccessoryView = dateToolBar;
+    [callBPPickerView becomeFirstResponder];
 }
 
-//date
+//bp date
 -(void)dateBackToTimeBtAction {
     
-    [callPickerView resignFirstResponder];
-    callPickerView.inputView = timePickerView.m_pickerView;
-    callPickerView.inputAccessoryView = timeToolBar;
-    [callPickerView becomeFirstResponder];
+    [callBPPickerView resignFirstResponder];
+    callBPPickerView.inputView = timePickerView.m_pickerView;
+    callBPPickerView.inputAccessoryView = timeToolBar;
+    [callBPPickerView becomeFirstResponder];
     
 }
 
 -(void)toolBarSaveBtAction {
     
-    [callPickerView resignFirstResponder];
+    [callBPPickerView resignFirstResponder];
     
     blurView.hidden = YES;
     
@@ -1082,6 +1562,183 @@
 -(void)callPickerViewAction {
     
     blurView.hidden = NO;
+    
+}
+
+
+//weight Cancel  *****************
+-(void)weightCancelBtAction {
+    
+    blurView.hidden = YES;
+    [callWEIPickerView resignFirstResponder];
+    callWEIPickerView.inputView = weiPickerView.m_pickerView;
+    callWEIPickerView.inputAccessoryView = weiToolBar;
+    
+}
+
+//wei nextTo bmi
+-(void)weiNextToBmiBtAction {
+    
+    [callWEIPickerView resignFirstResponder];
+    callWEIPickerView.inputView = bmiPickerView.m_pickerView;
+    callWEIPickerView.inputAccessoryView = bmiToolBar;
+    [callWEIPickerView becomeFirstResponder];
+    
+}
+
+//bmi backTo wei
+-(void)bmiBackToWeiBtAction {
+    
+    [callWEIPickerView resignFirstResponder];
+    callWEIPickerView.inputView = weiPickerView.m_pickerView;
+    callWEIPickerView.inputAccessoryView = weiToolBar;
+    [callWEIPickerView becomeFirstResponder];
+}
+
+//bmi nextTo Fat
+-(void)bmiNextToFatBTAction {
+    
+    [callWEIPickerView resignFirstResponder];
+    callWEIPickerView.inputView = fatPickerView.m_pickerView;
+    callWEIPickerView.inputAccessoryView = fatToolBar;
+    [callWEIPickerView becomeFirstResponder];
+    
+}
+
+//fat backTo bmi
+-(void)fatBackToBmiBtAction {
+    
+    [callWEIPickerView resignFirstResponder];
+    callWEIPickerView.inputView = bmiPickerView.m_pickerView;
+    callWEIPickerView.inputAccessoryView = bmiToolBar;
+    [callWEIPickerView becomeFirstResponder];
+    
+}
+
+//fat nextTo Time
+-(void)fatNextToWeightTimeBtAction {
+    
+    [callWEIPickerView resignFirstResponder];
+    callWEIPickerView.inputView = timePickerView.m_pickerView;
+    callWEIPickerView.inputAccessoryView = weightTimeToolBar;
+    [callWEIPickerView becomeFirstResponder];
+    
+}
+
+//weightTime backTo fat
+-(void)weightTimeBackTofatBtAction {
+    
+    [callWEIPickerView resignFirstResponder];
+    callWEIPickerView.inputView = fatPickerView.m_pickerView;
+    callWEIPickerView.inputAccessoryView = fatToolBar;
+    [callWEIPickerView becomeFirstResponder];
+    
+}
+
+//weightTime nextTo weightDate
+-(void)weightTimeNextToWeightDateBtAction {
+    
+    [callWEIPickerView resignFirstResponder];
+    callWEIPickerView.inputView = datePickerView.m_pickerView;
+    callWEIPickerView.inputAccessoryView = weightDateToolBar;
+    [callWEIPickerView becomeFirstResponder];
+}
+
+//weightDate backTo weightTime
+-(void)weightDateBackToWeightTimeBtAction {
+    
+    [callWEIPickerView resignFirstResponder];
+    callWEIPickerView.inputView = timePickerView.m_pickerView;
+    callWEIPickerView.inputAccessoryView = weightTimeToolBar;
+    [callWEIPickerView becomeFirstResponder];
+}
+
+//weight save
+-(void)weightSaveBtAction {
+    
+    blurView.hidden = YES;
+    [callWEIPickerView resignFirstResponder];
+    callWEIPickerView.inputView = weiPickerView.m_pickerView;
+    callWEIPickerView.inputAccessoryView = weiToolBar;
+    
+}
+
+
+
+//bodytemp cancel  *******************
+-(void)bodyTempCancelBtAction {
+    
+    blurView.hidden = YES;
+    [callTempPickerView resignFirstResponder];
+    callTempPickerView.inputView = bodyTempPickerView.m_pickerView;
+    callTempPickerView.inputAccessoryView = bodyTempToolBar;
+}
+
+//bodyTemp NextTo RoomTemp
+-(void)bodyTempNextToRoomTempBtAction {
+    
+    [callTempPickerView resignFirstResponder];
+    callTempPickerView.inputView = roomTempPickerView.m_pickerView;
+    callTempPickerView.inputAccessoryView = roomTempToolBar;
+    [callTempPickerView becomeFirstResponder];
+}
+
+//roomTemp backTo bodyTemp
+-(void)roomTempBackToBodyTempBtAction {
+    
+    [callTempPickerView resignFirstResponder];
+    callTempPickerView.inputView = bodyTempPickerView.m_pickerView;
+    callTempPickerView.inputAccessoryView = bodyTempToolBar;
+    [callTempPickerView becomeFirstResponder];
+    
+}
+
+//roomTemp nextTo time
+-(void)roomTempNextToTempTimeBtAction {
+    
+    [callTempPickerView resignFirstResponder];
+    callTempPickerView.inputView = timePickerView.m_pickerView;
+    callTempPickerView.inputAccessoryView = tempTimeToolBar;
+    [callTempPickerView becomeFirstResponder];
+}
+
+//TempTime backTo roomTemp
+-(void)tempTimeBackToRoomTempBtAction {
+    
+    [callTempPickerView resignFirstResponder];
+    callTempPickerView.inputView = roomTempPickerView.m_pickerView;
+    callTempPickerView.inputAccessoryView = roomTempToolBar;
+    [callTempPickerView becomeFirstResponder];
+    
+}
+
+//TempTime nextTo TempDate
+-(void)tempTimeNextToTempDateBtAction {
+    
+    [callTempPickerView resignFirstResponder];
+    callTempPickerView.inputView = datePickerView.m_pickerView;
+    callTempPickerView.inputAccessoryView = tempDateToolBar;
+    [callTempPickerView becomeFirstResponder];
+}
+
+//TempDate backTo tempTime
+-(void)tempDateBackToTempTimeBtAction {
+    
+    
+    [callTempPickerView resignFirstResponder];
+    callTempPickerView.inputView = timePickerView.m_pickerView;
+    callTempPickerView.inputAccessoryView = tempTimeToolBar;
+    [callTempPickerView becomeFirstResponder];
+}
+
+
+//TempDate save
+-(void)tempSaveBtAction {
+    
+    blurView.hidden = YES;
+    [callTempPickerView resignFirstResponder];
+    callTempPickerView.inputView = bodyTempPickerView.m_pickerView;
+    callTempPickerView.inputAccessoryView = bodyTempToolBar;
 }
 
 

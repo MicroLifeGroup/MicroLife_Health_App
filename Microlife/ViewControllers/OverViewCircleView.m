@@ -14,9 +14,11 @@
     UILabel *valueLabel;
     UILabel *unitLabel;
     
+    NSString *circleViewValueString;
+    
 }
 
-@synthesize circleViewTitleString,circleViewValueString,circleViewUnitString,circleImgView;
+@synthesize circleViewTitleString,circleViewUnitString,circleImgView,device,sys,dia,weight,temp;
 
 -(instancetype)initWithFrame:(CGRect)frame {
     
@@ -73,12 +75,33 @@
 
 
 -(void)setString {
+//    @property int pul;
+//    @property float weight;
+//    @property float MBI;
+//    @property float fat;
+    switch (device) {
+        case 0:
+            //血壓計
+            circleViewValueString = [NSString stringWithFormat:@"%d/%d",sys,dia];
+            break;
+        case 1:
+            //體重計
+            circleViewValueString = [NSString stringWithFormat:@"%.1f",weight];
+            break;
+        case 2:
+            //溫度計
+            circleViewValueString = [NSString stringWithFormat:@"%.1f℃",temp];
+            break;
+        default:
+            break;
+    }
     
     titleLabel.text = circleViewTitleString;
     
     valueLabel.text = circleViewValueString;
     
     unitLabel.text = circleViewUnitString;
+    
 }
 
 

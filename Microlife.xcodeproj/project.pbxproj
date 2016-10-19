@@ -90,6 +90,20 @@
 		CD6B346C1DB713590032B3BF /* RiskFactorsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B34621DB713590032B3BF /* RiskFactorsViewController.m */; };
 		CD6B34701DB713C40032B3BF /* MemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B346E1DB713C40032B3BF /* MemberCell.m */; };
 		CD6B34711DB713C40032B3BF /* MemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD6B346F1DB713C40032B3BF /* MemberCell.xib */; };
+		CD6B348A1DB7237B0032B3BF /* AgePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B34751DB7237B0032B3BF /* AgePickerView.m */; };
+		CD6B348B1DB7237B0032B3BF /* BMIPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B34771DB7237B0032B3BF /* BMIPickerView.m */; };
+		CD6B348C1DB7237B0032B3BF /* BMRPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B34791DB7237B0032B3BF /* BMRPickerView.m */; };
+		CD6B348D1DB7237B0032B3BF /* BodyTempPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B347B1DB7237B0032B3BF /* BodyTempPickerView.m */; };
+		CD6B348E1DB7237B0032B3BF /* FATPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B347D1DB7237B0032B3BF /* FATPickerView.m */; };
+		CD6B348F1DB7237B0032B3BF /* MusclePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B347F1DB7237B0032B3BF /* MusclePickerView.m */; };
+		CD6B34901DB7237B0032B3BF /* OrganFatPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B34811DB7237B0032B3BF /* OrganFatPickerView.m */; };
+		CD6B34911DB7237B0032B3BF /* RoomTempPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B34831DB7237B0032B3BF /* RoomTempPickerView.m */; };
+		CD6B34921DB7237B0032B3BF /* SkeletonPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B34851DB7237B0032B3BF /* SkeletonPickerView.m */; };
+		CD6B34931DB7237B0032B3BF /* TallPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B34871DB7237B0032B3BF /* TallPickerView.m */; };
+		CD6B34941DB7237B0032B3BF /* WEIPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B34891DB7237B0032B3BF /* WEIPickerView.m */; };
+		CD6B349C1DB723A00032B3BF /* OverViewAddEventControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B34971DB723A00032B3BF /* OverViewAddEventControllerViewController.m */; };
+		CD6B349D1DB723A00032B3BF /* OverViewTempAddView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B34991DB723A00032B3BF /* OverViewTempAddView.m */; };
+		CD6B349E1DB723A00032B3BF /* RainbowBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B349B1DB723A00032B3BF /* RainbowBarView.m */; };
 		CD6B939A1D829EEC00AB6018 /* AlarmDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B93991D829EEC00AB6018 /* AlarmDetailViewController.m */; };
 		CD6B939E1D82B47300AB6018 /* LocalData.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B939D1D82B47300AB6018 /* LocalData.m */; };
 		CD6F7D7F1D7D6840002A8CCE /* SetAlarmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6F7D7E1D7D6840002A8CCE /* SetAlarmViewController.m */; };
@@ -301,6 +315,34 @@
 		CD6B346D1DB713C40032B3BF /* MemberCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberCell.h; sourceTree = "<group>"; };
 		CD6B346E1DB713C40032B3BF /* MemberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberCell.m; sourceTree = "<group>"; };
 		CD6B346F1DB713C40032B3BF /* MemberCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MemberCell.xib; sourceTree = "<group>"; };
+		CD6B34741DB7237B0032B3BF /* AgePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AgePickerView.h; sourceTree = "<group>"; };
+		CD6B34751DB7237B0032B3BF /* AgePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AgePickerView.m; sourceTree = "<group>"; };
+		CD6B34761DB7237B0032B3BF /* BMIPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMIPickerView.h; sourceTree = "<group>"; };
+		CD6B34771DB7237B0032B3BF /* BMIPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMIPickerView.m; sourceTree = "<group>"; };
+		CD6B34781DB7237B0032B3BF /* BMRPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMRPickerView.h; sourceTree = "<group>"; };
+		CD6B34791DB7237B0032B3BF /* BMRPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMRPickerView.m; sourceTree = "<group>"; };
+		CD6B347A1DB7237B0032B3BF /* BodyTempPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BodyTempPickerView.h; sourceTree = "<group>"; };
+		CD6B347B1DB7237B0032B3BF /* BodyTempPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BodyTempPickerView.m; sourceTree = "<group>"; };
+		CD6B347C1DB7237B0032B3BF /* FATPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATPickerView.h; sourceTree = "<group>"; };
+		CD6B347D1DB7237B0032B3BF /* FATPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATPickerView.m; sourceTree = "<group>"; };
+		CD6B347E1DB7237B0032B3BF /* MusclePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusclePickerView.h; sourceTree = "<group>"; };
+		CD6B347F1DB7237B0032B3BF /* MusclePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusclePickerView.m; sourceTree = "<group>"; };
+		CD6B34801DB7237B0032B3BF /* OrganFatPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrganFatPickerView.h; sourceTree = "<group>"; };
+		CD6B34811DB7237B0032B3BF /* OrganFatPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrganFatPickerView.m; sourceTree = "<group>"; };
+		CD6B34821DB7237B0032B3BF /* RoomTempPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomTempPickerView.h; sourceTree = "<group>"; };
+		CD6B34831DB7237B0032B3BF /* RoomTempPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomTempPickerView.m; sourceTree = "<group>"; };
+		CD6B34841DB7237B0032B3BF /* SkeletonPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkeletonPickerView.h; sourceTree = "<group>"; };
+		CD6B34851DB7237B0032B3BF /* SkeletonPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkeletonPickerView.m; sourceTree = "<group>"; };
+		CD6B34861DB7237B0032B3BF /* TallPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TallPickerView.h; sourceTree = "<group>"; };
+		CD6B34871DB7237B0032B3BF /* TallPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TallPickerView.m; sourceTree = "<group>"; };
+		CD6B34881DB7237B0032B3BF /* WEIPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WEIPickerView.h; sourceTree = "<group>"; };
+		CD6B34891DB7237B0032B3BF /* WEIPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WEIPickerView.m; sourceTree = "<group>"; };
+		CD6B34961DB723A00032B3BF /* OverViewAddEventControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverViewAddEventControllerViewController.h; sourceTree = "<group>"; };
+		CD6B34971DB723A00032B3BF /* OverViewAddEventControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverViewAddEventControllerViewController.m; sourceTree = "<group>"; };
+		CD6B34981DB723A00032B3BF /* OverViewTempAddView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverViewTempAddView.h; sourceTree = "<group>"; };
+		CD6B34991DB723A00032B3BF /* OverViewTempAddView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverViewTempAddView.m; sourceTree = "<group>"; };
+		CD6B349A1DB723A00032B3BF /* RainbowBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RainbowBarView.h; sourceTree = "<group>"; };
+		CD6B349B1DB723A00032B3BF /* RainbowBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RainbowBarView.m; sourceTree = "<group>"; };
 		CD6B93981D829EEC00AB6018 /* AlarmDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmDetailViewController.h; sourceTree = "<group>"; };
 		CD6B93991D829EEC00AB6018 /* AlarmDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmDetailViewController.m; sourceTree = "<group>"; };
 		CD6B939C1D82B47300AB6018 /* LocalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalData.h; sourceTree = "<group>"; };
@@ -589,24 +631,18 @@
 			children = (
 				CD221DCE1D41F22A004D3701 /* MainOverviewViewController.h */,
 				CD221DCF1D41F22A004D3701 /* MainOverviewViewController.m */,
-				CD763CD61D94121E000726F3 /* OverBPTableViewCell.h */,
-				CD763CD71D94121E000726F3 /* OverBPTableViewCell.m */,
-				CD763CD81D94121E000726F3 /* OverWeightTableViewCell.h */,
-				CD763CD91D94121E000726F3 /* OverWeightTableViewCell.m */,
-				CD763CEE1D94124B000726F3 /* OverTempTableViewCell.h */,
-				CD763CEF1D94124B000726F3 /* OverTempTableViewCell.m */,
-				CD763CDC1D941239000726F3 /* BloodPressurePickerView.h */,
-				CD763CDD1D941239000726F3 /* BloodPressurePickerView.m */,
-				CD763CDE1D941239000726F3 /* DatePickerView.h */,
-				CD763CDF1D941239000726F3 /* DatePickerView.m */,
+				CD6B34961DB723A00032B3BF /* OverViewAddEventControllerViewController.h */,
+				CD6B34971DB723A00032B3BF /* OverViewAddEventControllerViewController.m */,
+				CD6B34981DB723A00032B3BF /* OverViewTempAddView.h */,
+				CD6B34991DB723A00032B3BF /* OverViewTempAddView.m */,
+				CD6B349A1DB723A00032B3BF /* RainbowBarView.h */,
+				CD6B349B1DB723A00032B3BF /* RainbowBarView.m */,
+				CD6B34731DB723430032B3BF /* OverViewPickerViews */,
+				CD6B34951DB723860032B3BF /* OverViewTableViewCells */,
 				CD763CE01D941239000726F3 /* OverViewCircleView.h */,
 				CD763CE11D941239000726F3 /* OverViewCircleView.m */,
 				CD763CE21D941239000726F3 /* OverViewObject.h */,
 				CD763CE31D941239000726F3 /* OverViewObject.m */,
-				CD763CE41D941239000726F3 /* PULPickerView.h */,
-				CD763CE51D941239000726F3 /* PULPickerView.m */,
-				CD763CE61D941239000726F3 /* TimePickerView.h */,
-				CD763CE71D941239000726F3 /* TimePickerView.m */,
 			);
 			name = Overview;
 			sourceTree = "<group>";
@@ -763,6 +799,56 @@
 			);
 			name = Setting;
 			path = ../..;
+			sourceTree = "<group>";
+		};
+		CD6B34731DB723430032B3BF /* OverViewPickerViews */ = {
+			isa = PBXGroup;
+			children = (
+				CD6B34741DB7237B0032B3BF /* AgePickerView.h */,
+				CD6B34751DB7237B0032B3BF /* AgePickerView.m */,
+				CD6B34761DB7237B0032B3BF /* BMIPickerView.h */,
+				CD6B34771DB7237B0032B3BF /* BMIPickerView.m */,
+				CD6B34781DB7237B0032B3BF /* BMRPickerView.h */,
+				CD6B34791DB7237B0032B3BF /* BMRPickerView.m */,
+				CD6B347A1DB7237B0032B3BF /* BodyTempPickerView.h */,
+				CD6B347B1DB7237B0032B3BF /* BodyTempPickerView.m */,
+				CD6B347C1DB7237B0032B3BF /* FATPickerView.h */,
+				CD6B347D1DB7237B0032B3BF /* FATPickerView.m */,
+				CD6B347E1DB7237B0032B3BF /* MusclePickerView.h */,
+				CD6B347F1DB7237B0032B3BF /* MusclePickerView.m */,
+				CD6B34801DB7237B0032B3BF /* OrganFatPickerView.h */,
+				CD6B34811DB7237B0032B3BF /* OrganFatPickerView.m */,
+				CD6B34821DB7237B0032B3BF /* RoomTempPickerView.h */,
+				CD6B34831DB7237B0032B3BF /* RoomTempPickerView.m */,
+				CD6B34841DB7237B0032B3BF /* SkeletonPickerView.h */,
+				CD6B34851DB7237B0032B3BF /* SkeletonPickerView.m */,
+				CD6B34861DB7237B0032B3BF /* TallPickerView.h */,
+				CD6B34871DB7237B0032B3BF /* TallPickerView.m */,
+				CD6B34881DB7237B0032B3BF /* WEIPickerView.h */,
+				CD6B34891DB7237B0032B3BF /* WEIPickerView.m */,
+				CD763CDC1D941239000726F3 /* BloodPressurePickerView.h */,
+				CD763CDD1D941239000726F3 /* BloodPressurePickerView.m */,
+				CD763CDE1D941239000726F3 /* DatePickerView.h */,
+				CD763CDF1D941239000726F3 /* DatePickerView.m */,
+				CD763CE41D941239000726F3 /* PULPickerView.h */,
+				CD763CE51D941239000726F3 /* PULPickerView.m */,
+				CD763CE61D941239000726F3 /* TimePickerView.h */,
+				CD763CE71D941239000726F3 /* TimePickerView.m */,
+			);
+			name = OverViewPickerViews;
+			sourceTree = "<group>";
+		};
+		CD6B34951DB723860032B3BF /* OverViewTableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				CD763CD61D94121E000726F3 /* OverBPTableViewCell.h */,
+				CD763CD71D94121E000726F3 /* OverBPTableViewCell.m */,
+				CD763CD81D94121E000726F3 /* OverWeightTableViewCell.h */,
+				CD763CD91D94121E000726F3 /* OverWeightTableViewCell.m */,
+				CD763CEE1D94124B000726F3 /* OverTempTableViewCell.h */,
+				CD763CEF1D94124B000726F3 /* OverTempTableViewCell.m */,
+			);
+			name = OverViewTableViewCells;
 			sourceTree = "<group>";
 		};
 		CD6B939B1D82B40A00AB6018 /* LocalData */ = {
@@ -941,6 +1027,7 @@
 				CD641FE81DA60604002843CA /* EventClass.m in Sources */,
 				CD763CC81D93E0DE000726F3 /* BodyTempTableViewCell.m in Sources */,
 				CD6420251DA6476F002843CA /* ThermoProtocol.m in Sources */,
+				CD6B348D1DB7237B0032B3BF /* BodyTempPickerView.m in Sources */,
 				CD6B346A1DB713590032B3BF /* RiskFactorCell.m in Sources */,
 				CD6F7D7F1D7D6840002A8CCE /* SetAlarmViewController.m in Sources */,
 				CD8E42291D48523300A8695B /* HistoryPageView.m in Sources */,
@@ -959,6 +1046,7 @@
 				CD221D9C1D41EAEF004D3701 /* FMDatabaseQueue.m in Sources */,
 				CD641FEB1DA636B6002843CA /* BTClass.m in Sources */,
 				CD221D991D41EAEF004D3701 /* FMDatabase.m in Sources */,
+				CD6B34901DB7237B0032B3BF /* OrganFatPickerView.m in Sources */,
 				CD221D481D41EA80004D3701 /* AppDelegate.m in Sources */,
 				CD64201E1DA6476F002843CA /* Function.m in Sources */,
 				CD221DCD1D41F102004D3701 /* MainHistoryViewController.m in Sources */,
@@ -970,7 +1058,9 @@
 				CD1E2A091DAC871C00069009 /* BLEDataHandler.m in Sources */,
 				CD6B34661DB713590032B3BF /* MailNotificationViewController.m in Sources */,
 				782AACFE1DB0C81000F987DA /* MyDeviceController.m in Sources */,
+				CD6B34921DB7237B0032B3BF /* SkeletonPickerView.m in Sources */,
 				CD221DCA1D41EF6E004D3701 /* UserLoginViewController.m in Sources */,
+				CD6B348F1DB7237B0032B3BF /* MusclePickerView.m in Sources */,
 				CD8703291D76ED0A00CC570F /* FacebookLoginViewController.m in Sources */,
 				CD763CEA1D941239000726F3 /* OverViewCircleView.m in Sources */,
 				CD221DBE1D41ED94004D3701 /* SFCommonCalendar.m in Sources */,
@@ -980,9 +1070,12 @@
 				CDAFD5A01DA3945B0021262D /* SQLiteClass.m in Sources */,
 				CD221D9A1D41EAEF004D3701 /* FMDatabaseAdditions.m in Sources */,
 				CD221DBF1D41ED94004D3701 /* ShareCommon.m in Sources */,
+				CD6B348B1DB7237B0032B3BF /* BMIPickerView.m in Sources */,
 				CD6B34691DB713590032B3BF /* ProfileViewController.m in Sources */,
+				CD6B348E1DB7237B0032B3BF /* FATPickerView.m in Sources */,
 				CD6B34501DB712E00032B3BF /* EditMailNotificationViewController.m in Sources */,
 				782AACEC1DB0C78C00F987DA /* ViewController.m in Sources */,
+				CD6B34911DB7237B0032B3BF /* RoomTempPickerView.m in Sources */,
 				CD763CC01D93AE36000726F3 /* WeightTableViewCell.m in Sources */,
 				CD641FE21DA5F2F6002843CA /* BPMClass.m in Sources */,
 				782AACFA1DB0C81000F987DA /* ForgotPasswordViewController.m in Sources */,
@@ -991,20 +1084,27 @@
 				CD6420261DA6476F002843CA /* User.m in Sources */,
 				CD763CEC1D941239000726F3 /* PULPickerView.m in Sources */,
 				CD6B34641DB713590032B3BF /* ChangePasswordViewController.m in Sources */,
+				CD6B348A1DB7237B0032B3BF /* AgePickerView.m in Sources */,
+				CD6B349C1DB723A00032B3BF /* OverViewAddEventControllerViewController.m in Sources */,
 				CD221DD31D41F240004D3701 /* MainReminderViewController.m in Sources */,
+				CD6B349D1DB723A00032B3BF /* OverViewTempAddView.m in Sources */,
 				CD64201F1DA6476F002843CA /* HexString.m in Sources */,
 				CD33D0A11D65AC6600F7DB07 /* GraphView.m in Sources */,
 				CD763CDB1D94121E000726F3 /* OverWeightTableViewCell.m in Sources */,
 				CD87033B1D76F62400CC570F /* NotificationViewController.m in Sources */,
+				CD6B349E1DB723A00032B3BF /* RainbowBarView.m in Sources */,
 				CD763CE91D941239000726F3 /* DatePickerView.m in Sources */,
 				CD763CEB1D941239000726F3 /* OverViewObject.m in Sources */,
 				782AACFC1DB0C81000F987DA /* TermofUseController.m in Sources */,
 				CD64201C1DA6476F002843CA /* EBodyMeasureData.m in Sources */,
 				CD221D451D41EA80004D3701 /* main.m in Sources */,
+				CD6B348C1DB7237B0032B3BF /* BMRPickerView.m in Sources */,
 				CD6420191DA6476F002843CA /* CurrentAndMData.m in Sources */,
 				CD21FD671D900320009BC8CF /* EditListViewController.m in Sources */,
+				CD6B34931DB7237B0032B3BF /* TallPickerView.m in Sources */,
 				C430D1551D9262500095A9F3 /* NavViewController.m in Sources */,
 				CD21FD5E1D8F93C0009BC8CF /* BPTableViewCell.m in Sources */,
+				CD6B34941DB7237B0032B3BF /* WEIPickerView.m in Sources */,
 				CD6B34631DB713590032B3BF /* AddMailNotificationViewController.m in Sources */,
 				CD6B939A1D829EEC00AB6018 /* AlarmDetailViewController.m in Sources */,
 				CD221DBD1D41ED94004D3701 /* LocalizeUtilities.m in Sources */,
