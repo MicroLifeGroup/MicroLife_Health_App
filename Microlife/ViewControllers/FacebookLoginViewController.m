@@ -107,11 +107,22 @@
                  NSLog(@"results:%@",result);
                  
                  NSString *email = [result objectForKey:@"email"];
+                 NSString *userID = [result objectForKey:@"id"];
+                 NSString *userName = [result objectForKey:@"name"];
+
                 // NSString *userId = [result objectForKey:@"id"];
                  
                  if (email.length >0 )
                  {
                      //這裏可以放要讓app做的事
+                     
+                     [LocalData sharedInstance].accountID = [userID intValue];
+                     
+                     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                     UIViewController *vc=[storyboard instantiateViewControllerWithIdentifier:@"TabBarViewController"];
+                     
+                     [self presentViewController:vc animated:YES completion:nil];
+                     
                  }
                  else
                  {

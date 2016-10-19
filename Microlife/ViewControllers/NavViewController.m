@@ -8,13 +8,13 @@
 
 #import "NavViewController.h"
 #import "UserLoginViewController.h"
-
+#import "ViewController.h"
 
 @implementation NavViewController
 {
     UIPageControl *pageControl;
     UIScrollView *navScrollView;
-    UserLoginViewController *loginVC;
+    ViewController *loginVC;
 }
 @synthesize navImageArray,navTextArray;
 
@@ -124,8 +124,8 @@
 
 -(void)clickPrivacyBtn
 {
-     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc=[storyboard instantiateViewControllerWithIdentifier:@"TabBarViewController"];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"TabBarViewController"];
     
     [LocalData sharedInstance].accountID = -1;
     
@@ -139,15 +139,19 @@
 //    
 //    [self presentViewController:vc animated:YES completion:nil];
     
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"LoginVC"];
     
-    if (loginVC == nil) {
-        
-        loginVC = (UserLoginViewController*)[self.storyboard instantiateViewControllerWithIdentifier:@"UserLoginViewController"];
-    }
+    [self presentViewController:vc animated:YES completion:nil];
     
-    [appDelegate.window setRootViewController:loginVC];
+//    if (loginVC == nil) {
+//        
+//        loginVC = (ViewController*)[self.storyboard instantiateViewControllerWithIdentifier:@"LoginVC"];
+//    }
     
-    [appDelegate.window makeKeyAndVisible];
+    //[appDelegate.window setRootViewController:vc];
+    
+    //[appDelegate.window makeKeyAndVisible];
 }
 
 @end

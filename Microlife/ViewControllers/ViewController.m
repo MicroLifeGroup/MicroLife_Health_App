@@ -7,8 +7,13 @@
 //
 
 #import "ViewController.h"
+#import <Accounts/Accounts.h>
+#import <AccountKit/AccountKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <GoogleSignIn/GoogleSignIn.h>
 
-@interface ViewController ()
+@interface ViewController ()<GIDSignInUIDelegate>
 
 
 
@@ -24,6 +29,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [GIDSignIn sharedInstance].clientID = kClientID;
+    
+    NSLog(@"[GIDSignIn sharedInstance].clientID = %@",[GIDSignIn sharedInstance].clientID);
     
     [self loginVC];
     [self nav];
@@ -236,14 +245,76 @@
 }
 
 -(void)connectFacebookClick{
-    [self connectFacebook];
+    
     NSLog(@"fb");
+    
+    if (![CheckNetwork isExistenceNetwork]) {
+        [self showAlert:NSLocalizedString(@"Connect fail", nil) message:NSLocalizedString(@"Please check your wifi", nil)];
+        
+        return;
+    }
+    
+    [self connectFacebook];
+    
 }
 -(void)loginGooglePlusClick{
     NSLog(@"google");
+    
+    if (![CheckNetwork isExistenceNetwork]) {
+        [self showAlert:NSLocalizedString(@"Connect fail", nil) message:NSLocalizedString(@"Please check your wifi", nil)];
+        
+        return;
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"GoogleLogin" object:nil];
+    
+    GIDSignIn* signIn = [GIDSignIn sharedInstance];
+    signIn.shouldFetchBasicProfile = YES;
+    signIn.delegate = self;
+    signIn.uiDelegate = self;
+    
+    
+    [[GIDSignIn sharedInstance] signIn];
 }
 
-
+- (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user
+     withError:(NSError *)error {
+    // Perform any operations on signed in user here.
+    NSString *userId = user.userID;                  // For client-side use only!
+    NSString *idToken = user.authentication.idToken; // Safe to send to the server
+    NSString *fullName = user.profile.name;
+    NSString *givenName = user.profile.givenName;
+    NSString *familyName = user.profile.familyName;
+    NSString *email = user.profile.email;
+    
+    NSLog(@"userId = %@",userId);
+    NSLog(@"idToken = %@",idToken);
+    NSLog(@"fullName = %@",fullName);
+    NSLog(@"givenName = %@",givenName);
+    NSLog(@"familyName = %@",familyName);
+    NSLog(@"email = %@",email);
+    
+    [LocalData sharedInstance].accountID = [userId intValue];
+    
+    // [START_EXCLUDE]
+    NSDictionary *statusText = @{@"statusText":
+                                     [NSString stringWithFormat:@"Signed in user: %@",
+                                      fullName]};
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"ToggleAuthUINotification"
+     object:nil
+     userInfo:statusText];
+    // [END_EXCLUDE]
+    
+    
+    //[cloudClass postDataSync:sendParam APIName:kAPI_commlogin EventId:CloudAPIEvent_commlogin];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *vc=[storyboard instantiateViewControllerWithIdentifier:@"TabBarViewController"];
+    
+    [self presentViewController:vc animated:YES completion:nil];
+    
+}
 
 
 -(void)loginBtnClicked{
@@ -480,5 +551,15 @@
     
 }
 
+-(void)showAlert:(NSString *)title message:(NSString *)message{
+    
+    UIAlertController *alertView = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleDefault handler:nil];
+    
+    [alertView addAction:okAction];
+    
+    [self presentViewController:alertView animated:YES completion:nil];
+}
 
 @end
