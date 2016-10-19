@@ -15,17 +15,6 @@
 		782AACFE1DB0C81000F987DA /* MyDeviceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AACF61DB0C81000F987DA /* MyDeviceController.m */; };
 		782AACFF1DB0C81000F987DA /* MeasureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AACF81DB0C81000F987DA /* MeasureCell.m */; };
 		782AAD001DB0C81000F987DA /* MeasureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 782AACF91DB0C81000F987DA /* MeasureCell.xib */; };
-		782AAD161DB0C84700F987DA /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AAD021DB0C84700F987DA /* ChangePasswordViewController.m */; };
-		782AAD171DB0C84700F987DA /* AddMailNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AAD041DB0C84700F987DA /* AddMailNotificationViewController.m */; };
-		782AAD181DB0C84700F987DA /* MailNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AAD061DB0C84700F987DA /* MailNotificationViewController.m */; };
-		782AAD191DB0C84700F987DA /* EditMemberController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AAD081DB0C84700F987DA /* EditMemberController.m */; };
-		782AAD1A1DB0C84700F987DA /* MemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AAD0A1DB0C84700F987DA /* MemberCell.m */; };
-		782AAD1B1DB0C84700F987DA /* MemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 782AAD0B1DB0C84700F987DA /* MemberCell.xib */; };
-		782AAD1C1DB0C84700F987DA /* EditMailNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AAD0D1DB0C84700F987DA /* EditMailNotificationViewController.m */; };
-		782AAD1D1DB0C84700F987DA /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AAD0F1DB0C84700F987DA /* ProfileViewController.m */; };
-		782AAD1E1DB0C84700F987DA /* RiskFactorsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AAD111DB0C84700F987DA /* RiskFactorsViewController.m */; };
-		782AAD1F1DB0C84700F987DA /* RiskFactorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 782AAD131DB0C84700F987DA /* RiskFactorCell.m */; };
-		782AAD201DB0C84700F987DA /* RiskFactorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 782AAD141DB0C84700F987DA /* RiskFactorCell.xib */; };
 		C430D1551D9262500095A9F3 /* NavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C430D1541D9262500095A9F3 /* NavViewController.m */; };
 		CD1E2A091DAC871C00069009 /* BLEDataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1E2A081DAC871C00069009 /* BLEDataHandler.m */; };
 		CD1F87721D49F56D00A44074 /* StatusCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1F87711D49F56D00A44074 /* StatusCircleView.m */; };
@@ -90,6 +79,17 @@
 		CD6420251DA6476F002843CA /* ThermoProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6420111DA6476F002843CA /* ThermoProtocol.m */; };
 		CD6420261DA6476F002843CA /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6420131DA6476F002843CA /* User.m */; };
 		CD6420271DA6476F002843CA /* VersionData.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6420151DA6476F002843CA /* VersionData.m */; };
+		CD6B34501DB712E00032B3BF /* EditMailNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B344E1DB712E00032B3BF /* EditMailNotificationViewController.m */; };
+		CD6B34631DB713590032B3BF /* AddMailNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B34521DB713590032B3BF /* AddMailNotificationViewController.m */; };
+		CD6B34641DB713590032B3BF /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B34541DB713590032B3BF /* ChangePasswordViewController.m */; };
+		CD6B34651DB713590032B3BF /* EditMemberController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B34561DB713590032B3BF /* EditMemberController.m */; };
+		CD6B34661DB713590032B3BF /* MailNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B34581DB713590032B3BF /* MailNotificationViewController.m */; };
+		CD6B34691DB713590032B3BF /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B345D1DB713590032B3BF /* ProfileViewController.m */; };
+		CD6B346A1DB713590032B3BF /* RiskFactorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B345F1DB713590032B3BF /* RiskFactorCell.m */; };
+		CD6B346B1DB713590032B3BF /* RiskFactorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD6B34601DB713590032B3BF /* RiskFactorCell.xib */; };
+		CD6B346C1DB713590032B3BF /* RiskFactorsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B34621DB713590032B3BF /* RiskFactorsViewController.m */; };
+		CD6B34701DB713C40032B3BF /* MemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B346E1DB713C40032B3BF /* MemberCell.m */; };
+		CD6B34711DB713C40032B3BF /* MemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD6B346F1DB713C40032B3BF /* MemberCell.xib */; };
 		CD6B939A1D829EEC00AB6018 /* AlarmDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B93991D829EEC00AB6018 /* AlarmDetailViewController.m */; };
 		CD6B939E1D82B47300AB6018 /* LocalData.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6B939D1D82B47300AB6018 /* LocalData.m */; };
 		CD6F7D7F1D7D6840002A8CCE /* SetAlarmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6F7D7E1D7D6840002A8CCE /* SetAlarmViewController.m */; };
@@ -159,26 +159,6 @@
 		782AACF71DB0C81000F987DA /* MeasureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeasureCell.h; sourceTree = "<group>"; };
 		782AACF81DB0C81000F987DA /* MeasureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeasureCell.m; sourceTree = "<group>"; };
 		782AACF91DB0C81000F987DA /* MeasureCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MeasureCell.xib; sourceTree = "<group>"; };
-		782AAD011DB0C84700F987DA /* ChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
-		782AAD021DB0C84700F987DA /* ChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
-		782AAD031DB0C84700F987DA /* AddMailNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddMailNotificationViewController.h; sourceTree = "<group>"; };
-		782AAD041DB0C84700F987DA /* AddMailNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddMailNotificationViewController.m; sourceTree = "<group>"; };
-		782AAD051DB0C84700F987DA /* MailNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailNotificationViewController.h; sourceTree = "<group>"; };
-		782AAD061DB0C84700F987DA /* MailNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailNotificationViewController.m; sourceTree = "<group>"; };
-		782AAD071DB0C84700F987DA /* EditMemberController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditMemberController.h; sourceTree = "<group>"; };
-		782AAD081DB0C84700F987DA /* EditMemberController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditMemberController.m; sourceTree = "<group>"; };
-		782AAD091DB0C84700F987DA /* MemberCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberCell.h; sourceTree = "<group>"; };
-		782AAD0A1DB0C84700F987DA /* MemberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberCell.m; sourceTree = "<group>"; };
-		782AAD0B1DB0C84700F987DA /* MemberCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MemberCell.xib; sourceTree = "<group>"; };
-		782AAD0C1DB0C84700F987DA /* EditMailNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditMailNotificationViewController.h; sourceTree = "<group>"; };
-		782AAD0D1DB0C84700F987DA /* EditMailNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditMailNotificationViewController.m; sourceTree = "<group>"; };
-		782AAD0E1DB0C84700F987DA /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
-		782AAD0F1DB0C84700F987DA /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
-		782AAD101DB0C84700F987DA /* RiskFactorsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RiskFactorsViewController.h; sourceTree = "<group>"; };
-		782AAD111DB0C84700F987DA /* RiskFactorsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RiskFactorsViewController.m; sourceTree = "<group>"; };
-		782AAD121DB0C84700F987DA /* RiskFactorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RiskFactorCell.h; path = ../../RiskFactorCell.h; sourceTree = "<group>"; };
-		782AAD131DB0C84700F987DA /* RiskFactorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RiskFactorCell.m; path = ../../RiskFactorCell.m; sourceTree = "<group>"; };
-		782AAD141DB0C84700F987DA /* RiskFactorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RiskFactorCell.xib; path = ../../RiskFactorCell.xib; sourceTree = "<group>"; };
 		C430D1531D9262500095A9F3 /* NavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavViewController.h; sourceTree = "<group>"; };
 		C430D1541D9262500095A9F3 /* NavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavViewController.m; sourceTree = "<group>"; };
 		CD1E2A071DAC871C00069009 /* BLEDataHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEDataHandler.h; sourceTree = "<group>"; };
@@ -301,6 +281,26 @@
 		CD6420131DA6476F002843CA /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		CD6420141DA6476F002843CA /* VersionData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionData.h; sourceTree = "<group>"; };
 		CD6420151DA6476F002843CA /* VersionData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VersionData.m; sourceTree = "<group>"; };
+		CD6B344E1DB712E00032B3BF /* EditMailNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditMailNotificationViewController.m; sourceTree = "<group>"; };
+		CD6B344F1DB712E00032B3BF /* EditMailNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditMailNotificationViewController.h; sourceTree = "<group>"; };
+		CD6B34511DB713590032B3BF /* AddMailNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddMailNotificationViewController.h; sourceTree = "<group>"; };
+		CD6B34521DB713590032B3BF /* AddMailNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddMailNotificationViewController.m; sourceTree = "<group>"; };
+		CD6B34531DB713590032B3BF /* ChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
+		CD6B34541DB713590032B3BF /* ChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
+		CD6B34551DB713590032B3BF /* EditMemberController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditMemberController.h; sourceTree = "<group>"; };
+		CD6B34561DB713590032B3BF /* EditMemberController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditMemberController.m; sourceTree = "<group>"; };
+		CD6B34571DB713590032B3BF /* MailNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailNotificationViewController.h; sourceTree = "<group>"; };
+		CD6B34581DB713590032B3BF /* MailNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailNotificationViewController.m; sourceTree = "<group>"; };
+		CD6B345C1DB713590032B3BF /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		CD6B345D1DB713590032B3BF /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		CD6B345E1DB713590032B3BF /* RiskFactorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RiskFactorCell.h; sourceTree = "<group>"; };
+		CD6B345F1DB713590032B3BF /* RiskFactorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RiskFactorCell.m; sourceTree = "<group>"; };
+		CD6B34601DB713590032B3BF /* RiskFactorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RiskFactorCell.xib; sourceTree = "<group>"; };
+		CD6B34611DB713590032B3BF /* RiskFactorsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RiskFactorsViewController.h; sourceTree = "<group>"; };
+		CD6B34621DB713590032B3BF /* RiskFactorsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RiskFactorsViewController.m; sourceTree = "<group>"; };
+		CD6B346D1DB713C40032B3BF /* MemberCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberCell.h; sourceTree = "<group>"; };
+		CD6B346E1DB713C40032B3BF /* MemberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberCell.m; sourceTree = "<group>"; };
+		CD6B346F1DB713C40032B3BF /* MemberCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MemberCell.xib; sourceTree = "<group>"; };
 		CD6B93981D829EEC00AB6018 /* AlarmDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmDetailViewController.h; sourceTree = "<group>"; };
 		CD6B93991D829EEC00AB6018 /* AlarmDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmDetailViewController.m; sourceTree = "<group>"; };
 		CD6B939C1D82B47300AB6018 /* LocalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalData.h; sourceTree = "<group>"; };
@@ -400,34 +400,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		782AAD151DB0C84700F987DA /* Setting */ = {
-			isa = PBXGroup;
-			children = (
-				782AAD011DB0C84700F987DA /* ChangePasswordViewController.h */,
-				782AAD021DB0C84700F987DA /* ChangePasswordViewController.m */,
-				782AAD031DB0C84700F987DA /* AddMailNotificationViewController.h */,
-				782AAD041DB0C84700F987DA /* AddMailNotificationViewController.m */,
-				782AAD051DB0C84700F987DA /* MailNotificationViewController.h */,
-				782AAD061DB0C84700F987DA /* MailNotificationViewController.m */,
-				782AAD071DB0C84700F987DA /* EditMemberController.h */,
-				782AAD081DB0C84700F987DA /* EditMemberController.m */,
-				782AAD091DB0C84700F987DA /* MemberCell.h */,
-				782AAD0A1DB0C84700F987DA /* MemberCell.m */,
-				782AAD0B1DB0C84700F987DA /* MemberCell.xib */,
-				782AAD0C1DB0C84700F987DA /* EditMailNotificationViewController.h */,
-				782AAD0D1DB0C84700F987DA /* EditMailNotificationViewController.m */,
-				782AAD0E1DB0C84700F987DA /* ProfileViewController.h */,
-				782AAD0F1DB0C84700F987DA /* ProfileViewController.m */,
-				782AAD101DB0C84700F987DA /* RiskFactorsViewController.h */,
-				782AAD111DB0C84700F987DA /* RiskFactorsViewController.m */,
-				782AAD121DB0C84700F987DA /* RiskFactorCell.h */,
-				782AAD131DB0C84700F987DA /* RiskFactorCell.m */,
-				782AAD141DB0C84700F987DA /* RiskFactorCell.xib */,
-			);
-			name = Setting;
-			path = "../../../MicroLife_iOS-master/Microlife/ViewControllers";
-			sourceTree = "<group>";
-		};
 		C430D1521D9262160095A9F3 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
@@ -440,7 +412,6 @@
 		CD221D371D41EA80004D3701 = {
 			isa = PBXGroup;
 			children = (
-				CD21FD601D8FE35F009BC8CF /* 0.png */,
 				CD641FF01DA6476F002843CA /* sdk */,
 				CD221D781D41EAAF004D3701 /* Frameworks */,
 				CD221D421D41EA80004D3701 /* Microlife */,
@@ -566,6 +537,7 @@
 		CD221D8A1D41EAE4004D3701 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				CD6B34721DB7155B0032B3BF /* Setting */,
 				C430D1521D9262160095A9F3 /* Navigation */,
 				CD8703321D76F5FE00CC570F /* SideBar */,
 				CD221DC41D41EE2E004D3701 /* User */,
@@ -707,7 +679,6 @@
 				782AACF71DB0C81000F987DA /* MeasureCell.h */,
 				782AACF81DB0C81000F987DA /* MeasureCell.m */,
 				782AACF91DB0C81000F987DA /* MeasureCell.xib */,
-				782AAD151DB0C84700F987DA /* Setting */,
 			);
 			name = User;
 			sourceTree = "<group>";
@@ -763,6 +734,35 @@
 				CD6420151DA6476F002843CA /* VersionData.m */,
 			);
 			path = sdk;
+			sourceTree = "<group>";
+		};
+		CD6B34721DB7155B0032B3BF /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				CD21FD601D8FE35F009BC8CF /* 0.png */,
+				CD6B344E1DB712E00032B3BF /* EditMailNotificationViewController.m */,
+				CD6B344F1DB712E00032B3BF /* EditMailNotificationViewController.h */,
+				CD6B34511DB713590032B3BF /* AddMailNotificationViewController.h */,
+				CD6B34521DB713590032B3BF /* AddMailNotificationViewController.m */,
+				CD6B34531DB713590032B3BF /* ChangePasswordViewController.h */,
+				CD6B34541DB713590032B3BF /* ChangePasswordViewController.m */,
+				CD6B34551DB713590032B3BF /* EditMemberController.h */,
+				CD6B34561DB713590032B3BF /* EditMemberController.m */,
+				CD6B34571DB713590032B3BF /* MailNotificationViewController.h */,
+				CD6B34581DB713590032B3BF /* MailNotificationViewController.m */,
+				CD6B345C1DB713590032B3BF /* ProfileViewController.h */,
+				CD6B345D1DB713590032B3BF /* ProfileViewController.m */,
+				CD6B345E1DB713590032B3BF /* RiskFactorCell.h */,
+				CD6B345F1DB713590032B3BF /* RiskFactorCell.m */,
+				CD6B34601DB713590032B3BF /* RiskFactorCell.xib */,
+				CD6B34611DB713590032B3BF /* RiskFactorsViewController.h */,
+				CD6B34621DB713590032B3BF /* RiskFactorsViewController.m */,
+				CD6B346D1DB713C40032B3BF /* MemberCell.h */,
+				CD6B346E1DB713C40032B3BF /* MemberCell.m */,
+				CD6B346F1DB713C40032B3BF /* MemberCell.xib */,
+			);
+			name = Setting;
+			path = ../..;
 			sourceTree = "<group>";
 		};
 		CD6B939B1D82B40A00AB6018 /* LocalData */ = {
@@ -856,6 +856,7 @@
 				TargetAttributes = {
 					CD221D3F1D41EA80004D3701 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 45ZW733CY8;
 					};
 					CD221D581D41EA81004D3701 = {
 						CreatedOnToolsVersion = 7.3;
@@ -894,13 +895,13 @@
 			files = (
 				CD21FD611D8FE35F009BC8CF /* 0.png in Resources */,
 				CD763CC91D93E0DE000726F3 /* BodyTempTableViewCell.xib in Resources */,
-				782AAD1B1DB0C84700F987DA /* MemberCell.xib in Resources */,
 				CD21FD5F1D8F93C0009BC8CF /* BPTableViewCell.xib in Resources */,
+				CD6B34711DB713C40032B3BF /* MemberCell.xib in Resources */,
 				CD763CC11D93AE36000726F3 /* WeightTableViewCell.xib in Resources */,
 				782AAD001DB0C81000F987DA /* MeasureCell.xib in Resources */,
 				CDAFD59A1DA37BA30021262D /* GoogleSignIn.bundle in Resources */,
-				782AAD201DB0C84700F987DA /* RiskFactorCell.xib in Resources */,
 				CD93A6C41D79975900292B83 /* CustomAlarmCell.xib in Resources */,
+				CD6B346B1DB713590032B3BF /* RiskFactorCell.xib in Resources */,
 				CD221D531D41EA80004D3701 /* LaunchScreen.storyboard in Resources */,
 				CD221D501D41EA80004D3701 /* Assets.xcassets in Resources */,
 				CD221D4E1D41EA80004D3701 /* Main.storyboard in Resources */,
@@ -934,12 +935,13 @@
 				CD763CDA1D94121E000726F3 /* OverBPTableViewCell.m in Sources */,
 				CD6420221DA6476F002843CA /* PulseInfo.m in Sources */,
 				CD212A691D758136007E53A0 /* HistoryListTableView.m in Sources */,
-				782AAD1C1DB0C84700F987DA /* EditMailNotificationViewController.m in Sources */,
 				CD1F87721D49F56D00A44074 /* StatusCircleView.m in Sources */,
 				CD64201B1DA6476F002843CA /* DRecord.m in Sources */,
+				CD6B346C1DB713590032B3BF /* RiskFactorsViewController.m in Sources */,
 				CD641FE81DA60604002843CA /* EventClass.m in Sources */,
 				CD763CC81D93E0DE000726F3 /* BodyTempTableViewCell.m in Sources */,
 				CD6420251DA6476F002843CA /* ThermoProtocol.m in Sources */,
+				CD6B346A1DB713590032B3BF /* RiskFactorCell.m in Sources */,
 				CD6F7D7F1D7D6840002A8CCE /* SetAlarmViewController.m in Sources */,
 				CD8E42291D48523300A8695B /* HistoryPageView.m in Sources */,
 				CDAFD5A61DA3948E0021262D /* DataBaseClass.m in Sources */,
@@ -955,19 +957,18 @@
 				CD93A6C31D79975900292B83 /* CustomAlarmCell.m in Sources */,
 				CD6420211DA6476F002843CA /* OscillationData.m in Sources */,
 				CD221D9C1D41EAEF004D3701 /* FMDatabaseQueue.m in Sources */,
-				782AAD1F1DB0C84700F987DA /* RiskFactorCell.m in Sources */,
 				CD641FEB1DA636B6002843CA /* BTClass.m in Sources */,
 				CD221D991D41EAEF004D3701 /* FMDatabase.m in Sources */,
-				782AAD181DB0C84700F987DA /* MailNotificationViewController.m in Sources */,
 				CD221D481D41EA80004D3701 /* AppDelegate.m in Sources */,
 				CD64201E1DA6476F002843CA /* Function.m in Sources */,
-				782AAD191DB0C84700F987DA /* EditMemberController.m in Sources */,
 				CD221DCD1D41F102004D3701 /* MainHistoryViewController.m in Sources */,
+				CD6B34651DB713590032B3BF /* EditMemberController.m in Sources */,
+				CD6B34701DB713C40032B3BF /* MemberCell.m in Sources */,
 				CD6420231DA6476F002843CA /* PulseRecord.m in Sources */,
 				CD763CE81D941239000726F3 /* BloodPressurePickerView.m in Sources */,
-				782AAD161DB0C84700F987DA /* ChangePasswordViewController.m in Sources */,
 				CD221DD01D41F22A004D3701 /* MainOverviewViewController.m in Sources */,
 				CD1E2A091DAC871C00069009 /* BLEDataHandler.m in Sources */,
+				CD6B34661DB713590032B3BF /* MailNotificationViewController.m in Sources */,
 				782AACFE1DB0C81000F987DA /* MyDeviceController.m in Sources */,
 				CD221DCA1D41EF6E004D3701 /* UserLoginViewController.m in Sources */,
 				CD8703291D76ED0A00CC570F /* FacebookLoginViewController.m in Sources */,
@@ -977,9 +978,10 @@
 				CD6420241DA6476F002843CA /* ThermoMeasureData.m in Sources */,
 				782AACFB1DB0C81000F987DA /* RegisterViewController.m in Sources */,
 				CDAFD5A01DA3945B0021262D /* SQLiteClass.m in Sources */,
-				782AAD1D1DB0C84700F987DA /* ProfileViewController.m in Sources */,
 				CD221D9A1D41EAEF004D3701 /* FMDatabaseAdditions.m in Sources */,
 				CD221DBF1D41ED94004D3701 /* ShareCommon.m in Sources */,
+				CD6B34691DB713590032B3BF /* ProfileViewController.m in Sources */,
+				CD6B34501DB712E00032B3BF /* EditMailNotificationViewController.m in Sources */,
 				782AACEC1DB0C78C00F987DA /* ViewController.m in Sources */,
 				CD763CC01D93AE36000726F3 /* WeightTableViewCell.m in Sources */,
 				CD641FE21DA5F2F6002843CA /* BPMClass.m in Sources */,
@@ -988,6 +990,7 @@
 				782AACFF1DB0C81000F987DA /* MeasureCell.m in Sources */,
 				CD6420261DA6476F002843CA /* User.m in Sources */,
 				CD763CEC1D941239000726F3 /* PULPickerView.m in Sources */,
+				CD6B34641DB713590032B3BF /* ChangePasswordViewController.m in Sources */,
 				CD221DD31D41F240004D3701 /* MainReminderViewController.m in Sources */,
 				CD64201F1DA6476F002843CA /* HexString.m in Sources */,
 				CD33D0A11D65AC6600F7DB07 /* GraphView.m in Sources */,
@@ -1002,7 +1005,7 @@
 				CD21FD671D900320009BC8CF /* EditListViewController.m in Sources */,
 				C430D1551D9262500095A9F3 /* NavViewController.m in Sources */,
 				CD21FD5E1D8F93C0009BC8CF /* BPTableViewCell.m in Sources */,
-				782AAD171DB0C84700F987DA /* AddMailNotificationViewController.m in Sources */,
+				CD6B34631DB713590032B3BF /* AddMailNotificationViewController.m in Sources */,
 				CD6B939A1D829EEC00AB6018 /* AlarmDetailViewController.m in Sources */,
 				CD221DBD1D41ED94004D3701 /* LocalizeUtilities.m in Sources */,
 				CD6420171DA6476F002843CA /* CommandType.m in Sources */,
@@ -1010,9 +1013,7 @@
 				CD6B939E1D82B47300AB6018 /* LocalData.m in Sources */,
 				CD8703391D76F62400CC570F /* AboutViewController.m in Sources */,
 				CD221D7F1D41EAD0004D3701 /* Reachability.m in Sources */,
-				782AAD1A1DB0C84700F987DA /* MemberCell.m in Sources */,
 				CD221DBC1D41ED94004D3701 /* GlobalSettings.m in Sources */,
-				782AAD1E1DB0C84700F987DA /* RiskFactorsViewController.m in Sources */,
 				CD87033E1D76F63800CC570F /* HealthEducationViewController.m in Sources */,
 				CD613C521D88E71D00225B31 /* EditOptionViewController.m in Sources */,
 				CD64201D1DA6476F002843CA /* EBodyProtocol.m in Sources */,
@@ -1158,7 +1159,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 45ZW733CY8;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1180,7 +1181,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 45ZW733CY8;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
