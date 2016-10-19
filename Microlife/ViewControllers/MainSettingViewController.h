@@ -8,7 +8,7 @@
 
 #import "MViewController.h"
 #import "MainOverviewViewController.h"
-
+#import "MyDeviceController.h"
 
 
 @interface MainSettingViewController : MViewController<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{

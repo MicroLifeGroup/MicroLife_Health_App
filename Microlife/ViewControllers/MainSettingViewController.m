@@ -644,6 +644,19 @@
     UITableViewRowAction *detailAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Detail" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
         
         [self.DeviceManagementTV setEditing:NO];
+        
+        // self.str=self.person[indexPath.row];
+        MyDeviceController *detailV = [[MyDeviceController alloc]init];
+        detailV = [self.storyboard instantiateViewControllerWithIdentifier:@"MyDeviceController"];
+        detailV.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        detailV.deviceLabel.text = Devicearray[indexPath.row];
+        detailV.deviceStr=Devicearray[indexPath.row];
+        NSLog(@"%@",Devicearray[indexPath.row]);
+                
+        [self presentViewController:detailV animated:true completion:nil];
+        
+        
+        
     }];
     
     detailAction.backgroundColor = [UIColor blueColor];

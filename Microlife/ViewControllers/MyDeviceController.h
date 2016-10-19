@@ -8,12 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "MeasureCell.h"
+#import "MainSettingViewController.h"
 
 @interface MyDeviceController : UIViewController<UITableViewDelegate,UITableViewDataSource>{
     
     UITableView *MeasureTV;
+    UILabel *deviceLabel;
     
     
 }
+
+@property (nonatomic,retain) UILabel *deviceLabel;
+@property (nonatomic,retain) NSString *deviceStr;
 
 @end

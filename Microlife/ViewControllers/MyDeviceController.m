@@ -12,12 +12,15 @@
     
     NSMutableDictionary *errorArr;
     NSArray *errorArray;
+    NSMutableArray *microlifeData;
     
 }
 
 @end
 
 @implementation MyDeviceController
+@synthesize deviceLabel;
+@synthesize deviceStr;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -58,10 +61,10 @@
     float mdx = self.view.frame.size.width*0.05;
     
     //Microlife 001
-    UILabel *deviceLabel = [[UILabel alloc] initWithFrame:CGRectMake(mdx+md_H, md_Y-md_H , md_W , md_H)];
+    deviceLabel = [[UILabel alloc] initWithFrame:CGRectMake(mdx+md_H, md_Y-md_H , md_W , md_H)];
     [deviceLabel setTextColor:[UIColor blackColor ]];
     deviceLabel.backgroundColor = [UIColor clearColor];
-    deviceLabel.text = @"Microlife 001";
+    deviceLabel.text = deviceStr;
     deviceLabel.font = [UIFont systemFontOfSize:22];
     deviceLabel.alpha = 1.0;
     deviceLabel.textAlignment = NSTextAlignmentLeft;
@@ -179,7 +182,7 @@
     
     UIButton *navbackBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     navbackBtn.frame = CGRectMake(0, self.view.frame.size.height*0.026, self.view.frame.size.height*0.05, self.view.frame.size.height*0.05);
-    [navbackBtn setImage:[UIImage imageNamed:@"all_btn_a_back_g"] forState:UIControlStateNormal ];
+    [navbackBtn setImage:[UIImage imageNamed:@"all_btn_a_back"] forState:UIControlStateNormal ];
     navbackBtn.backgroundColor = [UIColor clearColor];
     navbackBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     
