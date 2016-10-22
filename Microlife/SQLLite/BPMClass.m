@@ -53,6 +53,16 @@
     return DataArray;
 }
 
+-(NSMutableArray *)selectDataForList:(int)dataRange{
+    
+    NSMutableArray* resultArray = [NSMutableArray new];
+    
+    
+    
+    return resultArray;
+    
+}
+
 
 -(NSMutableArray *)selectBPWithRange:(int)dataRange count:(int)dataCount{
     
@@ -94,7 +104,7 @@
             NSDate *pastDate = [currentDate dateByAddingTimeInterval:-24.0f*60.0f*60.0f*i];
             
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            dateFormatter.dateFormat = @"yyyy-MM-dd";
+            dateFormatter.dateFormat = @"MM-dd";
             [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
             latestTime = [dateFormatter stringFromDate:pastDate];
         }
@@ -253,7 +263,7 @@
         
         if ([[DataArray firstObject] count] != 1) {
             SYSNum = [NSNumber numberWithFloat:[[[DataArray objectAtIndex:i] firstObject] floatValue]];
-            DIANum = [NSNumber numberWithFloat:[[[DataArray objectAtIndex:i] objectAtIndex:2] floatValue]];
+            DIANum = [NSNumber numberWithFloat:[[[DataArray objectAtIndex:i] objectAtIndex:1] floatValue]];
             //dateStr = [NSString stringWithFormat:@"%@",[[DataArray objectAtIndex:i] objectAtIndex:2]];
         }else{
             break;

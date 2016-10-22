@@ -167,6 +167,8 @@
 #pragma mark - 歐規
 -(void)europeFormat:(int)sys dia:(int)dia {
     
+    rainbowbarIndicator.hidden = NO;
+    
     for (int i = 0; i < ary_levelLabel.count; i++) {
         
         ary_levelLabel[i].text = ary_levelName_eroupe[i];
@@ -204,7 +206,7 @@
         rainbowbarIndicator.center = CGPointMake(rainbowBarOirPoint.x + rainbowbarUnit*1, indicatorCenterY);
     }
     else {
-        
+        rainbowbarIndicator.hidden = YES;
         NSLog(@"範圍之外");
     }
     
@@ -212,6 +214,8 @@
 
 #pragma mark - USA
 -(void)usaFormat:(int)sys dia:(int)dia {
+    
+    rainbowbarIndicator.hidden = NO;
     
     for (int i = 0; i < ary_levelLabel.count; i++) {
         
@@ -252,6 +256,7 @@
     else {
         
         NSLog(@"範圍之外");
+        rainbowbarIndicator.hidden = YES;
     }
     
 }

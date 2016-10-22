@@ -54,6 +54,8 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>YES</string>
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.1075601993941-b70ihq5e0gqmpp0eelfsbaup1nqcsjv2</string>
 	<key>UILaunchStoryboardName</key>

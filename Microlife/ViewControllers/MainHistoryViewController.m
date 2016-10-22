@@ -36,10 +36,6 @@
     //NSLog(@"[BTClass sharedInstance] = %@", [[BTClass sharedInstance] selectAllData]);
    // NSLog(@"[BPMClass sharedInstance] = %@", [[BPMClass sharedInstance] selectAllData]);
     
-    BLEDataHandler *handler = [[BLEDataHandler alloc] init];
-    
-    [handler protocolStart];
-    
 }
 
 -(void)initParameter{

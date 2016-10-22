@@ -242,6 +242,15 @@
 {
     //NSLog(@"%@",[data toString]);
     
+    int mode = [data getMode]; //0身體  1物質
+    
+    if(mode == 1 ){
+        
+        NSLog(@"Receive mode 1");
+        
+        return;
+    }
+    
     float bodyTemp = roundf([data getMeasureTemperature]*100.0)/100.0;
     float roomTemp = roundf([data getAmbientTemperature]*100.0)/100.0;
     
@@ -279,6 +288,16 @@
     [[BTClass sharedInstance] insertData];
     
     NSLog(@"BTClass  insert data  = %@", [[BTClass sharedInstance] selectAllData]);
+    
+    NSDictionary *latestTemp = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                  [NSString stringWithFormat:@"%.1f",bodyTemp],@"bodyTemp",
+                                  [NSString stringWithFormat:@"%.1f",roomTemp],@"roomTemp",
+                                  date,@"date",
+                                  nil];
+    
+    [[LocalData sharedInstance] saveLatestMeasureValue:latestTemp];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"receiveTempData" object:nil];
     
     //[thermoProtocol disconnect];
     
@@ -335,8 +354,9 @@
         [BPMClass sharedInstance].SYS = curMdata.systole;
         [BPMClass sharedInstance].DIA = curMdata.dia;
         [BPMClass sharedInstance].PUL = curMdata.hr;
-        [BPMClass sharedInstance].PAD = curMdata.arr;
-        [BPMClass sharedInstance].AFIB = curMdata.MAM;
+        //目前裝置無法支援PAD量測
+        [BPMClass sharedInstance].PAD = 0;
+        [BPMClass sharedInstance].AFIB = curMdata.arr;
         [BPMClass sharedInstance].SYS_Unit = 0;
         [BPMClass sharedInstance].PUL_Unit = 0;
         [BPMClass sharedInstance].date = date;
@@ -347,11 +367,29 @@
         [[BPMClass sharedInstance] insertData];
         
         NSLog(@"BPMClass insert data = %@", [[BPMClass sharedInstance] selectAllData]);
+        NSDictionary *latestBP = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                  [NSString stringWithFormat:@"%d",curMdata.systole],@"SYS",
+                                  [NSString stringWithFormat:@"%d",curMdata.dia],@"DIA",
+                                  [NSString stringWithFormat:@"%d",curMdata.hr],@"PUL",
+                                  date,@"date",
+                                  [NSString stringWithFormat:@"%d",curMdata.arr],@"Arr",
+                                  [NSString stringWithFormat:@"%d",curMdata.MAM],@"MAM",
+                                  nil];
+        
+        [[LocalData sharedInstance] saveLatestMeasureValue:latestBP];
         
     }
     NSLog(@"\n=== currentData end ===");
     
     [bPMProtocol disconnect];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"receiveBPMData" object:nil];
+    
+    //0=MAM disable, 1=Weight off, 2=Weight on, 3=Light off, 4=Light on
+    //@property BOOL MAM;
+    
+    //the data detect with PAD 心律不整
+    //@property BOOL arr;
     
     /*
      === currentData start ===
@@ -385,7 +423,7 @@
          *@param  height  身高
          */
         
-        [eBodyProtocol setupPersonParam:0 gender:1 age:27 height:170];
+        [eBodyProtocol setupPersonParam:0 gender:1 age:27 height:[LocalData sharedInstance].UserHeight];
         
         isSetInfo=YES;
     }
@@ -422,9 +460,18 @@
     
     [[WeightClass sharedInstance] insertData];
     
-    NSLog(@"WeightClass  insert data  = %@", [[WeightClass sharedInstance] selectAllData]);
-    
     [eBodyProtocol disconnect];
+    
+    NSDictionary *latestWeight = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                  [NSString stringWithFormat:@"%f",[eBodyMeasureData getWeight]],@"weight",
+                                  [NSString stringWithFormat:@"%f",[eBodyMeasureData getWeight]],@"bodyFat",
+                                  [NSString stringWithFormat:@"%f",[eBodyMeasureData getBMI]],@"BMI",
+                                  date,@"date",
+                                  nil];
+    
+    [[LocalData sharedInstance] saveLatestMeasureValue:latestWeight];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"receiveWeightData" object:nil];
     
     /*
      @property (nonatomic) int weightID;                     //體脂機ID

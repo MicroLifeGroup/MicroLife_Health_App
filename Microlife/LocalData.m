@@ -10,6 +10,8 @@
 
 @implementation LocalData
 
+@synthesize UserAge,UserHeight,UserWeight,metric,PULUnit,targetSYS,targetDIA,targetWeight,targetFat,measureSpec,userArea;
+
 +(LocalData*) sharedInstance{
     static LocalData *sharedInstance;
     static dispatch_once_t onceToken;
@@ -39,6 +41,21 @@
         reminderDataArray = [[NSMutableArray alloc] init];
     }
     
+    if (latestValueDict == nil) {
+        latestValueDict = [[NSDictionary alloc] init];
+    }
+    
+    measureSpec = 1;
+    UserAge = -1;
+    UserHeight = 170.0;
+    UserWeight = 65.0;
+    metric = 0;//0 = KG CM   1=lb
+    PULUnit = 0;//0=bpm   1=beats;
+    targetSYS = 135;
+    targetDIA = 85;
+    targetWeight = 60.0;
+    targetFat = 9.0;
+    userArea = 0; 
 }
 
 -(void)saveReminderData:(NSMutableArray *)dataArray{
@@ -101,7 +118,13 @@
     return memberDataArray;
 }
 
+-(void)saveLatestMeasureValue:(NSDictionary *)latestValue{
+    latestValueDict = latestValue;
+}
 
+-(NSDictionary *)getLatestMeasureValue{
+    return latestValueDict;
+}
 
 
 

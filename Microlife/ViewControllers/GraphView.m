@@ -46,6 +46,10 @@
     NSMutableArray *dateArray;
     
     BOOL showSingleDay;
+    
+    
+    BOOL firstPoint;
+    BOOL secFirstPoint;
 }
 
 @end
@@ -62,7 +66,8 @@
         self.chartType = type;
         dataCount = count;
         dataRange = range;
-
+        firstPoint = YES;
+        secFirstPoint = YES;
         [self initParameter];
         [self initInterface];
     }
@@ -203,8 +208,8 @@
                         minValue = DIANum.intValue;
                     }
                     
-                    maxValue -= maxValue*0.1;
-                    minValue += minValue*0.1;
+                    maxValue += maxValue*0.1;
+                    minValue -= minValue*0.1;
                 }
                 
                 [chartDataArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"SYS"]];
@@ -218,6 +223,8 @@
             
             NSLog(@"chartMaxValue = %f",chartMaxValue);
             NSLog(@"chartMinValue = %f",chartMinValue);
+            NSLog(@"chartDataArray = %@",chartDataArray);
+            NSLog(@"secGraphYData = %@",secGraphYData);
             
             targetValue = 130;
             normalValue = 135;
@@ -335,13 +342,14 @@
             [chartDataArray removeAllObjects];
             [secGraphYData removeAllObjects];
             
+            
+            
             if (dataCount == -1) {
                 selectDataAry = [[BTClass sharedInstance] selectSingleHourTempWithRange:dataRange];
                 
             }else{
                 selectDataAry = [[BTClass sharedInstance] selectTempWithRange:dataRange count:dataCount];
             }
-            
             
             for (int i = 0; i<selectDataAry.count; i++) {
                 [chartDataArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"temp"]];
@@ -365,12 +373,10 @@
         showSingleDay = YES;
     }
     
-    NSLog(@"selectDataAry = %@",selectDataAry);
-    
     dataCount = selectDataAry.count;
 
     //MARK:計算資料範圍值
-    dataXLength = dataCount-1;
+    dataXLength = dataCount;
     dataYLength = chartMaxValue-chartMinValue;
     
 }
@@ -551,7 +557,7 @@
     
     //開始時間
     startTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    startTimeLabel.text = @"Jan";
+    startTimeLabel.text = @"";
     startTimeLabel.font = [UIFont systemFontOfSize:12.0];
     [startTimeLabel sizeToFit];
     startTimeLabel.frame = CGRectMake(bottomLine.frame.origin.x, bottomLine.frame.origin.y+SCREEN_HEIGHT*0.022, startTimeLabel.frame.size.width, startTimeLabel.frame.size.height);
@@ -560,7 +566,7 @@
     
     //結束時間
     endTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    endTimeLabel.text = @"Dec";
+    endTimeLabel.text = @"";
     endTimeLabel.font = [UIFont systemFontOfSize:12.0];
     [endTimeLabel sizeToFit];
     endTimeLabel.frame = CGRectMake(bottomLine.frame.origin.x+bottomLine.frame.size.width-endTimeLabel.frame.size.width, bottomLine.frame.origin.y+SCREEN_HEIGHT*0.022, endTimeLabel.frame.size.width, endTimeLabel.frame.size.height);
@@ -634,6 +640,19 @@
     [indicatorView addSubview:indicatorDate];
     
     [self setTagValue];
+    
+    if (dateArray.count != 0) {
+        startTimeLabel.text = [NSString stringWithFormat:@"%@",[dateArray firstObject]];
+        endTimeLabel.text = [NSString stringWithFormat:@"%@",[dateArray lastObject]];
+    }
+    
+    [startTimeLabel sizeToFit];
+    [endTimeLabel sizeToFit];
+    
+    startTimeLabel.frame = CGRectMake(startTimeLabel.frame.origin.x-startTimeLabel.frame.size.width/2, startTimeLabel.frame.origin.y, startTimeLabel.frame.size.width, startTimeLabel.frame.size.height);
+    
+    endTimeLabel.frame = CGRectMake(endTimeLabel.frame.origin.x-endTimeLabel.frame.size.width, endTimeLabel.frame.origin.y, endTimeLabel.frame.size.width, endTimeLabel.frame.size.height);
+    
 }
 
 
@@ -810,19 +829,29 @@
         //float xValue = [[xPointAry objectAtIndex:i] floatValue];
         float yValue = [[chartDataArray objectAtIndex:i] floatValue];
         
-        if (yValue <= chartMinValue) {
-            yValue = chartMinValue;
-        }
+//        if (yValue <= chartMinValue) {
+//            yValue = chartMinValue;
+//        }
+//        NSLog(@"yValue = %f",yValue);
+//        NSLog(@"chartMinValue = %f",chartMinValue);
         
-        if (normalValue != 0) {
+        //if (normalValue != 0) {
+            //[self setChartLineDot:i yPoint:yValue normalValue:normalValue];
+        //}
+        
+        if (yValue != 0) {
+            
             [self setChartLineDot:i yPoint:yValue normalValue:normalValue];
+            
+            if (firstPoint) {
+                CGContextMoveToPoint(graphContext, chartLeftWidth+(i*xScaleSize),chartTopWidth+((chartMaxValue-yValue)*yScaleSize));
+                firstPoint = NO;
+            }else{
+                CGContextAddLineToPoint(graphContext, chartLeftWidth+(i*xScaleSize),chartTopWidth+((chartMaxValue-yValue)*yScaleSize));
+            }
+            
         }
-        
-        if (i==0) {
-            CGContextMoveToPoint(graphContext, chartLeftWidth+(i*xScaleSize),chartTopWidth+((chartMaxValue-yValue)*yScaleSize));
-        }else{
-            CGContextAddLineToPoint(graphContext, chartLeftWidth+(i*xScaleSize),chartTopWidth+((chartMaxValue-yValue)*yScaleSize));
-        }
+
     }
     
     CGContextStrokePath(graphContext);
@@ -847,19 +876,31 @@
 
             float secGraphYValue = [[secGraphYData objectAtIndex:i] floatValue];
             
-            if (secGraphYValue <= chartMinValue) {
-                secGraphYValue = chartMinValue;
-            }
+//            if (secGraphYValue <= chartMinValue) {
+//                secGraphYValue = chartMinValue;
+//            }
             
-            if (secNormalValue !=0) {
+            //if (secNormalValue !=0) {
+                //[self setChartLineDot:i yPoint:secGraphYValue normalValue:secNormalValue];
+            //}
+            
+            if (secGraphYValue != 0) {
+                
+                if (secGraphYValue <= chartMinValue) {
+                        secGraphYValue = chartMinValue;
+                }
+                
                 [self setChartLineDot:i yPoint:secGraphYValue normalValue:secNormalValue];
-            }
-            
-            
-            if (i==0) {
-                CGContextMoveToPoint(secGraphContext, chartLeftWidth+(i*xScaleSize),chartTopWidth+((chartMaxValue-secGraphYValue)*yScaleSize));
-            }else{
-                CGContextAddLineToPoint(secGraphContext, chartLeftWidth+(i*xScaleSize),chartTopWidth+((chartMaxValue-secGraphYValue)*yScaleSize));
+                
+                if (secFirstPoint) {
+                    CGContextMoveToPoint(secGraphContext, chartLeftWidth+(i*xScaleSize),chartTopWidth+((chartMaxValue-secGraphYValue)*yScaleSize));
+                    
+                    secFirstPoint = NO;
+                    
+                }else{
+                    CGContextAddLineToPoint(secGraphContext, chartLeftWidth+(i*xScaleSize),chartTopWidth+((chartMaxValue-secGraphYValue)*yScaleSize));
+                }
+                
             }
         }
         
@@ -882,18 +923,18 @@
     
     [self.delegate DidFinishLoadChartAndShowDate:dateStr];
 }
+
 -(void)setChartLineDot:(float)xPointVal yPoint:(float)yPointVal normalValue:(float)normalVal{
     
     float dotWidth = 15/imgScale;
     float dotHeight = 15/imgScale;
     
-    UIImage *dotImg;
     
-    if(yPointVal > normalVal){
+    if(yPointVal > normalVal && normalVal != 0){
         
-        UIImageView *normalDot = [[UIImageView alloc] initWithFrame:CGRectMake(chartLeftWidth+(xPointVal*xScaleSize)-dotWidth/2,chartTopWidth+(chartMaxValue-yPointVal)*yScaleSize-dotHeight/2, dotWidth, dotHeight)];
+        UIImageView *dotView = [[UIImageView alloc] initWithFrame:CGRectMake(chartLeftWidth+(xPointVal*xScaleSize)-dotWidth/2,chartTopWidth+(chartMaxValue-yPointVal)*yScaleSize-dotHeight/2, dotWidth, dotHeight)];
         
-        dotImg = [UIImage imageNamed:@"overview_chart_a_dot_r"];
+        dotView.image = [UIImage imageNamed:@"overview_chart_a_dot_r"];
         
 //        UILabel *dotLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 //        dotLabel.font = [UIFont systemFontOfSize:8.0];
@@ -903,11 +944,14 @@
 //        
 //        dotLabel.frame = CGRectMake(normalDot.frame.origin.x, normalDot.frame.origin.y-dotLabel.frame.size.height, dotLabel.frame.size.width, dotLabel.frame.size.height);
 //        [self addSubview:dotLabel];
-        normalDot.image = dotImg;
-        [self addSubview:normalDot];
+        [self addSubview:dotView];
         
     }else{
-        //dotImg = [UIImage imageNamed:@"overview_chart_a_dot_b"];
+        UIImageView *dotView = [[UIImageView alloc] initWithFrame:CGRectMake(chartLeftWidth+(xPointVal*xScaleSize)-dotWidth/2,chartTopWidth+(chartMaxValue-yPointVal)*yScaleSize-dotHeight/2, dotWidth, dotHeight)];
+        
+        dotView.image = [UIImage imageNamed:@"overview_chart_a_dot_b"];
+        
+        [self addSubview:dotView];
     }
     
     
@@ -985,7 +1029,10 @@
         
         NSString *dateStr = [NSString stringWithFormat:@"%@",[dateArray objectAtIndex:dataIndex]];
         
-        dateStr = [dateStr substringFromIndex:5];
+        if (dateStr.length >= 5) {
+            dateStr = [dateStr substringFromIndex:5];
+        }
+        
                              
         indicatorDate.text = dateStr;
         

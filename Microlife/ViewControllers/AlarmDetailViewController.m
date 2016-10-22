@@ -172,7 +172,9 @@
     
     static NSString *identifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    
+    UITableViewCell *cell;
     
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];

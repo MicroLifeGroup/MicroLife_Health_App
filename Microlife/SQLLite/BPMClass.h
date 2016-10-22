@@ -29,6 +29,7 @@
 +(BPMClass*) sharedInstance;
 
 -(NSDictionary *)selectAllData;
+
 -(NSMutableArray *)selectBPWithRange:(int)dataRange count:(int)dataCount;
 -(NSMutableArray *)selectPULWithRange:(int)dataRange count:(int)dataCount;
 -(NSMutableArray *)selectSingleDayPULWithRange:(int)dataRange;

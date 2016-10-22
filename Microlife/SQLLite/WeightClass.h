@@ -29,7 +29,6 @@
 
 +(WeightClass*) sharedInstance;
 
--(NSMutableArray *)selectAllData;
 -(NSMutableArray *)selectAllDataAtRange:(int)dataRange count:(int)dataCount;
 
 -(NSMutableArray *)selectData:(NSString *)column range:(int)dataRange count:(int)dataCount;

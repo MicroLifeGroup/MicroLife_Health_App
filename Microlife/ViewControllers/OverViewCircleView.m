@@ -18,7 +18,7 @@
     
 }
 
-@synthesize circleViewTitleString,circleViewUnitString,circleImgView,device,sys,dia,weight,temp;
+@synthesize circleViewTitleString,circleViewUnitString,circleImgView,device,sys,dia,weight,temp,alertRedImage;
 
 -(instancetype)initWithFrame:(CGRect)frame {
     
@@ -45,6 +45,16 @@
     self.layer.borderWidth = 6.0f;
     self.layer.borderColor = [STANDER_COLOR CGColor];
     
+    //紅色漸層小圈
+    alertRedImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width*1.5, self.frame.size.width*1.5)];
+    
+    
+    alertRedImage.center = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+    alertRedImage.image = [UIImage imageNamed:@"overview_ef_2"];
+    [self addSubview:alertRedImage];
+    
+    alertRedImage.hidden = YES;
+    
     //titleLabel
     titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width/2, self.frame.size.height/4)];
     titleLabel.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/4);
@@ -65,7 +75,6 @@
     unitLabel.textAlignment = NSTextAlignmentCenter;
     [self addSubview:unitLabel];
     
-    
     //circleImgView
     circleImgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width*0.88, self.frame.size.width*0.88)];
     circleImgView.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
@@ -82,15 +91,30 @@
     switch (device) {
         case 0:
             //血壓計
-            circleViewValueString = [NSString stringWithFormat:@"%d/%d",sys,dia];
+            if (sys == 0 || dia == 0) {
+                circleViewValueString = @"--/--";
+            }else{
+                circleViewValueString = [NSString stringWithFormat:@"%d/%d",sys,dia];
+            }
+            
             break;
         case 1:
             //體重計
-            circleViewValueString = [NSString stringWithFormat:@"%.1f",weight];
+            if(weight == 0){
+                circleViewValueString = @"--";
+            }else{
+                circleViewValueString = [NSString stringWithFormat:@"%.1f",weight];
+            }
+            
             break;
         case 2:
             //溫度計
-            circleViewValueString = [NSString stringWithFormat:@"%.1f℃",temp];
+            if(temp == 0){
+                circleViewValueString = @"--";
+            }else{
+                circleViewValueString = [NSString stringWithFormat:@"%.1f℃",temp];
+            }
+            
             break;
         default:
             break;
@@ -103,14 +127,5 @@
     unitLabel.text = circleViewUnitString;
     
 }
-
-
-
-
-
-
-
-
-
 
 @end
