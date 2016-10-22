@@ -40,12 +40,6 @@
 
 -(void)initParameter{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentEditVC) name:@"showEditVC" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveListNotification:) name:@"showBPList" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveListNotification:) name:@"showWeightList" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveListNotification:) name:@"showTempList" object:nil];
 }
 
 -(void)initInterface{
@@ -236,34 +230,6 @@
         [pageControl setCurrentPage:currentPage];
         [self setNavigationImage];
     }
-}
-
-- (void) receiveListNotification:(NSNotification *) notification{
-
-    NSDictionary *userInfo = notification.userInfo;
-    
-    int dataCount = [[userInfo objectForKey:@"dataCount"] intValue];
-    int dataRange = [[userInfo objectForKey:@"dataRange"] intValue];
-    
-    switch (pageControl.currentPage) {
-        case 0:
-            NSLog(@"BPClass all Data ==  %@",[[WeightClass sharedInstance] selectAllDataAtRange:dataRange count:dataCount]);
-            break;
-        case 1:
-            
-            NSLog(@"WeightClass all Data ==  %@",[[WeightClass sharedInstance] selectAllDataAtRange:dataRange count:dataCount]);
-            
-            listsView.listDataArray = [[WeightClass sharedInstance] selectAllDataAtRange:dataRange count:dataCount];
-            
-            break;
-        case 2:
-            
-            NSLog(@"TempClass all Data ==  %@",[[WeightClass sharedInstance] selectAllDataAtRange:dataRange count:dataCount]);
-            break;
-        default:
-            break;
-    }
-    
 }
 
 #pragma mark - HistoryPageView Delegate

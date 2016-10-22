@@ -28,6 +28,8 @@
 
 -(NSMutableArray *)selectAllDataAtRange:(int)dataRange count:(int)dataCount;
 
+-(NSMutableArray *)selectDataForList:(int)dataRange count:(int)dataCount;
+
 -(void)insertData;
 - (void)updateData;
 

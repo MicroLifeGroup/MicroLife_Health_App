@@ -192,6 +192,52 @@
     return resultArray;
 }
 
+-(NSMutableArray *)selectDataForList:(int)dataRange count:(int)dataCount{
+    
+    NSMutableArray* resultArray = [NSMutableArray new];
+    
+    int limitHour;
+    
+    if (dataCount != -1) {
+        limitHour = dataRange-dataCount;
+    }else{
+        dataRange -= 1;
+        limitHour = dataRange;
+    }
+    NSMutableArray* DataArray = [NSMutableArray new];
+    
+    NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp, roomTemp,STRFTIME(\"%%Y/%%m/%%d %%H:%%M\",\"date\") FROM BTList WHERE STRFTIME(\"%%Y-%%m-%%d %%H:%%M\",\"date\") >= STRFTIME(\"%%Y-%%m-%%d %%H:%%M\",\"now\", \"localtime\",\"-%d hour\") AND strftime(\"%%Y-%%m-%%d\", \"date\") <=strftime(\"%%Y-%%m-%%d %%H:%%M\", \"now\", \"localtime\", \"-%d hour\") AND accountID = %d ORDER BY date DESC",dataRange,limitHour,[LocalData sharedInstance].accountID];
+    
+    
+    DataArray = [self SELECT:Command Num:3];//SELECT:指令：幾筆欄位
+    
+    NSLog(@"list temp DataArray = %@",DataArray);
+    
+    if ([[DataArray firstObject] count] != 1) {
+        for (int i=0; i<DataArray.count; i++) {
+            
+            NSString *bodyTempStr = [[DataArray objectAtIndex:i] objectAtIndex:0];
+            NSString *roomTempStr = [[DataArray objectAtIndex:i] objectAtIndex:1];
+            NSString *dateStr = [[DataArray objectAtIndex:i] objectAtIndex:2];
+            
+            NSDictionary *dataDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                      bodyTempStr,@"bodyTemp",
+                                      roomTempStr,@"roomTemp",
+                                      dateStr,@"date",
+                                      nil];
+            
+            [resultArray addObject:dataDict];
+            
+        }
+    }
+    
+    NSLog(@"selectDataForList resultArray = %@",resultArray);
+    
+    
+    return resultArray;
+    
+}
+
 
 - (void)updateData{
 

@@ -35,6 +35,8 @@
 -(NSMutableArray *)selectSingleDayPULWithRange:(int)dataRange;
 -(NSMutableArray *)selectSingleDayBPWithRange:(int)dataRange;
 
+-(NSMutableArray *)selectDataForList:(int)dataRange count:(int)dataCount;
+
 -(void)insertData;
 - (void)updateData;
 

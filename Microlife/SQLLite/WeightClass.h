@@ -34,6 +34,7 @@
 -(NSMutableArray *)selectData:(NSString *)column range:(int)dataRange count:(int)dataCount;
 
 -(NSMutableArray *)selectSingleDay:(NSString *)column range:(int)dataRange;
+-(NSMutableArray *)selectDataForList:(int)dataRange count:(int)dataCount;
 
 -(void)insertData;
 - (void)updateData;

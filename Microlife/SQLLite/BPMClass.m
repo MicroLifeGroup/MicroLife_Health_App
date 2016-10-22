@@ -53,11 +53,64 @@
     return DataArray;
 }
 
--(NSMutableArray *)selectDataForList:(int)dataRange{
+-(NSMutableArray *)selectDataForList:(int)dataRange count:(int)dataCount{
     
     NSMutableArray* resultArray = [NSMutableArray new];
     
+    int limitDay;
     
+    if (dataCount != -1) {
+        limitDay = dataRange-dataCount;
+    }else{
+        dataRange -= 1;
+        limitDay = dataRange;
+    }
+    NSMutableArray* DataArray = [NSMutableArray new];
+    
+    NSString *dateSelectType;
+    
+    if (dataCount == 12) {
+        dateSelectType = @"month";
+    }else{
+        dateSelectType = @"day";
+    }
+    
+    NSString *Command = [NSString stringWithFormat:@"SELECT SYS, DIA, PUL,PAD,AFIB,BPM_PhotoPath,BPM_Note,BPM_RecordingPath,STRFTIME(\"%%Y/%%m/%%d %%H:%%M\",\"date\") FROM BPMList WHERE STRFTIME(\"%%Y-%%m-%%d\",\"date\") >= STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d %@\") AND strftime(\"%%Y-%%m-%%d\", \"date\") <=strftime(\"%%Y-%%m-%%d\", \"now\", \"localtime\", \"-%d %@\") AND accountID = %d ORDER BY date DESC",dataRange,dateSelectType,limitDay,dateSelectType,[LocalData sharedInstance].accountID];
+    
+    
+    DataArray = [self SELECT:Command Num:9];//SELECT:指令：幾筆欄位
+   
+    if ([[DataArray firstObject] count] != 1) {
+        for (int i=0; i<DataArray.count; i++) {
+            
+            NSString *SYSStr = [[DataArray objectAtIndex:i] objectAtIndex:0];
+            NSString *DIAStr = [[DataArray objectAtIndex:i] objectAtIndex:1];
+            NSString *PULStr = [[DataArray objectAtIndex:i] objectAtIndex:2];
+            NSString *PADStr = [[DataArray objectAtIndex:i] objectAtIndex:3];
+            NSString *AFIBStr = [[DataArray objectAtIndex:i] objectAtIndex:4];
+            NSString *photoPath = [[DataArray objectAtIndex:i] objectAtIndex:5];
+            NSString *note = [[DataArray objectAtIndex:i] objectAtIndex:6];
+            NSString *recordingPath = [[DataArray objectAtIndex:i] objectAtIndex:7];
+            NSString *dateStr = [[DataArray objectAtIndex:i] objectAtIndex:8];
+            
+            NSDictionary *dataDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                      SYSStr,@"SYS",
+                                      DIAStr,@"DIA",
+                                      PULStr,@"PUL",
+                                      PADStr,@"PAD",
+                                      AFIBStr,@"AFIB",
+                                      photoPath,@"photoPath",
+                                      note,@"note",
+                                      recordingPath,@"recordingPath",
+                                      dateStr,@"date",nil];
+            
+            [resultArray addObject:dataDict];
+            
+        }
+    }
+    
+    NSLog(@"selectDataForList resultArray = %@",resultArray);
+
     
     return resultArray;
     
@@ -81,8 +134,8 @@
         
         NSDate *currentDate = [NSDate date];
         
-        if (dataRange == 12) {
-            Command = [NSString stringWithFormat:@"SELECT SYS, DIA, STRFTIME(\"%%Y-%%m-%%d\",\"date\") FROM BPMList WHERE STRFTIME(\"%%Y-%%m\",\"date\") = STRFTIME(\"%%Y-%%m\",\"now\", \"localtime\",\"-%d month\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
+        if (dataCount == 12) {
+            Command = [NSString stringWithFormat:@"SELECT SYS, DIA, STRFTIME(\"%%Y-%%m/%%d\",\"date\") FROM BPMList WHERE STRFTIME(\"%%Y-%%m\",\"date\") = STRFTIME(\"%%Y-%%m\",\"now\", \"localtime\",\"-%d month\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
             
             NSCalendar *calendar = [NSCalendar currentCalendar];
             NSDateComponents *comps = [NSDateComponents new];
@@ -91,7 +144,7 @@
             NSDate *pastDate = [calendar dateByAddingComponents:comps toDate:currentDate options:0];
             
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            dateFormatter.dateFormat = @"yyyy-MM";
+            dateFormatter.dateFormat = @"yyyy/MM";
             [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
             latestTime = [dateFormatter stringFromDate:pastDate];
             
@@ -99,12 +152,12 @@
             latestTime = [latestTime substringToIndex:7];
             
         }else{
-            Command = [NSString stringWithFormat:@"SELECT SYS, DIA, STRFTIME(\"%%Y-%%m-%%d\",\"date\") FROM BPMList WHERE DATE(date) = STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d day\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
+            Command = [NSString stringWithFormat:@"SELECT SYS, DIA, STRFTIME(\"%%Y/%%m/%%d\",\"date\") FROM BPMList WHERE DATE(date) = STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d day\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
             
             NSDate *pastDate = [currentDate dateByAddingTimeInterval:-24.0f*60.0f*60.0f*i];
             
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            dateFormatter.dateFormat = @"MM-dd";
+            dateFormatter.dateFormat = @"MM/dd";
             [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
             latestTime = [dateFormatter stringFromDate:pastDate];
         }

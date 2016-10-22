@@ -303,8 +303,8 @@
             chartMaxValue = 90;
             chartMinValue = 10;
             
-            normalValue = 23;
-            targetValue = 25;
+            normalValue = [LocalData sharedInstance].standerBMI;
+            //targetValue = 25;
         }
             
             break;
@@ -332,8 +332,8 @@
             chartMaxValue = 60;
             chartMinValue = 5;
             
-            normalValue = 24;
-            targetValue = 9;
+            normalValue = [LocalData sharedInstance].standerFat;
+            targetValue = [LocalData sharedInstance].targetFat;
         }
             
             break;
@@ -687,7 +687,7 @@
             //BMI
             //亞洲區：23
             //非亞洲區：25
-            [self createValueTag:targetValue normal:NO];
+            //[self createValueTag:targetValue normal:NO];
             [self createValueTag:normalValue normal:YES];
             break;
             
@@ -783,7 +783,7 @@
             targetValCount = 1;
             break;
         case 3:
-            targetValCount = 1;
+            targetValCount = 0;
             break;
         case 4:
             targetValCount = 1;

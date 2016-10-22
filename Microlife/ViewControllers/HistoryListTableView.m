@@ -11,6 +11,17 @@
 #import "WeightTableViewCell.h"
 #import "BodyTempTableViewCell.h"
 
+#define IMAGE_BPM [UIImage imageNamed:@"history_icon_a_list_bpm"];
+#define IMAGE_BPM_RED [UIImage imageNamed:@"history_icon_a_list_bpm_r"];
+#define IMAGE_PAD [UIImage imageNamed:@"history_icon_a_list_pad"];
+#define IMAGE_PAD_RED [UIImage imageNamed:@"history_icon_a_list_pad_r"];
+#define IMAGE_AFIB [UIImage imageNamed:@"history_icon_a_list_afib"];
+#define IMAGE_AFIB_RED [UIImage imageNamed:@"history_icon_a_list_afib_r"];
+#define IMAGE_WEIGHT [UIImage imageNamed:@"history_icon_a_list_ws"];
+#define IMAGE_WEIGHT_RED [UIImage imageNamed:@"history_icon_a_list_ws_r"];
+#define IMAGE_TEMP [UIImage imageNamed:@"history_icon_a_list_ncfr"];
+#define IMAGE_TEMP_RED [UIImage imageNamed:@"history_icon_a_list_ncfr_r"];
+
 @implementation HistoryListTableView
 
 @synthesize historyList,hideListBtn,listDataArray;
@@ -36,8 +47,11 @@
         imgScale = 2.5;
     }
     
-    listDataArray = [[NSMutableArray alloc] initWithCapacity:0];
-
+    //listDataArray = [[NSMutableArray alloc] initWithCapacity:0];
+    
+    listDataArray = [[LocalData sharedInstance] getListData];
+    
+    NSLog(@"listDataArray = %@",listDataArray);
 }
 
 -(void)initInterface{
@@ -91,8 +105,6 @@
 #pragma mark - TableView Delegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    NSLog(@"listDataArray = %@",listDataArray);
-    
     return listDataArray.count;
 }
 
@@ -105,18 +117,25 @@
     
     CGFloat rowHeight = 0;
     
+    NSDictionary *cellDict = [listDataArray objectAtIndex:indexPath.row];
+    
+    NSString *photoPath = [cellDict objectForKey:@"photoPath"];
+    //NSString *note = [cellDict objectForKey:@"note"];
+    NSString *recordingPath = [cellDict objectForKey:@"recordingPath"];
+    
     switch (self.listType) {
         case 0:
-            if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 4 || indexPath.row == 7) {
-                rowHeight = 120;
+            
+            if (![photoPath isEqualToString:@""] && ![recordingPath isEqualToString:@""]) {
+                rowHeight = 170;
             }
             
-            if (indexPath.row == 2 || indexPath.row == 5 || indexPath.row == 8) {
+            if (![recordingPath isEqualToString:@""] && [photoPath isEqualToString:@""]) {
                 rowHeight = 150;
             }
             
-            if (indexPath.row == 3 || indexPath.row == 6 || indexPath.row == 9) {
-                rowHeight = 170;
+            if ([recordingPath isEqualToString:@""] && [photoPath isEqualToString:@""]) {
+                rowHeight = 120;
             }
             
             //120
@@ -128,29 +147,31 @@
             break;
         case 1:
             
-            if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 4 || indexPath.row == 7) {
-                rowHeight = 190;
+            
+            if (![photoPath isEqualToString:@""] && ![recordingPath isEqualToString:@""]) {
+                rowHeight = 230;
             }
             
-            if (indexPath.row == 2 || indexPath.row == 5 || indexPath.row == 8) {
+            if (![recordingPath isEqualToString:@""] && [photoPath isEqualToString:@""]) {
                 rowHeight = 210;
             }
             
-            if (indexPath.row == 3 || indexPath.row == 6 || indexPath.row == 9) {
-                rowHeight = 230;
-            }
-            break;
-        case 2:
-            if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 4 || indexPath.row == 7) {
-                rowHeight = 120;
+            if ([recordingPath isEqualToString:@""] && [photoPath isEqualToString:@""]) {
+                rowHeight = 190;
             }
             
-            if (indexPath.row == 2 || indexPath.row == 5 || indexPath.row == 8) {
+            break;
+        case 2:
+            if (![photoPath isEqualToString:@""] && ![recordingPath isEqualToString:@""]) {
+                rowHeight = 170;
+            }
+            
+            if (![recordingPath isEqualToString:@""] && [photoPath isEqualToString:@""]) {
                 rowHeight = 150;
             }
             
-            if (indexPath.row == 3 || indexPath.row == 6 || indexPath.row == 9) {
-                rowHeight = 170;
+            if ([recordingPath isEqualToString:@""] && [photoPath isEqualToString:@""]) {
+                rowHeight = 120;
             }
     
             break;
@@ -169,6 +190,15 @@
     
     UITableViewCell *cell;
     
+    NSDictionary *cellDict = [listDataArray objectAtIndex:indexPath.row];
+    
+    NSString *photoPath = [cellDict objectForKey:@"photoPath"];
+    NSString *note = [cellDict objectForKey:@"photoPath"];
+    NSString *recordingPath = [cellDict objectForKey:@"recordingPath"];
+    
+    BOOL hasImg = NO;
+    BOOL hasRecord = NO;
+    
     switch (self.listType) {
         case 0:{
             identifier = @"BPCell";
@@ -179,51 +209,78 @@
                 BPCell = [[BPTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             }
             
-            UIImage *typeImage = [UIImage imageNamed:@"history_icon_a_list_bpm"];
+            int SYSValue = [[cellDict objectForKey:@"SYS"] intValue];
+            int DIAValue = [[cellDict objectForKey:@"DIA"] intValue];
+            int PULValue = [[cellDict objectForKey:@"PUL"] intValue];
+            BOOL detecAFIB = [[cellDict objectForKey:@"AFIB"] boolValue];
+            BOOL detecPAD = [[cellDict objectForKey:@"PAD"] boolValue];
+            BOOL highSYS = NO;
+            BOOL highDIA = NO;
             
-            if (indexPath.row == 0) {
-                typeImage = [UIImage imageNamed:@"history_icon_a_list_bpm_r"];
-                BPCell.decorateLine.backgroundColor = CIRCEL_RED;
+            if ([photoPath isEqualToString:@""]) {
+                hasImg = YES;
             }
             
-            if (indexPath.row == 1) {
-                typeImage = [UIImage imageNamed:@"history_icon_a_list_pad_r"];
-                BPCell.decorateLine.backgroundColor = CIRCEL_RED;
+            if ([recordingPath isEqualToString:@""]) {
+                hasRecord = YES;
             }
             
-            if (indexPath.row == 3) {
-                typeImage = [UIImage imageNamed:@"history_icon_a_list_pad"];
-                BPCell.decorateLine.backgroundColor = TEXT_COLOR;
+            
+            UIImage *typeImage = IMAGE_BPM;
+            UIColor *lineColor = STANDER_COLOR;
+            
+            if (SYSValue > 130) {
+                highSYS = YES;
+                typeImage = IMAGE_BPM_RED;
+                lineColor = CIRCEL_RED;
             }
             
-            if (indexPath.row == 5) {
-                typeImage = [UIImage imageNamed:@"history_icon_a_list_afib_r"];
-                BPCell.decorateLine.backgroundColor = CIRCEL_RED;
+            if (DIAValue > 80) {
+                highDIA = YES;
+                typeImage = IMAGE_BPM_RED;
+                lineColor = CIRCEL_RED;
             }
             
-            if (indexPath.row == 7) {
-                typeImage = [UIImage imageNamed:@"history_icon_a_list_afib"];
-                BPCell.decorateLine.backgroundColor = TEXT_COLOR;
-            }
-            
-            if (indexPath.row == 4 || indexPath.row == 7) {
+            if (detecPAD){
                 
-                BPCell.hasRecord = YES;
+                if (highDIA || highSYS) {
+                    typeImage = IMAGE_PAD_RED;
+                    lineColor = CIRCEL_RED;
+                }else{
+                    typeImage = IMAGE_PAD;
+                    lineColor = TEXT_COLOR;
+                }
+            }
+            
+            if (detecAFIB) {
+                
+                if (highSYS || highDIA) {
+                    lineColor = CIRCEL_RED;
+                    typeImage = IMAGE_AFIB_RED;
+                }else{
+                    typeImage = IMAGE_AFIB;
+                    lineColor = TEXT_COLOR;
+                }
                 
             }
             
-            if (indexPath.row == 2 || indexPath.row == 5 || indexPath.row == 8) {
-                
-                BPCell.hasImage = YES;
-                
+            if (highSYS) {
+                BPCell.SYSValueLabel.textColor = CIRCEL_RED;
             }
             
-            if (indexPath.row == 3 || indexPath.row == 6 || indexPath.row == 9) {
-                
-                BPCell.hasRecord = YES;
-                BPCell.hasImage = YES;
+            if (highDIA) {
+                BPCell.DIAValueLabel.textColor = CIRCEL_RED;
             }
             
+            BPCell.decorateLine.backgroundColor = lineColor;
+            
+            BPCell.SYSValueLabel.text = [NSString stringWithFormat:@"%d",SYSValue];
+            BPCell.DIAValueLabel.text = [NSString stringWithFormat:@"%d",DIAValue];
+            BPCell.PULValueLabel.text = [NSString stringWithFormat:@"%d",PULValue];
+            BPCell.noteTextView.text = note;
+            BPCell.timeLabel.text = [cellDict objectForKey:@"date"];
+            BPCell.hasImage = hasImg;
+            BPCell.hasRecord = hasRecord;
             BPCell.typeImage.image = typeImage;
             
             return BPCell;
@@ -239,34 +296,41 @@
             if (weightCell == nil) {
                 weightCell = [[WeightTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             }
+            UIImage *typeImage = IMAGE_WEIGHT;
+            UIColor *lineColor = STANDER_COLOR;
             
-            UIImage *typeImage = [UIImage imageNamed:@"history_icon_a_list_ws"];
             
-            if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 3 || indexPath.row == 5 || indexPath.row == 7) {
-                typeImage = [UIImage imageNamed:@"history_icon_a_list_ws_r"];
-                weightCell.decorateLine.backgroundColor = CIRCEL_RED;
+            float weight = [[cellDict objectForKey:@"weight"] floatValue];
+            float BMI = [[cellDict objectForKey:@"BMI"] floatValue];
+            float bodyFat = [[cellDict objectForKey:@"bodyFat"] floatValue];
+            float water = [[cellDict objectForKey:@"water"] floatValue];
+            float skeleton = [[cellDict objectForKey:@"skeleton"] floatValue];
+            float muscle = [[cellDict objectForKey:@"muscle"] floatValue];
+            float BMR = [[cellDict objectForKey:@"BMR"] floatValue];
+            float organFat = [[cellDict objectForKey:@"organFat"] floatValue];
+            
+            if (BMI > [LocalData sharedInstance].standerBMI) {
+                typeImage = IMAGE_WEIGHT_RED;
+                lineColor = CIRCEL_RED;
+                weightCell.BMIValue.textColor = CIRCEL_RED;
             }
             
-            
-            if (indexPath.row == 4 || indexPath.row == 7) {
-                
-                weightCell.hasRecord = YES;
-                
+            if (bodyFat > [LocalData sharedInstance].standerFat) {
+                typeImage = IMAGE_WEIGHT_RED;
+                lineColor = CIRCEL_RED;
+                weightCell.bodyFatValue.textColor = CIRCEL_RED;
             }
             
-            if (indexPath.row == 2 || indexPath.row == 5 || indexPath.row == 8) {
-                
-                weightCell.hasImage = YES;
-                
-            }
+            weightCell.weightValue.text = [NSString stringWithFormat:@"%.1f",weight];
+            weightCell.BMIValue.text = [NSString stringWithFormat:@"%.1f",BMI];
+            weightCell.bodyFatValue.text = [NSString stringWithFormat:@"%.1f",bodyFat];
+            weightCell.waterValue.text = [NSString stringWithFormat:@"%.1f",water];
+            weightCell.skeletonValue.text = [NSString stringWithFormat:@"%.1f",skeleton];
+            weightCell.muscleValue.text = [NSString stringWithFormat:@"%.1f",muscle];
+            weightCell.BMRValue.text = [NSString stringWithFormat:@"%.1f",BMR];
+            weightCell.organFatVlaue.text = [NSString stringWithFormat:@"%.1f",organFat];
+            weightCell.timeLabel = [cellDict objectForKey:@"date"];
             
-            if (indexPath.row == 3 || indexPath.row == 6 || indexPath.row == 9) {
-                
-                weightCell.hasRecord = YES;
-                weightCell.hasImage = YES;
-            }
-            
-            weightCell.typeImage.image = typeImage;
             
             return weightCell;
         }

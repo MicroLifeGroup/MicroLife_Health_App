@@ -157,8 +157,6 @@
     
     UIView *btnSnapShot = [self snapshotViewWithInputView:showListBtn];
     
-    [self.delegate showListButtonTapped:btnSnapShot];
-    
     int dataRange = 0;
     int dataCount = 0;
     
@@ -209,37 +207,26 @@
             default:
                 break;
         }
-        
     }
     
-    NSNumber *postDataRange = [NSNumber numberWithInt:dataRange];
-    NSNumber *postDataCount = [NSNumber numberWithInt:dataCount];
+    NSMutableArray *listDataArray = [NSMutableArray new];
     
-    NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-                              postDataRange,@"dataRange",
-                              postDataCount,@"dataCount", nil];
-    
-    switch (self.chartType) {
-        case 0:
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"showBPList" object:nil userInfo:userInfo];
-            
-            break;
-            
-        case 1:
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"showWeightList" object:nil userInfo:userInfo];
-            break;
-            
-        case 2:
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"showTempList" object:nil userInfo:userInfo];
-            break;
-            
-        default:
-            break;
+    if (self.viewType == 0) {
+        listDataArray = [[BPMClass sharedInstance] selectDataForList:dataRange count:dataCount];
     }
-
+    
+    if (self.viewType == 1) {
+        listDataArray = [[WeightClass sharedInstance] selectDataForList:dataRange count:dataCount];
+    }
+    
+    if (self.viewType == 2) {
+        listDataArray = [[BTClass sharedInstance] selectDataForList:dataRange count:dataCount];
+    }
+    
+    [[LocalData sharedInstance] setListDataArray:listDataArray];
+    
+    
+    [self.delegate showListButtonTapped:btnSnapShot];
 }
 
 

@@ -95,34 +95,7 @@
     return resultArray;
 }
 
-//-(NSMutableArray *)selectDataForOverView:(NSString *)column :(int)dataRange{
-//    
-//    NSMutableArray* resultArray= [NSMutableArray new];
-//    
-//    NSMutableArray* DataArray = [NSMutableArray new];
-//    
-//    NSString *Command = [NSString stringWithFormat:@"SELECT %@, STRFTIME(\"%%m/%%d %%H:%%M\",\"date\") FROM WeightList WHERE accountID = %d ORDER BY date DESC LIMIT %d",column, [LocalData sharedInstance].accountID,dataRange];
-//    
-//    DataArray = [self SELECT:Command Num:2];//SELECT:指令：幾筆欄位
-//    
-//    if ([[DataArray firstObject] count] != 1) {
-//        for (int i=DataArray.count-1; i>=0; i--) {
-//            
-//            NSNumber *listNum = [NSNumber numberWithFloat:[[[DataArray objectAtIndex:i] firstObject] floatValue]];
-//            
-//            NSString *dateStr = [NSString stringWithFormat:@"%@",[[DataArray objectAtIndex:i] objectAtIndex:1]];
-//            
-//            NSDictionary *resultDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-//                                        listNum,column,
-//                                        dateStr,@"date",nil];
-//            
-//            [resultArray addObject:resultDict];
-//        }
-//    }
-//    
-//    
-//    return resultArray;
-//}
+
 
 -(NSMutableArray *)selectData:(NSString *)column range:(int)dataRange count:(int)dataCount{
     
@@ -164,7 +137,7 @@
             NSDate *pastDate = [currentDate dateByAddingTimeInterval:-24.0f*60.0f*60.0f*i];
             
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            dateFormatter.dateFormat = @"MM-dd";
+            dateFormatter.dateFormat = @"MM/dd";
             [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
             latestTime = [dateFormatter stringFromDate:pastDate];
         }
@@ -226,7 +199,7 @@
     NSDate *pastDate = [currentDate dateByAddingTimeInterval:-24.0f*60.0f*60.0f*dataRange];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateFormat = @"yyyy-MM-dd";
+    dateFormatter.dateFormat = @"yyyy/MM/dd";
     [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     dateStr = [dateFormatter stringFromDate:pastDate];
     
@@ -249,6 +222,76 @@
     }
     
     NSLog(@"currentDay weight resultArray = %@",resultArray);
+    
+    return resultArray;
+    
+}
+
+-(NSMutableArray *)selectDataForList:(int)dataRange count:(int)dataCount{
+    
+    NSMutableArray* resultArray = [NSMutableArray new];
+    
+    int limitDay;
+    
+    if (dataCount != -1) {
+        limitDay = dataRange-dataCount;
+    }else{
+        dataRange -= 1;
+        limitDay = dataRange;
+    }
+    
+    NSMutableArray* DataArray = [NSMutableArray new];
+    
+    NSString *dateSelectType;
+    
+    if (dataCount == 12) {
+        dateSelectType = @"month";
+    }else{
+        dateSelectType = @"day";
+    }
+    //NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS WeightList( weightID INTEGER NULL PRIMARY KEY AUTOINCREMENT, accountID INTEGER,weight INTEGER, weightUnit INTEGER, BMI INTEGER, bodyFat INTEGER, water INTEGER, skeleton INTEGER, muscle INTEGER, BMR INTEGER, organFat INTEGER, date TEXT, weight_PhotoPath TEXT,  weight_Note TEXT, weight_RecordingPath TEXT);";
+    
+    NSString *Command = [NSString stringWithFormat:@"SELECT weight, BMI, bodyFat,water,skeleton,muscle,BMR,organFat,weight_PhotoPath,weight_Note,weight_RecordingPath,STRFTIME(\"%%Y/%%m/%%d %%H:%%M\",\"date\") FROM WeightList WHERE STRFTIME(\"%%Y-%%m-%%d\",\"date\") >= STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d %@\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d\", \"now\", \"localtime\", \"-%d %@\") AND accountID = %d ORDER BY date DESC",dataRange,dateSelectType,limitDay,dateSelectType,[LocalData sharedInstance].accountID];
+    
+    DataArray = [self SELECT:Command Num:12];//SELECT:指令：幾筆欄位
+    
+    if ([[DataArray firstObject] count] != 1) {
+        for (int i=0; i<DataArray.count; i++) {
+            
+            NSString *weightStr = [[DataArray objectAtIndex:i] objectAtIndex:0];
+            NSString *BMIStr = [[DataArray objectAtIndex:i] objectAtIndex:1];
+            NSString *bodyFatStr = [[DataArray objectAtIndex:i] objectAtIndex:2];
+            NSString *waterStr = [[DataArray objectAtIndex:i] objectAtIndex:3];
+            NSString *skeletonStr = [[DataArray objectAtIndex:i] objectAtIndex:4];
+            NSString *muscleStr = [[DataArray objectAtIndex:i] objectAtIndex:5];
+            NSString *BMRStr = [[DataArray objectAtIndex:i] objectAtIndex:6];
+            NSString *organFatStr = [[DataArray objectAtIndex:i] objectAtIndex:7];
+            NSString *photoPath = [[DataArray objectAtIndex:i] objectAtIndex:8];
+            NSString *note = [[DataArray objectAtIndex:i] objectAtIndex:9];
+            NSString *recordingPath = [[DataArray objectAtIndex:i] objectAtIndex:10];
+            NSString *dateStr = [[DataArray objectAtIndex:i] objectAtIndex:11];
+            
+            NSDictionary *dataDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                      weightStr,@"weight",
+                                      BMIStr,@"BMI",
+                                      bodyFatStr,@"bodyFat",
+                                      waterStr,@"water",
+                                      skeletonStr,@"skeleton",
+                                      muscleStr,@"muscle",
+                                      BMRStr,@"BMR",
+                                      organFatStr,@"organFat",
+                                      photoPath,@"photoPath",
+                                      note,@"note",
+                                      recordingPath,@"recordingPath",
+                                      dateStr,@"date",nil];
+            
+            [resultArray addObject:dataDict];
+            
+        }
+    }
+    
+    NSLog(@"selectDataForList resultArray = %@",resultArray);
+    
     
     return resultArray;
     
