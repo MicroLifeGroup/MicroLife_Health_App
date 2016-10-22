@@ -206,10 +206,10 @@
     }
     NSMutableArray* DataArray = [NSMutableArray new];
     
-    NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp, roomTemp,STRFTIME(\"%%Y/%%m/%%d %%H:%%M\",\"date\") FROM BTList WHERE STRFTIME(\"%%Y-%%m-%%d %%H:%%M\",\"date\") >= STRFTIME(\"%%Y-%%m-%%d %%H:%%M\",\"now\", \"localtime\",\"-%d hour\") AND strftime(\"%%Y-%%m-%%d\", \"date\") <=strftime(\"%%Y-%%m-%%d %%H:%%M\", \"now\", \"localtime\", \"-%d hour\") AND accountID = %d ORDER BY date DESC",dataRange,limitHour,[LocalData sharedInstance].accountID];
+    NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep,BT_PhotoPath, BT_Note, BT_RecordingPath, STRFTIME(\"%%Y/%%m/%%d %%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", \"date\") >= strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND accountID = %d ORDER BY date DESC",dataRange,limitHour,[LocalData sharedInstance].accountID];
     
     
-    DataArray = [self SELECT:Command Num:3];//SELECT:指令：幾筆欄位
+    DataArray = [self SELECT:Command Num:6];//SELECT:指令：幾筆欄位
     
     NSLog(@"list temp DataArray = %@",DataArray);
     
@@ -218,11 +218,17 @@
             
             NSString *bodyTempStr = [[DataArray objectAtIndex:i] objectAtIndex:0];
             NSString *roomTempStr = [[DataArray objectAtIndex:i] objectAtIndex:1];
-            NSString *dateStr = [[DataArray objectAtIndex:i] objectAtIndex:2];
+            NSString *photoPathStr = [[DataArray objectAtIndex:i] objectAtIndex:2];
+            NSString *noteStr = [[DataArray objectAtIndex:i] objectAtIndex:3];
+            NSString *recordingPathStr = [[DataArray objectAtIndex:i] objectAtIndex:4];
+            NSString *dateStr = [[DataArray objectAtIndex:i] objectAtIndex:5];
             
             NSDictionary *dataDict = [[NSDictionary alloc] initWithObjectsAndKeys:
                                       bodyTempStr,@"bodyTemp",
                                       roomTempStr,@"roomTemp",
+                                      photoPathStr,@"photoPath",
+                                      noteStr,@"note",
+                                      recordingPathStr,@"recordingPath",
                                       dateStr,@"date",
                                       nil];
             

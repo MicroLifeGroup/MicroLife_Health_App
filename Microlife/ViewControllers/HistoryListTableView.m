@@ -19,8 +19,8 @@
 #define IMAGE_AFIB_RED [UIImage imageNamed:@"history_icon_a_list_afib_r"];
 #define IMAGE_WEIGHT [UIImage imageNamed:@"history_icon_a_list_ws"];
 #define IMAGE_WEIGHT_RED [UIImage imageNamed:@"history_icon_a_list_ws_r"];
-#define IMAGE_TEMP [UIImage imageNamed:@"history_icon_a_list_ncfr"];
-#define IMAGE_TEMP_RED [UIImage imageNamed:@"history_icon_a_list_ncfr_r"];
+#define IMAGE_TEMP_NORMAL [UIImage imageNamed:@"history_icon_a_list_ncfr"];
+#define IMAGE_FEVER [UIImage imageNamed:@"history_icon_a_list_ncfr_r"];
 
 @implementation HistoryListTableView
 
@@ -199,6 +199,18 @@
     BOOL hasImg = NO;
     BOOL hasRecord = NO;
     
+    if (![photoPath isEqualToString:@""]) {
+        hasImg = YES;
+    }
+    
+    if (![recordingPath isEqualToString:@""]) {
+        hasRecord = YES;
+    }
+    
+    if ([note isEqualToString:@""]) {
+        note = @"note...";
+    }
+    
     switch (self.listType) {
         case 0:{
             identifier = @"BPCell";
@@ -216,14 +228,6 @@
             BOOL detecPAD = [[cellDict objectForKey:@"PAD"] boolValue];
             BOOL highSYS = NO;
             BOOL highDIA = NO;
-            
-            if ([photoPath isEqualToString:@""]) {
-                hasImg = YES;
-            }
-            
-            if ([recordingPath isEqualToString:@""]) {
-                hasRecord = YES;
-            }
             
             
             UIImage *typeImage = IMAGE_BPM;
@@ -321,6 +325,9 @@
                 weightCell.bodyFatValue.textColor = CIRCEL_RED;
             }
             
+            weightCell.hasImage = hasImg;
+            weightCell.hasRecord = hasRecord;
+            
             weightCell.weightValue.text = [NSString stringWithFormat:@"%.1f",weight];
             weightCell.BMIValue.text = [NSString stringWithFormat:@"%.1f",BMI];
             weightCell.bodyFatValue.text = [NSString stringWithFormat:@"%.1f",bodyFat];
@@ -329,6 +336,7 @@
             weightCell.muscleValue.text = [NSString stringWithFormat:@"%.1f",muscle];
             weightCell.BMRValue.text = [NSString stringWithFormat:@"%.1f",BMR];
             weightCell.organFatVlaue.text = [NSString stringWithFormat:@"%.1f",organFat];
+            weightCell.noteTextView.text = note;
             weightCell.timeLabel = [cellDict objectForKey:@"date"];
             
             
@@ -346,37 +354,27 @@
                 BDTempCell = [[BodyTempTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             }
             
-            UIImage *typeImage = [UIImage imageNamed:@"history_icon_a_list_ncfr"];
+            float bodyTemp = [[cellDict objectForKey:@"bodyTemp"] floatValue];
+            float roomTemp = [[cellDict objectForKey:@"roomTemp"] floatValue];
             
-            if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 3 || indexPath.row == 5 || indexPath.row == 7) {
-                typeImage = [UIImage imageNamed:@"history_icon_a_list_ncfr_r"];
+            UIImage *typeImage = IMAGE_TEMP_NORMAL;
+            
+            if (bodyTemp >= 37.5) {
+                typeImage = IMAGE_FEVER;
                 BDTempCell.decorateLine.backgroundColor = CIRCEL_RED;
+                BDTempCell.bodyTempValue.textColor = CIRCEL_RED;
             }
             
-            
-            if (indexPath.row == 4 || indexPath.row == 7) {
-                
-                BDTempCell.hasRecord = YES;
-                
-            }
-            
-            if (indexPath.row == 2 || indexPath.row == 5 || indexPath.row == 8) {
-                
-                BDTempCell.hasImage = YES;
-                
-            }
-            
-            if (indexPath.row == 3 || indexPath.row == 6 || indexPath.row == 9) {
-                
-                BDTempCell.hasRecord = YES;
-                BDTempCell.hasImage = YES;
-            }
+            BDTempCell.hasImage = hasImg;
+            BDTempCell.hasRecord = hasRecord;
             
             BDTempCell.typeImage.image = typeImage;
+            BDTempCell.bodyTempValue.text = [NSString stringWithFormat:@"%.1f",bodyTemp];
+            BDTempCell.roomTempValue.text = [NSString stringWithFormat:@"%.1f",roomTemp];
+            BDTempCell.noteTextView.text = note;
+            BDTempCell.timeLabel.text = [cellDict objectForKey:@"date"];
             
-
-            
-            BDTempCell.frame = CGRectMake(BDTempCell.frame.origin.x, BDTempCell.frame.origin.y, self.frame.size.width, BDTempCell.frame.size.height);
+            //BDTempCell.frame = CGRectMake(BDTempCell.frame.origin.x, BDTempCell.frame.origin.y, self.frame.size.width, BDTempCell.frame.size.height);
             
             return BDTempCell;
         }

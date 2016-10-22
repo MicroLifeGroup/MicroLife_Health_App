@@ -86,6 +86,7 @@
         recordView.hidden = YES;
     }
     
+    
     self.bounds = cellRect;
     
 }

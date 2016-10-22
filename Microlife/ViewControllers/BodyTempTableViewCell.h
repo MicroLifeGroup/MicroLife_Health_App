@@ -22,6 +22,8 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *cellImage;
 @property (weak, nonatomic) IBOutlet UIView *recordView;
+@property (weak, nonatomic) IBOutlet UILabel *bodyTempValue;
+@property (weak, nonatomic) IBOutlet UILabel *roomTempValue;
 
 @property (nonatomic) BOOL hasImage;
 @property (nonatomic) BOOL hasRecord;
