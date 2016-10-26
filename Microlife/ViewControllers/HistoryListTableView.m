@@ -10,6 +10,7 @@
 #import "BPTableViewCell.h"
 #import "WeightTableViewCell.h"
 #import "BodyTempTableViewCell.h"
+#import "UIImage+FixOrientation.h"
 
 #define IMAGE_BPM [UIImage imageNamed:@"history_icon_a_list_bpm"];
 #define IMAGE_BPM_RED [UIImage imageNamed:@"history_icon_a_list_bpm_r"];
@@ -166,8 +167,10 @@
                 
                 if (![recordingPath isEqualToString:@""]) {
                     rowHeight = 170;
+                    //NSLog(@"row = %@",[listDataArray objectAtIndex:indexPath.row]);
                 }else{
                     rowHeight = 150;
+                    //NSLog(@"row = %@",[listDataArray objectAtIndex:indexPath.row]);
                 }
 
             }else{
@@ -193,9 +196,20 @@
     
     NSDictionary *cellDict = [listDataArray objectAtIndex:indexPath.row];
     
-    NSString *photoPath = [cellDict objectForKey:@"photoPath"];
     NSString *note = [cellDict objectForKey:@"note"];
     NSString *recordingPath = [cellDict objectForKey:@"recordingPath"];
+    NSString *photoPath = [cellDict objectForKey:@"photoPath"];
+    
+    UIImage *cellImg;
+    
+    NSData *imageData = [NSData dataWithContentsOfFile:photoPath];
+    
+    if ([photoPath isEqualToString:@""]) {
+        cellImg = nil;
+    }else{
+        cellImg = [UIImage imageWithData:imageData];
+        [cellImg fixOrientation];
+    }
     
     BOOL hasImg = NO;
     BOOL hasRecord = NO;
@@ -287,6 +301,7 @@
             BPCell.hasImage = hasImg;
             BPCell.hasRecord = hasRecord;
             BPCell.typeImage.image = typeImage;
+            BPCell.cellImage.image = cellImg;
             
             return BPCell;
         }
@@ -339,7 +354,7 @@
             weightCell.organFatVlaue.text = [NSString stringWithFormat:@"%.1f",organFat];
             weightCell.noteTextView.text = note;
             weightCell.timeLabel = [cellDict objectForKey:@"date"];
-            
+            weightCell.cellImage.image = cellImg;
             
             return weightCell;
         }
@@ -374,7 +389,7 @@
             BDTempCell.roomTempValue.text = [NSString stringWithFormat:@"%.1f",roomTemp];
             BDTempCell.noteTextView.text = note;
             BDTempCell.timeLabel.text = [cellDict objectForKey:@"date"];
-            
+            BDTempCell.cellImage.image = cellImg;
             //BDTempCell.frame = CGRectMake(BDTempCell.frame.origin.x, BDTempCell.frame.origin.y, self.frame.size.width, BDTempCell.frame.size.height);
             
             return BDTempCell;

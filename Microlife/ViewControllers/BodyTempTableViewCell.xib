@@ -12,11 +12,11 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="170"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Vgp-RN-kBQ" id="dM2-lE-fZ0">
-                <frame key="frameInset" width="414" height="169.5"/>
+                <frame key="frameInset" width="414" height="169"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" id="Gde-O8-qvG">
-                        <frame key="frameInset" minX="8" minY="4.72%" width="32.5" height="19.17%"/>
+                        <frame key="frameInset" minX="8" minY="4.73%" width="32.5" height="19.23%"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="history_icon_a_list_ncfr" id="GEt-Gw-6eP">
@@ -27,17 +27,17 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <view contentMode="scaleToFill" id="svA-bY-WuQ">
-                        <frame key="frameInset" minX="25" minY="48" width="1" maxY="0.5"/>
+                        <frame key="frameInset" minX="25" minY="48" width="1"/>
                         <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.0" green="0.23921568630000001" blue="0.64705882349999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today    at 12:34" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MgL-2E-Pie">
-                        <frame key="frameInset" minX="48" minY="5.84%" width="358" height="32.5"/>
+                        <frame key="frameInset" minX="48" minY="5.86%" width="358" height="32.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" id="S05-wH-Lz5">
-                        <frame key="frameInset" minX="48" minY="44" width="97.81%" height="23.90%"/>
+                        <frame key="frameInset" minX="48" minY="44" width="97.81%" height="24.00%"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Body Temp" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Yiy-xV-cp7">
@@ -86,7 +86,7 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <view contentMode="scaleToFill" id="KHY-4h-BLA">
-                        <frame key="frameInset" minX="48" minY="76" maxX="8" maxY="8.5"/>
+                        <frame key="frameInset" minX="48" minY="76" maxX="8" maxY="8"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="note..." id="a4R-C0-Dwp">
@@ -118,7 +118,7 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.82352941180000006" green="0.86274509799999999" blue="0.93333333330000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0.png" id="zGw-aY-C9x">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0.png" id="zGw-aY-C9x">
                                 <frame key="frameInset" minX="2.24%" minY="9.41%" width="23.74%" height="64.12%"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

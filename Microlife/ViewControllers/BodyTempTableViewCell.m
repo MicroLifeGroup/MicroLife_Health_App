@@ -49,6 +49,7 @@
         self.hasRecord = NO;
         noteTextView.editable = NO;
         noteTextView.userInteractionEnabled = NO;
+        cellImage.contentMode = UIViewContentModeScaleAspectFill;
     }
     
     return self;
@@ -79,13 +80,13 @@
     
     if (!self.hasRecord && self.hasImage) {
         
-        cellImage.frame = CGRectMake(cellImage.frame.origin.x, cellImage.frame.origin.y, cellImage.frame.size.width, cellImage.frame.size.height);
+        cellImage.frame = CGRectMake(cellImage.frame.origin.x, cellImage.frame.origin.y, cellImage.frame.size.width, noteBase.frame.size.height-cellImage.frame.origin.y*2);
         
         recordView.frame = CGRectMake(cellImage.frame.origin.x, cellImage.frame.origin.y, 0, 0);
         
         recordView.hidden = YES;
+        
     }
-    
     
     self.bounds = cellRect;
     

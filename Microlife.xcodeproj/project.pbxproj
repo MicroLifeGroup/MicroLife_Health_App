@@ -120,6 +120,7 @@
 		CD763CEC1D941239000726F3 /* PULPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD763CE51D941239000726F3 /* PULPickerView.m */; };
 		CD763CED1D941239000726F3 /* TimePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD763CE71D941239000726F3 /* TimePickerView.m */; };
 		CD763CF01D94124B000726F3 /* OverTempTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD763CEF1D94124B000726F3 /* OverTempTableViewCell.m */; };
+		CD7854791DC04B6E00A94D34 /* UIImage+FixOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7854781DC04B6E00A94D34 /* UIImage+FixOrientation.m */; };
 		CD8703201D76E83A00CC570F /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD87031F1D76E83A00CC570F /* Bolts.framework */; };
 		CD8703291D76ED0A00CC570F /* FacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703241D76ED0A00CC570F /* FacebookLoginViewController.m */; };
 		CD8703391D76F62400CC570F /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703341D76F62400CC570F /* AboutViewController.m */; };
@@ -373,6 +374,8 @@
 		CD763CE71D941239000726F3 /* TimePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimePickerView.m; sourceTree = "<group>"; };
 		CD763CEE1D94124B000726F3 /* OverTempTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverTempTableViewCell.h; sourceTree = "<group>"; };
 		CD763CEF1D94124B000726F3 /* OverTempTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverTempTableViewCell.m; sourceTree = "<group>"; };
+		CD7854771DC04B6E00A94D34 /* UIImage+FixOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FixOrientation.h"; sourceTree = "<group>"; };
+		CD7854781DC04B6E00A94D34 /* UIImage+FixOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+FixOrientation.m"; sourceTree = "<group>"; };
 		CD87031F1D76E83A00CC570F /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		CD8703231D76ED0A00CC570F /* FacebookLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookLoginViewController.h; sourceTree = "<group>"; };
 		CD8703241D76ED0A00CC570F /* FacebookLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookLoginViewController.m; sourceTree = "<group>"; };
@@ -454,6 +457,7 @@
 		CD221D371D41EA80004D3701 = {
 			isa = PBXGroup;
 			children = (
+				CD7854761DC04B5800A94D34 /* ImageOrientation */,
 				CD641FF01DA6476F002843CA /* sdk */,
 				CD221D781D41EAAF004D3701 /* Frameworks */,
 				CD221D421D41EA80004D3701 /* Microlife */,
@@ -860,6 +864,15 @@
 			name = LocalData;
 			sourceTree = "<group>";
 		};
+		CD7854761DC04B5800A94D34 /* ImageOrientation */ = {
+			isa = PBXGroup;
+			children = (
+				CD7854771DC04B6E00A94D34 /* UIImage+FixOrientation.h */,
+				CD7854781DC04B6E00A94D34 /* UIImage+FixOrientation.m */,
+			);
+			name = ImageOrientation;
+			sourceTree = "<group>";
+		};
 		CD8703321D76F5FE00CC570F /* SideBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -1058,6 +1071,7 @@
 				CD1E2A091DAC871C00069009 /* BLEDataHandler.m in Sources */,
 				CD6B34661DB713590032B3BF /* MailNotificationViewController.m in Sources */,
 				782AACFE1DB0C81000F987DA /* MyDeviceController.m in Sources */,
+				CD7854791DC04B6E00A94D34 /* UIImage+FixOrientation.m in Sources */,
 				CD6B34921DB7237B0032B3BF /* SkeletonPickerView.m in Sources */,
 				CD221DCA1D41EF6E004D3701 /* UserLoginViewController.m in Sources */,
 				CD6B348F1DB7237B0032B3BF /* MusclePickerView.m in Sources */,

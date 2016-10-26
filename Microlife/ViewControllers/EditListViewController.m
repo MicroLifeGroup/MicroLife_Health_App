@@ -9,6 +9,7 @@
 #import "EditListViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioServices.h>
+#import "UIImage+FixOrientation.h"
 
 @interface EditListViewController ()<UITextViewDelegate,UIImagePickerControllerDelegate>{
     UIView *actionBtnBase;      //功能列
@@ -45,13 +46,13 @@
     
     int totalRecordTime;
     
-    NSURL *outputFileURL;
+    NSURL *outputFileURL;           //錄音輸出路徑
     NSDictionary *listDict;
     int dataID;
     NSString *noteStr;
     NSString *photoPath;
-    NSString *recordPath;
-    NSString *newRecordPath;
+    NSString *recordPath;           //儲存的路徑
+    NSString *newRecordPath;        //新開錄音路徑
     int listType;
     
 }
@@ -110,10 +111,21 @@
     photoPath = [listDict objectForKey:@"photoPath"];
     recordPath = [listDict objectForKey:@"recordingPath"];
     listType = [[listDict objectForKey:@"listType"] intValue];
-
+    
+    NSURL *imgURL = [NSURL fileURLWithPath:photoPath];
+    
+    NSData *imageData = [NSData dataWithContentsOfURL:imgURL];
+    //tempImg = [self loadImage];
+    
+    tempImg = [UIImage imageWithContentsOfFile:photoPath];
+    
+    [tempImg fixOrientation];
+    
+    NSLog(@"tempImg = %@",tempImg);
     NSLog(@"recordPath = %@",recordPath);
     NSLog(@"photoPath = %@",photoPath);
     NSLog(@"noteStr = %@",noteStr);
+    NSLog(@"imgURL = %@",imgURL);
     
     if ([noteStr isEqualToString:@""] || noteStr == nil) {
         noteStr = @" ";
@@ -140,6 +152,19 @@
     isRecord = NO;
     isPlay = NO;
     
+}
+
+- (UIImage*)loadImage
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+    
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString* path = [documentsDirectory stringByAppendingPathComponent:
+                      photoPath];
+    
+    UIImage* image = [UIImage imageWithContentsOfFile:path];
+    
+    return image;
 }
 
 -(void)setUpAudioRecord{
@@ -352,6 +377,8 @@
     
     imagePicker.delegate = nil;
     
+    NSLog(@"tempImg  =%@",tempImg);
+    
     if (tempImg != nil) {
         photoImage.image = tempImg;
         
@@ -380,11 +407,6 @@
         deleteImgBtn.hidden = YES;
     }
 
-    NSURL *oldRecordPath = [NSURL fileURLWithPath:recordPath];
-    
-    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:oldRecordPath error:nil];
-    [audioPlayer setDelegate:self];
-    [audioPlayer play];
 }
 
 #pragma mark - Button actions
@@ -460,8 +482,6 @@
     imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     imagePicker.allowsEditing = YES;
     [self presentViewController:imagePicker animated:YES completion:nil];
-    
-    
 }
 
 -(void)openAlbum{
@@ -488,6 +508,7 @@
         
         [[NSFileManager defaultManager]removeItemAtPath:recordPath error:&error];
     }
+
     
     if ( gesture.state == UIGestureRecognizerStateBegan ) {
         NSLog(@"Long Press began");
@@ -692,7 +713,7 @@
     [BPMClass sharedInstance].PAD = [[listDict objectForKey:@"PAD"] intValue];
     [BPMClass sharedInstance].date = dateStr;
     [BPMClass sharedInstance].BPM_Note = noteStr;
-    [BPMClass sharedInstance].BPM_PhotoPath = @"";
+    [BPMClass sharedInstance].BPM_PhotoPath = photoPath;
     [BPMClass sharedInstance].BPM_RecordingPath = recordPath;
     
     [[BPMClass sharedInstance] updateData];
@@ -724,6 +745,9 @@
     
     didSave = YES;
     
+    [self saveImageToFilePath];
+    
+    
     switch (listType) {
         case 0:
             [self updateBPMdata];
@@ -736,6 +760,21 @@
     }
     
     [self.navigationController popViewControllerAnimated:YES];
+    
+}
+
+-(void)saveImageToFilePath{
+    
+    NSData *imageData = UIImageJPEGRepresentation(tempImg, 1.0);
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsPath = [paths objectAtIndex:0]; //Get the docs directory
+    
+    NSString *fileName = [NSString stringWithFormat:@"NoteImage-ID%d",dataID];
+    
+    photoPath = [documentsPath stringByAppendingPathComponent:fileName]; //Add the file name
+    
+    [imageData writeToFile:photoPath atomically:YES];
     
 }
 

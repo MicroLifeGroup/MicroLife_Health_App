@@ -77,13 +77,13 @@
         
         if (dataCount == 14) {
             
-            Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep, STRFTIME(\"%%Y-%%m-%%d %%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d\", \"date\") = strftime(\"%%Y-%%m-%%d\", \"now\", \"localtime\", \"-%d day\")  AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
+            Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep, STRFTIME(\"%%Y-%%m-%%d %%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d\", \"date\") = strftime(\"%%Y-%%m-%%d\", \"now\", \"localtime\", \"-%d day\")  AND accountID = %d AND eventID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID,[LocalData sharedInstance].currentEventId];
             
             pastDate = [currentDate dateByAddingTimeInterval:-24.0f*60.0f*60.0f*i];
             
         }else{
             
-            Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep, STRFTIME(\"%%Y-%%m-%%d %%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", \"date\") = strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\")  AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
+            Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep, STRFTIME(\"%%Y-%%m-%%d %%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", \"date\") = strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\")  AND accountID = %d AND eventID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID,[LocalData sharedInstance].currentEventId];
             
             pastDate = [currentDate dateByAddingTimeInterval:-60.0f*60.0f*i];
             
@@ -152,7 +152,7 @@
     
     NSMutableArray* DataArray = [NSMutableArray new];
     
-    NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep, STRFTIME(\"%%m/%%d %%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", \"date\") > strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND accountID = %d ORDER BY date DESC",dataRange,limitHour,[LocalData sharedInstance].accountID];
+    NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep, STRFTIME(\"%%m/%%d %%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", \"date\") > strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND accountID = %d AND eventID = %d ORDER BY date DESC",dataRange,limitHour,[LocalData sharedInstance].accountID, [LocalData sharedInstance].currentEventId];
     
     
     DataArray = [self SELECT:Command Num:3];//SELECT:指令：幾筆欄位
@@ -221,7 +221,7 @@
     }
     NSMutableArray* DataArray = [NSMutableArray new];
     
-    NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep,BT_PhotoPath, BT_Note, BT_RecordingPath,BT_ID, STRFTIME(\"%%Y/%%m/%%d %%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", \"date\") >= strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND accountID = %d ORDER BY date DESC",dataRange,limitHour,[LocalData sharedInstance].accountID];
+    NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep,BT_PhotoPath, BT_Note, BT_RecordingPath,BT_ID, STRFTIME(\"%%Y/%%m/%%d %%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", \"date\") >= strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND accountID = %d AND eventID = %d ORDER BY date DESC",dataRange,limitHour,[LocalData sharedInstance].accountID, [LocalData sharedInstance].currentEventId];
     
     
     DataArray = [self SELECT:Command Num:7];//SELECT:指令：幾筆欄位
@@ -282,9 +282,9 @@
     dataRange -= 1;
     
     if (dataCount == 12) {
-        Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep FROM BTList WHERE STRFTIME(\"%%Y-%%m\",\"date\") >= STRFTIME(\"%%Y-%%m\",\"now\", \"localtime\",\"-%d month\") AND STRFTIME(\"%%Y-%%m\",\"date\") <= STRFTIME(\"%%Y-%%m\",\"now\", \"localtime\",\"-%d month\") AND accountID = %d ORDER BY date DESC",dataRange,rangeLimit,[LocalData sharedInstance].accountID];
+        Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep FROM BTList WHERE STRFTIME(\"%%Y-%%m\",\"date\") >= STRFTIME(\"%%Y-%%m\",\"now\", \"localtime\",\"-%d month\") AND STRFTIME(\"%%Y-%%m\",\"date\") <= STRFTIME(\"%%Y-%%m\",\"now\", \"localtime\",\"-%d month\") AND accountID = %d AND eventID = %d ORDER BY date DESC",dataRange,rangeLimit,[LocalData sharedInstance].accountID, [LocalData sharedInstance].currentEventId];
     }else{
-        Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep FROM BTList WHERE STRFTIME(\"%%Y-%%m-%%d %%H\",\"date\") >= STRFTIME(\"%%Y-%%m-%%d %%H\",\"now\", \"localtime\",\"-%d hour\") AND STRFTIME(\"%%Y-%%m-%%d %%H\",\"date\") <= STRFTIME(\"%%Y-%%m-%%d %%H\",\"now\", \"localtime\",\"-%d hour\") AND accountID = %d ORDER BY date DESC",dataRange,rangeLimit,[LocalData sharedInstance].accountID];
+        Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep FROM BTList WHERE STRFTIME(\"%%Y-%%m-%%d %%H\",\"date\") >= STRFTIME(\"%%Y-%%m-%%d %%H\",\"now\", \"localtime\",\"-%d hour\") AND STRFTIME(\"%%Y-%%m-%%d %%H\",\"date\") <= STRFTIME(\"%%Y-%%m-%%d %%H\",\"now\", \"localtime\",\"-%d hour\") AND accountID = %d AND eventID = %d ORDER BY date DESC",dataRange,rangeLimit,[LocalData sharedInstance].accountID, [LocalData sharedInstance].currentEventId];
     }
     
     DataArray = [self SELECT:Command Num:2];//SELECT:指令：幾筆欄位
@@ -321,8 +321,8 @@
 - (void)updateData{
 
     
-    NSString *SQLStr = [NSString stringWithFormat:@"UPDATE BTList SET bodyTemp = \"%@\", roomTmep = \"%@\",date = \"%@\",BT_PhotoPath = \"%@\",BT_Note = \"%@\",BT_RecordingPath = \"%@\" WHERE BT_ID = %d AND accountID = %d"
-                         , bodyTemp,roomTmep,date,BT_PhotoPath,BT_Note,BT_RecordingPath ,BT_ID, [LocalData sharedInstance].accountID];
+    NSString *SQLStr = [NSString stringWithFormat:@"UPDATE BTList SET bodyTemp = \"%@\", roomTmep = \"%@\",date = \"%@\",BT_PhotoPath = \"%@\",BT_Note = \"%@\",BT_RecordingPath = \"%@\" WHERE BT_ID = %d AND accountID = %d AND eventID = %d"
+                         , bodyTemp,roomTmep,date,BT_PhotoPath,BT_Note,BT_RecordingPath ,BT_ID, [LocalData sharedInstance].accountID, [LocalData sharedInstance].currentEventId];
     
     
     [self COLUMN_UPDATE:SQLStr];
