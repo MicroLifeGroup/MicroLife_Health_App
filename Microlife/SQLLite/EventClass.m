@@ -64,7 +64,7 @@
 
 -(void)insertData{
     
-    NSString *SQLStr = [NSString stringWithFormat:@"INSERT OR REPLACE INTO EventList( accountID, event, type, eventTime) VALUES(  \"%d\",\"%@\", \"%@\", \"%@\");", accountID , event, type, eventTime];
+    NSString *SQLStr = [NSString stringWithFormat:@"INSERT OR REPLACE INTO EventList(eventID, accountID, event, type, eventTime) VALUES(  \"%d\",\"%@\", \"%@\", \"%@\");", [LocalData sharedInstance].accountID , event, type, eventTime];
     
     [self COLUMN_INSERT:SQLStr];
 }

@@ -126,15 +126,15 @@
     switch (self.listType) {
         case 0:
             
-            if (![photoPath isEqualToString:@""] && ![recordingPath isEqualToString:@""]) {
-                rowHeight = 170;
-            }
-            
-            if (![recordingPath isEqualToString:@""] && [photoPath isEqualToString:@""]) {
-                rowHeight = 150;
-            }
-            
-            if ([recordingPath isEqualToString:@""] && [photoPath isEqualToString:@""]) {
+            if (![photoPath isEqualToString:@""]) {
+                
+                if (![recordingPath isEqualToString:@""]) {
+                    rowHeight = 170;
+                }else{
+                    rowHeight = 150;
+                }
+                
+            }else{
                 rowHeight = 120;
             }
             
@@ -147,32 +147,33 @@
             break;
         case 1:
             
-            
-            if (![photoPath isEqualToString:@""] && ![recordingPath isEqualToString:@""]) {
-                rowHeight = 230;
-            }
-            
-            if (![recordingPath isEqualToString:@""] && [photoPath isEqualToString:@""]) {
-                rowHeight = 210;
-            }
-            
-            if ([recordingPath isEqualToString:@""] && [photoPath isEqualToString:@""]) {
+            if (![photoPath isEqualToString:@""]) {
+                
+                if (![recordingPath isEqualToString:@""]) {
+                    rowHeight = 230;
+                }else{
+                    rowHeight = 210;
+                }
+                
+            }else{
                 rowHeight = 190;
             }
             
             break;
         case 2:
-            if (![photoPath isEqualToString:@""] && ![recordingPath isEqualToString:@""]) {
-                rowHeight = 170;
-            }
             
-            if (![recordingPath isEqualToString:@""] && [photoPath isEqualToString:@""]) {
-                rowHeight = 150;
-            }
-            
-            if ([recordingPath isEqualToString:@""] && [photoPath isEqualToString:@""]) {
+            if (![photoPath isEqualToString:@""]) {
+                
+                if (![recordingPath isEqualToString:@""]) {
+                    rowHeight = 170;
+                }else{
+                    rowHeight = 150;
+                }
+
+            }else{
                 rowHeight = 120;
             }
+            
     
             break;
         default:
@@ -193,7 +194,7 @@
     NSDictionary *cellDict = [listDataArray objectAtIndex:indexPath.row];
     
     NSString *photoPath = [cellDict objectForKey:@"photoPath"];
-    NSString *note = [cellDict objectForKey:@"photoPath"];
+    NSString *note = [cellDict objectForKey:@"note"];
     NSString *recordingPath = [cellDict objectForKey:@"recordingPath"];
     
     BOOL hasImg = NO;
@@ -233,13 +234,13 @@
             UIImage *typeImage = IMAGE_BPM;
             UIColor *lineColor = STANDER_COLOR;
             
-            if (SYSValue > 130) {
+            if (SYSValue > 135) {
                 highSYS = YES;
                 typeImage = IMAGE_BPM_RED;
                 lineColor = CIRCEL_RED;
             }
             
-            if (DIAValue > 80) {
+            if (DIAValue > 85) {
                 highDIA = YES;
                 typeImage = IMAGE_BPM_RED;
                 lineColor = CIRCEL_RED;
@@ -391,6 +392,10 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    NSDictionary *listDict = [listDataArray objectAtIndex:indexPath.row];
+    
+    [[LocalData sharedInstance] setEditListDict:listDict];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"showEditVC" object:nil];
     

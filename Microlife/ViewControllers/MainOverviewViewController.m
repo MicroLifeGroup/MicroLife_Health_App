@@ -504,7 +504,7 @@
     
     
 #warning hidden
-    addTempView.hidden = YES;
+    //addTempView.hidden = YES;
     
     //
     BLEDataHandler *handler = [[BLEDataHandler alloc] init];
@@ -562,7 +562,7 @@
     bloodPressureCircleView.sys = SYS;
     bloodPressureCircleView.dia = DIA;
     
-    if (SYS > 130 || DIA > 80) {
+    if (SYS > 135 || DIA > 85) {
         //血壓異常
         circleColor = CIRCEL_RED;
         circleImg = IMAGE_HIGH_BP;
@@ -731,12 +731,13 @@
     [weightView addSubview:weightChartArea];
     [weightChartArea addSubview:weightChartView];
     
-    
-    tempChartArea = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(bpRainbowBarBt.frame) + bpRainbowBarBt.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.width*0.6)];
-    
-    tempChartView = [[GraphView alloc] initWithFrame:CGRectMake(0, 0, tempChartArea.frame.size.width, tempChartArea.frame.size.height-page.frame.size.height) withChartType:5 withDataCount:14 withDataRange:14];
-    [bodyTemperatureView addSubview:tempChartArea];
-    [tempChartArea addSubview:tempChartView];
+    if (addTempView.hidden == YES) {
+        tempChartArea = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(bpRainbowBarBt.frame) + bpRainbowBarBt.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.width*0.6)];
+        
+        tempChartView = [[GraphView alloc] initWithFrame:CGRectMake(0, 0, tempChartArea.frame.size.width, tempChartArea.frame.size.height-page.frame.size.height) withChartType:5 withDataCount:14 withDataRange:14];
+        [bodyTemperatureView addSubview:tempChartArea];
+        [tempChartArea addSubview:tempChartView];
+    }
 }
 
 -(void)createChartWithType:(int)type{

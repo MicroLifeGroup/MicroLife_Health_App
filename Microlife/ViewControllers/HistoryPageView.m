@@ -39,7 +39,10 @@
 
     nameBtnAry = [[NSMutableArray alloc] initWithCapacity:0];
     circelSize = screen.bounds.size.width*0.3;
-    dateIntervalIndex = 1;
+    dateIntervalIndex0 = 1;
+    dateIntervalIndex1 = 1;
+    dateIntervalIndex2 = 1;
+    dateIntervalIndex3 = 1;
 }
 
 -(void)initInterface{
@@ -166,22 +169,22 @@
     if (self.viewType != 2) {
         switch (dateSegIndex) {
             case 0:
-                dataRange = 1*dateIntervalIndex;
+                dataRange = 1*dateIntervalIndex0;
                 dataCount = -1;
                 break;
                 
             case 1:
-                dataRange = 7*dateIntervalIndex;
+                dataRange = 7*dateIntervalIndex1;
                 dataCount = 7;
                 break;
                 
             case 2:
-                dataRange = 30*dateIntervalIndex;
+                dataRange = 30*dateIntervalIndex2;
                 dataCount = 30;
                 break;
                 
             case 3:
-                dataRange = 12*dateIntervalIndex;
+                dataRange = 12*dateIntervalIndex3;
                 dataCount = 12;
                 break;
                 
@@ -192,15 +195,15 @@
         
         switch (dateSegIndex) {
             case 0:
-                dataRange = 1*dateIntervalIndex;
+                dataRange = 1*dateIntervalIndex0;
                 dataCount = -1;
                 break;
             case 1:
-                dataRange = 4*dateIntervalIndex;
+                dataRange = 4*dateIntervalIndex1;
                 dataCount = 4;
                 break;
             case 2:
-                dataRange = 24*dateIntervalIndex;
+                dataRange = 24*dateIntervalIndex2;
                 dataCount = 24;
                 
                 break;
@@ -229,7 +232,6 @@
     [self.delegate showListButtonTapped:btnSnapShot];
 }
 
-
 -(void)createChart:(int)chartType{
     
     NSInteger dataRange = 0;
@@ -238,22 +240,22 @@
     if (chartType != 5) {
         switch (dateSegIndex) {
             case 0:
-                dataRange = 1*dateIntervalIndex;
+                dataRange = 1*dateIntervalIndex0;
                 dataCount = -1;
                 break;
                 
             case 1:
-                dataRange = 7*dateIntervalIndex;
+                dataRange = 7*dateIntervalIndex1;
                 dataCount = 7;
                 break;
                 
             case 2:
-                dataRange = 30*dateIntervalIndex;
+                dataRange = 30*dateIntervalIndex2;
                 dataCount = 30;
                 break;
                 
             case 3:
-                dataRange = 12*dateIntervalIndex;
+                dataRange = 12*dateIntervalIndex3;
                 dataCount = 12;
                 break;
                 
@@ -264,20 +266,112 @@
         
         switch (dateSegIndex) {
             case 0:
-                dataRange = 1*dateIntervalIndex;
+                dataRange = 1*dateIntervalIndex0;
                 dataCount = -1;
                 break;
             case 1:
-                dataRange = 4*dateIntervalIndex;
+                dataRange = 4*dateIntervalIndex1;
                 dataCount = 4;
                 break;
             case 2:
-                dataRange = 24*dateIntervalIndex;
+                dataRange = 24*dateIntervalIndex2;
                 dataCount = 24;
                 
                 break;
             default:
                 break;
+        }
+    }
+    
+    NSDictionary *dictForBubble;
+    
+    if (chartType == 0 || chartType == 1) {
+        dictForBubble = [[BPMClass sharedInstance] selectBPAvgValueWithRange:dataRange count:dataCount];
+        
+        float avgSYSValue = [[dictForBubble objectForKey:@"avgSYS"] floatValue];
+        float avgDIAValue = [[dictForBubble objectForKey:@"avgDIA"] floatValue];
+        int totalAFIB = [[dictForBubble objectForKey:@"AFIBCount"] intValue];
+        int totalPAD = [[dictForBubble objectForKey:@"PADCount"]intValue];
+        int totalMAM = [[dictForBubble objectForKey:@"MAMCount"]intValue];
+        
+        if (avgSYSValue == 0 && avgDIAValue == 0) {
+            [BPCircle setcircleValueText:@"--/--"];
+        }else{
+            [BPCircle setcircleValueText:[NSString stringWithFormat:@"%.0f/%.0f",avgSYSValue,avgDIAValue]];
+        }
+        
+        if (totalMAM == 0) {
+            [PADCircle setcircleValueText:@"--"];
+            [AFIBCircle setcircleValueText:@"--"];
+        }else{
+            [PADCircle setcircleValueText:[NSString stringWithFormat:@"%d",totalMAM]];
+            [AFIBCircle setcircleValueText:[NSString stringWithFormat:@"%d",totalMAM]];
+        }
+        
+        
+        [self setBadgeNumberForCircle:BPCircle withNumber:0];
+        [self setBadgeNumberForCircle:PADCircle withNumber:totalPAD];
+        [self setBadgeNumberForCircle:AFIBCircle withNumber:totalAFIB];
+        
+    }
+    
+    if (chartType == 2 || chartType == 3 || chartType == 4) {
+        dictForBubble = [[WeightClass sharedInstance] selectWeightAvgValueWithRange:dataRange count:dataCount];
+        
+        float avgWeight = [[dictForBubble objectForKey:@"avgWeight"] floatValue];
+        float avgBMI = [[dictForBubble objectForKey:@"avgBMI"] floatValue];
+        float avgFat = [[dictForBubble objectForKey:@"avgFat"] floatValue];
+        
+        NSString *circleTitle;
+        NSString *circleUnit;
+        NSString *circleValueStr;
+        
+        switch (chartType) {
+            case 2:
+                circleTitle = @"Avg. WEI";
+                circleUnit = @"Kg";
+                circleValueStr = [NSString stringWithFormat:@"%.1f",avgWeight];
+                break;
+            case 3:
+                circleTitle = @"Avg. BMI";
+                circleUnit = @"";
+                circleValueStr = [NSString stringWithFormat:@"%.1f",avgBMI];
+                break;
+            case 4:
+                circleTitle = @"Avg. FAT";
+                circleUnit = @"%";
+                circleValueStr = [NSString stringWithFormat:@"%.1f",avgFat];
+                break;
+                
+            default:
+                break;
+        }
+        
+        if ([circleValueStr floatValue] == 0) {
+            circleValueStr = @"--";
+        }
+        
+        [weightCircle setCircleTitleText:circleTitle];
+        [weightCircle setcircleValueText:circleValueStr];
+        [weightCircle setCircleUnitText:circleUnit];
+    }
+    
+    if (chartType == 5) {
+        dictForBubble = [[BTClass sharedInstance] selectTempAvgValueWithRange:dataRange count:dataCount];
+        
+        float avgTempValue = [[dictForBubble objectForKey:@"avgTemp"] floatValue];
+        float lastTempValue = [[dictForBubble objectForKey:@"lastTemp"] floatValue];
+        
+        if(avgTempValue == 0){
+           [avgTemp setcircleValueText:@"--"];
+        }else{
+            [avgTemp setcircleValueText:[NSString stringWithFormat:@"%.1f°C",avgTempValue]];
+        }
+        
+        if(lastTempValue == 0){
+            [lastTemp setcircleValueText:@"--"];
+        }else{
+           [lastTemp setcircleValueText:[NSString stringWithFormat:@"%.1f°C",lastTempValue]];
         }
         
     }
@@ -359,7 +453,7 @@
         case 0:
             BPTimeImage = [UIImage imageNamed:@"history_icon_a_all"];
             [BPCircle setCircleTitleText:@"ALL\nAvg.SYS/DIA"];
-            [BPCircle setcircleValueText:@"150/90"];
+            [BPCircle setcircleValueText:@"--/--"];
             [BPCircle setCircleUnitText:@"mmHg"];
             
             [BPCircle setCircleValueFrame];
@@ -368,14 +462,14 @@
         case 1:
             BPTimeImage = [UIImage imageNamed:@"history_icon_a_am"];
             [BPCircle setCircleTitleText:@"AM\nAvg.SYS/DIA"];
-            [BPCircle setcircleValueText:@"148/88"];
+            [BPCircle setcircleValueText:@"--/--"];
             [BPCircle setCircleUnitText:@"mmHg"];
             break;
             
         case 2:
             BPTimeImage = [UIImage imageNamed:@"history_icon_a_pm"];
             [BPCircle setCircleTitleText:@"PM\nAvg.SYS/DIA"];
-            [BPCircle setcircleValueText:@"145/85"];
+            [BPCircle setcircleValueText:@"--/--"];
             [BPCircle setCircleUnitText:@"mmHg"];
             break;
             
@@ -432,7 +526,7 @@
     BPCircle = [[StatusCircleView alloc] initWithFrame:CGRectMake(10, healthStatusScroll.frame.size.height/2-circelSize/2, circelSize, circelSize)];
     
     [BPCircle setCircleTitleText:@"ALL\nAvg.SYS/DIA"];
-    [BPCircle setcircleValueText:@"150/90"];
+    [BPCircle setcircleValueText:@"--/--"];
     [BPCircle setCircleUnitText:@"mmHg"];
     
     [BPCircle setCircleValueFrame];
@@ -442,11 +536,11 @@
     
     
     
-    StatusCircleView *AFIBCircle = [[StatusCircleView alloc] initWithFrame:CGRectMake(10+circelSize+10, healthStatusScroll.frame.size.height/2-circelSize/2, circelSize, circelSize)];
+    AFIBCircle = [[StatusCircleView alloc] initWithFrame:CGRectMake(10+circelSize+10, healthStatusScroll.frame.size.height/2-circelSize/2, circelSize, circelSize)];
     
     [AFIBCircle setCircleTitleText:@"AFIB\nFrequency/DIA"];
     [AFIBCircle setTextColorWithRange:NSMakeRange(0, 4) withColor:CIRCEL_RED];
-    [AFIBCircle setcircleValueText:@"14"];
+    [AFIBCircle setcircleValueText:@"--"];
     [AFIBCircle setCircleUnitText:@""];
     
     [AFIBCircle setCircleValueFrame];
@@ -456,16 +550,16 @@
     
     
     
-    StatusCircleView *FreqCircle = [[StatusCircleView alloc] initWithFrame:CGRectMake(10+2*(circelSize+10), healthStatusScroll.frame.size.height/2-circelSize/2, circelSize, circelSize)];
+    PADCircle = [[StatusCircleView alloc] initWithFrame:CGRectMake(10+2*(circelSize+10), healthStatusScroll.frame.size.height/2-circelSize/2, circelSize, circelSize)];
     
-    [FreqCircle setCircleTitleText:@"\nFrequency"];
-    [FreqCircle setcircleValueText:@"15"];
-    FreqCircle.PADImgView.hidden = NO;
+    [PADCircle setCircleTitleText:@"\nFrequency"];
+    [PADCircle setcircleValueText:@"--"];
+    PADCircle.PADImgView.hidden = NO;
     
-    [FreqCircle setCircleValueFrame];
-    [healthStatusScroll addSubview:FreqCircle];
+    [PADCircle setCircleValueFrame];
+    [healthStatusScroll addSubview:PADCircle];
     //測試
-    [self setBadgeNumberForCircle:FreqCircle withNumber:100];
+    [self setBadgeNumberForCircle:PADCircle withNumber:100];
     
     
 //    float startX = 0;
@@ -526,6 +620,10 @@
 }
 
 -(void)setBadgeNumberForCircle:(StatusCircleView*)circleView withNumber:(int)number{
+    
+    if (number == 0) {
+        return;
+    }
     
     float badgeCircleSize = SCREEN_WIDTH*0.06;
     
@@ -605,9 +703,9 @@
         [self setWeightStatus:fatBtn on:NO];
         [chart removeFromSuperview];
         [self createChart:2];
-        [weightCircle setCircleTitleText:@"Avg. WEI"];
-        [weightCircle setcircleValueText:@"80"];
-        [weightCircle setCircleUnitText:@"kg"];
+//        [weightCircle setCircleTitleText:@"Avg. WEI"];
+//        [weightCircle setcircleValueText:@"--"];
+//        [weightCircle setCircleUnitText:@"kg"];
         
     }
     
@@ -616,9 +714,9 @@
         [self setWeightStatus:fatBtn on:NO];
         [chart removeFromSuperview];
         [self createChart:3];
-        [weightCircle setCircleTitleText:@"Avg. BMI"];
-        [weightCircle setcircleValueText:@"24"];
-        [weightCircle setCircleUnitText:@""];
+//        [weightCircle setCircleTitleText:@"Avg. BMI"];
+//        [weightCircle setcircleValueText:@"--"];
+//        [weightCircle setCircleUnitText:@""];
     }
     
     if (btn == fatBtn) {
@@ -626,9 +724,9 @@
         [self setWeightStatus:weightBtn on:NO];
         [chart removeFromSuperview];
         [self createChart:4];
-        [weightCircle setCircleTitleText:@"Avg. FAT"];
-        [weightCircle setcircleValueText:@"20"];
-        [weightCircle setCircleUnitText:@"%"];
+//        [weightCircle setCircleTitleText:@"Avg. FAT"];
+//        [weightCircle setcircleValueText:@"--"];
+//        [weightCircle setCircleUnitText:@"%"];
     }
 }
 
@@ -652,7 +750,7 @@
     weightCircle = [[StatusCircleView alloc] initWithFrame:CGRectMake(healthStatusScroll.frame.size.width/2-circelSize/2, healthStatusScroll.frame.size.height/2-circelSize/2, circelSize, circelSize)];
     
     [weightCircle setCircleTitleText:@"Avg. WEI"];
-    [weightCircle setcircleValueText:@"80"];
+    [weightCircle setcircleValueText:@"--"];
     [weightCircle setCircleUnitText:@"kg"];
     [weightCircle setCircleValueFrame];
     
@@ -724,7 +822,7 @@
     lastTemp = [[StatusCircleView alloc] initWithFrame:CGRectMake(healthStatusScroll.frame.size.width/2-circelSize-10, healthStatusScroll.frame.size.height/2-circelSize/2, circelSize, circelSize)];
     
     [lastTemp setCircleTitleText:@"Last\nBody Temp."];
-    [lastTemp setcircleValueText:@"36.5°C"];
+    [lastTemp setcircleValueText:@"--°C"];
     [lastTemp setCircleUnitText:@""];
     [lastTemp setCircleValueFrame];
     
@@ -732,7 +830,7 @@
     avgTemp = [[StatusCircleView alloc] initWithFrame:CGRectMake(healthStatusScroll.frame.size.width/2+10, healthStatusScroll.frame.size.height/2-circelSize/2, circelSize, circelSize)];
     
     [avgTemp setCircleTitleText:@"Avg.\nBody Temp."];
-    [avgTemp setcircleValueText:@"37.0°C"];
+    [avgTemp setcircleValueText:@"--°C"];
     [avgTemp setCircleUnitText:@""];
     [avgTemp setCircleValueFrame];
     
@@ -851,6 +949,7 @@
     
     [chart removeFromSuperview];
     [self createChart:chart.chartType];
+    [self lockNextCurveBtn];
     
 }
 
@@ -858,7 +957,23 @@
     
     int currentType = chart.chartType;
     
-    dateIntervalIndex += 1;
+    switch (topSegment.selectedSegmentIndex) {
+        case 0:
+            dateIntervalIndex0 += 1;
+            break;
+        case 1:
+            dateIntervalIndex1 += 1;
+            break;
+        case 2:
+            dateIntervalIndex2 += 1;
+            break;
+        case 3:
+            dateIntervalIndex3 += 1;
+            break;
+        default:
+            break;
+    }
+    
     
     [self lockNextCurveBtn];
     
@@ -871,9 +986,29 @@
     
     int currentType = chart.chartType;
     
-    
-    if (dateIntervalIndex != 0) {
-        dateIntervalIndex -= 1;
+    switch (topSegment.selectedSegmentIndex) {
+        case 0:
+            if (dateIntervalIndex0 != 0) {
+                dateIntervalIndex0 -= 1;
+            }
+            break;
+        case 1:
+            if (dateIntervalIndex1 != 0) {
+                dateIntervalIndex1 -= 1;
+            }
+            break;
+        case 2:
+            if (dateIntervalIndex2 != 0) {
+                dateIntervalIndex2 -= 1;
+            }
+            break;
+        case 3:
+            if (dateIntervalIndex3 != 0) {
+                dateIntervalIndex3 -= 1;
+            }
+            break;
+        default:
+            break;
     }
     
     [self lockNextCurveBtn];
@@ -885,11 +1020,44 @@
 
 -(void)lockNextCurveBtn{
     
-    if(dateIntervalIndex == 1){
-        nextCurveBtn.enabled = NO;
-    }else{
-        nextCurveBtn.enabled = YES;
+    BOOL shouldLockBtn;
+    
+    switch (topSegment.selectedSegmentIndex) {
+        case 0:
+            if (dateIntervalIndex0 == 1) {
+                shouldLockBtn = NO;
+            }else{
+                shouldLockBtn = YES;
+            }
+            break;
+        case 1:
+            if (dateIntervalIndex1 == 1) {
+                shouldLockBtn = NO;
+            }else{
+                shouldLockBtn = YES;
+            }
+            break;
+        case 2:
+            if (dateIntervalIndex2 == 1) {
+                shouldLockBtn = NO;
+            }else{
+                shouldLockBtn = YES;
+            }
+            break;
+        case 3:
+            if (dateIntervalIndex3 == 1) {
+                shouldLockBtn = NO;
+            }else{
+                shouldLockBtn = YES;
+            }
+            break;
+        default:
+            break;
     }
+    
+    
+    nextCurveBtn.enabled = shouldLockBtn;
+
     
 }
 

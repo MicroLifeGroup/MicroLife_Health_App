@@ -357,12 +357,11 @@
         //目前裝置無法支援PAD量測
         [BPMClass sharedInstance].PAD = 0;
         [BPMClass sharedInstance].AFIB = curMdata.arr;
-        [BPMClass sharedInstance].SYS_Unit = 0;
-        [BPMClass sharedInstance].PUL_Unit = 0;
         [BPMClass sharedInstance].date = date;
         [BPMClass sharedInstance].BPM_PhotoPath = @"";
         [BPMClass sharedInstance].BPM_Note = @"";
         [BPMClass sharedInstance].BPM_RecordingPath = @"";
+        [BPMClass sharedInstance].MAM = curMdata.MAM;
         
         [[BPMClass sharedInstance] insertData];
         

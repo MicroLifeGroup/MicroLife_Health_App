@@ -35,6 +35,14 @@
    // NSLog(@"[WeightClass sharedInstance] = %@", [[WeightClass sharedInstance] selectAllData]);
     //NSLog(@"[BTClass sharedInstance] = %@", [[BTClass sharedInstance] selectAllData]);
    // NSLog(@"[BPMClass sharedInstance] = %@", [[BPMClass sharedInstance] selectAllData]);
+    NSLog(@"selectAllData = %@",[[BPMClass sharedInstance] selectAllData]);
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    if (listsView != nil) {
+        [listsView.historyList reloadData];
+    }
     
 }
 
@@ -209,7 +217,7 @@
 -(void)presentEditVC{
     
     EditListViewController *editListVC = [[EditListViewController alloc] init];
-    
+        
     [self.navigationController pushViewController:editListVC animated:YES];
 }
 

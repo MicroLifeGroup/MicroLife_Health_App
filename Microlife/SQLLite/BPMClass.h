@@ -17,8 +17,8 @@
 @property (nonatomic) int PUL;                      //脈搏
 @property (nonatomic) int PAD;                      //心律不整
 @property (nonatomic) int AFIB;                     //心房顫動
-@property (nonatomic) int SYS_Unit;                 //收縮壓單位 0=mmHg/1=kpa
-@property (nonatomic) int PUL_Unit;                 //心律單位 0=Beats/1=Min
+@property (nonatomic) int MAM;                      //是否開啟偵測AFIB模式
+
 
 @property (nonatomic) NSString *date;               //日期
 @property (nonatomic) NSString * BPM_PhotoPath;     //筆記照片路徑
@@ -36,6 +36,8 @@
 -(NSMutableArray *)selectSingleDayBPWithRange:(int)dataRange;
 
 -(NSMutableArray *)selectDataForList:(int)dataRange count:(int)dataCount;
+
+-(NSDictionary *)selectBPAvgValueWithRange:(int)dataRange count:(int)dataCount;
 
 -(void)insertData;
 - (void)updateData;

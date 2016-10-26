@@ -10,7 +10,7 @@
 
 @implementation BPMClass
 
-@synthesize BPM_ID,accountID,SYS,DIA,PUL,PAD,AFIB,SYS_Unit,PUL_Unit,date,BPM_PhotoPath,BPM_Note,BPM_RecordingPath;
+@synthesize BPM_ID,accountID,SYS,DIA,PUL,PAD,AFIB,date,BPM_PhotoPath,BPM_Note,BPM_RecordingPath;
 
 
 +(BPMClass*) sharedInstance{
@@ -53,6 +53,8 @@
     return DataArray;
 }
 
+
+//歷史列表資料
 -(NSMutableArray *)selectDataForList:(int)dataRange count:(int)dataCount{
     
     NSMutableArray* resultArray = [NSMutableArray new];
@@ -65,6 +67,7 @@
         dataRange -= 1;
         limitDay = dataRange;
     }
+    
     NSMutableArray* DataArray = [NSMutableArray new];
     
     NSString *dateSelectType;
@@ -75,11 +78,11 @@
         dateSelectType = @"day";
     }
     
-    NSString *Command = [NSString stringWithFormat:@"SELECT SYS, DIA, PUL,PAD,AFIB,BPM_PhotoPath,BPM_Note,BPM_RecordingPath,STRFTIME(\"%%Y/%%m/%%d %%H:%%M\",\"date\") FROM BPMList WHERE STRFTIME(\"%%Y-%%m-%%d\",\"date\") >= STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d %@\") AND strftime(\"%%Y-%%m-%%d\", \"date\") <=strftime(\"%%Y-%%m-%%d\", \"now\", \"localtime\", \"-%d %@\") AND accountID = %d ORDER BY date DESC",dataRange,dateSelectType,limitDay,dateSelectType,[LocalData sharedInstance].accountID];
+    NSString *Command = [NSString stringWithFormat:@"SELECT SYS, DIA, PUL,PAD,AFIB,BPM_PhotoPath,BPM_Note,BPM_RecordingPath,BPM_ID,STRFTIME(\"%%Y/%%m/%%d %%H:%%M\",\"date\") FROM BPMList WHERE STRFTIME(\"%%Y-%%m-%%d\",\"date\") >= STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d %@\") AND strftime(\"%%Y-%%m-%%d\", \"date\") <=strftime(\"%%Y-%%m-%%d\", \"now\", \"localtime\", \"-%d %@\") AND accountID = %d ORDER BY date DESC",dataRange,dateSelectType,limitDay,dateSelectType,[LocalData sharedInstance].accountID];
     
     
-    DataArray = [self SELECT:Command Num:9];//SELECT:指令：幾筆欄位
-   
+    DataArray = [self SELECT:Command Num:10];//SELECT:指令：幾筆欄位
+    
     if ([[DataArray firstObject] count] != 1) {
         for (int i=0; i<DataArray.count; i++) {
             
@@ -91,8 +94,11 @@
             NSString *photoPath = [[DataArray objectAtIndex:i] objectAtIndex:5];
             NSString *note = [[DataArray objectAtIndex:i] objectAtIndex:6];
             NSString *recordingPath = [[DataArray objectAtIndex:i] objectAtIndex:7];
-            NSString *dateStr = [[DataArray objectAtIndex:i] objectAtIndex:8];
             
+            NSString *IDStr = [[DataArray objectAtIndex:i] objectAtIndex:8];
+
+            NSString *dateStr = [[DataArray objectAtIndex:i] objectAtIndex:9];
+            NSString *listTypeStr = @"0";
             NSDictionary *dataDict = [[NSDictionary alloc] initWithObjectsAndKeys:
                                       SYSStr,@"SYS",
                                       DIAStr,@"DIA",
@@ -102,6 +108,8 @@
                                       photoPath,@"photoPath",
                                       note,@"note",
                                       recordingPath,@"recordingPath",
+                                      IDStr,@"ID",
+                                      listTypeStr,@"listType",
                                       dateStr,@"date",nil];
             
             [resultArray addObject:dataDict];
@@ -116,13 +124,12 @@
     
 }
 
-
+//圖表資料 week month year
 -(NSMutableArray *)selectBPWithRange:(int)dataRange count:(int)dataCount{
     
     NSMutableArray* resultArray = [NSMutableArray new];
     
     for (int i = dataRange-1; i >= dataRange-dataCount ; i--) {
-        
         
         NSMutableArray* DataArray = [NSMutableArray new];
         
@@ -205,6 +212,7 @@
     
 }
 
+//圖表資料 week month year
 -(NSMutableArray *)selectPULWithRange:(int)dataRange count:(int)dataCount{
     
     NSMutableArray* resultArray = [NSMutableArray new];
@@ -249,7 +257,7 @@
         
         
         DataArray = [self SELECT:Command Num:2];//SELECT:指令：幾筆欄位
-        
+
         float PULSum = 0;
         
         NSNumber *PULValue = [NSNumber numberWithFloat:0.0];
@@ -286,6 +294,7 @@
     
 }
 
+//圖表資料 day
 -(NSMutableArray *)selectSingleDayBPWithRange:(int)dataRange{
     
     NSMutableArray *resultArray = [NSMutableArray new];
@@ -336,7 +345,7 @@
     
 }
 
-
+//圖表資料 day
 -(NSMutableArray *)selectSingleDayPULWithRange:(int)dataRange{
     
     NSMutableArray *resultArray = [NSMutableArray new];
@@ -382,11 +391,96 @@
     
 }
 
+//圖表資料 泡泡框
+-(NSDictionary *)selectBPAvgValueWithRange:(int)dataRange count:(int)dataCount{
+    
+    NSMutableArray* DataArray = [NSMutableArray new];
+    
+    NSString *Command;
+    
+    int rangeLimit = 0;
+    
+    if (dataCount != -1) {
+        rangeLimit = dataRange - dataCount;
+    }else{
+        rangeLimit = dataRange-1;
+    }
+    
+    dataRange -= 1;
+    
+    if (dataCount == 12) {
+        Command = [NSString stringWithFormat:@"SELECT SYS,DIA,AFIB,PAD,MAM FROM BPMList WHERE STRFTIME(\"%%Y-%%m\",\"date\") >= STRFTIME(\"%%Y-%%m\",\"now\", \"localtime\",\"-%d month\") AND STRFTIME(\"%%Y-%%m\",\"date\") <= STRFTIME(\"%%Y-%%m\",\"now\", \"localtime\",\"-%d month\") AND accountID = %d ORDER BY date DESC",dataRange,rangeLimit,[LocalData sharedInstance].accountID];
+    }else{
+        Command = [NSString stringWithFormat:@"SELECT SYS,DIA,AFIB,PAD,MAM FROM BPMList WHERE STRFTIME(\"%%Y-%%m-%%d\",\"date\") >= STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d day\") AND STRFTIME(\"%%Y-%%m-%%d\",\"date\") <= STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d hour\") AND accountID = %d ORDER BY date DESC",dataRange,rangeLimit,[LocalData sharedInstance].accountID];
+    }
+    
+    DataArray = [self SELECT:Command Num:5];//SELECT:指令：幾筆欄位
+    
+    float sysSum = 0;
+    float diaSum = 0;
+    int AFIBCount = 0;
+    int PADCount = 0;
+    int MAMCount = 0;
+    
+    NSNumber *MAMNum = [NSNumber numberWithInt:0];
+    NSNumber *AFIBNum = [NSNumber numberWithInt:0];
+    NSNumber *PADNum = [NSNumber numberWithInt:0];
+    NSNumber *avgSYS =[NSNumber numberWithFloat:0];
+    NSNumber *avgDIA =[NSNumber numberWithFloat:0];
+    
+    if ([[DataArray firstObject] count] != 1) {
+        
+        for (int i=0; i<DataArray.count; i++) {
+            sysSum += [[[DataArray objectAtIndex:i] objectAtIndex:0] floatValue];
+            
+            diaSum += [[[DataArray objectAtIndex:i] objectAtIndex:1] floatValue];
+            
+            BOOL detecAFIB = [[[DataArray objectAtIndex:i] objectAtIndex:2] boolValue];
+            
+            BOOL detecPAD = [[[DataArray objectAtIndex:i] objectAtIndex:3] boolValue];
+            
+            BOOL MAMModeOn = [[[DataArray objectAtIndex:i] objectAtIndex:4] boolValue];
+            
+            if (detecAFIB) {
+                AFIBCount += 1;
+            }
+            
+            if (detecPAD) {
+                PADCount += 1;
+            }
+            
+            if (MAMModeOn) {
+                MAMCount += 1;
+            }
+            
+        }
+        
+        avgSYS = [NSNumber numberWithFloat:sysSum/DataArray.count];
+        avgDIA = [NSNumber numberWithFloat:diaSum/DataArray.count];
+        AFIBNum = [NSNumber numberWithInt:AFIBCount];
+        PADNum = [NSNumber numberWithInt:PADCount];
+        MAMNum = [NSNumber numberWithInt:MAMCount];
+        
+    }
+    
+    NSDictionary *dataDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                              avgSYS,@"avgSYS",
+                              avgDIA,@"avgDIA",
+                              AFIBNum,@"AFIBCount",
+                              PADNum,@"PADCount",
+                              MAMNum,@"MAMCount",nil];
+    
+    
+    return dataDict;
+    
+}
+
+
 
 - (void)updateData{
     
-    NSString *SQLStr = [NSString stringWithFormat:@"UPDATE BPMList SET accountID = \"%d\",SYS = \"%d\", DIA = \"%d\", PUL = \"%d\", PAD = \"%d\",AFIB = \"%d\",SYS_Unit = \"%d\" , PUL_Unit = \"%d\",date = \"%@\",BPM_PhotoPath = \"%@\", BPM_Note = \"%@\",BPM_RecordingPath = \"%@\" WHERE BPM_ID = \"%d\""
-                        , accountID, SYS, DIA, PUL, PAD, AFIB, SYS_Unit, PUL_Unit,date,BPM_PhotoPath,BPM_Note,BPM_RecordingPath, BPM_ID];
+    NSString *SQLStr = [NSString stringWithFormat:@"UPDATE BPMList SET SYS = \"%d\", DIA = \"%d\", PUL = \"%d\", PAD = \"%d\",AFIB = \"%d\", date = \"%@\",BPM_PhotoPath = \"%@\", BPM_Note = \"%@\",BPM_RecordingPath = \"%@\" WHERE BPM_ID = %d AND accountID = %d"
+                        , SYS, DIA, PUL, PAD, AFIB,date,BPM_PhotoPath,BPM_Note,BPM_RecordingPath, BPM_ID,[LocalData sharedInstance].accountID];
     
     [self COLUMN_UPDATE:SQLStr];
     
@@ -394,7 +488,7 @@
 
 -(void)insertData{
     
-    NSString *SQLStr = [NSString stringWithFormat:@"INSERT OR REPLACE INTO BPMList( accountID, SYS, DIA, PUL, PAD ,AFIB ,SYS_Unit, PUL_Unit, date, BPM_PhotoPath, BPM_Note, BPM_RecordingPath) VALUES( \"%d\",\"%d\", \"%d\",\"%d\", \"%d\", \"%d\", \"%d\", \"%d\",\"%@\", \"%@\" ,\"%@\",\"%@\");" ,accountID ,SYS, DIA, PUL, PAD, AFIB, SYS_Unit,PUL_Unit,date,BPM_PhotoPath,BPM_Note,BPM_RecordingPath];
+    NSString *SQLStr = [NSString stringWithFormat:@"INSERT OR REPLACE INTO BPMList( accountID, SYS, DIA, PUL, PAD ,AFIB, date, BPM_PhotoPath, BPM_Note, BPM_RecordingPath) VALUES( \"%d\",\"%d\", \"%d\",\"%d\", \"%d\", \"%d\",\"%@\", \"%@\" ,\"%@\",\"%@\");" ,accountID ,SYS, DIA, PUL, PAD, AFIB ,date,BPM_PhotoPath,BPM_Note,BPM_RecordingPath];
     
     [self COLUMN_INSERT:SQLStr];
 }

@@ -42,9 +42,7 @@
 
 -(NSMutableArray *)selectAllDataAtRange:(int)dataRange count:(int)dataCount{
     
-    //NSString *Command = [NSString stringWithFormat:@"SELECT weightID, accountID, weight, weightUnit, BMI, bodyFat, water, skeleton, muscle, BMR, organFat, date, weight_PhotoPath, weight_Note, weight_RecordingPath FROM WeightList"];
-
-    //NSString *Command = [NSString stringWithFormat:@"SELECT * FROM WeightList WHERE accountID = %d ORDER BY date DESC",[LocalData sharedInstance].accountID];
+    // NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS WeightList( weightID INTEGER NULL PRIMARY KEY AUTOINCREMENT, accountID INTEGER,weight INTEGER, BMI INTEGER, bodyFat INTEGER, water INTEGER, skeleton INTEGER, muscle INTEGER, BMR INTEGER, organFat INTEGER, date TEXT, weight_PhotoPath TEXT,  weight_Note TEXT, weight_RecordingPath TEXT);";
     
     NSMutableArray *resultArray = [NSMutableArray new];
     
@@ -60,11 +58,10 @@
             Command = [NSString stringWithFormat:@"SELECT * FROM WeightList WHERE DATE(date) = STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d day\") AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
         }
         
-        DataArray = [self SELECT:Command Num:15];//SELECT:指令：幾筆欄位
+        DataArray = [self SELECT:Command Num:14];//SELECT:指令：幾筆欄位
     
         NSLog(@"DataArray = %@",DataArray);
-        
-        //weightID, accountID, weight, weightUnit, BMI, bodyFat, water, skeleton, muscle, BMR, organFat, date, weight_PhotoPath, weight_Note, weight_RecordingPath
+    
         
         if ([[DataArray firstObject] count] != 1) {
             //NSLog(@"DataArray = %@",DataArray);
@@ -74,18 +71,18 @@
                                           [[DataArray objectAtIndex:i] objectAtIndex:0],@"weightID",
                                           [[DataArray objectAtIndex:i] objectAtIndex:1],@"accountID",
                                           [[DataArray objectAtIndex:i] objectAtIndex:2],@"weight",
-                                          [[DataArray objectAtIndex:i] objectAtIndex:3],@"weightUnit",
-                                          [[DataArray objectAtIndex:i] objectAtIndex:4],@"BMI",
-                                          [[DataArray objectAtIndex:i] objectAtIndex:5],@"bodyFat",
-                                          [[DataArray objectAtIndex:i] objectAtIndex:6],@"water",
-                                          [[DataArray objectAtIndex:i] objectAtIndex:7],@"skeleton",
-                                          [[DataArray objectAtIndex:i] objectAtIndex:8],@"muscle",
-                                          [[DataArray objectAtIndex:i] objectAtIndex:9],@"BMR",
-                                          [[DataArray objectAtIndex:i] objectAtIndex:10],@"organFat",
-                                          [[DataArray objectAtIndex:i] objectAtIndex:11],@"date",
-                                          [[DataArray objectAtIndex:i] objectAtIndex:12],@"weight_PhotoPath",
-                                          [[DataArray objectAtIndex:i] objectAtIndex:13],@"weight_Note",
-                                          [[DataArray objectAtIndex:i] objectAtIndex:14],@"weight_RecordingPath",nil];
+                                          
+                                          [[DataArray objectAtIndex:i] objectAtIndex:3],@"BMI",
+                                          [[DataArray objectAtIndex:i] objectAtIndex:4],@"bodyFat",
+                                          [[DataArray objectAtIndex:i] objectAtIndex:5],@"water",
+                                          [[DataArray objectAtIndex:i] objectAtIndex:6],@"skeleton",
+                                          [[DataArray objectAtIndex:i] objectAtIndex:7],@"muscle",
+                                          [[DataArray objectAtIndex:i] objectAtIndex:8],@"BMR",
+                                          [[DataArray objectAtIndex:i] objectAtIndex:9],@"organFat",
+                                          [[DataArray objectAtIndex:i] objectAtIndex:10],@"date",
+                                          [[DataArray objectAtIndex:i] objectAtIndex:11],@"weight_PhotoPath",
+                                          [[DataArray objectAtIndex:i] objectAtIndex:12],@"weight_Note",
+                                          [[DataArray objectAtIndex:i] objectAtIndex:13],@"weight_RecordingPath",nil];
                 
                 [resultArray addObject:dataDict];
             }
@@ -251,9 +248,9 @@
     }
     //NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS WeightList( weightID INTEGER NULL PRIMARY KEY AUTOINCREMENT, accountID INTEGER,weight INTEGER, weightUnit INTEGER, BMI INTEGER, bodyFat INTEGER, water INTEGER, skeleton INTEGER, muscle INTEGER, BMR INTEGER, organFat INTEGER, date TEXT, weight_PhotoPath TEXT,  weight_Note TEXT, weight_RecordingPath TEXT);";
     
-    NSString *Command = [NSString stringWithFormat:@"SELECT weight, BMI, bodyFat,water,skeleton,muscle,BMR,organFat,weight_PhotoPath,weight_Note,weight_RecordingPath,STRFTIME(\"%%Y/%%m/%%d %%H:%%M\",\"date\") FROM WeightList WHERE STRFTIME(\"%%Y-%%m-%%d\",\"date\") >= STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d %@\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d\", \"now\", \"localtime\", \"-%d %@\") AND accountID = %d ORDER BY date DESC",dataRange,dateSelectType,limitDay,dateSelectType,[LocalData sharedInstance].accountID];
+    NSString *Command = [NSString stringWithFormat:@"SELECT weight, BMI, bodyFat,water,skeleton,muscle,BMR,organFat,weight_PhotoPath,weight_Note,weight_RecordingPath,weightID,STRFTIME(\"%%Y/%%m/%%d %%H:%%M\",\"date\") FROM WeightList WHERE STRFTIME(\"%%Y-%%m-%%d\",\"date\") >= STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d %@\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d\", \"now\", \"localtime\", \"-%d %@\") AND accountID = %d ORDER BY date DESC",dataRange,dateSelectType,limitDay,dateSelectType,[LocalData sharedInstance].accountID];
     
-    DataArray = [self SELECT:Command Num:12];//SELECT:指令：幾筆欄位
+    DataArray = [self SELECT:Command Num:13];//SELECT:指令：幾筆欄位
     
     if ([[DataArray firstObject] count] != 1) {
         for (int i=0; i<DataArray.count; i++) {
@@ -269,7 +266,9 @@
             NSString *photoPath = [[DataArray objectAtIndex:i] objectAtIndex:8];
             NSString *note = [[DataArray objectAtIndex:i] objectAtIndex:9];
             NSString *recordingPath = [[DataArray objectAtIndex:i] objectAtIndex:10];
-            NSString *dateStr = [[DataArray objectAtIndex:i] objectAtIndex:11];
+            NSString *IDStr = [[DataArray objectAtIndex:i] objectAtIndex:11];
+            NSString *listTypeStr = @"1";
+            NSString *dateStr = [[DataArray objectAtIndex:i] objectAtIndex:12];
             
             NSDictionary *dataDict = [[NSDictionary alloc] initWithObjectsAndKeys:
                                       weightStr,@"weight",
@@ -283,6 +282,8 @@
                                       photoPath,@"photoPath",
                                       note,@"note",
                                       recordingPath,@"recordingPath",
+                                      IDStr,@"ID",
+                                      listTypeStr,@"listType",
                                       dateStr,@"date",nil];
             
             [resultArray addObject:dataDict];
@@ -297,9 +298,69 @@
     
 }
 
+//圖表資料 泡泡框
+-(NSDictionary *)selectWeightAvgValueWithRange:(int)dataRange count:(int)dataCount{
+    
+    NSMutableArray* DataArray = [NSMutableArray new];
+    
+    NSString *Command;
+    
+    int rangeLimit = 0;
+    
+    if (dataCount != -1) {
+        rangeLimit = dataRange - dataCount;
+    }else{
+        rangeLimit = dataRange-1;
+    }
+    
+    dataRange -= 1;
+    
+    if (dataCount == 12) {
+        Command = [NSString stringWithFormat:@"SELECT weight,BMI,bodyFat FROM WeightList WHERE STRFTIME(\"%%Y-%%m\",\"date\") >= STRFTIME(\"%%Y-%%m\",\"now\", \"localtime\",\"-%d month\") AND STRFTIME(\"%%Y-%%m\",\"date\") <= STRFTIME(\"%%Y-%%m\",\"now\", \"localtime\",\"-%d month\") AND accountID = %d ORDER BY date DESC",dataRange,rangeLimit,[LocalData sharedInstance].accountID];
+    }else{
+        Command = [NSString stringWithFormat:@"SELECT weight,BMI,bodyFat FROM WeightList WHERE STRFTIME(\"%%Y-%%m-%%d\",\"date\") >= STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d day\") AND STRFTIME(\"%%Y-%%m-%%d\",\"date\") <= STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d hour\") AND accountID = %d ORDER BY date DESC",dataRange,rangeLimit,[LocalData sharedInstance].accountID];
+    }
+    
+    DataArray = [self SELECT:Command Num:3];//SELECT:指令：幾筆欄位
+    
+    float weightSum = 0;
+    float BMISum = 0;
+    float fatSum = 0;
+    
+    NSNumber *avgWeight = [NSNumber numberWithFloat:0];
+    NSNumber *avgBMI =[NSNumber numberWithFloat:0];
+    NSNumber *avgFat =[NSNumber numberWithFloat:0];
+    
+    if ([[DataArray firstObject] count] != 1) {
+        
+        for (int i=0; i<DataArray.count; i++) {
+            weightSum += [[[DataArray objectAtIndex:i] objectAtIndex:0] floatValue];
+            
+            BMISum += [[[DataArray objectAtIndex:i] objectAtIndex:1] floatValue];
+            fatSum += [[[DataArray objectAtIndex:i] objectAtIndex:2] floatValue];
+            
+        }
+        
+        avgWeight = [NSNumber numberWithFloat:weightSum/DataArray.count];
+        avgBMI = [NSNumber numberWithFloat:BMISum/DataArray.count];
+        avgFat = [NSNumber numberWithInt:fatSum/DataArray.count];
+        
+    }
+    
+    NSDictionary *dataDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                              avgWeight,@"avgWeight",
+                              avgBMI,@"avgBMI",
+                              avgFat,@"avgFat",
+                              nil];
+    
+    
+    return dataDict;
+    
+}
+
 - (void)updateData{
     
-    NSString *SQLStr = [NSString stringWithFormat:@"UPDATE WeightList SET, accountID = \"%d\", weight = \"%d\", weightUnit = \"%d\", BMI = \"%d\" ,body_fat = \"%d\",water = \"%d\" , skeleton = \"%d\",muscle = \"%d\",BMR = \"%d\",organ_fat = \"%d\",date = \"%@\",weight_PhotoPath = \"%@\", weight_Note = \"%@\",weight_RecordingPath = \"%@\" WHERE weightID = \"%d\" "
+    NSString *SQLStr = [NSString stringWithFormat:@"UPDATE WeightList SET accountID = \"%d\", weight = \"%d\", weightUnit = \"%d\", BMI = \"%d\" ,body_fat = \"%d\",water = \"%d\" , skeleton = \"%d\",muscle = \"%d\",BMR = \"%d\",organ_fat = \"%d\",date = \"%@\",weight_PhotoPath = \"%@\", weight_Note = \"%@\",weight_RecordingPath = \"%@\" WHERE weightID = \"%d\" "
                         , accountID, weight, weightUnit, BMI, bodyFat, water,skeleton,muscle,BMR,organFat,date,weight_PhotoPath,weight_Note,weight_RecordingPath,weightID];
     
     [self COLUMN_UPDATE:SQLStr];

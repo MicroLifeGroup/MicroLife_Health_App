@@ -36,6 +36,8 @@
 -(NSMutableArray *)selectSingleDay:(NSString *)column range:(int)dataRange;
 -(NSMutableArray *)selectDataForList:(int)dataRange count:(int)dataCount;
 
+-(NSDictionary *)selectWeightAvgValueWithRange:(int)dataRange count:(int)dataCount;
+
 -(void)insertData;
 - (void)updateData;
 

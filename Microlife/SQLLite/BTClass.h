@@ -30,6 +30,8 @@
 
 -(NSMutableArray *)selectDataForList:(int)dataRange count:(int)dataCount;
 
+-(NSDictionary *)selectTempAvgValueWithRange:(int)dataRange count:(int)dataCount;
+
 -(void)insertData;
 - (void)updateData;
 

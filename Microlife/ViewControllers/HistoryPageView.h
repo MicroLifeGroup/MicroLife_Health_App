@@ -63,8 +63,13 @@
     NSMutableArray *nameBtnAry;
     
     StatusCircleView *BPCircle;
+    StatusCircleView *PADCircle;
+    StatusCircleView *AFIBCircle;
     
-    int dateIntervalIndex;
+    int dateIntervalIndex0;
+    int dateIntervalIndex1;
+    int dateIntervalIndex2;
+    int dateIntervalIndex3;
 
 }
 

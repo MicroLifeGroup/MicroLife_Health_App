@@ -208,8 +208,8 @@
                         minValue = DIANum.intValue;
                     }
                     
-                    maxValue += maxValue*0.1;
-                    minValue -= minValue*0.1;
+                    //maxValue += maxValue*0.1;
+                    //minValue -= minValue*0.1;
                 }
                 
                 [chartDataArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"SYS"]];
@@ -221,15 +221,19 @@
             chartMaxValue = maxValue;
             chartMinValue = minValue;
             
-            NSLog(@"chartMaxValue = %f",chartMaxValue);
-            NSLog(@"chartMinValue = %f",chartMinValue);
-            NSLog(@"chartDataArray = %@",chartDataArray);
-            NSLog(@"secGraphYData = %@",secGraphYData);
-            
-            targetValue = 130;
             normalValue = 135;
             secNormalValue = 85;
-            secTargetValue = 83;
+            targetValue = [LocalData sharedInstance].targetSYS;
+            secTargetValue = [LocalData sharedInstance].targetDIA;
+            
+            if (![LocalData sharedInstance].showTargetSYS) {
+                targetValue = 0;
+            }
+            
+            if (![LocalData sharedInstance].showTargetDIA) {
+                secTargetValue = 0;
+            }
+            
             break;
         case 1:{
             //PUL
@@ -278,7 +282,11 @@
             chartMaxValue = 150.0;
             chartMinValue = 5.0;
             
-            targetValue = 60;
+            targetValue = [LocalData sharedInstance].targetWeight;
+            
+            if (![LocalData sharedInstance].showTargetWeight) {
+                targetValue = 0;
+            }
         }
             
             break;
@@ -334,6 +342,10 @@
             
             normalValue = [LocalData sharedInstance].standerFat;
             targetValue = [LocalData sharedInstance].targetFat;
+            
+            if (![LocalData sharedInstance].showTargetFat) {
+                targetValue = 0;
+            }
         }
             
             break;
@@ -341,8 +353,6 @@
             //溫度
             [chartDataArray removeAllObjects];
             [secGraphYData removeAllObjects];
-            
-            
             
             if (dataCount == -1) {
                 selectDataAry = [[BTClass sharedInstance] selectSingleHourTempWithRange:dataRange];
@@ -804,10 +814,12 @@
         CGContextSetLineWidth(targetLine, 1.0);
         CGContextSetLineJoin(targetLine, kCGLineJoinRound);
         
-        CGContextMoveToPoint(targetLine, chartLeftWidth,chartTopWidth+(chartMaxValue-targetValue)*yScaleSize);
-        CGContextAddLineToPoint(targetLine, self.frame.size.width-chartRightWidth,chartTopWidth+(chartMaxValue-targetValue)*yScaleSize);
+        if(targetValue != 0){
+            CGContextMoveToPoint(targetLine, chartLeftWidth,chartTopWidth+(chartMaxValue-targetValue)*yScaleSize);
+            CGContextAddLineToPoint(targetLine, self.frame.size.width-chartRightWidth,chartTopWidth+(chartMaxValue-targetValue)*yScaleSize);
+        }
         
-        if (i==1) {
+        if (i == 1 && secTargetValue != 0) {
             CGContextMoveToPoint(targetLine, chartLeftWidth,chartTopWidth+(chartMaxValue-secTargetValue)*yScaleSize);
             CGContextAddLineToPoint(targetLine, self.frame.size.width-chartRightWidth,chartTopWidth+(chartMaxValue-secTargetValue)*yScaleSize);
         }

@@ -95,8 +95,4 @@
     // Configure the view for the selected state
 }
 
-- (IBAction)recordBtnAction:(id)sender {
-
-}
-
 @end

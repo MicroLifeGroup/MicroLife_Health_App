@@ -35,6 +35,30 @@
 }
 
 //= 創建資料表 ========================================================================================================================
+-(void)CREATE_ProfileList{
+    
+    
+    /*
+     @property BOOL showTargetSYS;
+     @property BOOL showTargetDIA;
+     @property BOOL showTargetWeight;
+     @property BOOL showTargetFat;
+     @property int accountID;
+     @property int UserGender; //0 = man 1=women
+     @property float UserHeight;
+     @property float UserWeight;
+     @property int metric;//0 = KG CM   1=lb
+     @property int PULUnit;//0=   1=beats;
+     @property int BPUnit;//0=bpm   1=kpa;
+     birthday;
+     */
+    
+    NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS ProfileList( profileID INTEGER NULL PRIMARY KEY AUTOINCREMENT, accountID INTEGER, userBirthday TEXT, userGender INTEGER, UserHeight INTEGER, userWeight INTEGER, metric INTEGER, PULUnit INTEGER, BPUnit INTEGER,showTargetSYS INTEGER, showTargetDIA INTEGER, showTargetWeight INTEGER, showTargetFat INTEGER);";
+    //建立資料表
+    [self CREATE_TABLE:SQLStr];
+    
+}
+
 
 -(void)CREATE_BPMList{
     
@@ -49,7 +73,7 @@
     
     //    NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS SYSTEM( VerID INTEGER PRIMARY KEY, OPENDAY TEXT, TIMEOUT INT, NOWPAGE INTEGER, NOWID INTEGER, PURCHASE TEXT,ATT1 TEXT,ATT2 TEXT,ATT3 TEXT,ATT4 TEXT,ATT5 TEXT);";
     
-    NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS BPMList( BPM_ID INTEGER NULL PRIMARY KEY AUTOINCREMENT, accountID INTEGER ,SYS INTEGER, DIA INTEGER, PUL INTEGER, PAD INTEGER, AFIB INTEGER,SYS_Unit INTEGER, PUL_Unit INTEGER, date TEXT, BPM_PhotoPath TEXT, BPM_Note TEXT, BPM_RecordingPath TEXT);";
+    NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS BPMList( BPM_ID INTEGER NULL PRIMARY KEY AUTOINCREMENT, accountID INTEGER, userID INTEGER ,SYS INTEGER, DIA INTEGER, PUL INTEGER, PAD INTEGER, AFIB INTEGER, MAM INTEGER,  date TEXT, BPM_PhotoPath TEXT, BPM_Note TEXT, BPM_RecordingPath TEXT);";
     //建立資料表
     [self CREATE_TABLE:SQLStr];
     
@@ -57,7 +81,7 @@
 
 -(void)CREATE_WeightList{
     
-    NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS WeightList( weightID INTEGER NULL PRIMARY KEY AUTOINCREMENT, accountID INTEGER,weight INTEGER, weightUnit INTEGER, BMI INTEGER, bodyFat INTEGER, water INTEGER, skeleton INTEGER, muscle INTEGER, BMR INTEGER, organFat INTEGER, date TEXT, weight_PhotoPath TEXT,  weight_Note TEXT, weight_RecordingPath TEXT);";
+    NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS WeightList( weightID INTEGER NULL PRIMARY KEY AUTOINCREMENT, accountID INTEGER,weight INTEGER, BMI INTEGER, bodyFat INTEGER, water INTEGER, skeleton INTEGER, muscle INTEGER, BMR INTEGER, organFat INTEGER, date TEXT, weight_PhotoPath TEXT,  weight_Note TEXT, weight_RecordingPath TEXT);";
     //建立資料表
     [self CREATE_TABLE:SQLStr];
     

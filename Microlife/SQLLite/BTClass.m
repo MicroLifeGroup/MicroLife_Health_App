@@ -63,43 +63,57 @@
     
     int limitHour = dataRange - dataCount;
     
-    NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep, STRFTIME(\"%%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", \"date\") > strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND accountID = %d ORDER BY date DESC",dataRange,limitHour,[LocalData sharedInstance].accountID];
+    //NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep, STRFTIME(\"%%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", \"date\") > strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND accountID = %d ORDER BY date DESC",dataRange,limitHour,[LocalData sharedInstance].accountID];
     
-    DataArray = [self SELECT:Command Num:3];//SELECT:指令：幾筆欄位
+    NSString *Command;
     
-    NSDate *currentDate = [NSDate date];
-    
-    NSString *latestTime = @"";
-    
-    float sumBodyTemp = 0;
-    float sumRoomTemp = 0;
-    
-    NSNumber *avgBodyTemp = [NSNumber numberWithFloat:0.0];
-    NSNumber *avgRoomTemp = [NSNumber numberWithFloat:0.0];
-    
-    NSString *originStr = @"";
-    
-    for (int j=limitHour; j<dataRange; j++) {
+    for (int i=dataRange-1; i>=limitHour; i--) {
         
-        NSDate *pastDate = [currentDate dateByAddingTimeInterval:-60.0f*60.0f*j];
+        NSDate *currentDate = [NSDate date];
+        
+        NSDate *pastDate;
+        
+        NSString *latestTime = @"";
+        
+        if (dataCount == 14) {
+            
+            Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep, STRFTIME(\"%%Y-%%m-%%d %%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d\", \"date\") = strftime(\"%%Y-%%m-%%d\", \"now\", \"localtime\", \"-%d day\")  AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
+            
+            pastDate = [currentDate dateByAddingTimeInterval:-24.0f*60.0f*60.0f*i];
+            
+        }else{
+            
+            Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep, STRFTIME(\"%%Y-%%m-%%d %%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", \"date\") = strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\")  AND accountID = %d ORDER BY date DESC",i,[LocalData sharedInstance].accountID];
+            
+            pastDate = [currentDate dateByAddingTimeInterval:-60.0f*60.0f*i];
+            
+        }
+        
+        
+        DataArray = [self SELECT:Command Num:3];//SELECT:指令：幾筆欄位
+        
+        NSLog(@"command i =%d",i);
+        
+        NSLog(@"DataArray = %@",DataArray);
         
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.dateFormat = @"MM/dd HH:00";
         [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
         latestTime = [dateFormatter stringFromDate:pastDate];
-
-        //判斷是有有資料
+        
+        float sumBodyTemp = 0;
+        float sumRoomTemp = 0;
+        
+        NSNumber *avgBodyTemp = [NSNumber numberWithFloat:0.0];
+        NSNumber *avgRoomTemp = [NSNumber numberWithFloat:0.0];
+        
+            //判斷是有有資料
         if ([[DataArray firstObject] count] != 1) {
-            
+                
             for (int i=0; i<DataArray.count; i++) {
-                NSString *comparedTime = [NSString stringWithFormat:@"%@",[[DataArray objectAtIndex:i] objectAtIndex:2]];
                 
-                comparedTime = [comparedTime substringToIndex:2];
-            
-                
-                sumBodyTemp = [[[DataArray objectAtIndex:i] objectAtIndex:0] floatValue];
-                
-                NSLog(@"comparedTime = %@",comparedTime);
+                sumBodyTemp += [[[DataArray objectAtIndex:i] objectAtIndex:0] floatValue];
+                sumRoomTemp += [[[DataArray objectAtIndex:i] objectAtIndex:1] floatValue];
             }
             
             
@@ -117,10 +131,11 @@
         
         [resultArray addObject:resultDict];
         
-        NSLog(@"Temp data resultArray = %@",resultArray);
         
     }
     
+    NSLog(@"Temp data resultArray = %@",resultArray);
+
     return resultArray;
     
 }
@@ -161,7 +176,7 @@
     NSNumber *roomTempNum = [NSNumber numberWithFloat:0.0];
     
     
-    for (int i=DataArray.count-1; i>=0; i--) {
+    for (int i=0; i<DataArray.count; i++) {
         
         if ([[DataArray firstObject] count] != 1) {
             bodyTempNum = [NSNumber numberWithFloat:[[[DataArray objectAtIndex:i] firstObject] floatValue]];
@@ -206,10 +221,10 @@
     }
     NSMutableArray* DataArray = [NSMutableArray new];
     
-    NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep,BT_PhotoPath, BT_Note, BT_RecordingPath, STRFTIME(\"%%Y/%%m/%%d %%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", \"date\") >= strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND accountID = %d ORDER BY date DESC",dataRange,limitHour,[LocalData sharedInstance].accountID];
+    NSString *Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep,BT_PhotoPath, BT_Note, BT_RecordingPath,BT_ID, STRFTIME(\"%%Y/%%m/%%d %%H:%%M\",\"date\") FROM BTList WHERE strftime(\"%%Y-%%m-%%d %%H\", \"date\") >= strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d %%H\", \"now\", \"localtime\", \"-%d hour\") AND accountID = %d ORDER BY date DESC",dataRange,limitHour,[LocalData sharedInstance].accountID];
     
     
-    DataArray = [self SELECT:Command Num:6];//SELECT:指令：幾筆欄位
+    DataArray = [self SELECT:Command Num:7];//SELECT:指令：幾筆欄位
     
     NSLog(@"list temp DataArray = %@",DataArray);
     
@@ -221,7 +236,10 @@
             NSString *photoPathStr = [[DataArray objectAtIndex:i] objectAtIndex:2];
             NSString *noteStr = [[DataArray objectAtIndex:i] objectAtIndex:3];
             NSString *recordingPathStr = [[DataArray objectAtIndex:i] objectAtIndex:4];
-            NSString *dateStr = [[DataArray objectAtIndex:i] objectAtIndex:5];
+            
+            NSString *IDStr = [[DataArray objectAtIndex:i] objectAtIndex:5];
+            NSString *dateStr = [[DataArray objectAtIndex:i] objectAtIndex:6];
+            NSString *listTypeStr = @"2";
             
             NSDictionary *dataDict = [[NSDictionary alloc] initWithObjectsAndKeys:
                                       bodyTempStr,@"bodyTemp",
@@ -229,7 +247,9 @@
                                       photoPathStr,@"photoPath",
                                       noteStr,@"note",
                                       recordingPathStr,@"recordingPath",
+                                      IDStr,@"ID",
                                       dateStr,@"date",
+                                      listTypeStr,@"listType",
                                       nil];
             
             [resultArray addObject:dataDict];
@@ -244,12 +264,65 @@
     
 }
 
+//圖表資料 泡泡框
+-(NSDictionary *)selectTempAvgValueWithRange:(int)dataRange count:(int)dataCount{
+    
+    NSMutableArray* DataArray = [NSMutableArray new];
+    
+    NSString *Command;
+    
+    int rangeLimit = 0;
+    
+    if (dataCount != -1) {
+        rangeLimit = dataRange - dataCount;
+    }else{
+        rangeLimit = dataRange-1;
+    }
+    
+    dataRange -= 1;
+    
+    if (dataCount == 12) {
+        Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep FROM BTList WHERE STRFTIME(\"%%Y-%%m\",\"date\") >= STRFTIME(\"%%Y-%%m\",\"now\", \"localtime\",\"-%d month\") AND STRFTIME(\"%%Y-%%m\",\"date\") <= STRFTIME(\"%%Y-%%m\",\"now\", \"localtime\",\"-%d month\") AND accountID = %d ORDER BY date DESC",dataRange,rangeLimit,[LocalData sharedInstance].accountID];
+    }else{
+        Command = [NSString stringWithFormat:@"SELECT bodyTemp,roomTmep FROM BTList WHERE STRFTIME(\"%%Y-%%m-%%d %%H\",\"date\") >= STRFTIME(\"%%Y-%%m-%%d %%H\",\"now\", \"localtime\",\"-%d hour\") AND STRFTIME(\"%%Y-%%m-%%d %%H\",\"date\") <= STRFTIME(\"%%Y-%%m-%%d %%H\",\"now\", \"localtime\",\"-%d hour\") AND accountID = %d ORDER BY date DESC",dataRange,rangeLimit,[LocalData sharedInstance].accountID];
+    }
+    
+    DataArray = [self SELECT:Command Num:2];//SELECT:指令：幾筆欄位
+    
+    NSLog(@"DataArray = %@",DataArray);
+    
+    float bodyTempSum = 0;
+    NSNumber *lastTemp = [NSNumber numberWithFloat:0];
+    NSNumber *avgTemp = [NSNumber numberWithFloat:0];
+    
+    if ([[DataArray firstObject] count] != 1) {
+        
+        for (int i=0; i<DataArray.count; i++) {
+            bodyTempSum += [[[DataArray objectAtIndex:i] objectAtIndex:0] floatValue];
+        }
+        
+        float lastTempVal = [[[DataArray firstObject] objectAtIndex:0] floatValue];
+        
+        avgTemp = [NSNumber numberWithFloat:bodyTempSum/DataArray.count];
+        lastTemp = [NSNumber numberWithFloat:lastTempVal];
+        
+    }
+    
+    NSDictionary *dataDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                              avgTemp,@"avgTemp",
+                              lastTemp,@"lastTemp",nil];
+    
+    
+    return dataDict;
+    
+}
+
 
 - (void)updateData{
 
     
-    NSString *SQLStr = [NSString stringWithFormat:@"UPDATE BTList SET  accountID = \"%d\", eventID = \"%d\", bodyTemp = \"%@\", roomTmep = \"%@\",date = \"%@\",BT_PhotoPath = \"%@\",BT_Note = \"%@\",BT_RecordingPath = \"%@\" WHERE BT_ID = \"%d\""
-                         , accountID, eventID, bodyTemp, roomTmep,date,BT_PhotoPath,BT_Note,BT_RecordingPath ,BT_ID];
+    NSString *SQLStr = [NSString stringWithFormat:@"UPDATE BTList SET bodyTemp = \"%@\", roomTmep = \"%@\",date = \"%@\",BT_PhotoPath = \"%@\",BT_Note = \"%@\",BT_RecordingPath = \"%@\" WHERE BT_ID = %d AND accountID = %d"
+                         , bodyTemp,roomTmep,date,BT_PhotoPath,BT_Note,BT_RecordingPath ,BT_ID, [LocalData sharedInstance].accountID];
     
     
     [self COLUMN_UPDATE:SQLStr];

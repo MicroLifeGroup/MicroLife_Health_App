@@ -39,6 +39,21 @@
     
     BOOL isRecord;
     BOOL isPlay;
+    BOOL hasOldRecord;
+    BOOL didRecord;
+    BOOL didSave;
+    
+    int totalRecordTime;
+    
+    NSURL *outputFileURL;
+    NSDictionary *listDict;
+    int dataID;
+    NSString *noteStr;
+    NSString *photoPath;
+    NSString *recordPath;
+    NSString *newRecordPath;
+    int listType;
+    
 }
 
 @end
@@ -81,13 +96,53 @@
     //錄音初始化
     
     // Set the audio file
-    NSArray *pathComponents = [NSArray arrayWithObjects:
-                               [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
-                               @"MyAudioMemo.m4a",
-                               nil];
+//    NSArray *pathComponents = [NSArray arrayWithObjects:
+//                               [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
+//                               @"MyAudioMemo.m4a",
+//                               nil];
     
-    NSURL *outputFileURL = [NSURL fileURLWithPathComponents:pathComponents];
+    //NSURL *outputFileURL = [NSURL fileURLWithPathComponents:pathComponents];
     
+    listDict = [[LocalData sharedInstance] getEditListDict];
+    
+    dataID = [[listDict objectForKey:@"ID"] intValue];
+    noteStr = [listDict objectForKey:@"note"];
+    photoPath = [listDict objectForKey:@"photoPath"];
+    recordPath = [listDict objectForKey:@"recordingPath"];
+    listType = [[listDict objectForKey:@"listType"] intValue];
+
+    NSLog(@"recordPath = %@",recordPath);
+    NSLog(@"photoPath = %@",photoPath);
+    NSLog(@"noteStr = %@",noteStr);
+    
+    if ([noteStr isEqualToString:@""] || noteStr == nil) {
+        noteStr = @" ";
+    }
+    
+    didRecord = NO;
+    didSave = NO;
+    newRecordPath = [self getPathFile];
+    
+    NSLog(@"newRecordPath = %@",newRecordPath);
+    
+    outputFileURL = [NSURL fileURLWithPath:newRecordPath];
+    
+    hasOldRecord = NO;
+    
+    if (recordPath.length != 0) {
+        
+        hasOldRecord = YES;
+    }
+    
+    [self setUpAudioRecord];
+    
+    
+    isRecord = NO;
+    isPlay = NO;
+    
+}
+
+-(void)setUpAudioRecord{
     // Setup audio session
     AVAudioSession *session = [AVAudioSession sharedInstance];
     [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
@@ -107,22 +162,32 @@
     [recordSetting setValue:[NSNumber numberWithFloat:44100.0] forKey:AVSampleRateKey];
     [recordSetting setValue:[NSNumber numberWithInt: 2] forKey:AVNumberOfChannelsKey];
     
+    NSLog(@"outputFileURL = %@",outputFileURL);
+    
     // Initiate and prepare the recorder
     audioRecoder = [[AVAudioRecorder alloc] initWithURL:outputFileURL settings:recordSetting error:NULL];
     audioRecoder.delegate = self;
     audioRecoder.meteringEnabled = YES;
     [audioRecoder prepareToRecord];
-    
-    isRecord = NO;
-    isPlay = NO;
-    
+
 }
 
 - (NSString *)getPathFile {
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentPath = [paths firstObject];
-    NSString *dbPath = [documentPath stringByAppendingPathComponent:@"sound.caf"];
+    
+    NSDate *currentDate = [NSDate date];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    
+    formatter.dateFormat = @"YYYY-MM-DD_HH:mm:ss";
+    
+    NSString *dateString = [formatter stringFromDate:currentDate];
+    
+    newRecordPath = [NSString stringWithFormat:@"record-%@.caf",dateString];
+    
+    NSString *dbPath = [documentPath stringByAppendingPathComponent:newRecordPath];
     
     NSLog(@"%@",dbPath);
     return dbPath;
@@ -190,7 +255,7 @@
     
     noteTextView = [[UITextView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2-self.view.frame.size.width*0.9/2, 0, self.view.frame.size.width*0.9, SCREEN_HEIGHT*0.074)];
     [noteTextView setFont:[UIFont systemFontOfSize:15.0]];
-    noteTextView.text = @"note...   ";
+    noteTextView.text = noteStr;
     noteTextView.scrollEnabled = NO;
     noteTextView.delegate = self;
     
@@ -267,6 +332,12 @@
     [actionBtnBase addSubview:recordTimeLab];
     [actionBtnBase addSubview:recordRedView];
     
+    
+    if(hasOldRecord){
+        playTimeLab.text = recordTimeStr;
+        recordView.hidden = NO;
+    }
+    
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification {
@@ -308,12 +379,32 @@
     }else{
         deleteImgBtn.hidden = YES;
     }
+
+    NSURL *oldRecordPath = [NSURL fileURLWithPath:recordPath];
+    
+    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:oldRecordPath error:nil];
+    [audioPlayer setDelegate:self];
+    [audioPlayer play];
 }
 
 #pragma mark - Button actions
 -(void)playRecord{
 
-    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:audioRecoder.url error:nil];
+    if (hasOldRecord && !didRecord) {
+        
+        NSURL *oldRecordPath = [NSURL fileURLWithPath:recordPath];
+        
+        NSLog(@"play recordPath = %@",oldRecordPath);
+        
+        audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:oldRecordPath error:nil];
+        
+    }else{
+        
+        NSLog(@"audioRecoder.url = %@",audioRecoder.url);
+        
+        audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:audioRecoder.url error:nil];
+    }
+    
     [audioPlayer setDelegate:self];
     
     
@@ -347,7 +438,9 @@
     recordView.hidden = YES;
     [audioPlayer stop];
     isPlay = NO;
-    
+    didRecord = NO;
+    hasOldRecord = NO;
+    recordPath = newRecordPath;
     NSLog(@"deleteReocrd");
 }
 
@@ -387,6 +480,14 @@
     CGRect circleFrame = CGRectMake(recordBtn.center.x-recordCircelSize/2, recordBtn.center.y-recordCircelSize/2, recordCircelSize, recordCircelSize);
     
     UIImageView *whiteMicro;
+    
+    didRecord = YES;
+    
+    if (hasOldRecord) {
+        NSError *error;
+        
+        [[NSFileManager defaultManager]removeItemAtPath:recordPath error:&error];
+    }
     
     if ( gesture.state == UIGestureRecognizerStateBegan ) {
         NSLog(@"Long Press began");
@@ -474,6 +575,8 @@
         recordMin = audioPlayer.currentTime/60;
         recordSec = audioPlayer.currentTime-recordMin*60;
         
+        
+        NSLog(@"audioPlayer.currentTime = %f",audioPlayer.currentTime);
         playTimeLab.text = [NSString stringWithFormat:@"%02d:%02d",recordMin,recordSec];
         NSLog(@"playTimeLab = %@",playTimeLab.text);
     }
@@ -485,6 +588,9 @@
     if ([recordTimeStr isEqualToString:@""] || recordTimeStr == nil) {
         recordTimeStr = @"00:00";
     }
+    
+    recordPath = newRecordPath;
+    NSLog(@"recordPath = %@",recordPath);
     
     playTimeLab.text = recordTimeStr;
     recordView.hidden = NO;
@@ -518,7 +624,7 @@
 #pragma mark - TextView elegate
 -(void)textViewDidBeginEditing:(UITextView *)textView{
     
-    if ([noteTextView.text isEqualToString:@"note...   "]) {
+    if ([noteTextView.text isEqualToString:@" "]) {
         noteTextView.text = @"";
     }
     
@@ -559,13 +665,77 @@
 
 -(void)backToListVC{
     
+    if(!didRecord || !didSave){
+        
+        NSError *error;
+        
+        [[NSFileManager defaultManager]removeItemAtPath:newRecordPath error:&error];
+    }
+    
     [[self navigationController] setNavigationBarHidden:YES animated:NO];
     
     [self.navigationController popViewControllerAnimated:YES];
     
 }
 
+-(void)updateBPMdata{
+    
+    //資料庫日期格式需為YYYY-MM-dd
+    NSString *dateStr = [listDict objectForKey:@"date"];
+    dateStr = [dateStr stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
+    
+    [BPMClass sharedInstance].BPM_ID = dataID;
+    [BPMClass sharedInstance].SYS = [[listDict objectForKey:@"SYS"] intValue];
+    [BPMClass sharedInstance].DIA = [[listDict objectForKey:@"DIA"] intValue];
+    [BPMClass sharedInstance].PUL = [[listDict objectForKey:@"PUL"] intValue];
+    [BPMClass sharedInstance].AFIB = [[listDict objectForKey:@"AFIB"] intValue];
+    [BPMClass sharedInstance].PAD = [[listDict objectForKey:@"PAD"] intValue];
+    [BPMClass sharedInstance].date = dateStr;
+    [BPMClass sharedInstance].BPM_Note = noteStr;
+    [BPMClass sharedInstance].BPM_PhotoPath = @"";
+    [BPMClass sharedInstance].BPM_RecordingPath = recordPath;
+    
+    [[BPMClass sharedInstance] updateData];
+    
+    NSLog(@"selectAllData = %@",[[BPMClass sharedInstance] selectAllData]);
+}
+
+-(void)updateTempData{
+    //資料庫日期格式需為YYYY-MM-dd
+    NSString *dateStr = [listDict objectForKey:@"date"];
+    dateStr = [dateStr stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
+    
+    [BTClass sharedInstance].BT_ID = dataID;
+    [BTClass sharedInstance].bodyTemp = [listDict objectForKey:@"bodyTemp"];
+    [BTClass sharedInstance].roomTmep = [listDict objectForKey:@"roomTemp"];
+    [BTClass sharedInstance].BT_Note = noteStr;
+    [BTClass sharedInstance].BT_PhotoPath = photoPath;
+    [BTClass sharedInstance].BT_RecordingPath = recordPath;
+    [BTClass sharedInstance].date = dateStr;
+    
+    [[BTClass sharedInstance] updateData];
+    
+    NSLog(@"Temp selectAllData = %@",[[BTClass sharedInstance] selectAllData]);
+}
+
 -(void)saveNoteAction{
+    
+    noteStr = noteTextView.text;
+    
+    didSave = YES;
+    
+    switch (listType) {
+        case 0:
+            [self updateBPMdata];
+            break;
+        case 2:
+            [self updateTempData];
+            break;
+        default:
+            break;
+    }
+    
+    [self.navigationController popViewControllerAnimated:YES];
     
 }
 

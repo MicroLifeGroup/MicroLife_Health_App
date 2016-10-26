@@ -10,7 +10,7 @@
 
 @implementation LocalData
 
-@synthesize UserAge,UserHeight,UserWeight,metric,PULUnit,targetSYS,targetDIA,targetWeight,targetFat,measureSpec,userArea,UserGender,standerBMI,standerFat;
+@synthesize UserAge,UserHeight,UserWeight,metric,PULUnit,targetSYS,targetDIA,targetWeight,targetFat,measureSpec,userArea,UserGender,standerBMI,standerFat,showTargetDIA,showTargetSYS,showTargetFat,showTargetWeight;
 
 +(LocalData*) sharedInstance{
     static LocalData *sharedInstance;
@@ -47,6 +47,7 @@
     
     listDataArray = [[NSMutableArray alloc] initWithCapacity:0];
     
+    editListDict = [[NSDictionary alloc] init];
     
     //基本資料
     measureSpec = 1;
@@ -57,10 +58,14 @@
     metric = 0;//0 = KG CM   1=lb
     PULUnit = 0;//0=bpm   1=beats;
     targetSYS = 135;
-    targetDIA = 85;
+    targetDIA = 80;
     targetWeight = 60.0;
     targetFat = 9.0;
     userArea = 0;
+    showTargetSYS = NO;
+    showTargetDIA = YES;
+    showTargetWeight = YES;
+    showTargetFat = YES;
     
     if (userArea == 0) {
         standerBMI = 23;
@@ -149,6 +154,14 @@
 
 -(NSMutableArray *)getListData{
     return listDataArray;
+}
+
+-(void)setEditListDict:(NSDictionary *)dataDict{
+    editListDict = dataDict;
+}
+
+-(NSDictionary *)getEditListDict{
+    return editListDict;
 }
 
 
