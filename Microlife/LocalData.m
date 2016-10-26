@@ -78,6 +78,9 @@
     }else{
         standerBMI = 31;
     }
+    
+    //目前選擇的溫度計事件 -1為無新增使用者
+    self.currentEventId = -1;
 }
 
 -(void)saveReminderData:(NSMutableArray *)dataArray{

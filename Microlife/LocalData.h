@@ -44,6 +44,7 @@
 @property BOOL showTargetFat;
 @property (nonatomic, strong) NSString *birthday;
 
+@property int currentEventId;
 
 //歷史泡泡框
 @property (nonatomic) float avgBodyTemp;
