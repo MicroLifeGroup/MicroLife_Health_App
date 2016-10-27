@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AddMailNotificationViewController.h"
 #import "EditMailNotificationViewController.h"
 #import "MemberCell.h"
 
@@ -14,23 +15,30 @@
     //,postValueDelegate
     
     UITableView *MailTableView;
-    NSMutableArray *person;
     NSString *str;
-   
-    
-  
     
     UITableView *MailNotificationTableView;
-    NSMutableArray *mailItem;
-
+    
+    UILabel *pnavLabel;
+    UIButton *navbackBtn;
+    UIButton *navselectBtn;
+    UIButton *navdeleteBtn;
+    UIButton *navcancelBtn;
+    
+    NSMutableArray *tableviewSelectTag;
+    
     
     
 }
 
 @property (nonatomic,retain)UITableView *MailNotificationTableView;
 @property(strong,nonatomic) UITableView *MailTableView;
-@property(strong,nonatomic) NSMutableArray *person;
 @property(strong,nonatomic) NSString *str;
+@property(strong,nonatomic) NSString *nameString;
+@property(strong,nonatomic) NSString *emailString;
+@property(nonatomic,retain) NSArray *person;
+@property BOOL navSelectBtn_isSelected;
+
 
 
 // 定義一個全局變數來接收行數

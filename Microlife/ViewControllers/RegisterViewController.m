@@ -402,7 +402,7 @@
     //设置文本对齐方式
     emailTextField.textAlignment = NSTextAlignmentJustified;
     //设置字体
-    emailTextField.font = [UIFont systemFontOfSize:26];
+    emailTextField.font = [UIFont systemFontOfSize:22];
     //emailTextField.font = [UIFont fontWithName:@"wawati sc" size:50];
     //设置编辑框中删除按钮的出现模式
     emailTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -436,7 +436,7 @@
     //设置文本对齐方式
     passwordTextField.textAlignment = NSTextAlignmentJustified;
     //设置字体
-    passwordTextField.font = [UIFont systemFontOfSize:26];
+    passwordTextField.font = [UIFont systemFontOfSize:22];
     //emailTextField.font = [UIFont fontWithName:@"wawati sc" size:50];
     //设置编辑框中删除按钮的出现模式
     passwordTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -463,7 +463,7 @@
     //设置文本对齐方式
     confirmPasswordTextField.textAlignment = NSTextAlignmentJustified;
     //设置字体
-    confirmPasswordTextField.font = [UIFont systemFontOfSize:26];
+    confirmPasswordTextField.font = [UIFont systemFontOfSize:22];
     //设置编辑框中删除按钮的出现模式
     confirmPasswordTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     //設置鍵盤格式
@@ -496,7 +496,7 @@
     //    textField.background=[UIImage imageNamed:@"test.png"];
     birthdayTF.borderStyle =  UITextBorderStyleNone;
     birthdayTF.textAlignment = NSTextAlignmentJustified;
-    birthdayTF.font = [UIFont systemFontOfSize:26];
+    birthdayTF.font = [UIFont systemFontOfSize:22];
     //emailTextField.font = [UIFont fontWithName:@"wawati sc" size:50];
     birthdayTF.clearButtonMode = UITextFieldViewModeWhileEditing;
     [birthdayTF setKeyboardType:UIKeyboardTypeASCIICapable];
@@ -519,7 +519,7 @@
     //    textField.background=[UIImage imageNamed:@"test.png"];
     countryTF.borderStyle =  UITextBorderStyleNone;
     countryTF.textAlignment = NSTextAlignmentJustified;
-    countryTF.font = [UIFont systemFontOfSize:26];
+    countryTF.font = [UIFont systemFontOfSize:22];
     //emailTextField.font = [UIFont fontWithName:@"wawati sc" size:50];
     countryTF.clearButtonMode = UITextFieldViewModeWhileEditing;
     [countryTF setKeyboardType:UIKeyboardTypeASCIICapable];
@@ -587,7 +587,7 @@
     [registerBtn setTitle:@"Register" forState:UIControlStateNormal];
     [registerBtn setTitleColor:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:0.9] forState:UIControlStateNormal];
     registerBtn.userInteractionEnabled = NO;
-    registerBtn.titleLabel.font = [UIFont systemFontOfSize:26];
+    registerBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     
     registerBtn.backgroundColor = [UIColor colorWithRed:168/255 green:168/255 blue:165/255 alpha:0.4];
     
@@ -714,7 +714,7 @@
     [self validateEmail:emailTextField.text];
     
     if(passwordTextField.text.length<6 ||passwordTextField.text.length>12){
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Alert" message:@"Error password! Please enter between 6-12 numbers or letters." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error password! Please enter between 6-12 numbers or letters." message:@"" preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:nil];
         

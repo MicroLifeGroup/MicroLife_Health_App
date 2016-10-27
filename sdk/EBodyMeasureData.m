@@ -79,11 +79,11 @@
     
     
     int valthleteLevel = [hs parseInt:2];
-    althleteLevel = valthleteLevel & 0x30 >> 4;
+    althleteLevel = (valthleteLevel & 0x30) >> 4;
     
     int genderAge = [hs parseInt:2];
     
-    gender = genderAge & 0x80 >> 7;
+    gender = (genderAge & 0x80) >> 7;
     age = genderAge & 0x7f ;
     
     height = [hs parseInt:2];
@@ -91,8 +91,8 @@
     int  fat_l =  [hs parseInt:2];
     
     int fatHWaterH =  [hs parseInt:2];
-    int fatH = fatHWaterH & 0xf0 >>4;
-    fat =( fatH<<8 | fat_l ) /10.0;
+    int fatH = (fatHWaterH & 0xf0) >>4;
+    fat =( (fatH<<8) | fat_l ) /10.0;
     
     
     int waterH = fatHWaterH & 0x0f;

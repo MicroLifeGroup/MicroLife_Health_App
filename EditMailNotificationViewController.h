@@ -25,7 +25,11 @@
 @property(strong,nonatomic) UITextField *textInfo;
 @property(strong,nonatomic) NSString *str;
 @property(strong,nonatomic) id<postValueDelegate> delegate;
-
+@property (nonatomic,retain) NSString *editNameStr;
+@property (nonatomic,retain) NSString *editEmailStr;
+@property int editIndex;
+//@property (nonatomic,retain) NSString *editName;
+//@property ()
 
 
 @end

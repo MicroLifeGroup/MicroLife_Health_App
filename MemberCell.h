@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface MemberCell : UITableViewCell
-@property (strong, nonatomic) IBOutlet UIButton *checkboxBtn;
+@property (weak, nonatomic) IBOutlet UIImageView *checkBox;
+
 @property (strong, nonatomic) IBOutlet UILabel *MemberL;
 
 @end

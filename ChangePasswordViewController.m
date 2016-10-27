@@ -68,10 +68,10 @@
     [self.view addSubview:navbackBtn];
     
     UIButton *navsaveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    navsaveBtn.frame = CGRectMake(self.view.frame.size.width*0.8, self.view.frame.size.height*0.02, self.view.frame.size.width/5, self.view.frame.size.height*0.07);
+    navsaveBtn.frame = CGRectMake(self.view.frame.size.width*0.78, self.view.frame.size.height*0.02, self.view.frame.size.width/5, self.view.frame.size.height*0.07);
     [navsaveBtn setTitle:@"Save" forState:UIControlStateNormal];
     [navsaveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    navsaveBtn.titleLabel.font = [UIFont systemFontOfSize:21];
+    navsaveBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     navsaveBtn.backgroundColor = [UIColor clearColor];
     navsaveBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     //navbackBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
@@ -93,7 +93,7 @@
 
 -(void)changepasswordV{
     
-    float changeH = self.view.frame.size.height*0.13;
+    float changeH = 66;
     
     UIView *changebview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     changebview.backgroundColor = [UIColor colorWithRed:246.0f/255.0f green:246.0f/255.0f blue:246.0f/255.0f alpha:1.0];
@@ -137,7 +137,7 @@
     //设置文本对齐方式
     Password_cTextField.textAlignment = NSTextAlignmentJustified;
     //设置字体
-    Password_cTextField.font = [UIFont systemFontOfSize:26];
+    Password_cTextField.font = [UIFont systemFontOfSize:17];
     //emailTextField.font = [UIFont fontWithName:@"wawati sc" size:50];
     //设置编辑框中删除按钮的出现模式
     Password_cTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -164,7 +164,7 @@
     //设置文本对齐方式
     NewPasswordTextField.textAlignment = NSTextAlignmentJustified;
     //设置字体
-    NewPasswordTextField.font = [UIFont systemFontOfSize:26];
+    NewPasswordTextField.font = [UIFont systemFontOfSize:17];
     //emailTextField.font = [UIFont fontWithName:@"wawati sc" size:50];
     //设置编辑框中删除按钮的出现模式
     NewPasswordTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -192,7 +192,7 @@
     //设置文本对齐方式
     ComfirmNewPasswordTextField.textAlignment = NSTextAlignmentJustified;
     //设置字体
-    ComfirmNewPasswordTextField.font = [UIFont systemFontOfSize:26];
+    ComfirmNewPasswordTextField.font = [UIFont systemFontOfSize:17];
     //设置编辑框中删除按钮的出现模式
     ComfirmNewPasswordTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     //設置鍵盤格式

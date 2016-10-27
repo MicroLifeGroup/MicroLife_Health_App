@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MailNotificationViewController.h"
+#import "RegisterViewController.h"
 
 @interface AddMailNotificationViewController : UIViewController<UITextFieldDelegate>{
     

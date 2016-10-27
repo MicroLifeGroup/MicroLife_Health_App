@@ -15,26 +15,22 @@
                 <frame key="frameInset" width="352" height="52"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WHy-IL-jw5">
-                        <frame key="frameInset" minX="27" minY="11" width="30" height="30"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <state key="normal" image="all_select_a_0"/>
-                        <connections>
-                            <action selector="checkboxSelected:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="C1F-6v-uWO"/>
-                        </connections>
-                    </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uei-sc-ZUw">
-                        <frame key="frameInset" minX="88" minY="8" width="256" height="36"/>
+                        <frame key="frameInset" minX="76" width="276" height="52"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="all_select_a_0" translatesAutoresizingMaskIntoConstraints="NO" id="NsG-FD-VVK">
+                        <frame key="frameInset" minX="26" minY="13" width="26" height="26"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
                 </subviews>
             </tableViewCellContentView>
             <connections>
                 <outlet property="MemberL" destination="Uei-sc-ZUw" id="JeV-Ra-zH4"/>
-                <outlet property="checkboxBtn" destination="WHy-IL-jw5" id="H4C-hs-Wcs"/>
+                <outlet property="checkBox" destination="NsG-FD-VVK" id="nb4-aK-d6O"/>
             </connections>
             <point key="canvasLocation" x="294" y="379.5"/>
         </tableViewCell>

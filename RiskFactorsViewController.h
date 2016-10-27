@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "RiskFactorCell.h"
 
-@interface RiskFactorsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>{
+@interface RiskFactorsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>{
     
     UIButton *rfselectBtn;
     NSMutableArray *RFArray;
     UITableView *RFTableView;
+    
     
     
 }

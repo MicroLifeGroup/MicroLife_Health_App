@@ -7,28 +7,13 @@
 //
 
 #import "RiskFactorCell.h"
+#import "RiskFactorsViewController.h"
 
-@implementation RiskFactorCell
-- (IBAction)RFcheckbox:(id)sender {
-    
-    _RFcheckbox.selected = !_RFcheckbox.selected;
-    //每次點擊都會改變按鈕的狀態
-    
-    if ( _RFcheckbox.selected) {
-        //在此實現打勾時的方法
-        [ _RFcheckbox setImage:[UIImage imageNamed:@"all_select_a_1"] forState:UIControlStateSelected];
-        
-        
-    }else{
-        //在此實現不打勾時的方法
-        [ _RFcheckbox setImage:[UIImage imageNamed:@"all_select_a_0"] forState:UIControlStateNormal];
-        
-    }
+@implementation RiskFactorCell 
 
-    
-    
-    
-}
+@synthesize isSelected,RFcheckbox,m_superVC;
+
+
 
 - (void)awakeFromNib {
     [super awakeFromNib];

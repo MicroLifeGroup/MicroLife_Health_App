@@ -85,7 +85,7 @@
     UILabel *orl = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.45, self.view.frame.size.height*0.22, self.view.frame.size.width*0.1, self.view.frame.size.width*0.1)];
     orl.textColor = [UIColor blackColor];
     orl.alpha = 0.9;
-    orl.font = [UIFont systemFontOfSize:22];
+    orl.font = [UIFont systemFontOfSize:17];
     orl.textAlignment = NSTextAlignmentCenter;
     orl.text = @"Or";
     [loginView addSubview:orl];
@@ -97,7 +97,7 @@
     loginBtn.backgroundColor = [UIColor colorWithRed:168/255 green:168/255 blue:165/255 alpha:0.4];
     [loginBtn setTitle:@"Log in" forState:UIControlStateNormal];
     [loginBtn setTitleColor:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:0.9] forState:UIControlStateNormal];
-    loginBtn.titleLabel.font = [UIFont systemFontOfSize:26];
+    loginBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     loginBtn.userInteractionEnabled = NO;
     
     [loginBtn addTarget:self action:@selector(loginBtnClicked) forControlEvents:UIControlEventTouchUpInside];
@@ -111,7 +111,7 @@
     goRegBtn.backgroundColor = [UIColor colorWithRed:0/255 green:61.0/255.0 blue:165.0/255.0 alpha:1.0];
     [goRegBtn setTitle:@"Register" forState:UIControlStateNormal];
     [goRegBtn setTitleColor:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:0.9] forState:UIControlStateNormal];
-    goRegBtn.titleLabel.font = [UIFont systemFontOfSize:26];
+    goRegBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     goRegBtn.userInteractionEnabled = YES;
     
     [goRegBtn addTarget:self action:@selector(goRegBtnClicked) forControlEvents:UIControlEventTouchUpInside];
@@ -124,11 +124,11 @@
     
     //忘記密碼
     UIButton *forgetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    forgetBtn.frame = CGRectMake(0 , self.view.frame.size.height*0.66, self.view.frame.size.width, btnheight);
+    forgetBtn.frame = CGRectMake(0 , self.view.frame.size.height*0.63, self.view.frame.size.width, btnheight);
     forgetBtn.backgroundColor = [UIColor clearColor];
     [forgetBtn setTitle:@"Forgot password?" forState:UIControlStateNormal];
-    [forgetBtn setTitleColor:[UIColor colorWithRed:1/255 green:1/255 blue:255/255 alpha:1.0] forState:UIControlStateNormal];
-    forgetBtn.titleLabel.font = [UIFont systemFontOfSize:22];
+    [forgetBtn setTitleColor:STANDER_COLOR forState:UIControlStateNormal];
+    forgetBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     
     [forgetBtn addTarget:self action:@selector(forgetBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
@@ -141,7 +141,7 @@
     
     UIView *emailview = [[UIView alloc] initWithFrame:CGRectMake(0, emailY, self.view.frame.size.width*0.2, textH)];
     emailview.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:emailview];
+    [loginView addSubview:emailview];
     
     UIImageView *emailImgV = [[UIImageView alloc] initWithFrame:CGRectMake(textH*0.2, emailY+textH*0.2, textH*0.6, textH*0.6)];
     UIImage *emailImg= [UIImage imageNamed:@"all_icon_a_email"];
@@ -181,7 +181,7 @@
     //设置文本对齐方式
     emailTextField.textAlignment = NSTextAlignmentJustified;
     //设置字体
-    emailTextField.font = [UIFont systemFontOfSize:26];
+    emailTextField.font = [UIFont systemFontOfSize:22];
     //emailTextField.font = [UIFont fontWithName:@"wawati sc" size:50];
     //设置编辑框中删除按钮的出现模式
     emailTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -213,7 +213,7 @@
     //设置文本对齐方式
     passwordTextField.textAlignment = NSTextAlignmentJustified;
     //设置字体
-    passwordTextField.font = [UIFont systemFontOfSize:26];
+    passwordTextField.font = [UIFont systemFontOfSize:22];
     //emailTextField.font = [UIFont fontWithName:@"wawati sc" size:50];
     //设置编辑框中删除按钮的出现模式
     passwordTextField.clearButtonMode = UITextFieldViewModeWhileEditing;

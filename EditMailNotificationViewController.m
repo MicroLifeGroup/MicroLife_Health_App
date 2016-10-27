@@ -16,7 +16,7 @@
 
 @synthesize editEmailTextField;
 @synthesize editNameTextField;
-
+@synthesize editNameStr,editEmailStr;
 
 
 - (void)viewDidLoad {
@@ -24,12 +24,7 @@
     
     [self editV];
     
-    // 添加輸入框 UITextField
-//    self.textInfo=[[UITextField alloc] initWithFrame:CGRectMake(100, 100, 200, 50)];
-//    self.textInfo.borderStyle=2;
-//    self.textInfo.text=self.str;
-//    self.textInfo.delegate=self;
-//    [self.view addSubview:self.textInfo];
+
     
     [self editMnav];
  
@@ -72,15 +67,15 @@
     [self.view addSubview:navbackBtn];
     
     UIButton *navsaveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    navsaveBtn.frame = CGRectMake(self.view.frame.size.width*0.8, self.view.frame.size.height*0.02, self.view.frame.size.width/5, self.view.frame.size.height*0.07);
+    navsaveBtn.frame = CGRectMake(self.view.frame.size.width*0.78, self.view.frame.size.height*0.02, self.view.frame.size.width/5, self.view.frame.size.height*0.07);
     [navsaveBtn setTitle:@"Save" forState:UIControlStateNormal];
     [navsaveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    navsaveBtn.titleLabel.font = [UIFont systemFontOfSize:21];
+    navsaveBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     navsaveBtn.backgroundColor = [UIColor clearColor];
     navsaveBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     //navbackBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
     
-    [navsaveBtn addTarget:self action:@selector(gobackMailNotification) forControlEvents:UIControlEventTouchUpInside];
+    [navsaveBtn addTarget:self action:@selector(saveEdit) forControlEvents:UIControlEventTouchUpInside];
     
     
     [self.view addSubview:navsaveBtn];
@@ -88,6 +83,46 @@
     
     
 }
+
+-(void)saveEdit{
+    
+    if (editNameTextField.text.length < 1 || editEmailTextField.text.length < 1) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"The name can not be null! " message:@"" preferredStyle:UIAlertControllerStyleAlert];
+        
+        
+        UIAlertAction *ConfirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler: ^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        
+        [alertController addAction:ConfirmAction];
+        
+        
+        UIAlertAction *closeAction = [UIAlertAction actionWithTitle:@"Close" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:closeAction];
+        
+        
+        [self presentViewController:alertController animated:YES completion:nil];
+    }else{
+
+    
+    
+    //Save
+    
+    editNameStr = editNameTextField.text;
+    editEmailStr = editEmailTextField.text;
+    
+    NSDictionary *memberDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                editNameStr,@"name",
+                                editEmailStr,@"email",nil];
+    
+    [[LocalData sharedInstance] editMemberProfile:memberDict atIndexPath:self.editIndex];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+        
+    }
+}
+
+
 
 -(void)gobackMailNotification{
     
@@ -118,9 +153,8 @@
     editNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.25 , addY+1, self.view.frame.size.width, addH-1)];
     // 設定預設文字內容
     editNameTextField.placeholder = @"";
-    //emailTextField.text = @"";
-    NSString * str1 = editNameTextField.text;
-    editNameTextField.secureTextEntry = YES;
+    editNameTextField.text = editNameStr;
+    editNameTextField.secureTextEntry = NO;
     // 設定文字顏色
     editNameTextField.textColor = [UIColor blackColor];
     // Delegate
@@ -150,10 +184,9 @@
     // UITextField初始化
     editEmailTextField = [[UITextField alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.25 , addY+addH+1, self.view.frame.size.width, addH-1)];
     // 設定預設文字內容
-   editEmailTextField.placeholder = @"";
-    //emailTextField.text = @"";
-    NSString * str2 =editEmailTextField.text;
-    editEmailTextField.secureTextEntry = YES;
+    editEmailTextField.placeholder = @"";
+    editEmailTextField.text = editEmailStr;
+    editEmailTextField.secureTextEntry = NO;
     // 設定文字顏色
     editEmailTextField.textColor = [UIColor blackColor];
     // Delegate

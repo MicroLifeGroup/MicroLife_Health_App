@@ -75,5 +75,6 @@
 
 //Allen
 -(void)saveMemberProfile:(NSDictionary *)memberDict;
+-(void)editMemberProfile:(NSDictionary *)memberDict atIndexPath:(int)index;
 -(NSMutableArray *)returnMemberProfile;
 @end

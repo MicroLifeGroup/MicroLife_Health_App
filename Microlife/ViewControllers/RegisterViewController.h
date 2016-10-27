@@ -36,6 +36,7 @@
 
 -(BOOL)validateEmail:(NSString*)email;
 
+
 @property (nonatomic,retain)  UITextField  *confirmPasswordTextField;
 @property (nonatomic,retain)  UITextField  *birthdayTF;
 @property (nonatomic,retain)  UITextField  *countryTF;

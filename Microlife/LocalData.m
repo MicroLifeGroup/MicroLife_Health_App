@@ -135,7 +135,11 @@
 -(void)saveMemberProfile:(NSDictionary *)memberDict{
     
     [memberDataArray addObject:memberDict];
-    
+    NSLog(@"local memberDataArray = %@",memberDataArray);
+}
+
+-(void)editMemberProfile:(NSDictionary *)memberDict atIndexPath:(int)index{
+    [memberDataArray replaceObjectAtIndex:index withObject:memberDict];
 }
 
 -(NSMutableArray *)returnMemberProfile{

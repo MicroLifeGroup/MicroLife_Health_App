@@ -87,6 +87,13 @@
     
 }
 
+-(void)updateDateTextField:(id)sender{
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"YYYY/MM/dd HH:mm";
+    
+    dateTextField.text = [dateFormatter stringFromDate:datePickerView.date];
+}
 
 -(void)createViews {
     
@@ -97,6 +104,8 @@
     CGFloat viewHeight = self.view.frame.size.height/15;
     
     CGFloat space = 2.5;
+    
+    [datePickerView addTarget:self action:@selector(updateDateTextField:) forControlEvents:UIControlEventValueChanged];
     
     NSMutableArray<UIView *> *ary_bgview = [[NSMutableArray alloc] init];
     
@@ -162,8 +171,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-
-
 #pragma mark - saveUserData
 -(void)saveUserData {
     
@@ -171,6 +178,12 @@
     [ary_userDataStr addObject: nameTextField.text];
     [ary_userDataStr addObject: typeTextField.text];
     [ary_userDataStr addObject: dateTextField.text];
+    
+    [EventClass sharedInstance].type = typeTextField.text;
+    [EventClass sharedInstance].event = nameTextField.text;
+    [EventClass sharedInstance].eventTime = typeTextField.text;
+    
+    [[EventClass sharedInstance] insertData];
     
     NSLog(@"ary_userDataStr:%@",ary_userDataStr);
     

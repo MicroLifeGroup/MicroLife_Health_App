@@ -109,16 +109,10 @@
     [DeviceManagementTV reloadData];
     
     float setH = self.view.frame.size.height*0.09;
-    
-    
     float setAY = self.view.frame.size.height*0.05;
-    
-    float DMTV_Y = self.view.frame.size.height*0.4;
-    
+    float DMTV_Y = self.view.frame.size.height*0.417;
     NSInteger d = Devicearray.count;
-    
     float DMTV_H = setH*d;
-    
     float setY = self.view.frame.size.height*0.39+DMTV_H*1.04;
     
     
@@ -126,7 +120,8 @@
     settingSV = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     
     settingSV.backgroundColor = [UIColor colorWithRed:245.0f/255.0f green:245.0f/255.0f blue:245.0f/255.0f alpha:1.0];
-    settingSV.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height*1.22+DMTV_H);
+    settingSV.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height*1.17+DMTV_H);
+    
     settingSV.delegate = self;
     //settingSV.pagingEnabled = false;
     settingSV.showsVerticalScrollIndicator = false;
@@ -148,7 +143,7 @@
     
     
     
-    self.DeviceManagementTV = [[UITableView alloc]initWithFrame:CGRectMake(-1, DMTV_Y, self.view.frame.size.width+2, DMTV_H)];
+    self.DeviceManagementTV = [[UITableView alloc]initWithFrame:CGRectMake(-1, DMTV_Y+5, self.view.frame.size.width+2, DMTV_H)];
     
     self.DeviceManagementTV.delegate = self;
     self.DeviceManagementTV.dataSource = self;
@@ -199,6 +194,18 @@
     [profileBtn addTarget:self action:@selector(profileClick) forControlEvents:UIControlEventTouchUpInside];
     
     [self.settingSV addSubview:profileBtn];
+    
+    
+    UIButton *goprofileBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    goprofileBtn.frame = CGRectMake(self.view.frame.size.width*0.9, setH*0.315, setH*0.37, setH*0.37);
+    [goprofileBtn setImage:[UIImage imageNamed:@"all_icon_a_arrow_r"] forState:UIControlStateNormal ];
+    goprofileBtn.backgroundColor = [UIColor clearColor];
+    goprofileBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    [goprofileBtn addTarget:self action:@selector(goMailNotification) forControlEvents:UIControlEventTouchUpInside];
+    [profilebBtn addSubview:goprofileBtn];
+    
+    
+    
     
     CGRect mydevicelabelFrame = CGRectMake(self.view.frame.size.width*0.05, setAY+self.view.frame.size.height*0.17 , self.view.frame.size.width , 22);
     UILabel *mydeviceLabel = [[UILabel alloc] initWithFrame:mydevicelabelFrame];
@@ -259,7 +266,7 @@
     syncLabel.textAlignment = NSTextAlignmentLeft;
     [settingV addSubview:syncLabel];
     
-    syncview = [[UIView alloc] initWithFrame:CGRectMake(-1, self.view.frame.size.height*0.04, self.view.frame.size.width+2, setH*3.3+4)];
+    syncview = [[UIView alloc] initWithFrame:CGRectMake(-1, self.view.frame.size.height*0.04, self.view.frame.size.width+2, setH*2.2+2)];
     syncview.backgroundColor = [UIColor whiteColor];
     syncview.layer.borderWidth = 1;
     syncview.layer.borderColor = [UIColor colorWithRed:208.0f/255.0f green:215.0f/255.0f blue:217.0f/255.0f alpha:1.0].CGColor;
@@ -270,9 +277,10 @@
     [data1Label setTextColor:[UIColor colorWithRed:0.0f/255.0f green:0.0f/255.0f blue:0.0f/255.0f alpha:1.0 ]];
     //  data1Label.backgroundColor = [UIColor blueColor];
     data1Label.text = @"Data Sync";
-    data1Label.font = [UIFont systemFontOfSize:21];
+    data1Label.font = [UIFont systemFontOfSize:16];
     data1Label.textAlignment = NSTextAlignmentLeft;
     [settingV addSubview:data1Label];
+    data1Label.hidden = YES;
     
     CGRect data2Frame = CGRectMake(self.view.frame.size.width*0.33, self.view.frame.size.height*0.04+2.5 , self.view.frame.size.width*3/4 , setH*0.45);
     UILabel *data2Label = [[UILabel alloc] initWithFrame:data2Frame];
@@ -281,6 +289,7 @@
     data2Label.font = [UIFont systemFontOfSize:14];
     data2Label.textAlignment = NSTextAlignmentLeft;
     [settingV addSubview:data2Label];
+    data2Label.hidden = YES;
     
     CGRect data3Frame = CGRectMake(self.view.frame.size.width*0.05, self.view.frame.size.height*0.04+setH/2 , self.view.frame.size.width*3/4 , setH*0.55);
     UILabel *data3Label = [[UILabel alloc] initWithFrame:data3Frame];
@@ -291,7 +300,7 @@
     data3Label.font = [UIFont systemFontOfSize:13];
     data3Label.textAlignment = NSTextAlignmentLeft;
     [settingV addSubview:data3Label];
-    
+    data3Label.hidden = YES;
     
     
     UIView *syncline1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.05, setH*1.1+1+self.view.frame.size.height*0.04, self.view.frame.size.width*0.95, 1)];
@@ -300,16 +309,16 @@
     
     //=====================================================
     
-    CGRect health1Frame = CGRectMake(self.view.frame.size.width*0.05, self.view.frame.size.height*0.04+4+setH*1.1 , self.view.frame.size.width*0.3 , setH*0.45);
+    CGRect health1Frame = CGRectMake(self.view.frame.size.width*0.05, self.view.frame.size.height*0.04+2 , self.view.frame.size.width*0.3 , setH*0.45);
     UILabel *health1Label = [[UILabel alloc] initWithFrame:health1Frame];
     [health1Label setTextColor:[UIColor colorWithRed:0.0f/255.0f green:0.0f/255.0f blue:0.0f/255.0f alpha:1.0 ]];
     //  data1Label.backgroundColor = [UIColor blueColor];
     health1Label.text = @"Health Kit";
-    health1Label.font = [UIFont systemFontOfSize:21];
+    health1Label.font = [UIFont systemFontOfSize:17];
     health1Label.textAlignment = NSTextAlignmentLeft;
     [settingV addSubview:health1Label];
     
-    CGRect health2Frame = CGRectMake(self.view.frame.size.width*0.05, self.view.frame.size.height*0.04+setH*3.3/2 , self.view.frame.size.width*3/4 , setH*0.55);
+    CGRect health2Frame = CGRectMake(self.view.frame.size.width*0.05, self.view.frame.size.height*0.04+setH/2 , self.view.frame.size.width*3/4 , setH*0.55);
     UILabel *health2Label = [[UILabel alloc] initWithFrame:health2Frame];
     [health2Label setTextColor:[UIColor colorWithRed:115.0f/255.0f green:116.0f/255.0f blue:117.0f/255.0f alpha:0.9 ]];
     health2Label.text = @"Sync Health Kit infomation with Microlife Connected Health + automatically.";
@@ -324,18 +333,19 @@
     UIView *syncline2 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.05, setH*2.2+2+self.view.frame.size.height*0.04, self.view.frame.size.width*0.95, 1)];
     syncline2.backgroundColor = [UIColor colorWithRed:208.0f/255.0f green:215.0f/255.0f blue:217.0f/255.0f alpha:1.0];
     [settingV addSubview:syncline2];
+    syncline2.hidden = YES;
     
     //=====================================================
     
-    CGRect  microsoft1Frame = CGRectMake(self.view.frame.size.width*0.05, self.view.frame.size.height*0.04+6+setH*2.2 , self.view.frame.size.width*0.3 , setH*0.45);
+    CGRect  microsoft1Frame = CGRectMake(self.view.frame.size.width*0.05, self.view.frame.size.height*0.04+2+setH*1.1 , self.view.frame.size.width*0.3 , setH*0.45);
     UILabel * microsoft1Label = [[UILabel alloc] initWithFrame: microsoft1Frame];
     [health1Label setTextColor:[UIColor colorWithRed:0.0f/255.0f green:0.0f/255.0f blue:0.0f/255.0f alpha:1.0 ]];
     microsoft1Label.text = @"Microsoft";
-    microsoft1Label.font = [UIFont systemFontOfSize:21];
+    microsoft1Label.font = [UIFont systemFontOfSize:17];
     microsoft1Label.textAlignment = NSTextAlignmentLeft;
     [settingV addSubview:microsoft1Label];
     
-    CGRect  microsoft2Frame = CGRectMake(self.view.frame.size.width*0.05, self.view.frame.size.height*0.04+setH*5.5/2 , self.view.frame.size.width*3/4 , setH*0.55);
+    CGRect  microsoft2Frame = CGRectMake(self.view.frame.size.width*0.05, self.view.frame.size.height*0.04+setH*3.2/2 , self.view.frame.size.width*3/4 , setH*0.55);
     UILabel * microsoft2Label = [[UILabel alloc] initWithFrame: microsoft2Frame];
     [microsoft2Label setTextColor:[UIColor colorWithRed:115.0f/255.0f green:116.0f/255.0f blue:117.0f/255.0f alpha:0.9 ]];
     microsoft2Label.text = @"Sync Microsoft Health infomation with Microlife Connected Health + automatically.";
@@ -346,7 +356,7 @@
     [settingV addSubview: microsoft2Label];
     
     UIButton *mailbBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    mailbBtn.frame = CGRectMake(-1, setH*3.3+4+self.view.frame.size.height*0.08, self.view.frame.size.width+2, setH);
+    mailbBtn.frame = CGRectMake(-1, setH*3.3+4, self.view.frame.size.width+2, setH);
     mailbBtn.backgroundColor = [UIColor whiteColor];
     mailbBtn.layer.borderWidth = 1;
     mailbBtn.layer.borderColor = [UIColor colorWithRed:208.0f/255.0f green:215.0f/255.0f blue:217.0f/255.0f alpha:1.0].CGColor;
@@ -356,20 +366,20 @@
     [settingV addSubview:mailbBtn];
     
     UIButton *mailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    mailBtn.frame = CGRectMake(self.view.frame.size.width*0.05, setH*3.3+4+self.view.frame.size.height*0.08, self.view.frame.size.width, setH);
+    mailBtn.frame = CGRectMake(self.view.frame.size.width*0.05, setH*3.3+4, self.view.frame.size.width, setH);
     [mailBtn setTitle:@"Mail Notification management" forState:UIControlStateNormal];
     [mailBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     mailBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     mailBtn.backgroundColor = [UIColor clearColor];
     mailBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     
-    [mailBtn setSelected:NO];//設置按鈕的狀態是否為選中(可在此根據具體情況來設置按鈕的初始狀態)
+    //[mailBtn setSelected:NO];//設置按鈕的狀態是否為選中(可在此根據具體情況來設置按鈕的初始狀態)
     
     [mailBtn addTarget:self action:@selector(goMailNotification) forControlEvents:UIControlEventTouchUpInside];
     [settingV addSubview:mailBtn];
     
     UIButton *gomailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    gomailBtn.frame = CGRectMake(self.view.frame.size.width*0.9, setH*3.615+4+self.view.frame.size.height*0.08, setH*0.37, setH*0.37);
+    gomailBtn.frame = CGRectMake(self.view.frame.size.width*0.9, setH*3.615+4, setH*0.37, setH*0.37);
     [gomailBtn setImage:[UIImage imageNamed:@"all_icon_a_arrow_r"] forState:UIControlStateNormal ];
     gomailBtn.backgroundColor = [UIColor clearColor];
     gomailBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
@@ -378,7 +388,7 @@
     
     
     bpmbBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    bpmbBtn.frame = CGRectMake(-1, setH*4.3+4+self.view.frame.size.height*0.12, self.view.frame.size.width+2, setH);
+    bpmbBtn.frame = CGRectMake(-1, setH*4.3+4+self.view.frame.size.height*0.05, self.view.frame.size.width+2, setH);
     bpmbBtn.backgroundColor = [UIColor whiteColor];
     bpmbBtn.layer.borderWidth = 1;
     bpmbBtn.layer.borderColor = [UIColor colorWithRed:208.0f/255.0f green:215.0f/255.0f blue:217.0f/255.0f alpha:1.0].CGColor;
@@ -390,22 +400,19 @@
     
     
     UIButton *bpmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    bpmBtn.frame = CGRectMake(self.view.frame.size.width*0.05, setH*4.3+4+self.view.frame.size.height*0.12, self.view.frame.size.width, setH);
+    bpmBtn.frame = CGRectMake(self.view.frame.size.width*0.05, setH*0, self.view.frame.size.width, setH);
     [bpmBtn setTitle:@"Delete BPM Device Datas" forState:UIControlStateNormal];
     [bpmBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     bpmBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     bpmBtn.backgroundColor = [UIColor clearColor];
     bpmBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [bpmBtn setSelected:NO];//設置按鈕的狀態是否為選中(可在此根據具體情況來設置按鈕的初始狀態)
-    
-    // [bpmBtn addTarget:self action:@selector(profileClick) forControlEvents:UIControlEventTouchUpInside];
     [bpmbBtn setEnabled:NO];
     
-    [settingV addSubview:bpmBtn];
+    [bpmbBtn addSubview:bpmBtn];
     
     
-    UISwitch *bpmswitch = [[UISwitch alloc] initWithFrame:CGRectMake(self.view.frame.size.width*6/7, setH*4.55+4+self.view.frame.size.height*0.12, self.bpmbBtn.frame.size.height/2, self.bpmbBtn.frame.size.height/4)];
-    [bpmswitch setOn:YES];
+    UISwitch *bpmswitch = [[UISwitch alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.84, setH*4.3+4+self.view.frame.size.height*0.05+setH*0.25, self.view.frame.size.width*0.14, self.bpmbBtn.frame.size.height/4)];
+    [bpmswitch setOn:NO];
     [bpmswitch addTarget:self action:@selector(BPMswitchAction:) forControlEvents:UIControlEventValueChanged];
     [settingV addSubview:bpmswitch];
 }
@@ -428,10 +435,11 @@
 //float setY = self.view.frame.size.height*0.47;
 
 -(void)dataswitchBtn{
-    UISwitch *dataswitch = [[UISwitch alloc] initWithFrame:CGRectMake(self.view.frame.size.width*6/7, self.syncview.frame.size.height/12,  self.syncview.frame.size.height/3,  self.syncview.frame.size.height/6)];
+    UISwitch *dataswitch = [[UISwitch alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.84, self.syncview.frame.size.height/12,  self.view.frame.size.width*0.14,  self.syncview.frame.size.height/6)];
     [dataswitch setOn:NO];
     [dataswitch addTarget:self action:@selector(dataswitchAction:) forControlEvents:UIControlEventValueChanged];
     [self.syncview addSubview:dataswitch];
+    dataswitch.hidden = YES;
 }
 
 -(void)dataswitchAction:(id)sender
@@ -447,7 +455,7 @@
     }
 }
 -(void)healthswitchBtn{
-    UISwitch *healthswitch = [[UISwitch alloc] initWithFrame:CGRectMake(self.view.frame.size.width*6/7,  self.syncview.frame.size.height*5/12 ,  self.syncview.frame.size.height/3,  self.syncview.frame.size.height/6)];
+    UISwitch *healthswitch = [[UISwitch alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.84,  self.syncview.frame.size.height*1/8 ,  self.view.frame.size.width*0.14,  self.syncview.frame.size.height/4)];
     [healthswitch setOn:NO];
     [healthswitch addTarget:self action:@selector(healthswitchAction:) forControlEvents:UIControlEventValueChanged];
     [self.syncview addSubview:healthswitch];
@@ -467,7 +475,7 @@
 }
 
 -(void)microsoftswitchBtn{
-    UISwitch *microsoftswitch = [[UISwitch alloc] initWithFrame:CGRectMake(self.view.frame.size.width*6/7, self.syncview.frame.size.height*9/12,  self.syncview.frame.size.height/3,  self.syncview.frame.size.height/6)];
+    UISwitch *microsoftswitch = [[UISwitch alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.84, self.syncview.frame.size.height*5/8,  self.view.frame.size.width*0.14,  self.syncview.frame.size.height/4)];
     [microsoftswitch setOn:NO];
     [microsoftswitch addTarget:self action:@selector(microsoftswitchAction:) forControlEvents:UIControlEventValueChanged];
     [self.syncview addSubview:microsoftswitch];
@@ -503,7 +511,7 @@
 
 -(void)goMailNotification{
     UIViewController *MailNotification = [[UIViewController alloc ]init];
-    MailNotification = [self.storyboard instantiateViewControllerWithIdentifier:@"MailNotification"];
+    MailNotification = [self.storyboard instantiateViewControllerWithIdentifier:@"MailNotificationVC"];
     
     MailNotification.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     
@@ -659,7 +667,7 @@
         
     }];
     
-    detailAction.backgroundColor = [UIColor blueColor];
+    detailAction.backgroundColor = STANDER_COLOR;
     
     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Delete" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
         
@@ -673,7 +681,7 @@
         
     }];
     
-    deleteAction.backgroundColor = [UIColor redColor];
+    deleteAction.backgroundColor = CIRCEL_RED;
     
     return @[deleteAction,detailAction];
 

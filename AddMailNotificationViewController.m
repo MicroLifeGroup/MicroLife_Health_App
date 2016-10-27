@@ -64,10 +64,10 @@
     [self.view addSubview:navbackBtn];
     
     UIButton *navsaveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    navsaveBtn.frame = CGRectMake(self.view.frame.size.width*0.8, self.view.frame.size.height*0.02, self.view.frame.size.width/5, self.view.frame.size.height*0.07);
+    navsaveBtn.frame = CGRectMake(self.view.frame.size.width*0.78, self.view.frame.size.height*0.02, self.view.frame.size.width/5, self.view.frame.size.height*0.07);
     [navsaveBtn setTitle:@"Save" forState:UIControlStateNormal];
     [navsaveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    navsaveBtn.titleLabel.font = [UIFont systemFontOfSize:21];
+    navsaveBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     navsaveBtn.backgroundColor = [UIColor clearColor];
     navsaveBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     //navbackBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
@@ -84,31 +84,47 @@
 
 -(void)saveAdd{
     
+    
+    
+    if (addNameTextField.text.length < 1 || addEmailTextField.text.length < 1) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"The name can not be null! " message:@"" preferredStyle:UIAlertControllerStyleAlert];
+        
+        
+        UIAlertAction *ConfirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler: ^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        
+        [alertController addAction:ConfirmAction];
+        
+        
+        UIAlertAction *closeAction = [UIAlertAction actionWithTitle:@"Close" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:closeAction];
+        
+        
+        [self presentViewController:alertController animated:YES completion:nil];
+    }else{
+        
+        NSLog(@"emailString = %@",emailString);
+        //Save
+        NSDictionary *memberDict = [[NSDictionary alloc] initWithObjectsAndKeys:       addNameTextField.text,@"name",
+                                    addEmailTextField.text,@"email",nil];
+        
+        [[LocalData sharedInstance] saveMemberProfile:memberDict];
+        
+        
+        //Get prev page
+        
+        //NSMutableArray *array = [[LocalData sharedInstance] returnMemberProfile];
+        
+        
+        
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 
+        
+    }
     
-    
-    //Save
-    NSDictionary *memberDict = [[NSDictionary alloc] initWithObjectsAndKeys:       nameString,@"name",
-        emailString,@"email",nil];
-    
-    [[LocalData sharedInstance] saveMemberProfile:memberDict];
-    
-    
-    //Get prev page
-    
-    //NSMutableArray *array = [[LocalData sharedInstance] returnMemberProfile];
-    
-    
-    NSDictionary *resultDict = [[[LocalData sharedInstance] returnMemberProfile] firstObject];
-    
-    NSString *name = [NSString stringWithFormat:@"%@",[resultDict objectForKey:@"name"]];
-    
-    NSString *email = [NSString stringWithFormat:@"%@",[resultDict objectForKey:@"email"]];
-    
-    NSLog(@"name = %@, email = %@",name,email);
-    
-     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 
+       
 }
 
 
@@ -143,8 +159,8 @@
     // 設定預設文字內容
     addNameTextField.placeholder = @"";
     //emailTextField.text = @"";
-    NSString * str1 = addNameTextField.text;
-    addNameTextField.secureTextEntry = YES;
+    
+    addNameTextField.secureTextEntry = NO;
     // 設定文字顏色
     addNameTextField.textColor = [UIColor blackColor];
     // Delegate
@@ -176,8 +192,7 @@
     // 設定預設文字內容
     addEmailTextField.placeholder = @"";
     //emailTextField.text = @"";
-    NSString * str2 = addEmailTextField.text;
-    addEmailTextField.secureTextEntry = YES;
+    addEmailTextField.secureTextEntry = NO;
     // 設定文字顏色
     addEmailTextField.textColor = [UIColor blackColor];
     // Delegate
@@ -272,8 +287,10 @@
     nameString = addNameTextField.text;
     emailString = addEmailTextField.text;
     
+    NSLog(@"did endemailString = %@",addEmailTextField.text);
     
 }
+
 
 // 按下Return後會反應的事件
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -283,7 +300,7 @@
     nameString = addNameTextField.text;
     emailString = addEmailTextField.text;
     
-    
+    NSLog(@"should emailString = %@",addEmailTextField.text);
     return false;
 }
 

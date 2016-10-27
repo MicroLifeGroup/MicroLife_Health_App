@@ -44,17 +44,33 @@
 @synthesize CuffSizeArr;
 @synthesize MeaArmArr;
 @synthesize thresholdcount;
-
-
+@synthesize cmLabel;
+@synthesize height1PickerView;
+@synthesize height2PickerView;
+@synthesize incharray;
+@synthesize h_ft_unit,h_in_unit;
+@synthesize dateformatBool;
+@synthesize unitBooL,pressureBooL;
+@synthesize inch_Str;
+@synthesize height_value,weight_value,goalweight_value,sys_pressure_value,dia_pressure_value,BMI_value,BF_value;
+@synthesize genderBooL;
+@synthesize profile_name;
+@synthesize cuffsize_row,measureArm_row;
+@synthesize birth_date;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
      self.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0.675 alpha:1];
     
-    CuffSizeArr = @[@"S",@"M",@"M-L",@"L",@"L-X"];
-    MeaArmArr = @[@"Left",@"Right"];
-
+   
+    
+//    //滾輪單位轉換除數
+//    mmHg_kPa_c = 1;
+//    kg_lb_c = 1;
+//    cm_ft_c = 1;
+    
+    [self initParameter];
     
     [self profileSV];
     [self ProfilePicture];
@@ -65,11 +81,119 @@
     
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:animated];
+    
+    
+    
+    
+}
+
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+
+-(void)initParameter{
+    
+    
+    cuffsize_row = -1;
+    
+    measureArm_row = -1;
+    
+    
+    CuffSizeArr = @[@"S",@"M",@"M-L",@"L",@"L-X"];
+    MeaArmArr = @[@"Left",@"Right"];
+    
+    if (height_value == 0) {
+        height_value = 175;
+    }
+    
+    if (weight_value == 0) {
+        weight_value = 75.0;
+    }
+    
+    if (goalweight_value == 0) {
+        goalweight_value = 75.0;
+    }
+    
+    if (sys_pressure_value == 0) {
+        sys_pressure_value = 120;
+    }
+    
+    if (dia_pressure_value == 0) {
+        dia_pressure_value = 80;
+    }
+    
+    if (BMI_value == 0) {
+        BMI_value = 25.0;
+    }
+    
+    if (BF_value == 0) {
+        BF_value = 25.0;
+    }
+    
+    
+    //
+    if (cuffsize_row == -1) {
+        cuffsize_row = 1;
+    }
+    
+    if (measureArm_row == -1) {
+        measureArm_row = 0;
+    }
+    
+    
+    //從資料庫取得日期格式設定
+//    if () {
+        dateformatBool = 0;
+//    }
+    
+    
+    //判斷資料庫的公英制設定
+    
+    if (unitBooL == 1) {
+        //身高轉字串
+        //double hei2value = [heiStr doubleValue];
+        //公分轉英呎
+        NSString *ft_1Str = [NSString stringWithFormat:@"%.2f", height_value*cm_ft];
+        ft_Str = [ft_1Str substringWithRange:NSMakeRange(0, 1)];
+        //公分轉英呎
+        NSString *hei2222str = [NSString stringWithFormat:@"%f",height_value*cm_ft];
+        int ft_value = [ft_Str intValue];
+        double hei2222value = [hei2222str doubleValue];
+        
+        //英呎扣掉整數位後剩餘部分轉英吋
+        inch_Str = [NSString stringWithFormat:@"%.1f",(hei2222value-ft_value)*12];
+        
+    }
+    
+    
+    
+    
+    //判斷資料庫中血壓單位的設定
+    
+    
+    
+    //單位轉換
+    mmHg_kPa = 0.13332237;
+    kg_lb = 2.20462;
+    cm_ft = 0.03306878;
+    
+    dateformatBool = 0;
+    unitBooL = 0;
+    pressureBooL = 0;
+    
+    //if (genderBooL == NULL) {
+        genderBooL = 0;
+    //}
+    
+    
+}
 
 
 
@@ -100,7 +224,7 @@
     
     
     [takepictureBtn setImage:[UIImage imageNamed:@"all_btn_a_camera"] forState:UIControlStateNormal];
-    [takepictureBtn addTarget:self action:@selector(takePicture) forControlEvents:UIControlEventTouchUpInside];
+    [takepictureBtn addTarget:self action:@selector(uploadProfilePicture) forControlEvents:UIControlEventTouchUpInside];
     
     [self.profileScrollview addSubview:takepictureBtn];
 
@@ -109,8 +233,40 @@
 
 }
 
--(void)takePicture{
-    NSLog(@"takePicture");
+-(void)uploadProfilePicture{
+    
+    NSLog(@"Picture");
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Upload your profile picture" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+    
+    
+    
+    UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:@"From Camera" style:UIAlertActionStyleDefault handler: ^(UIAlertAction * _Nonnull action) {
+        
+        
+       
+        
+        
+    }];
+    
+    [alertController addAction:cameraAction];
+    
+    
+    UIAlertAction *albumAction = [UIAlertAction actionWithTitle:@"Form Album" style:UIAlertActionStyleDefault handler: ^(UIAlertAction * _Nonnull action) {
+        
+        
+    }];
+    
+    [alertController addAction:albumAction];
+    
+    
+    UIAlertAction *closeAction = [UIAlertAction actionWithTitle:@"Close" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:closeAction];
+    
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+    
+    
 }
 
 -(void)profileEmail{
@@ -159,15 +315,15 @@
     [self.view addSubview:navbackBtn];
     
     UIButton *navsaveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    navsaveBtn.frame = CGRectMake(self.view.frame.size.width*0.8, self.view.frame.size.height*0.02, self.view.frame.size.width/5, self.view.frame.size.height*0.07);
+    navsaveBtn.frame = CGRectMake(self.view.frame.size.width*0.78, self.view.frame.size.height*0.02, self.view.frame.size.width/5, self.view.frame.size.height*0.07);
     [navsaveBtn setTitle:@"Save" forState:UIControlStateNormal];
     [navsaveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    navsaveBtn.titleLabel.font = [UIFont systemFontOfSize:21];
+    navsaveBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     navsaveBtn.backgroundColor = [UIColor clearColor];
     navsaveBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     //navbackBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
     
-    [navsaveBtn addTarget:self action:@selector(gobackSetting) forControlEvents:UIControlEventTouchUpInside];
+    [navsaveBtn addTarget:self action:@selector(saveProfile) forControlEvents:UIControlEventTouchUpInside];
     
     
     [self.view addSubview:navsaveBtn];
@@ -189,13 +345,14 @@
     float profileY1 = self.view.frame.size.height*0.37;
     float profileY2 = self.view.frame.size.height*1.15;
     float profileH = self.view.frame.size.height/13;
-    float profileX = self.view.frame.size.width*0.49;
+    float profileX = self.view.frame.size.width*0.48;
     float profileX1 = self.view.frame.size.width*0.59;
+    
     
     profileScrollview.frame = self.view.bounds;
     profileScrollview.delegate = self;
     profileScrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    profileScrollview.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height*1.95);
+    profileScrollview.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height*2.08);
     profileScrollview.showsVerticalScrollIndicator = false;
     
     profileScrollview.backgroundColor = [UIColor colorWithRed:246.0f/255.0f green:246.0f/255.0f blue:246.0f/255.0f alpha:1.0];
@@ -204,7 +361,20 @@
     
     
     
+    NSDate *currentDate=[NSDate date];
+    formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateStyle:NSDateFormatterShortStyle];
+    [formatter setTimeStyle:NSDateFormatterMediumStyle];
     
+    if (dateformatBool == 0) {
+        [formatter setDateFormat:@"YYYY/MM/dd"];
+    }else if (dateformatBool == 1){
+        [formatter setDateFormat:@"MM/dd/YYYY"];
+    }
+    
+    currentDateString = [formatter stringFromDate:currentDate];
+    NSLog(@"currentDate=%@", currentDateString);
+    birthDateString  = [formatter stringFromDate:currentDate];
     
     
     //<<<<<<<<<<<<<<  第一區塊 >>>>>>>>>>>>>>>>
@@ -235,8 +405,8 @@
     
     //性別選擇
     NSArray *sexitemArray = [NSArray arrayWithObjects: @"Male", @"Female", nil];
-    UISegmentedControl *sexsegmentedControl = [[UISegmentedControl alloc] initWithItems:sexitemArray];
-    sexsegmentedControl.frame = CGRectMake(self.view.frame.size.width*0.33, (profileH-self.view.frame.size.height/22)/2+profileH*2+profileY1, self.view.frame.size.width*0.6, self.view.frame.size.height/22);
+    sexsegmentedControl = [[UISegmentedControl alloc] initWithItems:sexitemArray];
+    sexsegmentedControl.frame = CGRectMake(self.view.frame.size.width*0.37, (profileH-self.view.frame.size.height/22)/2+profileH*2+profileY1, self.view.frame.size.width*0.6, self.view.frame.size.height/22);
     [sexsegmentedControl addTarget:self action:@selector(MySegmentControlAction:) forControlEvents: UIControlEventValueChanged];
     sexsegmentedControl.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
         UIFont *font = [UIFont boldSystemFontOfSize:17.0f];
@@ -244,7 +414,7 @@
     [sexsegmentedControl setTitleTextAttributes:attributes
                                forState:UIControlStateNormal];
     sexsegmentedControl.tintColor = [UIColor colorWithRed:0 green:61.0f/255.0f blue:165.0f/255.0f alpha:1];
-    sexsegmentedControl.selectedSegmentIndex = 1;
+    sexsegmentedControl.selectedSegmentIndex = genderBooL;
     [profileScrollview addSubview:sexsegmentedControl];
    
     
@@ -252,8 +422,8 @@
     
     //公英制轉換
     NSArray *unititemArray = [NSArray arrayWithObjects: @"Metric", @"Imperial", nil];
-    UISegmentedControl *unitsegmentedControl = [[UISegmentedControl alloc] initWithItems:unititemArray];
-    unitsegmentedControl.frame = CGRectMake(self.view.frame.size.width*0.33, (profileH-self.view.frame.size.height/22)/2+profileH*8+profileY1, self.view.frame.size.width*0.6, self.view.frame.size.height/22);
+    unitsegmentedControl = [[UISegmentedControl alloc] initWithItems:unititemArray];
+    unitsegmentedControl.frame = CGRectMake(self.view.frame.size.width*0.37, (profileH-self.view.frame.size.height/22)/2+profileH*8+profileY1, self.view.frame.size.width*0.6, self.view.frame.size.height/22);
     [unitsegmentedControl addTarget:self action:@selector(unitSegmentControlAction:) forControlEvents: UIControlEventValueChanged];
     unitsegmentedControl.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
     UIFont *unitfont = [UIFont boldSystemFontOfSize:17.0f];
@@ -261,7 +431,13 @@
     [unitsegmentedControl setTitleTextAttributes:unitattributes
                                        forState:UIControlStateNormal];
     unitsegmentedControl.tintColor = [UIColor colorWithRed:0 green:61.0f/255.0f blue:165.0f/255.0f alpha:1];
-    unitsegmentedControl.selectedSegmentIndex = 0;
+    
+    if (unitBooL == 0) {
+        unitsegmentedControl.selectedSegmentIndex = 0;
+    }else if (unitBooL == 1){
+        unitsegmentedControl.selectedSegmentIndex = 1;
+    }
+    
     [profileScrollview addSubview:unitsegmentedControl];
     
 
@@ -269,8 +445,8 @@
     
     //血壓單位轉換
     NSArray *pressureitemArray = [NSArray arrayWithObjects: @"mmHg", @"kpa", nil];
-    UISegmentedControl *pressuresegmentedControl = [[UISegmentedControl alloc] initWithItems:pressureitemArray];
-    pressuresegmentedControl.frame = CGRectMake(self.view.frame.size.width*0.33, (profileH-self.view.frame.size.height/22)/2+profileH*9+profileY1, self.view.frame.size.width*0.6, self.view.frame.size.height/22);
+    pressuresegmentedControl = [[UISegmentedControl alloc] initWithItems:pressureitemArray];
+    pressuresegmentedControl.frame = CGRectMake(self.view.frame.size.width*0.37, (profileH-self.view.frame.size.height/22)/2+profileH*9+profileY1, self.view.frame.size.width*0.6, self.view.frame.size.height/22);
     [pressuresegmentedControl addTarget:self action:@selector(pressureSegmentControlAction:) forControlEvents: UIControlEventValueChanged];
     pressuresegmentedControl.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
     UIFont *pressurefont = [UIFont boldSystemFontOfSize:17.0f];
@@ -278,8 +454,17 @@
     [pressuresegmentedControl setTitleTextAttributes:pressureattributes
                                         forState:UIControlStateNormal];
     pressuresegmentedControl.tintColor = [UIColor colorWithRed:0 green:61.0f/255.0f blue:165.0f/255.0f alpha:1];
-    pressuresegmentedControl.selectedSegmentIndex = 0;
-    [profileScrollview addSubview:pressuresegmentedControl];
+    if (pressureBooL == 0) {
+        pressuresegmentedControl.selectedSegmentIndex = 0;
+
+    }else if (pressureBooL == 1){
+        pressuresegmentedControl.selectedSegmentIndex = 1;
+
+        
+    }
+    
+    
+        [profileScrollview addSubview:pressuresegmentedControl];
    
     
     
@@ -292,7 +477,6 @@
     // 設定預設文字內容
     nameTextField.placeholder = @"Ivy Huang";
     //emailTextField.text = @"";
-    NSString * str = nameTextField.text;
     // 設定文字顏色
     nameTextField.textColor = [UIColor blackColor];
     // Delegate
@@ -334,27 +518,21 @@
 
     
     
-    NSDate *currentDate=[NSDate date];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateStyle:NSDateFormatterShortStyle];
-    [formatter setTimeStyle:NSDateFormatterMediumStyle];
-    [formatter setDateFormat:@"YYYY/MM/dd"];
-    NSString *currentDateString = [formatter stringFromDate:currentDate];
-    NSLog(@"currentDate=%@", currentDateString);
+    
     
     
     //生日
     CGRect birthdaylabelFrame = CGRectMake(profileX, profileY1+profileH*3 , self.view.frame.size.width*0.6 , profileH);
     birthdayLabel = [[UILabel alloc] initWithFrame:birthdaylabelFrame];
     [birthdayLabel setTextColor:[UIColor blackColor]];
-    birthdayLabel.text = currentDateString;
+    birthdayLabel.text = birthDateString;
     birthdayLabel.font = [UIFont systemFontOfSize:17];
     birthdayLabel.alpha = 1.0;
     
     //讓label可點擊產生事件
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(birthdayPicker)];
-    tapGestureRecognizer.numberOfTapsRequired = 1;
-    [birthdayLabel addGestureRecognizer:tapGestureRecognizer];
+    birtapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(birthdayPicker)];
+    birtapGestureRecognizer.numberOfTapsRequired = 1;
+    [birthdayLabel addGestureRecognizer:birtapGestureRecognizer];
     birthdayLabel.userInteractionEnabled = YES;
     //pLabel.backgroundColor = [UIColor yellowColor];
     birthdayLabel.textAlignment = NSTextAlignmentLeft;
@@ -372,14 +550,56 @@
     
     [self.profileScrollview addSubview:cmLabel];
     
-    CGRect heightlabelFrame = CGRectMake(profileX, profileY1+profileH*4 , self.view.frame.size.width*0.6 , profileH);
+    cm1Label = [[UILabel alloc] initWithFrame:CGRectMake(profileX+25, profileY1+profileH*4, self.view.frame.size.width/3, profileH)];
+    [cm1Label setTextColor:[UIColor grayColor]];
+    cm1Label.text = @"ft";
+    cm1Label.font = [UIFont systemFontOfSize:14];
+    cm1Label.alpha = 1.0;
+    cm1Label.textAlignment = NSTextAlignmentLeft;
+    
+    [self.profileScrollview addSubview:cm1Label];
+    
+    
+    cm2Label = [[UILabel alloc] initWithFrame:CGRectMake(profileX+85, profileY1+profileH*4, self.view.frame.size.width/3, profileH)];
+    [cm2Label setTextColor:[UIColor grayColor]];
+    cm2Label.text = @"inch";
+    cm2Label.font = [UIFont systemFontOfSize:14];
+    cm2Label.alpha = 1.0;
+    cm2Label.textAlignment = NSTextAlignmentLeft;
+    
+    [self.profileScrollview addSubview:cm2Label];
+    
+    
+    
+    
+    CGRect heightlabelFrame = CGRectMake(profileX, profileY1+profileH*4 ,profileX1-profileX , profileH);
     heightLabel = [[UILabel alloc] initWithFrame:heightlabelFrame];
     [heightLabel setTextColor:[UIColor blackColor]];
-    heightLabel.text = @"175";
+    heightLabel.text = [NSString stringWithFormat:@"%d",height_value];
+    //heightLabel.text = @"175";
     heightLabel.font = [UIFont systemFontOfSize:17];
     heightLabel.alpha = 1.0;
     heightLabel.textAlignment = NSTextAlignmentLeft;
-
+    [self.profileScrollview addSubview:heightLabel];
+    
+    height1Label = [[UILabel alloc] initWithFrame:CGRectMake(profileX, profileY1+profileH*4, profileX1-profileX, profileH)];
+    [height1Label setTextColor:[UIColor blackColor]];
+    height1Label.text = ft_Str;
+    height1Label.font = [UIFont systemFontOfSize:17];
+    height1Label.alpha = 1.0;
+    
+    height1Label.textAlignment = NSTextAlignmentLeft;
+    [self.profileScrollview addSubview:height1Label];
+    
+    
+    height2Label = [[UILabel alloc] initWithFrame:CGRectMake(profileX+50, profileY1+profileH*4, profileX1-profileX, profileH)];
+    [height2Label setTextColor:[UIColor blackColor]];
+    height2Label.text = inch_Str;
+    height2Label.font = [UIFont systemFontOfSize:17];
+    height2Label.alpha = 1.0;
+    
+    height2Label.textAlignment = NSTextAlignmentLeft;
+    [self.profileScrollview addSubview:height2Label];
     
     //讓label可點擊產生事件
     UITapGestureRecognizer *heighttapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(heightselect)];
@@ -387,9 +607,16 @@
     [heightLabel addGestureRecognizer:heighttapGestureRecognizer];
     heightLabel.userInteractionEnabled = YES;
     
-    
+    UITapGestureRecognizer *height1tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imperheightselect)];
+    height1tapGestureRecognizer.numberOfTapsRequired = 1;
+    [height1Label addGestureRecognizer:height1tapGestureRecognizer];
+    height1Label.userInteractionEnabled = YES;
    
-    [self.profileScrollview addSubview:heightLabel];
+    UITapGestureRecognizer *height2tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imperheightselect)];
+    height2tapGestureRecognizer.numberOfTapsRequired = 1;
+    [height2Label addGestureRecognizer:height2tapGestureRecognizer];
+    height2Label.userInteractionEnabled = YES;
+    
     
     //體重
     
@@ -403,10 +630,10 @@
     
     [self.profileScrollview addSubview:kgLabel];
     
-    CGRect weightlabelFrame = CGRectMake(profileX, profileY1+profileH*5 , self.view.frame.size.width*0.6 , profileH);
+    CGRect weightlabelFrame = CGRectMake(profileX, profileY1+profileH*5 , profileX1-profileX , profileH);
     weightLabel = [[UILabel alloc] initWithFrame:weightlabelFrame];
     [weightLabel setTextColor:[UIColor blackColor]];
-    weightLabel.text = @"75";
+    weightLabel.text = @"75.0";
     weightLabel.font = [UIFont systemFontOfSize:17];
     weightLabel.alpha = 1.0;
     weightLabel.textAlignment = NSTextAlignmentLeft;
@@ -423,7 +650,8 @@
     CuffSizeLabel = [[UILabel alloc] init];
     CuffSizeLabel.frame = CGRectMake(profileX, profileY1+profileH*6 , self.view.frame.size.width*0.6 , profileH);
     [CuffSizeLabel setTextColor:[UIColor blackColor]];
-    CuffSizeLabel.text = @"M";
+    CuffSizeLabel.text = CuffSizeArr[cuffsize_row];
+    //CuffSizeLabel.text = @"M";
     CuffSizeLabel.font = [UIFont systemFontOfSize:17];
     CuffSizeLabel.alpha = 1.0;
     CuffSizeLabel.textAlignment = NSTextAlignmentLeft;
@@ -440,7 +668,8 @@
     MeaArmLabel = [[UILabel alloc] init];
     MeaArmLabel.frame = CGRectMake(profileX, profileY1+profileH*7 , self.view.frame.size.width*0.6 , profileH);
     [MeaArmLabel setTextColor:[UIColor blackColor]];
-    MeaArmLabel.text = @"Left";
+    MeaArmLabel.text = MeaArmArr[measureArm_row];
+    //MeaArmLabel.text = @"Left";
     MeaArmLabel.font = [UIFont systemFontOfSize:17];
     MeaArmLabel.alpha = 1.0;
     MeaArmLabel.textAlignment = NSTextAlignmentLeft;
@@ -470,14 +699,14 @@
     //<<<<<<<<<<<<<<  第二區塊 >>>>>>>>>>>>>>>>
     
     
-    UIView *goalview = [[UIView alloc] initWithFrame:CGRectMake(-1, profileY2+profileH+22, self.view.frame.size.width+2, profileH*4+4)];
+    UIView *goalview = [[UIView alloc] initWithFrame:CGRectMake(-1, profileY2+profileH+22, self.view.frame.size.width+2, profileH*5+5)];
     goalview.backgroundColor = [UIColor whiteColor];
     goalview.layer.borderColor = [UIColor colorWithRed:208.0f/255.0f green:215.0f/255.0f  blue:217.0f/255.0f  alpha:0.9].CGColor;
     goalview.layer.borderWidth = 1;
     [self.profileScrollview addSubview:goalview];
     
     //分隔線
-    for (int j=2; j<5; j++) {
+    for (int j=2; j<6; j++) {
         
         UIView *gline = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.05, profileY2+22+profileH*j, self.view.frame.size.width*0.95, 1)];
         
@@ -500,7 +729,7 @@
     
     
     UIButton *thresholdbBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    thresholdbBtn.frame = CGRectMake(-1, self.view.frame.size.height*1.62, self.view.frame.size.width+2, profileH);
+    thresholdbBtn.frame = CGRectMake(-1, self.view.frame.size.height*1.69, self.view.frame.size.width+2, profileH);
     thresholdbBtn.backgroundColor = [UIColor whiteColor];
     thresholdbBtn.layer.borderWidth = 1;
     thresholdbBtn.layer.borderColor = [UIColor colorWithRed:200.0f/255.0f green:200.0f/255.0f blue:200.0f/255.0f alpha:1.0].CGColor;
@@ -510,7 +739,7 @@
     [self.profileScrollview addSubview:thresholdbBtn];
     
     UIButton *thresholdBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    thresholdBtn.frame = CGRectMake(self.view.frame.size.width*0.05, self.view.frame.size.height*1.62, self.view.frame.size.width, profileH);
+    thresholdBtn.frame = CGRectMake(self.view.frame.size.width*0.05, self.view.frame.size.height*1.69, self.view.frame.size.width, profileH);
     [thresholdBtn setTitle:@"Threshold" forState:UIControlStateNormal];
     [thresholdBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     thresholdBtn.titleLabel.font = [UIFont systemFontOfSize:22];
@@ -520,7 +749,7 @@
 
     
     UIButton *riskbBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    riskbBtn.frame = CGRectMake(-1, self.view.frame.size.height*1.73, self.view.frame.size.width+2, profileH);
+    riskbBtn.frame = CGRectMake(-1, self.view.frame.size.height*1.8, self.view.frame.size.width+2, profileH);
     riskbBtn.backgroundColor = [UIColor whiteColor];
     riskbBtn.layer.borderWidth = 1;
     riskbBtn.layer.borderColor = [UIColor colorWithRed:200.0f/255.0f green:200.0f/255.0f blue:200.0f/255.0f alpha:1.0].CGColor;
@@ -531,7 +760,7 @@
     [self.profileScrollview addSubview:riskbBtn];
     
     UIButton *riskBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    riskBtn.frame = CGRectMake(self.view.frame.size.width*0.05, self.view.frame.size.height*1.73, self.view.frame.size.width, profileH);
+    riskBtn.frame = CGRectMake(self.view.frame.size.width*0.05, 0, self.view.frame.size.width, profileH);
     [riskBtn setTitle:@"Risk Factor" forState:UIControlStateNormal];
     [riskBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     riskBtn.titleLabel.font = [UIFont systemFontOfSize:22];
@@ -539,19 +768,19 @@
     riskBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [riskBtn addTarget:self action:@selector(goRFClick) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.profileScrollview addSubview:riskBtn];
+    [riskbBtn addSubview:riskBtn];
     
     UIButton *goriskBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    goriskBtn.frame = CGRectMake(self.view.frame.size.width*0.9, self.view.frame.size.height*1.73+profileH*0.315, profileH*0.37, profileH*0.37);
+    goriskBtn.frame = CGRectMake(self.view.frame.size.width*0.9, 0+profileH*0.315, profileH*0.37, profileH*0.37);
     [goriskBtn setImage:[UIImage imageNamed:@"all_icon_a_arrow_r"] forState:UIControlStateNormal ];
     goriskBtn.backgroundColor = [UIColor clearColor];
     goriskBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     [goriskBtn addTarget:self action:@selector(goRFClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.profileScrollview addSubview:goriskBtn];
+    [riskbBtn addSubview:goriskBtn];
 
     
     UIButton *riskfBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    riskfBtn.frame = CGRectMake(self.view.frame.size.width*0.53, self.view.frame.size.height*1.73, self.view.frame.size.width*0.35, profileH);
+    riskfBtn.frame = CGRectMake(self.view.frame.size.width*0.53, 0, self.view.frame.size.width*0.35, profileH);
     [riskfBtn setTitle:@"Diabetes、Heart Faulure" forState:UIControlStateNormal];
     [riskfBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     riskfBtn.titleLabel.font = [UIFont systemFontOfSize:14];
@@ -559,15 +788,48 @@
     riskfBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [riskfBtn addTarget:self action:@selector(goRFClick) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.profileScrollview addSubview:riskfBtn];
+    [riskbBtn addSubview:riskfBtn];
 
     
     
+    
+    UIButton *dateformatBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    dateformatBtn.frame = CGRectMake(-1, self.view.frame.size.height*1.9, self.view.frame.size.width+2, profileH);
+    dateformatBtn.backgroundColor = [UIColor whiteColor];
+    dateformatBtn.layer.borderWidth = 1;
+    dateformatBtn.layer.borderColor = [UIColor colorWithRed:200.0f/255.0f green:200.0f/255.0f blue:200.0f/255.0f alpha:1.0].CGColor;
+    dateformatBtn.layer.cornerRadius = 0;
+    
+    [dateformatBtn addTarget:self action:@selector(changedateformat) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.profileScrollview addSubview:dateformatBtn];
+
+    UILabel *dateformatLabel = [[UILabel alloc] init];
+    dateformatLabel.frame = CGRectMake(self.view.frame.size.width*0.05, 2, self.view.frame.size.width, profileH/2);
+    [dateformatLabel setTextColor:[UIColor blackColor]];
+    dateformatLabel.text = @"Select the date format";
+    dateformatLabel.font = [UIFont systemFontOfSize:20];
+    dateformatLabel.alpha = 1.0;
+    dateformatLabel.textAlignment = NSTextAlignmentLeft;
+    [dateformatBtn addSubview:dateformatLabel];
+    
+    
+    dateLabel = [[UILabel alloc] init];
+    dateLabel.frame = CGRectMake(self.view.frame.size.width*0.05, profileH/2, self.view.frame.size.width, profileH/2);
+    [dateLabel setTextColor:[UIColor blackColor]];
+    dateLabel.text = currentDateString;
+    dateLabel.font = [UIFont systemFontOfSize:15];
+    dateLabel.alpha = 1.0;
+    dateLabel.textAlignment = NSTextAlignmentLeft;
+    [dateformatBtn addSubview:dateLabel];
+    
+    
+    
     UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    deleteBtn.frame = CGRectMake(-1, self.view.frame.size.height*1.84, self.view.frame.size.width+2, profileH);
+    deleteBtn.frame = CGRectMake(-1, self.view.frame.size.height*2, self.view.frame.size.width+2, profileH);
     deleteBtn.backgroundColor = [UIColor whiteColor];
     [deleteBtn setTitle:@"Delete Account" forState:UIControlStateNormal];
-    [deleteBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [deleteBtn setTitleColor:CIRCEL_RED forState:UIControlStateNormal];
     deleteBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     deleteBtn.layer.borderWidth = 1;
     deleteBtn.layer.borderColor = [UIColor colorWithRed:200.0f/255.0f green:200.0f/255.0f blue:200.0f/255.0f alpha:1.0].CGColor;
@@ -577,12 +839,7 @@
     
     [self.profileScrollview addSubview:deleteBtn];
 
-    UISwitch *thresholdswitch = [[UISwitch alloc] initWithFrame:CGRectMake(self.view.frame.size.width*6/7, self.view.frame.size.height*1.62+profileH*1/4, profileH*3/2, profileH*3/4)];
-    [thresholdswitch setOn:NO];
-    [thresholdswitch addTarget:self action:@selector(thresholdswitchAction:) forControlEvents:UIControlEventValueChanged];
-    [self.profileScrollview addSubview:thresholdswitch];
     
-    thresholdcount = 0;
     
     
     
@@ -615,13 +872,13 @@
     genderLabel.textAlignment = NSTextAlignmentLeft;
     [self.profileScrollview  addSubview:genderLabel];
     
-    UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.05, profileY1+profileH*3, self.view.frame.size.width/2, profileH)];
-    [dateLabel setTextColor:[UIColor blackColor ]];
-    dateLabel.backgroundColor = [UIColor clearColor];
-    dateLabel.text = @"Date of Birth";
-    dateLabel.font = [UIFont systemFontOfSize:17];
-    dateLabel.textAlignment = NSTextAlignmentLeft;
-    [self.profileScrollview  addSubview:dateLabel];
+    UILabel *birdateLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.05, profileY1+profileH*3, self.view.frame.size.width/2, profileH)];
+    [birdateLabel setTextColor:[UIColor blackColor ]];
+    birdateLabel.backgroundColor = [UIColor clearColor];
+    birdateLabel.text = @"Date of Birth";
+    birdateLabel.font = [UIFont systemFontOfSize:17];
+    birdateLabel.textAlignment = NSTextAlignmentLeft;
+    [self.profileScrollview  addSubview:birdateLabel];
     
     UILabel *heightL = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.05, profileY1+profileH*4, self.view.frame.size.width/2, profileH)];
     [heightL setTextColor:[UIColor blackColor ]];
@@ -706,9 +963,9 @@
     BMILabel.font = [UIFont systemFontOfSize:17];
     BMILabel.textAlignment = NSTextAlignmentLeft;
     [self.profileScrollview  addSubview:BMILabel];
-    BMILabel.hidden = true;
+    //BMILabel.hidden = true;
     
-    UILabel *BodyLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.05, profileY2+profileH*4+22, self.view.frame.size.width/2, profileH)];
+    UILabel *BodyLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.05, profileY2+profileH*5+22, self.view.frame.size.width/2, profileH)];
     [BodyLabel setTextColor:[UIColor blackColor ]];
     BodyLabel.backgroundColor = [UIColor clearColor];
     BodyLabel.text = @"Body Fat";
@@ -746,7 +1003,7 @@
     
     [self.profileScrollview addSubview:goalkgLabel];
     
-    UILabel *percentLabel = [[UILabel alloc] initWithFrame:CGRectMake(profileX1, profileY2+22+profileH*4 , self.view.frame.size.width/3 , profileH)];
+    UILabel *percentLabel = [[UILabel alloc] initWithFrame:CGRectMake(profileX1, profileY2+22+profileH*5 , self.view.frame.size.width/3 , profileH)];
     [percentLabel setTextColor:[UIColor grayColor]];
     percentLabel.text = @"%";
     percentLabel.font = [UIFont systemFontOfSize:14];
@@ -764,9 +1021,10 @@
     
     
     
-    spLabel = [[UILabel alloc] initWithFrame:CGRectMake(profileX, profileY2+22+profileH , self.view.frame.size.width/3 , profileH)];
+    spLabel = [[UILabel alloc] initWithFrame:CGRectMake(profileX, profileY2+22+profileH , profileX1-profileX , profileH)];
     [spLabel setTextColor:[UIColor blackColor]];
-    spLabel.text = @"120";
+    spStr = @"120";
+    spLabel.text = spStr;
     spLabel.font = [UIFont systemFontOfSize:17];
     spLabel.alpha = 1.0;
     spLabel.textAlignment = NSTextAlignmentLeft;
@@ -779,9 +1037,10 @@
     
     [self.profileScrollview addSubview:spLabel];
 
-    dpLabel = [[UILabel alloc] initWithFrame:CGRectMake(profileX, profileY2+22+profileH*2 , self.view.frame.size.width/3 , profileH)];
+    dpLabel = [[UILabel alloc] initWithFrame:CGRectMake(profileX, profileY2+22+profileH*2 , profileX1-profileX , profileH)];
     [dpLabel setTextColor:[UIColor blackColor]];
-    dpLabel.text = @"80";
+    dpStr = @"80";
+    dpLabel.text = dpStr;
     dpLabel.font = [UIFont systemFontOfSize:17];
     dpLabel.alpha = 1.0;
     dpLabel.textAlignment = NSTextAlignmentLeft;
@@ -794,9 +1053,9 @@
     
     [self.profileScrollview addSubview:dpLabel];
     
-    wLabel = [[UILabel alloc] initWithFrame:CGRectMake(profileX, profileY2+22+profileH*3 , self.view.frame.size.width/3 , profileH)];
+    wLabel = [[UILabel alloc] initWithFrame:CGRectMake(profileX, profileY2+22+profileH*3 , profileX1-profileX , profileH)];
     [wLabel setTextColor:[UIColor blackColor]];
-    wLabel.text = @"75";
+    wLabel.text = @"75.0";
     wLabel.font = [UIFont systemFontOfSize:17];
     wLabel.alpha = 1.0;
     wLabel.textAlignment = NSTextAlignmentLeft;
@@ -811,7 +1070,7 @@
     
     bmiLabel = [[UILabel alloc] initWithFrame:CGRectMake(profileX, profileY2+22+profileH*4 , self.view.frame.size.width/3 , profileH)];
     [bmiLabel setTextColor:[UIColor blackColor]];
-    bmiLabel.text = @"25";
+    bmiLabel.text = @"25.0";
     bmiLabel.font = [UIFont systemFontOfSize:17];
     bmiLabel.alpha = 1.0;
     bmiLabel.textAlignment = NSTextAlignmentLeft;
@@ -821,12 +1080,12 @@
     bmitapGestureRecognizer.numberOfTapsRequired = 1;
     [bmiLabel addGestureRecognizer:bmitapGestureRecognizer];
     [self.profileScrollview addSubview:bmiLabel];
-    bmiLabel.hidden = true;
+    //bmiLabel.hidden = true;
     
     
-    bfLabel = [[UILabel alloc] initWithFrame:CGRectMake(profileX, profileY2+22+profileH*4 , self.view.frame.size.width/3 , profileH)];
+    bfLabel = [[UILabel alloc] initWithFrame:CGRectMake(profileX, profileY2+22+profileH*5 , self.view.frame.size.width/3 , profileH)];
     [bfLabel setTextColor:[UIColor blackColor]];
-    bfLabel.text = @"25";
+    bfLabel.text = @"25.0";
     bfLabel.font = [UIFont systemFontOfSize:17];
     bfLabel.alpha = 1.0;
     bfLabel.textAlignment = NSTextAlignmentLeft;
@@ -845,39 +1104,230 @@
     
     float switch_x = self.view.frame.size.width*0.84;
     float switch_w = profileH*1.5;
-    float switch_h = profileH*0.75;
+    float switch_h = switch_w*31/51;
     
-    UISwitch *systolicswitch = [[UISwitch alloc] initWithFrame:CGRectMake(switch_x, profileY2+22+profileH+profileH/4, switch_w, switch_h)];
+    NSLog(@"h===%f",switch_h);
+    NSLog(@"w===%f",switch_w);
+    NSLog(@"pH===%f",profileH);
+    NSLog(@"yy===%f",profileY2);
+    
+    UISwitch *systolicswitch = [[UISwitch alloc] initWithFrame:CGRectMake(switch_x, profileY2+profileH+22+(profileH-31)/2, switch_w, switch_h)];
     [systolicswitch setOn:YES];
     [systolicswitch addTarget:self action:@selector(systolicswitchAction:) forControlEvents:UIControlEventValueChanged];
     [self.profileScrollview addSubview:systolicswitch];
     
-    UISwitch *diastolicswitch = [[UISwitch alloc] initWithFrame:CGRectMake(switch_x, profileY2+22+profileH*2+profileH/4, switch_w, switch_h)];
+    UISwitch *diastolicswitch = [[UISwitch alloc] initWithFrame:CGRectMake(switch_x, profileY2+22+profileH*2+(profileH-31)/2, switch_w, switch_h)];
     [diastolicswitch setOn:YES];
     [diastolicswitch addTarget:self action:@selector(diastolicswitchAction:) forControlEvents:UIControlEventValueChanged];
     [self.profileScrollview addSubview:diastolicswitch];
     
-    UISwitch *goalWeightswitch = [[UISwitch alloc] initWithFrame:CGRectMake(switch_x, profileY2+22+profileH*3+profileH/4, switch_w, switch_h)];
+    UISwitch *goalWeightswitch = [[UISwitch alloc] initWithFrame:CGRectMake(switch_x, profileY2+22+profileH*3+(profileH-31)/2, switch_w, switch_h)];
     [goalWeightswitch setOn:YES];
     [goalWeightswitch addTarget:self action:@selector(goalWeightswitchAction:) forControlEvents:UIControlEventValueChanged];
     [self.profileScrollview addSubview:goalWeightswitch];
     
-    UISwitch *BMIswitch = [[UISwitch alloc] initWithFrame:CGRectMake(switch_x, profileY2+22+profileH*4+profileH/4, switch_w, switch_h)];
+    UISwitch *BMIswitch = [[UISwitch alloc] initWithFrame:CGRectMake(switch_x, profileY2+22+profileH*4+(profileH-31)/2, switch_w, switch_h)];
     [BMIswitch setOn:NO];
     [BMIswitch addTarget:self action:@selector(BMIswitchAction:) forControlEvents:UIControlEventValueChanged];
     [self.profileScrollview addSubview:BMIswitch];
-    BMIswitch.hidden = true;
+   // BMIswitch.hidden = true;
     
-    UISwitch *Bodyswitch = [[UISwitch alloc] initWithFrame:CGRectMake(switch_x, profileY2+22+profileH*4+profileH/4, switch_w, switch_h)];
+    UISwitch *Bodyswitch = [[UISwitch alloc] initWithFrame:CGRectMake(switch_x, profileY2+22+profileH*5+(profileH-31)/2, switch_w, switch_h)];
     [Bodyswitch setOn:NO];
     [Bodyswitch addTarget:self action:@selector(BodyswitchAction:) forControlEvents:UIControlEventValueChanged];
     [self.profileScrollview addSubview:Bodyswitch];
+    
+    
+    UISwitch *thresholdswitch = [[UISwitch alloc] initWithFrame:CGRectMake(switch_x, self.view.frame.size.height*1.69+(profileH-31)/2, switch_w, switch_h)];
+    [thresholdswitch setOn:NO];
+    [thresholdswitch addTarget:self action:@selector(thresholdswitchAction:) forControlEvents:UIControlEventValueChanged];
+    [self.profileScrollview addSubview:thresholdswitch];
+    
+    thresholdcount = 0;  //threshold點擊次數
+    
+    
+    
+    
+    if (unitBooL == 0) {
+        heightLabel.hidden = NO;
+        height1Label.hidden = YES;
+        height2Label.hidden = YES;
+        cmLabel.hidden = NO;
+        cm1Label.hidden = YES;
+        cm2Label.hidden = YES;
+        
+    }else if (unitBooL == 1){
+        heightLabel.hidden = YES;
+        height1Label.hidden = NO;
+        height2Label.hidden = NO;
+        cmLabel.hidden = YES;
+        cm1Label.hidden = NO;
+        cm2Label.hidden = NO;
+    }
+    
+    
+}
+
+
+#pragma mark - 日期格式
+
+-(void)changedateformat{
+    
+    
+    NSDate *currentDate=[NSDate date];
+    NSDateFormatter *ymdformatter = [[NSDateFormatter alloc] init];
+    [ymdformatter setDateStyle:NSDateFormatterShortStyle];
+    [ymdformatter setTimeStyle:NSDateFormatterMediumStyle];
+    [ymdformatter setDateFormat:@"YYYY/MM/dd"];
+    NSString *ymdDateString = [ymdformatter stringFromDate:currentDate];
+    
+    NSDateFormatter *mdyformatter = [[NSDateFormatter alloc] init];
+    [mdyformatter setDateStyle:NSDateFormatterShortStyle];
+    [mdyformatter setTimeStyle:NSDateFormatterMediumStyle];
+    [mdyformatter setDateFormat:@"MM/dd/YYYY"];
+    NSString *mdyDateString = [mdyformatter stringFromDate:currentDate];
+    
+    
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"" message:@"Select the Date Format" preferredStyle:UIAlertControllerStyleAlert];
+    
+    
+    
+    UIAlertAction *yyyymmddAction = [UIAlertAction actionWithTitle:ymdDateString style:UIAlertActionStyleDefault handler: ^(UIAlertAction * _Nonnull action) {
+        
+        if (dateformatBool == 1) {
+            
+            [self YYYYMMdd];
+            dateformatBool = 0;
+            
+        }else if (dateformatBool == 0){
+            
+            dateformatBool = 0;
+        }
+        
+        
+    }];
+    
+    [alertController addAction:yyyymmddAction];
+    
+    
+    UIAlertAction *mmddyyyyAction = [UIAlertAction actionWithTitle:mdyDateString style:UIAlertActionStyleDefault handler: ^(UIAlertAction * _Nonnull action) {
+        
+        
+        
+        if (dateformatBool == 1) {
+            
+            dateformatBool = 1;
+            
+        }else if (dateformatBool == 0){
+            
+            [self MMddYYYY];
+            dateformatBool = 1;
+        }
+        
+
+        
+        
+        
+    }];
+    
+    [alertController addAction:mmddyyyyAction];
+    
+    
+    UIAlertAction *closeAction = [UIAlertAction actionWithTitle:@"Close" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:closeAction];
+    
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+
     
     
 }
 
 
 
+-(void)YYYYMMdd{
+    
+    NSDate *currentDate=[NSDate date];
+    //取得生日label字串並轉成日期
+    NSDateFormatter *birdateFormatter = [[NSDateFormatter alloc] init];
+    [birdateFormatter setDateFormat:@"MM/dd/YYYY"];
+    //NSDate *birthDate=[birdateFormatter dateFromString:birthdayLabel.text];
+    
+    if (birth_date != nil) {
+         birth_date = [birdateFormatter dateFromString:birthdaydate];
+    }else{
+        birth_date = [birdateFormatter dateFromString:birthdayLabel.text];
+    }
+    
+        
+    NSDateFormatter *ymdformatter = [[NSDateFormatter alloc] init];
+    [ymdformatter setDateStyle:NSDateFormatterShortStyle];
+    [ymdformatter setTimeStyle:NSDateFormatterMediumStyle];
+    [ymdformatter setDateFormat:@"YYYY/MM/dd"];
+    NSString  *birthString = [ymdformatter stringFromDate:birth_date];
+    
+    
+    currentDateString = [ymdformatter stringFromDate:currentDate];
+    NSLog(@"birth_Date === %@",birth_date);
+    NSLog(@"birthDateString === %@",birthString);
+    NSLog(@"currentDateString === %@",currentDateString);
+    NSLog(@"birthdaydate === %@",birthdaydate);
+    
+    
+    dateLabel.text = currentDateString;
+    birthdayLabel.text = birthString;
+    
+    
+}
+
+-(void)changetoYYYYMMdd{
+    
+   
+    
+}
+
+
+-(void)MMddYYYY{
+    
+    NSDate *currentDate=[NSDate date];
+    
+    //取得生日label字串並轉成日期
+    NSDateFormatter *birdateFormatter = [[NSDateFormatter alloc] init];
+    [birdateFormatter setDateFormat:@"YYYY/MM/dd"];
+    //NSDate *birthDate=[birdateFormatter dateFromString:birthdayLabel.text];
+    birth_date = [birdateFormatter dateFromString:birthdayLabel.text];
+
+    
+    NSDateFormatter *mdyformatter = [[NSDateFormatter alloc] init];
+    [mdyformatter setDateStyle:NSDateFormatterShortStyle];
+    [mdyformatter setTimeStyle:NSDateFormatterMediumStyle];
+    [mdyformatter setDateFormat:@"MM/dd/YYYY"];
+    
+    //日期再轉成格式為MM/dd/YYYY的生日字串
+    NSString *birthString = [mdyformatter stringFromDate:birth_date];
+    
+    
+    currentDateString = [mdyformatter stringFromDate:currentDate];
+    
+    NSLog(@"birth_Date === %@",birth_date);
+    NSLog(@"birthDateString === %@",birthString);
+    NSLog(@"currentDateString === %@",currentDateString);
+    NSLog(@"birthdaydate === %@",birthdaydate);
+    
+    dateLabel.text = currentDateString;
+    birthdayLabel.text = birthString;
+    
+}
+
+-(void)changetoMMddYYYY{
+    
+//    [self MMddYYYY];
+    
+    
+}
+
+#pragma mark switch
 -(void)thresholdswitchAction:(id)sender{
     UISwitch *thresholdswitch = (UISwitch*)sender;
     BOOL isButtonOn = [thresholdswitch isOn];
@@ -1012,14 +1462,29 @@
     }
 }
 
+
+#pragma mark - 刪除帳號資料
 -(void)deleteAccount{
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Alert" message:@"Are you sure to delete your account and all records in APP?" preferredStyle:UIAlertControllerStyleAlert];
+    
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Are you sure to delete your account and all records in APP?" message:@"" preferredStyle:UIAlertControllerStyleAlert];
     
     
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleCancel handler:nil];
     [alertController addAction:cancelAction];
     
-    UIAlertAction *resetAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDestructive handler:nil];
+    UIAlertAction *resetAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDestructive handler: ^(UIAlertAction * _Nonnull action) {
+        UIViewController *LoginVC = [[UIViewController alloc ]init];
+        LoginVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginVC"];
+        
+        LoginVC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        
+        [self presentViewController:LoginVC animated:true completion:nil];
+    }];
+    
+    
+    //LoginVC
+    
     [alertController addAction:resetAction];
     
     
@@ -1035,10 +1500,13 @@
 }
 
 
+#pragma mark - PickerView 方法處理
 -(void)heightselect{
     
     [self allpickerView];
   //  [self pickertopView];
+    
+    
     
     heightPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.3,30, self.view.frame.size.width*0.4, self.view.frame.size.height*0.3)];
     
@@ -1046,20 +1514,30 @@
     
     //身高
     Height = [[NSMutableArray alloc] init];
-    
-    
-    for(int i=100; i<=220; i++)
-    {
-        [Height addObject:[NSString stringWithFormat:@"%d",i]];
-    }
-    
-    self.height = Height;
-    
-    h_unit = @[@"cm",@"ft"];
-    
     //设置pickerView的代理和数据源
     heightPickerView.dataSource = self;
     heightPickerView.delegate = self;
+    
+    
+    int hvalue = [heightLabel.text intValue];
+    
+    
+    
+    for(int h=91; h<=242; h++)     //91~242    100~200
+    {
+        [Height addObject:[NSString stringWithFormat:@"%d",h]];
+    }
+    [heightPickerView selectRow:hvalue-91 inComponent:0 animated:NO];
+    
+    
+    
+    
+    self.height = Height;
+    
+    h_unit = @[@"cm"];
+    
+//    ,@"1",@"2",@"3",@"4",@"5"
+//    [heightPickerView selectRow:5 inComponent:1 animated:NO];
     
     
     CGRect hlabelFrame = CGRectMake(self.view.frame.size.width/4, 0 , self.view.frame.size.width/2 , self.view.frame.size.height/17);
@@ -1070,9 +1548,9 @@
     hLabel.alpha = 1.0;
     hLabel.textAlignment = NSTextAlignmentCenter;
     
-    int hvalue = [heightLabel.text intValue];
+    
     [self.allPickerView addSubview:heightPickerView];
-    [heightPickerView selectRow:hvalue-100 inComponent:0 animated:NO];
+    
     
     [self.topView addSubview:hLabel];
     
@@ -1081,7 +1559,7 @@
     UIButton *savehBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     savehBtn.frame = CGRectMake(self.view.frame.size.width*0.8, 0, self.view.frame.size.width*0.2, self.view.frame.size.height/17);
     [savehBtn setTitle:@"Save" forState:UIControlStateNormal];
-    [savehBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [savehBtn setTitleColor:STANDER_COLOR forState:UIControlStateNormal];
     savehBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     [savehBtn addTarget:self action:@selector(saveheightClick) forControlEvents:UIControlEventTouchUpInside];
     
@@ -1090,6 +1568,186 @@
     
 }
 
+-(void)imperheightselect{
+    
+    [self allpickerView];
+    //  [self pickertopView];
+    
+    
+    height1PickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.1,30, self.view.frame.size.width*0.4, self.view.frame.size.height*0.3)];
+    
+    height2PickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.5,30, self.view.frame.size.width*0.4, self.view.frame.size.height*0.3)];
+    
+    //初始化数据
+    
+    //身高
+    ftArr = [[NSMutableArray alloc] init];
+    inchArr = [[NSMutableArray alloc] init];
+    
+    //设置pickerView的代理和数据源
+    height1PickerView.dataSource = self;
+    height1PickerView.delegate = self;
+    
+    height2PickerView.dataSource = self;
+    height2PickerView.delegate = self;
+    
+    
+    int hvalue = [height1Label.text intValue];
+    //double h1value = [height2Label.text doubleValue];
+    
+    
+    for(int h=3; h<=7; h++)
+        {
+            [ftArr addObject:[NSString stringWithFormat:@"%d",h]];
+            
+//            if (h==3) {
+//                for(float n=3.4; n<12.0; n = n+0.1 )
+//                {
+//                    [inchArr addObject:[NSString stringWithFormat:@"%.1f",n]];
+//                    
+//                }
+//
+//            }else if (h==7){
+//                
+//                for(float n=0.0; n<2.6; n = n+0.1 )
+//                {
+//                    [inchArr addObject:[NSString stringWithFormat:@"%.1f",n]];
+//                    
+//                }
+//                
+//
+//            }else{
+            
+            
+            }
+            
+            
+       // }
+        [height1PickerView selectRow:hvalue-3 inComponent:0 animated:NO];
+    
+    for(float n=0.0; n<12.0; n = n+0.1 )
+    {
+        [inchArr addObject:[NSString stringWithFormat:@"%.1f",n]];
+        
+    }
+
+    
+    
+    for (int i=0; i<inchArr.count; i++) {
+        NSString *HinchStr = [NSString stringWithFormat:@"%@",[inchArr objectAtIndex:i]];
+        
+        if ([height2Label.text isEqualToString:HinchStr]) {
+            NSLog(@"HinchStr===%@",HinchStr);
+            NSLog(@"inch === %@",height2Label.text);
+            [height2PickerView selectRow:i inComponent:0 animated:NO];
+            NSLog(@"pickerview i:%d",i);
+        }
+        
+    }
+    
+    
+    //3 3.37
+    //7 2.61
+    
+    
+    
+    
+   NSLog(@"inchArr.count === %lu",(unsigned long)inchArr.count);
+    
+    self.ftarray = ftArr;
+    self.incharray = inchArr;
+    h_ft_unit = @[@"ft"];
+    h_in_unit = @[@"inch"];
+    
+    
+    
+    
+    CGRect hlabelFrame = CGRectMake(self.view.frame.size.width/4, 0 , self.view.frame.size.width/2 , self.view.frame.size.height/17);
+    UILabel *hLabel = [[UILabel alloc] initWithFrame:hlabelFrame];
+    [hLabel setTextColor:[UIColor blackColor]];
+    hLabel.text = @"Height";
+    hLabel.font = [UIFont systemFontOfSize:22];
+    hLabel.alpha = 1.0;
+    hLabel.textAlignment = NSTextAlignmentCenter;
+    
+    
+    [self.allPickerView addSubview:height1PickerView];
+    [self.allPickerView addSubview:height2PickerView];
+    
+    [self.topView addSubview:hLabel];
+    
+    
+    
+    UIButton *savehBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    savehBtn.frame = CGRectMake(self.view.frame.size.width*0.8, 0, self.view.frame.size.width*0.2, self.view.frame.size.height/17);
+    [savehBtn setTitle:@"Save" forState:UIControlStateNormal];
+    [savehBtn setTitleColor:STANDER_COLOR forState:UIControlStateNormal];
+    savehBtn.titleLabel.font = [UIFont systemFontOfSize:22];
+    [savehBtn addTarget:self action:@selector(saveheight1Click) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    [self.topView addSubview:savehBtn];
+    
+}
+
+-(void)saveheight1Click{
+    
+    [self closePickerviewfunc];
+    
+    [self saveft];
+    [self saveinch];
+    
+    if (stringHft != nil && stringHin != nil) {
+        double hei1value = [stringHft doubleValue];
+        double hei2value = [stringHin doubleValue];
+        NSString *im_to_me_heiStr = [NSString stringWithFormat:@"%.0f",((hei1value+hei2value/12)/cm_ft)];
+        height_value = [im_to_me_heiStr intValue];
+
+    }else if (stringHft != nil && stringHin == nil){
+        
+        double hei1value = [stringHft doubleValue];
+        double hei2value = [height2Label.text doubleValue];
+        NSString *im_to_me_heiStr = [NSString stringWithFormat:@"%.0f",((hei1value+hei2value/12)/cm_ft)];
+        height_value = [im_to_me_heiStr intValue];
+        
+        
+    }else if (stringHft == nil && stringHin != nil){
+        
+        double hei1value = [height1Label.text doubleValue];
+        double hei2value = [stringHin doubleValue];
+        NSString *im_to_me_heiStr = [NSString stringWithFormat:@"%.0f",((hei1value+hei2value/12)/cm_ft)];
+        height_value = [im_to_me_heiStr intValue];
+        
+        
+    
+    }else{
+        
+        double hei1value = [height1Label.text doubleValue];
+        double hei2value = [height2Label.text doubleValue];
+        NSString *im_to_me_heiStr = [NSString stringWithFormat:@"%.0f",((hei1value+hei2value/12)/cm_ft)];
+        height_value = [im_to_me_heiStr intValue];
+        
+    }
+    
+    
+    NSLog(@"英制儲存身高的時候轉公制%d",height_value);
+    
+}
+
+-(void)saveft{
+    if (stringHft!=nil) {
+        height1Label.text = stringHft;
+    }
+
+}
+
+-(void)saveinch{
+    if (stringHin!=nil) {
+        height2Label.text = stringHin;
+    }
+    
+    
+}
 
 -(void)weightselect{
     
@@ -1101,21 +1759,56 @@
     //初始化数据
     
     Weight = [[NSMutableArray alloc] init];
-    
-    
-    for(int j=5; j<=150; j++)
-    {
-        [Weight addObject:[NSString stringWithFormat:@"%d",j]];
-    }
-    self.weight = Weight;
-    
-    w_unit = @[@"kg",@"lb"];
-    
-  
-    
-    //设置pickerView的代理和数据源
+    //設置pickerView的代理和数据源
     weightPickerView.dataSource = self;
     weightPickerView.delegate = self;
+    
+    int wvalue = [weightLabel.text intValue];
+    
+    if (unitsegmentedControl.selectedSegmentIndex == 0) {
+        
+        for(float w=5.0 ; w <= 150.0; w+=0.1)
+        {
+            [Weight addObject:[NSString stringWithFormat:@"%.1f",w]];
+
+        }
+        [weightPickerView selectRow:wvalue-5 inComponent:0 animated:NO];
+        w_unit = @[@"kg"];
+        for (int i = 0; i<Weight.count; i++) {
+            NSString *wwStr = [NSString stringWithFormat:@"%@",[Weight objectAtIndex:i]];
+            
+            if ([weightLabel.text isEqualToString:wwStr]) {
+                NSLog(@" wwStr == %@",wwStr);
+                
+                [weightPickerView selectRow:i inComponent:0 animated:NO];
+            }
+            
+        }
+
+        
+    }else if (unitsegmentedControl.selectedSegmentIndex == 1){
+        
+        for(float w=11.0 ; w <= 331.0; w+=0.1)
+        {
+            [Weight addObject:[NSString stringWithFormat:@"%.1f",w]];
+            
+        }
+        
+        for (int i=0; i<Weight.count; i++) {
+            NSString *wStr = [NSString stringWithFormat:@"%@",[Weight objectAtIndex:i]];
+            
+            if ([weightLabel.text isEqualToString:wStr]) {
+                [weightPickerView selectRow:i inComponent:0 animated:NO];
+            }
+            
+        }
+        w_unit = @[@"lb"];
+        
+    }
+
+    self.weight = Weight;
+    
+    
     
     
     CGRect weilabelFrame = CGRectMake(self.view.frame.size.width/4, 0 , self.view.frame.size.width/2 , self.view.frame.size.height/17);
@@ -1129,15 +1822,14 @@
     
     [self.allPickerView addSubview:weightPickerView];
     
-    int wvalue = [weightLabel.text intValue];
-    [weightPickerView selectRow:wvalue-5 inComponent:0 animated:NO];
+    
 
     [self.topView addSubview:weiLabel];
 
     UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     saveBtn.frame = CGRectMake(self.view.frame.size.width*0.8, 0, self.view.frame.size.width*0.2, self.view.frame.size.height/17);
     [saveBtn setTitle:@"Save" forState:UIControlStateNormal];
-    [saveBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [saveBtn setTitleColor:STANDER_COLOR forState:UIControlStateNormal];
     saveBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     [saveBtn addTarget:self action:@selector(saveweightClick) forControlEvents:UIControlEventTouchUpInside];
     
@@ -1188,7 +1880,7 @@
     UIButton *savehBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     savehBtn.frame = CGRectMake(self.view.frame.size.width*0.8, 0, self.view.frame.size.width*0.2, self.view.frame.size.height/17);
     [savehBtn setTitle:@"Save" forState:UIControlStateNormal];
-    [savehBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [savehBtn setTitleColor:STANDER_COLOR forState:UIControlStateNormal];
     savehBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     [savehBtn addTarget:self action:@selector(saveCuffSizeClick) forControlEvents:UIControlEventTouchUpInside];
     
@@ -1242,7 +1934,7 @@
     UIButton *savehBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     savehBtn.frame = CGRectMake(self.view.frame.size.width*0.8, 0, self.view.frame.size.width*0.2, self.view.frame.size.height/17);
     [savehBtn setTitle:@"Save" forState:UIControlStateNormal];
-    [savehBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [savehBtn setTitleColor:STANDER_COLOR forState:UIControlStateNormal];
     savehBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     [savehBtn addTarget:self action:@selector(saveMeaArmClick) forControlEvents:UIControlEventTouchUpInside];
     
@@ -1273,21 +1965,43 @@
     
     //血壓
     Sys = [[NSMutableArray alloc] init];
-    
-    
-    
-    for(int s=20 ; s <= 280; s++)
-    {
-        [Sys addObject:[NSString stringWithFormat:@"%d",s]];
-        //NSLog(@"%d",i);
-    }
-
-    self.sys = Sys;
-    
-    
     //设置pickerView的代理和数据源
     sysPickerView.dataSource = self;
     sysPickerView.delegate = self;
+    
+    double sysvalue = [spLabel.text doubleValue];
+    
+    if (pressuresegmentedControl.selectedSegmentIndex == 0) {
+        for(int s=20 ; s <= 280; s++)
+        {
+            [Sys addObject:[NSString stringWithFormat:@"%d",s]];
+            
+            
+        }
+        
+        [sysPickerView selectRow:sysvalue-20 inComponent:0 animated:NO];
+
+    }else if (pressuresegmentedControl.selectedSegmentIndex == 1){
+        
+        for (double s=2.6; s<=37.3; s = s+0.1 ) {
+            [Sys addObject:[NSString stringWithFormat:@"%.1f",s]];
+        }
+        
+        for (int i=0; i<Sys.count; i++) {
+            NSString *SysStr = [NSString stringWithFormat:@"%@",[Sys objectAtIndex:i]];
+            
+            if ([spLabel.text isEqualToString:SysStr]) {
+                [sysPickerView selectRow:i inComponent:0 animated:NO];
+            }
+            
+        }
+        
+        
+    }
+    
+    
+    self.sys = Sys;
+    
     
     
     CGRect slabelFrame = CGRectMake(self.view.frame.size.width/4, 0 , self.view.frame.size.width/2 , self.view.frame.size.height/17);
@@ -1298,18 +2012,16 @@
     sLabel.alpha = 1.0;
     sLabel.textAlignment = NSTextAlignmentCenter;
     
-    int sysvalue = [spLabel.text intValue];
+    
     [self.allPickerView addSubview:sysPickerView];
-    [sysPickerView selectRow:sysvalue-20 inComponent:0 animated:NO];
+    
     
     [self.topView addSubview:sLabel];
-    
-    
     
     UIButton *savehBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     savehBtn.frame = CGRectMake(self.view.frame.size.width*0.8, 0, self.view.frame.size.width*0.2, self.view.frame.size.height/17);
     [savehBtn setTitle:@"Save" forState:UIControlStateNormal];
-    [savehBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [savehBtn setTitleColor:STANDER_COLOR forState:UIControlStateNormal];
     savehBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     [savehBtn addTarget:self action:@selector(saveSysClick) forControlEvents:UIControlEventTouchUpInside];
     
@@ -1324,8 +2036,21 @@
     
     [self closePickerviewfunc];
     
-    if (stringD != nil) {
+    if (stringS != nil) {
         spLabel.text = stringS;
+        
+        if (pressureBooL == 0) {
+            sys_pressure_value = [stringS floatValue];
+        }else if (pressureBooL == 1){
+            
+            double sp1value = [stringS doubleValue];
+            NSString *savesysStr = [NSString stringWithFormat:@"%.0f",sp1value/mmHg_kPa];
+            sys_pressure_value = [savesysStr floatValue];
+
+            
+        }
+        
+        
     }
     
     
@@ -1341,18 +2066,52 @@
     //初始化数据
        //血壓
     Dia = [[NSMutableArray alloc] init];
-    
-    for(int d = 20 ; d <= 280; d++)
-    {
-        [Dia addObject:[NSString stringWithFormat:@"%d",d]];
-    }
-    
-    self.dia = Dia;
-    
     //设置pickerView的代理和数据源
     diaPickerView.dataSource = self;
     diaPickerView.delegate = self;
     
+    
+    double diavalue = [dpLabel.text doubleValue];
+    
+    if (pressuresegmentedControl.selectedSegmentIndex == 0) {
+        
+        for(double d = 20 ; d <= 280; d++){
+            
+            [Dia addObject:[NSString stringWithFormat:@"%.0f",d]];
+            
+        }
+        
+        [diaPickerView selectRow:diavalue-20 inComponent:0 animated:NO];
+        
+    }else if (pressuresegmentedControl.selectedSegmentIndex == 1){
+        
+        for(double d = 2.6 ; d <= 37.3; d = d+0.1 ){
+        
+        [Dia addObject:[NSString stringWithFormat:@"%.1f",d]];
+            
+        }
+        
+        for (int i=0; i < Dia.count; i++) {
+            NSString *DiaStr = [NSString stringWithFormat:@"%@",[Dia objectAtIndex:i]];
+            
+            if ([dpLabel.text isEqualToString:DiaStr]) {
+                NSLog(@"DiaStr = %@",DiaStr);
+                [diaPickerView selectRow:i inComponent:0 animated:NO];
+            }
+        }
+        
+        
+        //[diaPickerView selectRow:(diavalue-2.6)*10 inComponent:0 animated:NO];
+        
+    }
+    
+    
+    
+    self.dia = Dia;
+    
+    
+   
+     [self.allPickerView addSubview:diaPickerView];
     
     CGRect dlabelFrame = CGRectMake(self.view.frame.size.width/4, 0 , self.view.frame.size.width/2 , self.view.frame.size.height/17);
     UILabel *dLabel = [[UILabel alloc] initWithFrame:dlabelFrame];
@@ -1362,23 +2121,18 @@
     dLabel.alpha = 1.0;
     dLabel.textAlignment = NSTextAlignmentCenter;
     
-    int diavalue = [dpLabel.text intValue];
-    [self.allPickerView addSubview:diaPickerView];
-    [diaPickerView selectRow:diavalue-20 inComponent:0 animated:NO];
-    
     [self.topView addSubview:dLabel];
     
 
     UIButton *savehBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     savehBtn.frame = CGRectMake(self.view.frame.size.width*0.8, 0, self.view.frame.size.width*0.2, self.view.frame.size.height/17);
     [savehBtn setTitle:@"Save" forState:UIControlStateNormal];
-    [savehBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [savehBtn setTitleColor:STANDER_COLOR forState:UIControlStateNormal];
     savehBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     [savehBtn addTarget:self action:@selector(saveDiaClick) forControlEvents:UIControlEventTouchUpInside];
     
     
     [self.topView addSubview:savehBtn];
-    
     
 
 }
@@ -1389,8 +2143,20 @@
     
     if (stringD != nil) {
         dpLabel.text = stringD;
+        
+        if (pressureBooL == 0) {
+            dia_pressure_value = [stringD floatValue];
+            
+        }else if (pressureBooL == 1){
+            
+            double dp1value = [stringD doubleValue];
+            NSString *diaString = [NSString stringWithFormat:@"%.0f",dp1value/mmHg_kPa];
+            dia_pressure_value = [diaString floatValue];
+            
+        }
+        
+        
     }
-    
     
     
 }
@@ -1405,19 +2171,57 @@
     //體重
     Ww = [[NSMutableArray alloc] init];
     
-    
-    for(int w=5 ; w <= 150; w++)
-    {
-        [Ww addObject:[NSString stringWithFormat:@"%d",w]];
-        //NSLog(@"%d",i);
-    }
-    
-    self.ww = Ww;
-    
-    
     //设置pickerView的代理和数据源
     wPickerView.dataSource = self;
     wPickerView.delegate = self;
+    
+    //double wwvalue = [wLabel.text doubleValue];
+    
+    if (unitsegmentedControl.selectedSegmentIndex == 0) {
+        for(double w=5.0 ; w <= 150.0; w+=0.1)
+        {
+            [Ww addObject:[NSString stringWithFormat:@"%.1f",w]];
+            //NSLog(@"%d",i);
+        }
+        
+        for (int i = 0; i<Ww.count; i++) {
+            NSString *wwStr = [NSString stringWithFormat:@"%@",[Ww objectAtIndex:i]];
+            
+            if ([wLabel.text isEqualToString:wwStr]) {
+                NSLog(@" wwStr == %@",wwStr);
+                
+                [wPickerView selectRow:i inComponent:0 animated:NO];
+            }
+            
+        }
+
+        
+        
+    }else if (unitsegmentedControl.selectedSegmentIndex == 1){
+        
+        for(double w=11.0 ; w <= 331.0; w+=0.1)
+        {
+            [Ww addObject:[NSString stringWithFormat:@"%.1f",w]];
+        }
+        
+        for (int i = 0; i<Ww.count; i++) {
+            NSString *wwStr = [NSString stringWithFormat:@"%@",[Ww objectAtIndex:i]];
+            
+            if ([wLabel.text isEqualToString:wwStr]) {
+                NSLog(@" wwStr == %@",wwStr);
+                
+                [wPickerView selectRow:i inComponent:0 animated:NO];
+            }
+            
+        }
+
+        
+    }
+    
+    
+    self.ww = Ww;
+    
+    NSLog(@"%@",Ww);
     
     
     CGRect slabelFrame = CGRectMake(self.view.frame.size.width/4, 0 , self.view.frame.size.width/2 , self.view.frame.size.height/17);
@@ -1428,9 +2232,9 @@
     sLabel.alpha = 1.0;
     sLabel.textAlignment = NSTextAlignmentCenter;
     
-    int wwvalue = [wLabel.text intValue];
+    
     [self.allPickerView addSubview:wPickerView];
-    [wPickerView selectRow:wwvalue-5 inComponent:0 animated:NO];
+    
     
     [self.topView addSubview:sLabel];
     
@@ -1439,7 +2243,7 @@
     UIButton *savehBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     savehBtn.frame = CGRectMake(self.view.frame.size.width*0.8, 0, self.view.frame.size.width*0.2, self.view.frame.size.height/17);
     [savehBtn setTitle:@"Save" forState:UIControlStateNormal];
-    [savehBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [savehBtn setTitleColor:STANDER_COLOR forState:UIControlStateNormal];
     savehBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     [savehBtn addTarget:self action:@selector(saveWeiClick) forControlEvents:UIControlEventTouchUpInside];
     
@@ -1456,8 +2260,26 @@
     
     if (stringWei != nil) {
         self.wLabel.text = stringWei;
+        
+        if (unitBooL == 0) {
+            goalweight_value = [stringWei floatValue];
+            NSLog(@"儲存的公制目標體重%.1f",goalweight_value);
+            
+        }else if (unitBooL == 1){
+            double goalwei1value = [stringWei doubleValue];
+            NSString *im_to_me_goalweiStr = [NSString stringWithFormat:@"%.1f",goalwei1value/kg_lb];
+            goalweight_value = [im_to_me_goalweiStr floatValue];
+            NSLog(@"儲存的英制轉公制目標體重%.1f",goalweight_value);
+            
+        }
+        
+        
     }
     
+    
+    
+
+    NSLog(@"%@",stringWei);
     
 }
 
@@ -1474,20 +2296,33 @@
     //BMI
     BMI = [[NSMutableArray alloc] init];
     
+    //设置pickerView的代理和数据源
+    bmiPickerView.dataSource = self;
+    bmiPickerView.delegate = self;
     
     
-    for(int s=10 ; s <= 90; s++)
+    for(float s=10.0 ; s <= 90.0; s+=0.1)
     {
-        [BMI addObject:[NSString stringWithFormat:@"%d",s]];
+        [BMI addObject:[NSString stringWithFormat:@"%.1f",s]];
         //NSLog(@"%d",i);
     }
     
     self.bMI = BMI;
     
+    for (int i = 0; i<BMI.count; i++) {
+        NSString *bmiStr = [NSString stringWithFormat:@"%@",[BMI objectAtIndex:i]];
+        
+        if ([bmiLabel.text isEqualToString:bmiStr]) {
+            NSLog(@" bmiStr == %@",bmiStr);
+            
+            [bmiPickerView selectRow:i inComponent:0 animated:NO];
+        }
+        
+    }
+
     
-    //设置pickerView的代理和数据源
-    bmiPickerView.dataSource = self;
-    bmiPickerView.delegate = self;
+//    float bmivalue = [bmiLabel.text floatValue];
+//    [bmiPickerView selectRow:(bmivalue-10.0)*10 inComponent:0 animated:NO];
     
     
     CGRect slabelFrame = CGRectMake(self.view.frame.size.width/4, 0 , self.view.frame.size.width/2 , self.view.frame.size.height/17);
@@ -1499,18 +2334,16 @@
     sLabel.textAlignment = NSTextAlignmentCenter;
     
     
-    int bmivalue = [bmiLabel.text intValue];
+    
     
     [self.allPickerView addSubview:bmiPickerView];
-    [bmiPickerView selectRow:bmivalue-10 inComponent:0 animated:NO];
-    
-    [self.topView addSubview:sLabel];
+        [self.topView addSubview:sLabel];
     
     
     UIButton *savehBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     savehBtn.frame = CGRectMake(self.view.frame.size.width*0.8, 0, self.view.frame.size.width*0.2, self.view.frame.size.height/17);
     [savehBtn setTitle:@"Save" forState:UIControlStateNormal];
-    [savehBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [savehBtn setTitleColor:STANDER_COLOR forState:UIControlStateNormal];
     savehBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     [savehBtn addTarget:self action:@selector(saveBMIClick) forControlEvents:UIControlEventTouchUpInside];
     
@@ -1524,7 +2357,7 @@
     
     [self closePickerviewfunc];
     
-    if (stringWei != nil) {
+    if (stringBMI != nil) {
         bmiLabel.text = stringBMI;
     }
     
@@ -1545,18 +2378,33 @@
     BF = [[NSMutableArray alloc] init];
     
     
-    for(int s=5 ; s <= 60; s++)
-    {
-        [BF addObject:[NSString stringWithFormat:@"%d",s]];
-        //NSLog(@"%d",i);
-    }
-    
-    self.bF = BF;
-    
-    
     //设置pickerView的代理和数据源
     bfPickerView.dataSource = self;
     bfPickerView.delegate = self;
+    
+    for(float s=5.0 ; s <= 60.0; s+=0.1)
+    {
+        [BF addObject:[NSString stringWithFormat:@"%.1f",s]];
+        //NSLog(@"%d",i);
+    }
+    
+    for (int i = 0; i<BF.count; i++) {
+        NSString *bfStr = [NSString stringWithFormat:@"%@",[BF objectAtIndex:i]];
+        
+        if ([bfLabel.text isEqualToString:bfStr]) {
+            NSLog(@" bfStr == %@",bfStr);
+            
+            [bfPickerView selectRow:i inComponent:0 animated:NO];
+        }
+        
+    }
+
+    
+    
+    self.bF = BF;
+    float bfvalue = [bfLabel.text floatValue];
+    [bfPickerView selectRow:(bfvalue-5.0)*10 inComponent:0 animated:NO];
+
     
     
     CGRect slabelFrame = CGRectMake(self.view.frame.size.width/4, 0 , self.view.frame.size.width/2 , self.view.frame.size.height/17);
@@ -1567,10 +2415,7 @@
     sLabel.alpha = 1.0;
     sLabel.textAlignment = NSTextAlignmentCenter;
     
-    int bfvalue = [bfLabel.text intValue];
     [self.allPickerView addSubview:bfPickerView];
-    [bfPickerView selectRow:bfvalue-5 inComponent:0 animated:NO];
-    
     [self.topView addSubview:sLabel];
     
 
@@ -1578,7 +2423,7 @@
     UIButton *savehBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     savehBtn.frame = CGRectMake(self.view.frame.size.width*0.8, 0, self.view.frame.size.width*0.2, self.view.frame.size.height/17);
     [savehBtn setTitle:@"Save" forState:UIControlStateNormal];
-    [savehBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [savehBtn setTitleColor:STANDER_COLOR forState:UIControlStateNormal];
     savehBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     [savehBtn addTarget:self action:@selector(saveBFClick) forControlEvents:UIControlEventTouchUpInside];
     
@@ -1605,8 +2450,11 @@
 
 // returns the number of 'columns' to display.返回列數
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    if (pickerView == self.heightPickerView || pickerView == self.weightPickerView) {
+    if (pickerView == self.heightPickerView || pickerView == self.weightPickerView  || pickerView == self.height1PickerView || pickerView == self.height2PickerView) {
         return 2;
+//    }else if (pickerView == self.height1PickerView){
+//        return 4;
+    
     }else{
         return 1;
     }
@@ -1624,10 +2472,10 @@
         {
             case 0:
                 return [Height count];
-                
+                break;
             case 1:
                 return  h_unit.count;
-                
+                break;
             default:
                 return 0;
                 break;
@@ -1638,23 +2486,63 @@
         {
             case 0:
                 return [Weight count];
-                
+                break;
             case 1:
                 return  w_unit.count;
-                
+                break;
             default:
                 return 0;
                 break;
         }
+    }else if( thePickerView == self.height1PickerView ){
+       
+        switch (component)
+        {
+            case 0:
+                return [ftArr count];
+                break;
+            case 1:
+                return h_ft_unit.count;
+                break;
+//            case 2:
+//                return [inchArr count];
+//                break;
+//            case 3:
+//                return h_in_unit.count;
+//                break;
+            default:
+                return 0;
+                break;
+        }
+        
+    }else if( thePickerView == self.height2PickerView ){
+        
+        switch (component)
+        {
+                
+            case 0:
+                return [inchArr count];
+                break;
+            case 1:
+                return h_in_unit.count;
+                break;
+            default:
+                return 0;
+                break;
+        }
+        
+        
+        
     }else if( thePickerView == self.sysPickerView ){
         NSLog(@"sys");
         switch (component)
         {
             case 0:
                 return [Sys count];
-                
+                break;
             case 1:
                 return 0;
+                break;
             default:
                 return 0;
                 break;
@@ -1677,17 +2565,17 @@
         }
         
     }else if( thePickerView == self.wPickerView ){
-        NSLog(@"ww");
+   
         
         return [Ww count];
         
     }else if( thePickerView == self.bmiPickerView ){
-        NSLog(@"bmi");
+       
         
         return [BMI count];
         
     }else if( thePickerView == self.bfPickerView ){
-        NSLog(@"body fat");
+       
         
         return [BF count];
         
@@ -1741,6 +2629,49 @@
                 return 0;
                 break;
         }
+    }else if ( thePickerView == self.height1PickerView ){
+        
+        switch (component)
+        {
+            case 0:
+                return [ftArr objectAtIndex:row];
+                break;
+            case 1:
+                return [h_ft_unit objectAtIndex:row] ;
+                break;
+                
+//            case 2:
+//                return [inchArr objectAtIndex:row];
+//                break;
+//             
+//            case 3:
+//                return [h_in_unit objectAtIndex:row];
+//                break;
+//                
+            default:
+                return 0;
+                break;
+        }
+        
+    }else if ( thePickerView == self.height2PickerView ){
+        
+        switch (component)
+        {
+                
+            case 0:
+                return [inchArr objectAtIndex:row];
+                break;
+                
+            case 1:
+                return [h_in_unit objectAtIndex:row];
+                break;
+                
+            default:
+                return 0;
+                break;
+        }
+        
+        
     }else if ( thePickerView == self.sysPickerView ){
         
         switch (component)
@@ -1842,6 +2773,39 @@
                 
                 break;
         }
+    }else if( pickerView == self.height1PickerView ){
+        
+          
+        
+        switch (component) {
+            case 0:
+                 stringHft = [ftArr objectAtIndex:row];
+                break;
+            case 1:
+                break;
+            default:
+                break;
+        }
+       
+        
+    }else if( pickerView == self.height2PickerView ){
+        
+        
+        
+        switch (component) {
+            case 0:
+                stringHin = [inchArr objectAtIndex:row];
+                
+                break;
+            case 1:
+                break;
+            default:
+                break;
+        }
+        
+
+        
+        
     }else if( pickerView == self.wPickerView ){
         stringWei = [Ww objectAtIndex:row];
         
@@ -1855,16 +2819,21 @@
     }else if ( pickerView == self.csPickerView ){
         
         stringCSize = [CuffSizeArr objectAtIndex:row];
+        cuffsize_row = row;
         
     }else if ( pickerView == self.maPickerView ){
         
         stringArm = [MeaArmArr objectAtIndex:row];
+        measureArm_row = row;
         
     }else{
         NSLog(@"123");
     }
    
 }
+
+
+
 
 //設置每一列的寬度
 -(CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
@@ -1876,6 +2845,12 @@
             width = 70;
             break;
         case 1:
+            width = 60;
+            break;
+        case 2:
+            width = 70;
+            break;
+        case 3:
             width = 60;
             break;
             }
@@ -1921,7 +2896,7 @@
     UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     closeBtn.frame = CGRectMake(0, 0, self.view.frame.size.width*0.2, self.view.frame.size.height/17);
     [closeBtn setTitle:@"Cancel" forState:UIControlStateNormal];
-    [closeBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [closeBtn setTitleColor:STANDER_COLOR forState:UIControlStateNormal];
     closeBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     [closeBtn addTarget:self action:@selector(cancelpickerClick) forControlEvents:UIControlEventTouchUpInside];
     
@@ -1935,31 +2910,59 @@
     
 }
 
+-(void)birthdayPickerShow{
+    
+    birDatepicker.hidden = NO;
+    
+}
+
 -(void)birthdayPicker{
     
     [self allpickerView];
     
     
     
+    //[birtapGestureRecognizer addTarget:self action:@selector(birthdayPickerShow) ];
+    
     //日期選擇器
-    birDatepicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0,30, self.view.frame.size.width, self.view.frame.size.height*0.3)];
+    birDatepicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height*0.66+33, self.view.frame.size.width, self.view.frame.size.height*0.3)];
     birDatepicker.hidden = NO;
-    birDatepicker.date = [NSDate date];  // 设置初始時間
+    //NSDate *date = [[NSDate alloc] initWithString:@""];
+   // birDatepicker.date = [NSDate date];  // 設置初始時間
+    
+    
     birDatepicker.datePickerMode = UIDatePickerModeDate;  //設置日期樣式
+    
+    
+    
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    if (dateformatBool == 0) {
+        [dateFormat setDateFormat:@"YYYY/MM/dd"];
+        NSDate *anyDate = [dateFormat dateFromString:birthdayLabel.text];
+        [birDatepicker setDate:anyDate];
+    }else if (dateformatBool == 1){
+        [dateFormat setDateFormat:@"MM/dd/YYYY"];
+        NSDate *anyDate = [dateFormat dateFromString:birthdayLabel.text];
+        [birDatepicker setDate:anyDate];
+    }
+    
+    
     [birDatepicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged]; // 添加监听器
     
-    [self.allPickerView addSubview:birDatepicker]; // 添加到View上
     
-    // [heightPickerView selectRow:120 inComponent:0 animated:NO];
+    //NSString *datepicker = [dateFormat stringFromDate:birDatepicker.date];
     
-//    [self pickertopView];
+    
+    
+    [self.view addSubview:birDatepicker]; // 添加到View上
+    
     
     CGRect blabelFrame = CGRectMake(self.view.frame.size.width/4, 0 , self.view.frame.size.width/2 , self.view.frame.size.height/17);
     UILabel *bLabel = [[UILabel alloc] initWithFrame:blabelFrame];
     [bLabel setTextColor:[UIColor blackColor]];
     bLabel.text = @"Birthday";
     bLabel
-    .font = [UIFont systemFontOfSize:17];
+    .font = [UIFont systemFontOfSize:22];
     bLabel.alpha = 1.0;
     bLabel.textAlignment = NSTextAlignmentCenter;
     
@@ -1968,7 +2971,7 @@
     UIButton *savebirBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     savebirBtn.frame = CGRectMake(self.view.frame.size.width*0.8, 0, self.view.frame.size.width*0.2, self.view.frame.size.height/17);
     [savebirBtn setTitle:@"Save" forState:UIControlStateNormal];
-    [savebirBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [savebirBtn setTitleColor:STANDER_COLOR forState:UIControlStateNormal];
     savebirBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     [savebirBtn addTarget:self action:@selector(savebirClick) forControlEvents:UIControlEventTouchUpInside];
     
@@ -1998,6 +3001,8 @@
     [self.allPickerView removeFromSuperview];
     [self.pickerB removeFromSuperview];
     [self.topView removeFromSuperview];
+    [self.birDatepicker removeFromSuperview];
+//    birDatepicker.hidden = YES;
     
     
 }
@@ -2007,7 +3012,10 @@
     
     if (stringH != nil) {
         heightLabel.text = stringH;
+        height_value = [stringH floatValue];
     }
+    
+    
 }
 
 -(void)saveweightClick{
@@ -2016,7 +3024,23 @@
     
     if (stringW != nil) {
         weightLabel.text = stringW;
+        
+        //判斷公英制
+        if (unitBooL == 0) {
+            weight_value = [stringW floatValue];
+            
+        }else if (unitBooL == 1){
+            double wei1value = [stringW doubleValue];
+            NSString *saveWeiStr = [NSString stringWithFormat:@"%.1f",wei1value/kg_lb];
+            weight_value = [saveWeiStr floatValue];
+            
+        }
+        
+    
     }
+    
+    
+  
     
     
 }
@@ -2040,17 +3064,25 @@
     [self.allPickerView removeFromSuperview];
     [self.pickerB removeFromSuperview];
     [self.topView removeFromSuperview];
+    birDatepicker.hidden = YES;
+    
+    
 }
 
 
 -(void)dateChanged:(id)sender{
     
-    NSDate *select = [sender date]; // 获取被选中的时间
+    NSDate *select = [sender date]; // 獲取被選中的時間
     NSDateFormatter *selectDateFormatter = [[NSDateFormatter alloc] init];
-    selectDateFormatter.dateStyle = NSDateFormatterMediumStyle;
-    selectDateFormatter.dateFormat = @"dd/MM/YYYY"; // 设置时间和日期的格式
+    selectDateFormatter.dateStyle = NSDateFormatterShortStyle;
     
-    birthdaydate = [selectDateFormatter stringFromDate:select]; // 把date类型转为设置好格式的string类型
+    if (dateformatBool == 0) {
+        selectDateFormatter.dateFormat = @"YYYY/MM/dd"; // 設置時間和日期的格式
+    }else if (dateformatBool == 1){
+        selectDateFormatter.dateFormat = @"MM/dd/YYYY"; // 設置時間和日期的格式
+    }
+    
+    birthdaydate = [selectDateFormatter stringFromDate:select]; // 把date類型轉為設置好格式的string類型
     
     //透過UIDatePicker的date屬性取得使用者選取的日期, 並透過NSDateFormatter轉換成字串
 //    NSString *date = [NSDateFormatter stringFromDate:picker.date];
@@ -2058,7 +3090,7 @@
     //設定標籤的文字為選取日期的文字
    
     
-   
+    NSLog(@"生日為 %@",birthdaydate);
     
     NSLog(@"%@",[sender date]);
 
@@ -2071,39 +3103,190 @@
 {
     if(segment.selectedSegmentIndex == 0)
     {
-        // code for the first button
+        genderBooL = 0;
+        
     }else{
+        genderBooL = 1;
         
     }
 }
 
 -(void)unitSegmentControlAction:(UISegmentedControl *)segment{
     
+    heiStr = heightLabel.text;
+    weiStr = weightLabel.text;
+    goalweiStr = wLabel.text;
+    
+    
     if (segment.selectedSegmentIndex == 0) {
-        cmLabel.text = @"cm";
+        
+        
+        heightLabel.hidden = NO;
+        height1Label.hidden = YES;
+        height2Label.hidden = YES;
+        cmLabel.hidden = NO;
+        cm1Label.hidden = YES;
+        cm2Label.hidden = YES;
+        
+        unitBooL = 0;
+        
         kgLabel.text = @"kg";
         goalkgLabel.text = @"kg";
         
+        kg_lb_c = 1;
+        cm_ft_c = 1;
+       
+        
+        
+        if (stringH != nil) {
+            
+             heightLabel.text = [NSString stringWithFormat:@"%d",height_value];
+        }else{
+           
+            double hei1value = [height1Label.text doubleValue];
+            double hei2value = [height2Label.text doubleValue];
+            NSString *im_to_me_heiStr = [NSString stringWithFormat:@"%.0f",((hei1value+hei2value/12)/cm_ft)];
+            heightLabel.text = im_to_me_heiStr;
+            stringH = im_to_me_heiStr;
+            
+        }
+        
+        
+        if (stringW != nil) {
+            
+            weightLabel.text = [NSString stringWithFormat:@"%.1f",weight_value];
+            
+            
+        }else{
+            
+            double wei1value = [weiStr doubleValue];
+            NSString *im_to_me_weiStr = [NSString stringWithFormat:@"%.1f",wei1value/kg_lb];
+            weightLabel.text = im_to_me_weiStr;
+            stringW = im_to_me_weiStr;
+        }
+        
+        
+        if (stringWei !=nil ) {
+            
+            wLabel.text = [NSString stringWithFormat:@"%.1f",goalweight_value];
+        }else{
+            
+            double goalwei1value = [goalweiStr doubleValue];
+            NSString *im_to_me_goalweiStr = [NSString stringWithFormat:@"%.1f",goalwei1value/kg_lb];
+            wLabel.text = im_to_me_goalweiStr;
+            stringWei = im_to_me_goalweiStr;
+        }
+        
+        
+        
+        
         
     }else{
-        cmLabel.text = @"ft";
+        
+        heightLabel.hidden = YES;
+        height1Label.hidden = NO;
+        height2Label.hidden = NO;
+        cmLabel.hidden = YES;
+        cm1Label.hidden = NO;
+        cm2Label.hidden = NO;
+        
+        unitBooL = 1;
+        
         kgLabel.text = @"lb";
         goalkgLabel.text = @"lb";
+        
+        kg_lb_c = 2.20462;
+        cm_ft_c = 0.03306878;
+        
+        
+        //身高轉字串
+//        double hei2value = [heiStr doubleValue];
+        //公分轉英呎
+        NSString *ft_1Str = [NSString stringWithFormat:@"%.2f", height_value*cm_ft];
+        NSString *ft_2Str = [ft_1Str substringWithRange:NSMakeRange(0, 1)];
+        //公分轉英呎
+        NSString *hei2222str = [NSString stringWithFormat:@"%f",height_value*cm_ft];
+        int ft_value = [ft_2Str intValue];
+        double hei2222value = [hei2222str doubleValue];
+        
+        
+        
+        //英呎扣掉整數位後剩餘部分轉英吋
+        NSString *inch_1Str = [NSString stringWithFormat:@"%.1f",(hei2222value-ft_value)*12];
+        
+        NSLog(@"ft====== %@",ft_2Str);
+        NSLog(@"ft====== %@",ft_1Str);
+        NSLog(@"inch=====%@",hei2222str);
+        
+        height1Label.text = ft_2Str;     //英呎
+        height2Label.text = inch_1Str;    //英吋
+        
+        
+        
+        //double wei2value = [weiStr doubleValue];
+        NSString *me_to_im_weiStr = [NSString stringWithFormat:@"%.1f",weight_value*kg_lb];
+        weightLabel.text = me_to_im_weiStr;
+        
+        //double goalwei2value = [goalweiStr doubleValue];
+        NSString *me_to_im_goalweiStr = [NSString stringWithFormat:@"%.1f",goalweight_value*kg_lb];
+        wLabel.text = me_to_im_goalweiStr;
+        
+        
+        
         
     }
     
     
 }
 
+
+
 -(void)pressureSegmentControlAction:(UISegmentedControl *)segment{
+    
+    spStr = spLabel.text;
+    dpStr = dpLabel.text;
+    
     
     if (segment.selectedSegmentIndex == 0) {
         mmHg1Label.text = @"mmHg";
         mmHg2Label.text = @"mmHg";
         
+        mmHg_kPa_c = 1;
+        pressureBooL = 0;
+        
+        if (stringS != nil) {
+            spLabel.text = [NSString stringWithFormat:@"%.0f",sys_pressure_value];
+        }else{
+            double sp1value = [spStr doubleValue];
+            NSString *syspreStr = [NSString stringWithFormat:@"%.0f",sp1value/mmHg_kPa];
+            spLabel.text = syspreStr;
+        }
+        
+        if (stringD != nil) {
+            dpLabel.text = [NSString stringWithFormat:@"%.0f",dia_pressure_value];
+        }else{
+            
+            double dp1value = [dpStr doubleValue];
+            dpStr = [NSString stringWithFormat:@"%.0f",dp1value/mmHg_kPa];
+            dpLabel.text = dpStr;
+            
+        }
+        
+        
+        
     }else{
         mmHg1Label.text = @"kpa";
         mmHg2Label.text = @"kpa";
+        
+        mmHg_kPa_c = 0.13332237;
+        pressureBooL = 1;
+        
+        double sp2value = [spStr doubleValue];
+        spStr = [NSString stringWithFormat:@"%.1f",sp2value*mmHg_kPa];
+        spLabel.text = spStr;
+        double dp2value = [dpStr doubleValue];
+        dpStr = [NSString stringWithFormat:@"%.1f",dp2value*mmHg_kPa];
+        dpLabel.text = dpStr;
         
     }
     
@@ -2209,5 +3392,48 @@
     [self presentViewController:ChangePassword animated:true completion:nil];
     
 }
+
+#pragma mark - 儲存帳戶資料
+
+-(void)saveProfile{
+    
+    profile_name = nameTextField.text;   //使用者姓名
+    
+    
+    //genderBooL = 1  性別:女   genderBooL = 0  性別:男
+    //unitBooL = 0 公制   ：   unitBooL = 1 英制
+    //pressureBooL = 0  mmHg    ：   pressureBooL = 1  kpa
+    
+    //dateformatBool = 0  日期格式 YYYY/MM/dd
+    //dateformatBool = 1  日期格式 MM/dd/YYYY
+    
+    
+    //height_value =          //身高
+    //weight_value =          //體重
+    //goalweight_value =      //目標體重
+    
+    
+    
+    //sys_pressure_value =      //收縮壓
+    //dia_pressure_value =      //舒張壓
+    
+    
+    
+    BMI_value = [bmiLabel.text floatValue];     //BMI
+    BF_value =  [bfLabel.text floatValue];    //體脂
+    
+    
+    //cuffsize_row;          //袖口尺寸
+    //measureArm_row;        //手臂尺寸
+    
+    
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+    
+}
+
+
+
+
+
 
 @end

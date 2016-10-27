@@ -8,14 +8,18 @@
 
 #import "EditMemberController.h"
 
-@interface EditMemberController ()
+@interface EditMemberController (){
+    
+    NSMutableArray *MyMember_Array;
+    
+}
 
 @end
 
 
 
 @implementation EditMemberController{
-    NSArray *mailtItem;
+   
 }
 
 
@@ -29,7 +33,7 @@
     [self.view setBackgroundColor:[UIColor colorWithRed:246.0f/255.0f green:246.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
     self.person=[NSMutableArray array];
     for (int i=1; i<15; i++) {
-        [self.person addObject:[NSString stringWithFormat:@"第%d個聯繫人",i]];
+       // [self.person addObject:[NSString stringWithFormat:@"第%d個聯繫人",i]];
     }
     
     [self editmailTableView];
@@ -78,10 +82,10 @@
     [self.view addSubview:navcancelBtn];
     
     UIButton *navdeleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    navdeleteBtn.frame = CGRectMake(self.view.frame.size.width*0.8, self.view.frame.size.height*0.017, self.view.frame.size.width/5, self.view.frame.size.height*0.07);
+    navdeleteBtn.frame = CGRectMake(self.view.frame.size.width*0.78, self.view.frame.size.height*0.017, self.view.frame.size.width/5, self.view.frame.size.height*0.07);
     [navdeleteBtn setTitle:@"Delete" forState:UIControlStateNormal];
     [navdeleteBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    navdeleteBtn.titleLabel.font = [UIFont systemFontOfSize:21];
+    navdeleteBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     navdeleteBtn.backgroundColor = [UIColor clearColor];
     navdeleteBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     //navbackBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
@@ -192,7 +196,7 @@
         cell = [nib objectAtIndex:0];
         
         cell.MemberL.text = self.person[indexPath.row];
-        cell.checkboxBtn.tag = (int)indexPath.row;
+       // cell.checkboxBtn.tag = (int)indexPath.row;
         // [cell.checkboxBtn addTarget:self action:@selector(memberselect:) forControlEvents:UIControlEventTouchUpInside];
         
     }
@@ -213,7 +217,7 @@
 #pragma mark - 實現代理的方法
 -(void)postValue:(NSString *)stringp
 {
-    [self.person replaceObjectAtIndex:self.number withObject:stringp];
+  //  [self.person replaceObjectAtIndex:self.number withObject:stringp];
     [self.MailTableView reloadData];
 }
 
