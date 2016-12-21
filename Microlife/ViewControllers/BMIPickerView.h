@@ -13,6 +13,8 @@
 
 @property (strong, nonatomic) UIPickerView *m_pickerView;
 
+@property (nonatomic) CGFloat bmiValue;
+
 -(id)initWithBMIPickerView:(CGRect)frame;
 
 @end

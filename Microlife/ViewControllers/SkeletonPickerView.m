@@ -34,7 +34,8 @@
     }
     
     //ary_unit
-    NSArray *ary_unit = [NSArray arrayWithObjects:@"kg",@"lb" ,nil];
+    NSArray *ary_unit =[NSArray arrayWithObjects:@"kg",nil];
+    //[NSArray arrayWithObjects:@"kg",@"lb" ,nil];
     
 
     //ary_skeletonData
@@ -42,6 +43,10 @@
                         [NSArray arrayWithObjects:@" ", nil],
                         ary_skeleton,
                         ary_unit, nil];
+    
+    self.skelValue=0.5;
+    self.skelUnit=ary_unit[0];
+    
     
     return self;
 }
@@ -70,6 +75,27 @@
     return title;
 }
 
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    NSLog(@"%d,%d",row,component);
+    
+    if(component==1)
+    {
+        NSMutableArray *ary=ary_skeletonData[component];
+        NSString *sValue=ary[row];
+        self.skelValue=sValue.floatValue;
+    }
+    
+    if(component==2)
+    {
+        NSMutableArray *ary=ary_skeletonData[component];
+        NSString *unitValue=ary[row];
+        
+        NSLog(@"unit:%@",unitValue);
+        
+        self.skelUnit=unitValue;
+    }
+}
 
 
 @end

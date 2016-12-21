@@ -35,6 +35,8 @@
                         ary_OrganFat,
                         [NSArray arrayWithObjects:@" ", nil],nil];
     
+    self.ofatValue=1;
+    
     return self;
 }
 
@@ -62,5 +64,17 @@
     return title;
 }
 
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    NSLog(@"%d,%d",row,component);
+    
+    if(component==1)
+    {
+        NSMutableArray *ary=ary_OrganFatData[component];
+        NSString *fValue=ary[row];
+        self.ofatValue=fValue.floatValue;
+    }
+    
+}
 
 @end

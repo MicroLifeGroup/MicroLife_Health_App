@@ -12,6 +12,9 @@
 
 @property (strong, nonatomic) UIPickerView *m_pickerView;
 
+@property (nonatomic) CGFloat bmrValue;
+@property (strong,nonatomic)NSString *bmrUnit;
+
 -(id)initWithBMRPickerView:(CGRect)frame;
 
 @end

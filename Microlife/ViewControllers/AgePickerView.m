@@ -36,6 +36,8 @@
                    ary_age,
                    [NSArray arrayWithObjects:@" ",nil],nil];
     
+    self.ageValue=10;
+    
     return self;
 }
 
@@ -60,6 +62,19 @@
     NSString *title = [NSString stringWithFormat:@"%@",ary[row]];
     
     return title;
+}
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    NSLog(@"%d,%d",row,component);
+    
+    if(component==1)
+    {
+        NSMutableArray *ary=ary_ageData[component];
+        NSString *aValue=ary[row];
+        self.ageValue=aValue.floatValue;
+    }
+    
 }
 
 @end

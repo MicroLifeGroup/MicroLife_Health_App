@@ -586,11 +586,16 @@
     [self addSubview:bottomLine];
     
     //開始時間
-    startTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    startTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(graphUnitLabel.bounds.origin.x, bottomLine.frame.origin.y+SCREEN_HEIGHT*0.022, startTimeLabel.frame.size.width, startTimeLabel.frame.size.height)];
     startTimeLabel.text = @"";
     startTimeLabel.font = [UIFont systemFontOfSize:12.0];
+    [startTimeLabel setBackgroundColor:[UIColor redColor]];
     [startTimeLabel sizeToFit];
-    startTimeLabel.frame = CGRectMake(bottomLine.frame.origin.x, bottomLine.frame.origin.y+SCREEN_HEIGHT*0.022, startTimeLabel.frame.size.width, startTimeLabel.frame.size.height);
+    
+    //startTimeLabel.frame =CGRectMake(graphUnitLabel.frame.origin.x, bottomLine.frame.origin.y+SCREEN_HEIGHT*0.022, startTimeLabel.frame.size.width, startTimeLabel.frame.size.height);
+    //CGRectMake(bottomLine.frame.origin.x, bottomLine.frame.origin.y+SCREEN_HEIGHT*0.022, startTimeLabel.frame.size.width, startTimeLabel.frame.size.height);
+    
+    
     
     [self addSubview:startTimeLabel];
     

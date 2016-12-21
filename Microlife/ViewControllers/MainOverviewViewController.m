@@ -538,6 +538,16 @@
     
     [self addObserverForBLEHandler];
     
+    //Button
+    [sysAndDiaCurveBt setSelected:YES];
+    [pulCurveBt setSelected:NO];
+    bpRainbowBarBt.selected=NO;
+    
+    weiCurveBt.selected=YES;
+    bmiCurveBt.selected=NO;
+    fatCurveBt.selected=NO;
+    weightRainbowBarBt.selected=NO;
+    
 }
 
 -(void)initParameter{
@@ -668,6 +678,8 @@
 
 -(void)didReceiveWeightMeasureData{
     
+    NSLog(@"didReceiveWeightMeasureData");
+    
     NSDictionary *latestWeight = [[LocalData sharedInstance] getLatestMeasureValue];
     
     UIImage *circleImage = IMAGE_NORMAL_WEIGHT;
@@ -677,6 +689,8 @@
     float weight = [[latestWeight objectForKey:@"weight"] floatValue];
     BMIValue = [[latestWeight objectForKey:@"BMI"] floatValue];
     float bodyFat = [[latestWeight objectForKey:@"bodyFat"] floatValue];
+    
+    NSLog(@"bodyFat=>%f",bodyFat);
     
     int userArea = [LocalData sharedInstance].userArea;
     
@@ -716,6 +730,8 @@
     [rainbowViewForBMI checkBMIValue:BMIValue];
     
     [self createChartWithType:2];
+    
+    NSLog(@"didReceiveWeightMeasureData");
 }
 
 -(void)didReceiveTempMeasureData{
@@ -801,6 +817,48 @@
     }
     
     [self.view bringSubviewToFront:listSperatorView];// listSperatorView
+    
+    NSLog(@"bpRainbowBarBt.selected==>%d",bpRainbowBarBt.selected);
+    
+    if(bpRainbowBarBt.selected)
+    {
+        isBPRainbowBarBtSelected=YES;
+        [self bpRainbowBarBtAction:bpRainbowBarBt];
+        
+    }else{
+        
+        if(sysAndDiaCurveBt.selected)
+        {
+            [self sysDiaAndPulCurveBtAction:sysAndDiaCurveBt];
+            
+        }else if(pulCurveBt.selected){
+            [self sysDiaAndPulCurveBtAction:pulCurveBt];
+        }
+    }
+    
+    if(weightRainbowBarBt.selected)
+    {
+        isweightRainbowBarBtSelected=YES;
+        [self weightRainbowBarBtAction:weightRainbowBarBt];
+        
+    }else{
+        
+        if(weiCurveBt.selected)
+        {
+            [self weiBmiFatBtAction:weiCurveBt];
+            
+        }else if(bmiCurveBt.selected){
+            
+            [self weiBmiFatBtAction:bmiCurveBt];
+            
+        }else if(fatCurveBt.selected){
+            
+            [self weiBmiFatBtAction:fatCurveBt];
+            
+        }
+    }
+    
+
 }
 
 -(void)createChartWithType:(int)type{
@@ -1066,7 +1124,6 @@
     //timeToolBar
     timeToolBar = [[UIToolbar alloc] initWithFrame:bloodPressureToolBar.frame];
     [timeToolBar setItems:@[timeBackToPulBt,space,timeBt,space,timeNextToDateBt] animated:NO];
-    
     
     
     //**********************  dateToolBar & dateToolBarBts  *********************
@@ -1461,6 +1518,10 @@
         [pulCurveBt setTitleColor:STANDER_COLOR forState:UIControlStateNormal];
         [pulCurveBt setBackgroundImage:[UIImage imageNamed:@"all_btn_a_0"] forState:UIControlStateNormal];
         
+        [sysAndDiaCurveBt setSelected:YES];
+        [pulCurveBt setSelected:NO];
+        bpRainbowBarBt.selected=NO;
+        
         [self createChartWithType:0];
         
     }
@@ -1472,7 +1533,12 @@
         [pulCurveBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [pulCurveBt setBackgroundImage:[UIImage imageNamed:@"all_btn_a_1"] forState:UIControlStateNormal];
         
+        
         [self createChartWithType:1];
+        
+        [sysAndDiaCurveBt setSelected:NO];
+        [pulCurveBt setSelected:YES];
+        bpRainbowBarBt.selected=NO;
     }
     
     BPChartView.hidden = NO;
@@ -1492,9 +1558,9 @@
 #pragma mark - bloodPressure RainbowBarBt Action
 -(void)bpRainbowBarBtAction:(UIButton *)sender {
     
-    isBPRainbowBarBtSelected = isBPRainbowBarBtSelected == YES ? NO : YES;
+    //isBPRainbowBarBtSelected = isBPRainbowBarBtSelected == YES ? NO : YES;
     
-    if (rainbowViewForBp.hidden) {
+    if (rainbowViewForBp.hidden || isBPRainbowBarBtSelected) {
         
         [bpRainbowBarBt setBackgroundImage:[UIImage imageNamed:@"overview_btn_a_bar_1"] forState:UIControlStateNormal];
         
@@ -1502,6 +1568,11 @@
         
         BPChartView.hidden = YES;
         rainbowViewForBp.hidden = NO;
+        
+        bpRainbowBarBt.selected=YES;
+        
+        isBPRainbowBarBtSelected=NO;
+        
     }
     else {
         
@@ -1510,6 +1581,8 @@
         
         BPChartView.hidden = NO;
         rainbowViewForBp.hidden = YES;
+        
+        bpRainbowBarBt.selected=NO;
     }
     
 }
@@ -1606,6 +1679,11 @@
         
         [self createChartWithType:2];
         
+        weiCurveBt.selected=YES;
+        bmiCurveBt.selected=NO;
+        fatCurveBt.selected=NO;
+        weightRainbowBarBt.selected=NO;
+        
         
     }
     else if (sender == bmiCurveBt) {
@@ -1620,6 +1698,11 @@
         [fatCurveBt setBackgroundImage:[UIImage imageNamed:@"all_btn_a_0"] forState:UIControlStateNormal];
         
         [self createChartWithType:3];
+        
+        weiCurveBt.selected=NO;
+        bmiCurveBt.selected=YES;
+        fatCurveBt.selected=NO;
+        weightRainbowBarBt.selected=NO;
     }
     else if (sender == fatCurveBt) {
         
@@ -1633,6 +1716,11 @@
         [fatCurveBt setBackgroundImage:[UIImage imageNamed:@"all_btn_a_1"] forState:UIControlStateNormal];
         
         [self createChartWithType:4];
+        
+        weiCurveBt.selected=NO;
+        bmiCurveBt.selected=NO;
+        fatCurveBt.selected=YES;
+        weightRainbowBarBt.selected=NO;
     }
     
     weightChartView.hidden = NO;
@@ -1643,9 +1731,9 @@
 #pragma mark - weight RainbowBarBt Action
 -(void)weightRainbowBarBtAction:(UIButton *)sender {
     
-    isweightRainbowBarBtSelected = isweightRainbowBarBtSelected == YES ? NO : YES;
+    //isweightRainbowBarBtSelected = isweightRainbowBarBtSelected == YES ? NO : YES;
     
-    if (rainbowViewForBMI.hidden) {
+    if (rainbowViewForBMI.hidden || isweightRainbowBarBtSelected) {
         
         [weightRainbowBarBt setBackgroundImage:[UIImage imageNamed:@"overview_btn_a_bar_1"] forState:UIControlStateNormal];
         
@@ -1653,6 +1741,9 @@
         
         weightChartView.hidden = YES;
         rainbowViewForBMI.hidden = NO;
+        
+        weightRainbowBarBt.selected=YES;
+        isweightRainbowBarBtSelected=NO;
     }
     else {
         
@@ -1660,6 +1751,8 @@
         
         weightChartView.hidden = NO;
         rainbowViewForBMI.hidden = YES;
+        
+        weightRainbowBarBt.selected=NO;
     }
     
 }
@@ -2243,11 +2336,61 @@
 //weight save
 -(void)weightSaveBtAction {
     
+    NSLog(@"weightSaveBtAction");
+    
+    [self SaveWeightAction];
+    
     blurView.hidden = YES;
     [callWEIPickerView resignFirstResponder];
     callWEIPickerView.inputView = weiPickerView.m_pickerView;
     callWEIPickerView.inputAccessoryView = weiToolBar;
     
+}
+
+-(void)SaveWeightAction
+{
+    NSLog(@"Save Weight Action");
+    
+    NSDate *bpDate=datePickerView.m_pickerView.date;
+    NSDate *bpTime=timePickerView.m_pickerView.date;
+    
+    NSString *bpDateString=[SFCommonCalendar DateToStringByFormate:bpDate formate:@"yyyy-MM-dd"];
+    NSString *bpTimeString=[SFCommonCalendar DateToStringByFormate:bpTime formate:@"HH:mm"];
+    
+    NSString *date = [NSString stringWithFormat:@"%@ %@",bpDateString,bpTimeString];
+    
+    NSLog(@"Weight:%f",weiPickerView.weightValue);
+    NSLog(@"Weight unit:%@",weiPickerView.weightUnit);
+    
+    [WeightClass sharedInstance].accountID = [LocalData sharedInstance].accountID;
+    [WeightClass sharedInstance].weight = weiPickerView.weightValue;
+    [WeightClass sharedInstance].date = date;
+    [WeightClass sharedInstance].water = 0;
+    [WeightClass sharedInstance].bodyFat = fatPickerView.fatValue;
+    [WeightClass sharedInstance].muscle = 0;
+    [WeightClass sharedInstance].skeleton = 0;
+    [WeightClass sharedInstance].BMI = bmiPickerView.bmiValue;
+    [WeightClass sharedInstance].BMR = 0;
+    [WeightClass sharedInstance].organFat = 0;
+    [WeightClass sharedInstance].weight_PhotoPath = @"";
+    [WeightClass sharedInstance].weight_Note = @"";
+    [WeightClass sharedInstance].weight_RecordingPath = @"";
+    
+    [[WeightClass sharedInstance] insertData];
+    
+    
+    NSDictionary *latestWeight = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                  [NSString stringWithFormat:@"%.1f",weiPickerView.weightValue],@"weight",
+                                  [NSString stringWithFormat:@"%.1f",fatPickerView.fatValue],@"bodyFat",
+                                  [NSString stringWithFormat:@"%.1f",bmiPickerView.bmiValue],@"BMI",
+                                  date,@"date",
+                                  nil];
+    
+    [[LocalData sharedInstance] saveLatestMeasureValue:latestWeight];
+    
+    NSLog(@"latestWeight = %@",latestWeight);
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"receiveWeightData" object:nil];
 }
 
 
@@ -2322,10 +2465,53 @@
 //TempDate save
 -(void)tempSaveBtAction {
     
+    [self SaveTempAction];
+    
     blurView.hidden = YES;
     [callTempPickerView resignFirstResponder];
     callTempPickerView.inputView = bodyTempPickerView.m_pickerView;
     callTempPickerView.inputAccessoryView = bodyTempToolBar;
+}
+
+-(void)SaveTempAction
+{
+    NSLog(@"SaveTempAction");
+    
+    //=====save data to DB=====
+    
+    NSDate *bpDate=datePickerView.m_pickerView.date;
+    NSDate *bpTime=timePickerView.m_pickerView.date;
+    
+    NSString *bpDateString=[SFCommonCalendar DateToStringByFormate:bpDate formate:@"yyyy-MM-dd"];
+    NSString *bpTimeString=[SFCommonCalendar DateToStringByFormate:bpTime formate:@"HH:mm"];
+    
+    NSString *date = [NSString stringWithFormat:@"%@ %@",bpDateString,bpTimeString];
+    
+    
+    [BTClass sharedInstance].accountID = [LocalData sharedInstance].accountID;
+    
+    [BTClass sharedInstance].eventID = [LocalData sharedInstance].currentEventId;
+    
+    [BTClass sharedInstance].date = date;
+    
+    [BTClass sharedInstance].bodyTemp = [NSString stringWithFormat:@"%.1f",bodyTempPickerView.btempValue];
+    [BTClass sharedInstance].roomTmep = [NSString stringWithFormat:@"%.1f",roomTempPickerView.rtempValue];
+    [BTClass sharedInstance].BT_PhotoPath = @"";
+    [BTClass sharedInstance].BT_Note = @"";
+    [BTClass sharedInstance].BT_RecordingPath = @"";
+    
+    [[BTClass sharedInstance] insertData];
+    
+    
+    NSDictionary *latestTemp = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                [NSString stringWithFormat:@"%.1f",bodyTempPickerView.btempValue],@"bodyTemp",
+                                [NSString stringWithFormat:@"%.1f",roomTempPickerView.rtempValue],@"roomTemp",
+                                date,@"date",
+                                nil];
+    
+    [[LocalData sharedInstance] saveLatestMeasureValue:latestTemp];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"receiveTempData" object:nil];
 }
 
 

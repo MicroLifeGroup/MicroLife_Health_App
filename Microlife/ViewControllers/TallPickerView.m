@@ -30,7 +30,8 @@
     }
     
     //ary_unit
-    NSArray *ary_unit = [NSArray arrayWithObjects:@"cm",@"ft", nil];
+    NSArray *ary_unit =[NSArray arrayWithObjects:@"cm", nil];
+    //[NSArray arrayWithObjects:@"cm",@"ft", nil];
     
     //ary_tallData
     ary_tallData = [NSMutableArray arrayWithObjects:
@@ -65,6 +66,29 @@
     
     return title;
 }
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    NSLog(@"%d,%d",row,component);
+    
+    if(component==1)
+    {
+        NSMutableArray *ary=ary_tallData[component];
+        NSString *tValue=ary[row];
+        self.tallValue=tValue.floatValue;
+    }
+    
+    if(component==2)
+    {
+        NSMutableArray *ary=ary_tallData[component];
+        NSString *unitValue=ary[row];
+        
+        NSLog(@"unit:%@",unitValue);
+        
+        self.tallUnit=unitValue;
+    }
+}
+
 
 
 @end

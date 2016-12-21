@@ -49,7 +49,8 @@
     }
     
     //ary_unit
-    NSMutableArray *ary_unit = [NSMutableArray arrayWithObjects:@"mmHg",@"kPa", nil];
+    NSMutableArray *ary_unit =[NSMutableArray arrayWithObjects:@"mmHg", nil];
+    //[NSMutableArray arrayWithObjects:@"mmHg",@"kPa", nil];
     
     self.bpDia=20;
     self.bpSys=20;

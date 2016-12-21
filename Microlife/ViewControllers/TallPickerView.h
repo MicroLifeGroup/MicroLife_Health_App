@@ -12,6 +12,9 @@
 
 @property (strong, nonatomic) UIPickerView *m_pickerView;
 
+@property (nonatomic) CGFloat tallValue;
+@property (strong,nonatomic)NSString *tallUnit;
+
 -(id)initWithTallPickerView:(CGRect)frame;
 
 @end

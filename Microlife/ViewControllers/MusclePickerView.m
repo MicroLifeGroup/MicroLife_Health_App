@@ -38,6 +38,9 @@
                       ary_muscle,
                       ary_unit,nil];
     
+    self.msValue=5;
+    self.msUnit=ary_unit[0];
+    
     return self;
 }
 
@@ -64,6 +67,26 @@
     return title;
 }
 
-
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    NSLog(@"%d,%d",row,component);
+    
+    if(component==1)
+    {
+        NSMutableArray *ary=ary_muscleData[component];
+        NSString *mValue=ary[row];
+        self.msValue=mValue.floatValue;
+    }
+    
+    if(component==2)
+    {
+        NSMutableArray *ary=ary_muscleData[component];
+        NSString *unitValue=ary[row];
+        
+        NSLog(@"unit:%@",unitValue);
+        
+        self.msUnit=unitValue;
+    }
+}
 
 @end

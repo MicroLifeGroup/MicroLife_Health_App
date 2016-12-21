@@ -44,13 +44,18 @@
     }
     
     //ary_unit
-    NSArray *ary_unit = [NSArray arrayWithObjects:@"℃",@"℉" ,nil];
+    NSArray *ary_unit =[NSArray arrayWithObjects:@"℃",nil];
+    //[NSArray arrayWithObjects:@"℃",@"℉" ,nil];
     
     //ary_roomTempData
     ary_roomTempData = [NSMutableArray arrayWithObjects:
                         [NSArray arrayWithObjects:@" ", nil],
                         ary_temp,
                         ary_unit, nil];
+    
+    self.rtempValue=15;
+    self.rtempUnit=ary_unit[0];
+    
     
     return self;
 }
@@ -78,6 +83,27 @@
     return title;
 }
 
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    NSLog(@"%d,%d",row,component);
+    
+    if(component==1)
+    {
+        NSMutableArray *ary=ary_roomTempData[component];
+        NSString *rtValue=ary[row];
+        self.rtempValue=rtValue.floatValue;
+    }
+    
+    if(component==2)
+    {
+        NSMutableArray *ary=ary_roomTempData[component];
+        NSString *unitValue=ary[row];
+        
+        NSLog(@"unit:%@",unitValue);
+        
+        self.rtempUnit=unitValue;
+    }
+}
 
 
 @end

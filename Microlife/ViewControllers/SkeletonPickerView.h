@@ -12,6 +12,9 @@
 
 @property (strong, nonatomic) UIPickerView *m_pickerView;
 
+@property (nonatomic) CGFloat skelValue;
+@property (strong,nonatomic)NSString *skelUnit;
+
 -(id)initWithSkeletonPickerView:(CGRect)frame;
 
 

@@ -41,6 +41,9 @@
                    ary_BMR,
                    ary_unit,nil];
     
+    self.bmrValue=500.0;
+    self.bmrUnit=ary_unit[0];
+    
     return self;
 }
 
@@ -66,6 +69,29 @@
     
     return title;
 }
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    NSLog(@"%d,%d",row,component);
+    
+    if(component==1)
+    {
+        NSMutableArray *ary=ary_BMRData[component];
+        NSString *bValue=ary[row];
+        self.bmrValue=bValue.floatValue;
+    }
+    
+    if(component==2)
+    {
+        NSMutableArray *ary=ary_BMRData[component];
+        NSString *unitValue=ary[row];
+        
+        NSLog(@"unit:%@",unitValue);
+        
+        self.bmrUnit=unitValue;
+    }
+}
+
 
 
 @end

@@ -12,6 +12,9 @@
 
 @property (strong, nonatomic) UIPickerView *m_pickerView;
 
+@property (nonatomic) CGFloat fatValue;
+@property (strong,nonatomic)NSString *fatUnit;
+
 -(id)initWithFATPickerView:(CGRect)frame;
 
 @end

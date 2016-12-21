@@ -12,6 +12,9 @@
 
 @property (strong, nonatomic) UIPickerView *m_pickerView;
 
+@property (nonatomic) CGFloat rtempValue;
+@property (strong,nonatomic)NSString *rtempUnit;
+
 -(id)initWithRoomTempPickerView:(CGRect)frame;
 
 @end

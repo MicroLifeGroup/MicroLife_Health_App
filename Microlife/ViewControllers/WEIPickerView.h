@@ -12,6 +12,9 @@
 
 @property (strong, nonatomic) UIPickerView *m_pickerView;
 
+@property (nonatomic) CGFloat weightValue;
+@property (strong,nonatomic)NSString *weightUnit;
+
 -(id)initWithWeiPickerView:(CGRect)frame;
 
 @end

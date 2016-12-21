@@ -52,6 +52,8 @@
                    ary_fat,
                    [NSArray arrayWithObjects:@"%" ,nil],nil];
     
+    self.fatValue=5.0;
+    self.fatUnit=@"%";
     
     return self;
     
@@ -79,6 +81,28 @@
     NSString *title = [NSString stringWithFormat:@"%@",ary[row]];
     
     return title;
+}
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    NSLog(@"%d,%d",row,component);
+    
+    if(component==1)
+    {
+        NSMutableArray *ary=ary_fatData[component];
+        NSString *fValue=ary[row];
+        self.fatValue=fValue.floatValue;
+    }
+    
+    if(component==2)
+    {
+        NSMutableArray *ary=ary_fatData[component];
+        NSString *unitValue=ary[row];
+        
+        NSLog(@"unit:%@",unitValue);
+        
+        self.fatUnit=unitValue;
+    }
 }
 
 @end

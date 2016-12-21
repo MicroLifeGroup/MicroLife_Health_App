@@ -12,6 +12,8 @@
 
 @property (strong, nonatomic) UIPickerView *m_pickerView;
 
+@property (nonatomic) int ageValue;
+
 -(id)initWithAgePickerView:(CGRect)frame;
 
 @end

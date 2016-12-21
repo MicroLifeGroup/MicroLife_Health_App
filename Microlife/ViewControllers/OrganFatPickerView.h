@@ -12,6 +12,8 @@
 
 @property (strong, nonatomic) UIPickerView *m_pickerView;
 
+@property (nonatomic) CGFloat ofatValue;
+
 -(id)initWithOrganFatPickerView:(CGRect)frame;
 
 @end

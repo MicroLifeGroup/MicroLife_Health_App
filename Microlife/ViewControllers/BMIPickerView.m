@@ -51,6 +51,8 @@
                     ary_bmi,
                     [NSArray arrayWithObjects:@" ", nil], nil];
     
+    self.bmiValue=10.0;
+    
     
     return self;
 }
@@ -79,6 +81,18 @@
     return title;
 }
 
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    NSLog(@"%d,%d",row,component);
+    
+    if(component==1)
+    {
+        NSMutableArray *ary=ary_bmiData[component];
+        NSString *bValue=ary[row];
+        self.bmiValue=bValue.floatValue;
+    }
+    
+}
 
 
 @end

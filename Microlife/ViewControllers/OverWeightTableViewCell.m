@@ -88,7 +88,7 @@
     //--------------------------------------------
     //bodyFatLabel
     bodyFatLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(bmiValueLabel.frame)+10, CGRectGetMinY(weightLabel.frame), labelWidth, labelHeight)];
-    bodyFatLabel.text = @"PUL";
+    bodyFatLabel.text = @"FAT";
     bodyFatLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:bodyFatLabel];
     

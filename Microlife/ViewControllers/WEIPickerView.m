@@ -47,13 +47,16 @@
     }
     
     //ary_unit
-    NSArray *ary_unit = [NSArray arrayWithObjects:@"kg",@"lb", nil];
+    NSArray *ary_unit =[NSArray arrayWithObjects:@"kg", nil];
+    //[NSArray arrayWithObjects:@"kg",@"lb", nil];
     
     //ary_weiData
     ary_weiData = [NSMutableArray arrayWithObjects:[NSArray arrayWithObjects:@" ",nil],
                                                     ary_wei,
                                                     ary_unit,nil];
     
+    self.weightValue=5.0;
+    self.weightUnit=ary_unit[0];
     
     return self;
 }
@@ -80,6 +83,28 @@
     NSString *title = [NSString stringWithFormat:@"%@",ary[row]];
     
     return title;
+}
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    NSLog(@"%d,%d",row,component);
+    
+    if(component==1)
+    {
+        NSMutableArray *ary=ary_weiData[component];
+        NSString *wValue=ary[row];
+        self.weightValue=wValue.floatValue;
+    }
+    
+    if(component==2)
+    {
+        NSMutableArray *ary=ary_weiData[component];
+        NSString *unitValue=ary[row];
+        
+        NSLog(@"unit:%@",unitValue);
+        
+        self.weightUnit=unitValue;
+    }
 }
 
 @end

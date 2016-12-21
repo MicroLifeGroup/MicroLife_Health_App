@@ -12,6 +12,9 @@
 
 @property (strong, nonatomic) UIPickerView *m_pickerView;
 
+@property (nonatomic) CGFloat msValue;
+@property (strong,nonatomic)NSString *msUnit;
+
 -(id)initWithMusclePickerView:(CGRect)frame;
 
 @end
