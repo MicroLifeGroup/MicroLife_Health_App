@@ -1200,12 +1200,9 @@ float BPM_FREQUESCY_LONG = 1.0;
     [verData setOptionTubeless:[optionByteStr substringWithRange:NSMakeRange(1, 1)].intValue];
     [verData setOptionDeviceID:[optionByteStr substringWithRange:NSMakeRange(0, 1)].intValue];
     
-    if (hs.length != 0) {
-        //新版血壓機v1.1.0 多出BatteryVoltage欄位，舊版v1.0.3 沒有
-        
-        double vol = ((double)[hs parseInt:2])/10.0f;
-        [verData setDeviceBatteryVoltage:vol];
-    }
+    double vol = ((double)[hs parseInt:2])/10.0f;
+    [verData setDeviceBatteryVoltage:vol];
+
     
     
     /*

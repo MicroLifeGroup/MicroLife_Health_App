@@ -35,6 +35,7 @@
 }
 
 -(BOOL)validateEmail:(NSString*)email;
+-(void)errorEmailAlert;
 
 
 @property (nonatomic,retain)  UITextField  *confirmPasswordTextField;

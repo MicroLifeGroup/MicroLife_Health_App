@@ -11,10 +11,6 @@
 
 @interface OverViewAddEventControllerViewController () {
     
-    UITextField *nameTextField;
-    UITextField *typeTextField;
-    UITextField *dateTextField;
-    
     UIDatePicker *datePickerView;
     
 }
@@ -23,7 +19,7 @@
 
 @implementation OverViewAddEventControllerViewController
 
-@synthesize ary_userDataStr;
+@synthesize ary_userDataStr,nameTextField,typeTextField,dateTextField,editing;
 
 -(id)initWithAddEventViewController:(CGRect)frame {
     
@@ -68,6 +64,10 @@
 -(void)createBarbuttonItem {
     
     //title
+    
+    //if (_editing) {
+    //
+    //}
     self.navigationItem.title = @"Add Event";
     
     
@@ -174,6 +174,27 @@
 #pragma mark - saveUserData
 -(void)saveUserData {
     
+    if (nameTextField.text.length <= 0 ) {
+        
+        [self showAlertWithTitle:NSLocalizedString(@"Please insert person", nil) withMessage:@""];
+        
+        return;
+    }
+    
+    if (typeTextField.text.length <= 0) {
+        
+        [self showAlertWithTitle:NSLocalizedString(@"Please insert type", nil) withMessage:@""];
+        
+        return;
+    }
+    
+    if (dateTextField.text.length <= 0 ) {
+        [self showAlertWithTitle:NSLocalizedString(@"Please insert date", nil) withMessage:@""];
+        
+        return;
+    }
+    
+    
     ary_userDataStr = [[NSMutableArray alloc] init];
     [ary_userDataStr addObject: nameTextField.text];
     [ary_userDataStr addObject: typeTextField.text];
@@ -181,7 +202,7 @@
     
     [EventClass sharedInstance].type = typeTextField.text;
     [EventClass sharedInstance].event = nameTextField.text;
-    [EventClass sharedInstance].eventTime = typeTextField.text;
+    [EventClass sharedInstance].eventTime = dateTextField.text;
     
     [[EventClass sharedInstance] insertData];
     
@@ -189,6 +210,17 @@
     
     [self.navigationController popViewControllerAnimated:YES];
     
+}
+
+-(void)showAlertWithTitle:(NSString *)title withMessage:(NSString *)message{
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleDefault handler:nil];
+    
+    [alert addAction:okAction];
+    
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 

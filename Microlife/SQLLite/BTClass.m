@@ -91,10 +91,8 @@
         
         
         DataArray = [self SELECT:Command Num:3];//SELECT:指令：幾筆欄位
-        
-        NSLog(@"command i =%d",i);
-        
-        NSLog(@"DataArray = %@",DataArray);
+                
+        //NSLog(@"DataArray = %@",DataArray);
         
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.dateFormat = @"MM/dd HH:00";
@@ -134,7 +132,7 @@
         
     }
     
-    NSLog(@"Temp data resultArray = %@",resultArray);
+    //NSLog(@"Temp data resultArray = %@",resultArray);
 
     return resultArray;
     
@@ -157,8 +155,8 @@
     
     DataArray = [self SELECT:Command Num:3];//SELECT:指令：幾筆欄位
     
-    NSLog(@"limitHour = %d, dataRange = %d",limitHour,dataRange);
-    NSLog(@"DataArray = %@",DataArray);
+    //NSLog(@"limitHour = %d, dataRange = %d",limitHour,dataRange);
+    //NSLog(@"DataArray = %@",DataArray);
     
     NSString *dateStr = @"";
     
@@ -202,7 +200,7 @@
     }
 
     
-    NSLog(@"current day temp resultArray = %@",resultArray);
+    //NSLog(@"current day temp resultArray = %@",resultArray);
     
     return resultArray;
 }
@@ -226,7 +224,7 @@
     
     DataArray = [self SELECT:Command Num:7];//SELECT:指令：幾筆欄位
     
-    NSLog(@"list temp DataArray = %@",DataArray);
+    //NSLog(@"list temp DataArray = %@",DataArray);
     
     if ([[DataArray firstObject] count] != 1) {
         for (int i=0; i<DataArray.count; i++) {
@@ -257,7 +255,7 @@
         }
     }
     
-    NSLog(@"selectDataForList resultArray = %@",resultArray);
+    //NSLog(@"selectDataForList resultArray = %@",resultArray);
     
     
     return resultArray;
@@ -289,7 +287,7 @@
     
     DataArray = [self SELECT:Command Num:2];//SELECT:指令：幾筆欄位
     
-    NSLog(@"DataArray = %@",DataArray);
+    //NSLog(@"DataArray = %@",DataArray);
     
     float bodyTempSum = 0;
     NSNumber *lastTemp = [NSNumber numberWithFloat:0];
@@ -332,7 +330,7 @@
 -(void)insertData{
     
     
-    NSString *SQLStr = [NSString stringWithFormat:@"INSERT INTO BTList( accountID, eventID, bodyTemp, roomTmep, date, BT_PhotoPath, BT_Note, BT_RecordingPath) VALUES(  \"%d\",\"%d\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\");", accountID , eventID, bodyTemp, roomTmep, date, BT_PhotoPath, BT_Note, BT_RecordingPath];
+    NSString *SQLStr = [NSString stringWithFormat:@"INSERT INTO BTList( accountID, eventID, bodyTemp, roomTmep, date, BT_PhotoPath, BT_Note, BT_RecordingPath) VALUES(  \"%d\",\"%d\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\");", [LocalData sharedInstance].accountID , [LocalData sharedInstance].currentEventId, bodyTemp, roomTmep, date, BT_PhotoPath, BT_Note, BT_RecordingPath];
     
     [self COLUMN_INSERT:SQLStr];
 }

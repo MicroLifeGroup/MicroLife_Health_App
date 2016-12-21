@@ -9,24 +9,9 @@
 
 #import "OverBPTableViewCell.h"
 
-@implementation OverBPTableViewCell{
-    //SYS
-    UILabel *sysLabel;
-    UILabel *sysValueLabel;
-    UILabel *sysUnitLabel;
-    
-    //DIA
-    UILabel *diaLabel;
-    UILabel *diaValueLabel;
-    UILabel *diaUnitLabel;
-    
-    //PUL
-    UILabel *pulLabel;
-    UILabel *pulValueLabel;
-    UILabel *pulUnitLabel;
-}
+@implementation OverBPTableViewCell
 
-@synthesize bpCellImgView,bpCellSperator,bpCellDateLabel,bpCellTimeLabel;
+@synthesize bpCellImgView,bpCellSperator,bpCellDateLabel,bpCellTimeLabel,sysValueLabel,diaValueLabel,pulValueLabel;
 
 -(id)initBPTableiewCellWithFrame:(CGRect)frame {
     
@@ -40,20 +25,21 @@
     [self addSubview:bpCellImgView];
     
     //bpCellSperator
-    bpCellSperator = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMidX(bpCellImgView.frame), CGRectGetMaxY(bpCellImgView.frame)+5, 1.0, frame.size.height/1.8)];
+    bpCellSperator = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMidX(bpCellImgView.frame), CGRectGetMaxY(bpCellImgView.frame)+5, 1.0, frame.size.height/1.8)];
     bpCellSperator.backgroundColor = STANDER_COLOR;
+    bpCellSperator.image = [UIImage imageNamed:@"microlife_blue"];
     [self addSubview:bpCellSperator];
     
     //bpCellDateLabel
-    bpCellDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(bpCellImgView.frame)+5, CGRectGetMinY(bpCellImgView.frame),frame.size.width/6, frame.size.height/3)];
+    bpCellDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(bpCellImgView.frame)+5, CGRectGetMinY(bpCellImgView.frame),frame.size.width/2, frame.size.height/3)];
     //bpCellDateLabel.textAlignment = NSTextAlignmentCenter;
-    bpCellDateLabel.text = @"Today";
+    bpCellDateLabel.text = @"";
     bpCellDateLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:bpCellDateLabel];
     
     //bpCellTimeLabel
     bpCellTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(bpCellDateLabel.frame)+5, CGRectGetMinY(bpCellDateLabel.frame), frame.size.width/6, frame.size.height/3)];
-    bpCellTimeLabel.text = @"at 20:25";
+    bpCellTimeLabel.text = @"";
     bpCellTimeLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:bpCellTimeLabel];
     
@@ -71,7 +57,7 @@
     
     //sysValueLabel
     sysValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(sysLabel.frame), CGRectGetMinY(sysLabel.frame), labelWidth, labelHeight)];
-    sysValueLabel.text = @"125";
+    sysValueLabel.text = @"";
     sysValueLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:sysValueLabel];
     
@@ -91,7 +77,7 @@
     
     //diaValueLabel
     diaValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(diaLabel.frame), CGRectGetMinY(sysLabel.frame), labelWidth, labelHeight)];
-    diaValueLabel.text = @"75";
+    diaValueLabel.text = @"";
     diaValueLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:diaValueLabel];
     
@@ -111,7 +97,7 @@
     
     //pulValueLabel
     pulValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(pulLabel.frame), CGRectGetMinY(sysLabel.frame), labelWidth, labelHeight)];
-    pulValueLabel.text = @"88";
+    pulValueLabel.text = @"";
     pulValueLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:pulValueLabel];
     

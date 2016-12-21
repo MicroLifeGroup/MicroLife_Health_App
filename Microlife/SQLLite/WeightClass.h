@@ -10,10 +10,10 @@
 
 @interface WeightClass : DataBaseClass
 
-@property (nonatomic) int weightID;                     //體脂機ID
+@property (nonatomic) int weightID;                     //體脂ID
 @property (nonatomic) int accountID;                    //會員ID
 @property (nonatomic) int weight;                       //體重
-@property (nonatomic) int weightUnit;                   //體重單位 0 : kg 1 : lb
+
 @property (nonatomic) int BMI;                          //身體質量指數
 @property (nonatomic) int bodyFat;                      //體脂肪
 @property (nonatomic) int water;                        //體水分

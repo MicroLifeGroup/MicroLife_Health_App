@@ -10,7 +10,7 @@
 
 @implementation WeightClass
 
-@synthesize weightID,accountID,weight,weightUnit,BMI,bodyFat,water,skeleton,muscle,BMR,organFat,date,weight_PhotoPath,weight_Note,weight_RecordingPath;
+@synthesize weightID,accountID,weight,BMI,bodyFat,water,skeleton,muscle,BMR,organFat,date,weight_PhotoPath,weight_Note,weight_RecordingPath;
 
 +(WeightClass*) sharedInstance{
     static WeightClass *sharedInstance;
@@ -171,7 +171,7 @@
         
     }
     
-    NSLog(@"%@ Data ==>>>> resultArray = %@",column ,resultArray);
+    //NSLog(@"%@ Data ==>>>> resultArray = %@",column ,resultArray);
     
     return resultArray;
     
@@ -218,7 +218,7 @@
         [resultArray addObject:resultDict];
     }
     
-    NSLog(@"currentDay weight resultArray = %@",resultArray);
+    //NSLog(@"currentDay weight resultArray = %@",resultArray);
     
     return resultArray;
     
@@ -246,11 +246,13 @@
     }else{
         dateSelectType = @"day";
     }
-    //NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS WeightList( weightID INTEGER NULL PRIMARY KEY AUTOINCREMENT, accountID INTEGER,weight INTEGER, weightUnit INTEGER, BMI INTEGER, bodyFat INTEGER, water INTEGER, skeleton INTEGER, muscle INTEGER, BMR INTEGER, organFat INTEGER, date TEXT, weight_PhotoPath TEXT,  weight_Note TEXT, weight_RecordingPath TEXT);";
     
-    NSString *Command = [NSString stringWithFormat:@"SELECT weight, BMI, bodyFat,water,skeleton,muscle,BMR,organFat,weight_PhotoPath,weight_Note,weight_RecordingPath,weightID,STRFTIME(\"%%Y/%%m/%%d %%H:%%M\",\"date\") FROM WeightList WHERE STRFTIME(\"%%Y-%%m-%%d\",\"date\") >= STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d %@\") AND strftime(\"%%Y-%%m-%%d %%H\", \"date\") <=strftime(\"%%Y-%%m-%%d\", \"now\", \"localtime\", \"-%d %@\") AND accountID = %d ORDER BY date DESC",dataRange,dateSelectType,limitDay,dateSelectType,[LocalData sharedInstance].accountID];
+    
+    NSString *Command = [NSString stringWithFormat:@"SELECT weight, BMI, bodyFat,water,skeleton,muscle,BMR,organFat,weight_PhotoPath,weight_Note,weight_RecordingPath,weightID,STRFTIME(\"%%Y/%%m/%%d\",\"date\") FROM WeightList WHERE STRFTIME(\"%%Y-%%m-%%d\",\"date\") >= STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d %@\") AND strftime(\"%%Y-%%m-%%d\", \"date\") <=strftime(\"%%Y-%%m-%%d\", \"now\", \"localtime\", \"-%d %@\") AND accountID = %d ORDER BY date DESC",dataRange,dateSelectType,limitDay,dateSelectType,[LocalData sharedInstance].accountID];
     
     DataArray = [self SELECT:Command Num:13];//SELECT:指令：幾筆欄位
+    
+    NSLog(@"DataArray = %@",DataArray);
     
     if ([[DataArray firstObject] count] != 1) {
         for (int i=0; i<DataArray.count; i++) {
@@ -291,7 +293,7 @@
         }
     }
     
-    NSLog(@"selectDataForList resultArray = %@",resultArray);
+    //NSLog(@"selectDataForList resultArray = %@",resultArray);
     
     
     return resultArray;
@@ -360,8 +362,8 @@
 
 - (void)updateData{
     
-    NSString *SQLStr = [NSString stringWithFormat:@"UPDATE WeightList SET accountID = \"%d\", weight = \"%d\", weightUnit = \"%d\", BMI = \"%d\" ,body_fat = \"%d\",water = \"%d\" , skeleton = \"%d\",muscle = \"%d\",BMR = \"%d\",organ_fat = \"%d\",date = \"%@\",weight_PhotoPath = \"%@\", weight_Note = \"%@\",weight_RecordingPath = \"%@\" WHERE weightID = \"%d\" "
-                        , accountID, weight, weightUnit, BMI, bodyFat, water,skeleton,muscle,BMR,organFat,date,weight_PhotoPath,weight_Note,weight_RecordingPath,weightID];
+    NSString *SQLStr = [NSString stringWithFormat:@"UPDATE WeightList SET accountID = \"%d\", weight = \"%d\", BMI = \"%d\" ,body_fat = \"%d\",water = \"%d\" , skeleton = \"%d\",muscle = \"%d\",BMR = \"%d\",organ_fat = \"%d\",date = \"%@\",weight_PhotoPath = \"%@\", weight_Note = \"%@\",weight_RecordingPath = \"%@\" WHERE weightID = \"%d\" AND accountID = \"%d\""
+                        , accountID, weight, BMI, bodyFat, water,skeleton,muscle,BMR,organFat,date,weight_PhotoPath,weight_Note,weight_RecordingPath,weightID,[LocalData sharedInstance].accountID];
     
     [self COLUMN_UPDATE:SQLStr];
     
@@ -369,7 +371,7 @@
 
 -(void)insertData{
     
-    NSString *SQLStr = [NSString stringWithFormat:@"INSERT OR REPLACE INTO WeightList( weightID, accountID, weight, weightUnit, BMI, bodyFat, water, skeleton, muscle, BMR, organFat, date, weight_PhotoPath, weight_Note, weight_RecordingPath) VALUES( \"%d\", \"%d\", \"%d\",\"%d\", \"%d\",\"%d\", \"%d\",\"%d\", \"%d\" ,\"%d\",\"%d\",\"%@\",\"%@\",\"%@\",\"%@\");",weightID , accountID, weight, weightUnit, BMI, bodyFat, water,skeleton,muscle,BMR,organFat,date,weight_PhotoPath,weight_Note,weight_RecordingPath];
+    NSString *SQLStr = [NSString stringWithFormat:@"INSERT INTO WeightList( accountID, weight, BMI, bodyFat, water, skeleton, muscle, BMR, organFat, date, weight_PhotoPath, weight_Note, weight_RecordingPath) VALUES( \"%d\", \"%d\", \"%d\",\"%d\", \"%d\",\"%d\", \"%d\" ,\"%d\",\"%d\",\"%@\",\"%@\",\"%@\",\"%@\");" , accountID, weight, BMI, bodyFat, water,skeleton,muscle,BMR,organFat,date,weight_PhotoPath,weight_Note,weight_RecordingPath];
     
     [self COLUMN_INSERT:SQLStr];
 }

@@ -711,9 +711,13 @@
 //註冊點選方法
 -(void)registerBtnClick{
     
-    [self validateEmail:emailTextField.text];
+   
+    if (emailTextField.text.length > 0) {
+      
+        [self validateEmail:emailTextField.text];
+        
     
-    if(passwordTextField.text.length<6 ||passwordTextField.text.length>12){
+    }else if(passwordTextField.text.length<6 ||passwordTextField.text.length>12){
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error password! Please enter between 6-12 numbers or letters." message:@"" preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:nil];
@@ -729,6 +733,8 @@
         [self alertAgree];
         
     }else{
+        
+        
         NSLog(@"password ok");
     }
     
@@ -796,10 +802,39 @@
             
         }
         NSLog(@"sucess");
+        
+       //<<<<<<<<<email格式正確後才會呼叫雲端確認email還沒被註冊>>>>>>>>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         return YES;
     }
     else {
         [self errorEmailAlert];
+        
+               
         NSLog(@"email格式不正確");
         return NO;
         

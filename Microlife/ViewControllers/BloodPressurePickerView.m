@@ -50,6 +50,10 @@
     
     //ary_unit
     NSMutableArray *ary_unit = [NSMutableArray arrayWithObjects:@"mmHg",@"kPa", nil];
+    
+    self.bpDia=20;
+    self.bpSys=20;
+    self.bpUnit=ary_unit[0];
 
     //ary_bpData
     ary_bpData = [NSMutableArray arrayWithObjects:
@@ -85,6 +89,35 @@
     NSString *title = (NSString *)ary[row];
     
     return title;
+}
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    NSLog(@"%d,%d",row,component);
+    
+    if(component==1)
+    {
+        NSMutableArray *ary=ary_bpData[component];
+        NSString *sysValue=ary[row];
+        self.bpSys=sysValue.intValue;
+    }
+    
+    if(component==2)
+    {
+        NSMutableArray *ary=ary_bpData[component];
+        NSString *diaValue=ary[row];
+        self.bpDia=diaValue.intValue;
+    }
+    
+    if(component==3)
+    {
+        NSMutableArray *ary=ary_bpData[component];
+        NSString *unitValue=ary[row];
+        
+        NSLog(@"unit:%@",unitValue);
+        
+        self.bpUnit=unitValue;
+    }
 }
 
 

@@ -8,15 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
-@interface OverTempTableViewCell : UITableViewCell
+@interface OverTempTableViewCell : UITableViewCell{
+    //BODY TEMP
+    UILabel *bodyTempLabel;
+    UILabel *bodyTempUnitLabel;
+}
 
 @property (strong, nonatomic) UIImageView *tempCellImgView;
 
-@property (strong, nonatomic) UIView *tempCellSperator;
+@property (strong, nonatomic) UIImageView *tempCellSperator;
 
 @property (strong, nonatomic) UILabel *tempCellDateLabel;
 
 @property (strong, nonatomic) UILabel *tempCellTimeLabel;
+
+@property (strong, nonatomic) UILabel *bodyTempValueLabel;
 
 -(id)initTempTableViewCellWithFrame:(CGRect)frame;
 

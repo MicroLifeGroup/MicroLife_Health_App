@@ -11,6 +11,8 @@
 @interface PULPickerView : UIView <UIPickerViewDelegate, UIPickerViewDataSource>
 
 @property (strong, nonatomic) UIPickerView *m_pickerView;
+@property (nonatomic) int bpPul;
+@property (strong,nonatomic) NSString *bpPulUnit;
 
 -(id)initWithpulPIckerView:(CGRect)frame;
 

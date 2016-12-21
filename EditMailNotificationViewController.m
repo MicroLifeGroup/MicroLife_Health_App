@@ -105,6 +105,14 @@
     }else{
 
     
+    [self validateEmail:editEmailTextField.text];
+   
+        
+    }
+}
+
+
+-(void)saveEditData{
     
     //Save
     
@@ -118,9 +126,82 @@
     [[LocalData sharedInstance] editMemberProfile:memberDict atIndexPath:self.editIndex];
     
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+}
+
+
+-(BOOL)validateEmail:(NSString*)email
+{
+    if((0 != [email rangeOfString:@"@"].length) &&
+       (0 != [email rangeOfString:@"."].length))
+    {
+        NSCharacterSet* tmpInvalidCharSet = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
+        NSMutableCharacterSet* tmpInvalidMutableCharSet = [tmpInvalidCharSet mutableCopy] ;
+        [tmpInvalidMutableCharSet removeCharactersInString:@"_-"];
+        
+        /*
+         *使用compare option 来设定比较规则，如
+         *NSCaseInsensitiveSearch是不区分大小写
+         *NSLiteralSearch 进行完全比较,区分大小写
+         *NSNumericSearch 只比较定符串的个数，而不比较字符串的字面值
+         */
+        NSRange range1 = [email rangeOfString:@"@"
+                                      options:NSCaseInsensitiveSearch];
+        
+        //取得用户名部分
+        NSString* userNameString = [email substringToIndex:range1.location];
+        NSArray* userNameArray   = [userNameString componentsSeparatedByString:@"."];
+        
+        for(NSString* string in userNameArray)
+        {
+            NSRange rangeOfInavlidChars = [string rangeOfCharacterFromSet: tmpInvalidMutableCharSet];
+            if(rangeOfInavlidChars.length != 0 || [string isEqualToString:@""])
+                
+                return NO;
+        }
+        
+        //取得域名部分
+        NSString *domainString = [email substringFromIndex:range1.location+1];
+        NSArray *domainArray   = [domainString componentsSeparatedByString:@"."];
+        
+        for(NSString *string in domainArray)
+        {
+            NSRange rangeOfInavlidChars=[string rangeOfCharacterFromSet:tmpInvalidMutableCharSet];
+            if(rangeOfInavlidChars.length !=0 || [string isEqualToString:@""])
+                
+                return NO;
+            
+        }
+        NSLog(@"sucess");
+        
+        
+        [self saveEditData];
+        
+        
+        return YES;
+    }
+    else {
+        
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Alert" message:@"Error Email! Please enter again." preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:nil];
+        
+        [alertController addAction:confirmAction];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addAction:cancelAction];
+        
+        
+        [self presentViewController:alertController animated:YES completion:nil];
+        
+        NSLog(@"email格式不正確");
+        return NO;
         
     }
 }
+
+
+
 
 
 

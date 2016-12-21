@@ -312,6 +312,8 @@
 #pragma mark - 體重計
 -(void)checkBMIValue:(float)bmi {
     
+    NSLog(@"bmi = %f",bmi);
+    
     rainbowbarIndicator.hidden = NO;
     
     classificationLabel.text = @"BMI Classification";
@@ -326,28 +328,28 @@
     
     if (bmi < 18.5) {
         
-        rainbowbarIndicator.center = CGPointMake(rainbowBarOirPoint.x + rainbowbarUnit*11, indicatorCenterY);
+        rainbowbarIndicator.center = CGPointMake(rainbowBarOirPoint.x + rainbowbarUnit*1, indicatorCenterY);
     }
     else if (bmi >= 18.5 && bmi <= 24.99) {
         
-        rainbowbarIndicator.center = CGPointMake(rainbowBarOirPoint.x + rainbowbarUnit*9, indicatorCenterY);
+        rainbowbarIndicator.center = CGPointMake(rainbowBarOirPoint.x + rainbowbarUnit*3, indicatorCenterY);
         
     }
     else if (bmi >= 25.0 && bmi <= 29.99) {
         
-        rainbowbarIndicator.center = CGPointMake(rainbowBarOirPoint.x + rainbowbarUnit*7, indicatorCenterY);
+        rainbowbarIndicator.center = CGPointMake(rainbowBarOirPoint.x + rainbowbarUnit*5, indicatorCenterY);
     }
     else if (bmi >= 30.0 && bmi <= 34.99) {
         
-        rainbowbarIndicator.center = CGPointMake(rainbowBarOirPoint.x + rainbowbarUnit*5, indicatorCenterY);
+        rainbowbarIndicator.center = CGPointMake(rainbowBarOirPoint.x + rainbowbarUnit*7, indicatorCenterY);
     }
     else if (bmi >= 35.0 && bmi <= 39.9) {
         
-        rainbowbarIndicator.center = CGPointMake(rainbowBarOirPoint.x + rainbowbarUnit*3, indicatorCenterY);
+        rainbowbarIndicator.center = CGPointMake(rainbowBarOirPoint.x + rainbowbarUnit*9, indicatorCenterY);
     }
     else if (bmi >= 40.0) {
         
-        rainbowbarIndicator.center = CGPointMake(rainbowBarOirPoint.x + rainbowbarUnit*1, indicatorCenterY);
+        rainbowbarIndicator.center = CGPointMake(rainbowBarOirPoint.x + rainbowbarUnit*11, indicatorCenterY);
     }
     else {
         rainbowbarIndicator.hidden = YES;

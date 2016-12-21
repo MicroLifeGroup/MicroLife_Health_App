@@ -12,17 +12,6 @@
 #import "BodyTempTableViewCell.h"
 #import "UIImage+FixOrientation.h"
 
-#define IMAGE_BPM [UIImage imageNamed:@"history_icon_a_list_bpm"];
-#define IMAGE_BPM_RED [UIImage imageNamed:@"history_icon_a_list_bpm_r"];
-#define IMAGE_PAD [UIImage imageNamed:@"history_icon_a_list_pad"];
-#define IMAGE_PAD_RED [UIImage imageNamed:@"history_icon_a_list_pad_r"];
-#define IMAGE_AFIB [UIImage imageNamed:@"history_icon_a_list_afib"];
-#define IMAGE_AFIB_RED [UIImage imageNamed:@"history_icon_a_list_afib_r"];
-#define IMAGE_WEIGHT [UIImage imageNamed:@"history_icon_a_list_ws"];
-#define IMAGE_WEIGHT_RED [UIImage imageNamed:@"history_icon_a_list_ws_r"];
-#define IMAGE_TEMP_NORMAL [UIImage imageNamed:@"history_icon_a_list_ncfr"];
-#define IMAGE_FEVER [UIImage imageNamed:@"history_icon_a_list_ncfr_r"];
-
 @implementation HistoryListTableView
 
 @synthesize historyList,hideListBtn,listDataArray;
@@ -48,11 +37,9 @@
         imgScale = 2.5;
     }
     
-    //listDataArray = [[NSMutableArray alloc] initWithCapacity:0];
-    
     listDataArray = [[LocalData sharedInstance] getListData];
     
-    NSLog(@"listDataArray = %@",listDataArray);
+    //NSLog(@"listDataArray = %@",listDataArray);
 }
 
 -(void)initInterface{
@@ -344,6 +331,8 @@
             weightCell.hasImage = hasImg;
             weightCell.hasRecord = hasRecord;
             
+            weightCell.timeLabel.text = [NSString stringWithFormat:@"%@",[cellDict objectForKey:@"date"]];
+            
             weightCell.weightValue.text = [NSString stringWithFormat:@"%.1f",weight];
             weightCell.BMIValue.text = [NSString stringWithFormat:@"%.1f",BMI];
             weightCell.bodyFatValue.text = [NSString stringWithFormat:@"%.1f",bodyFat];
@@ -353,8 +342,11 @@
             weightCell.BMRValue.text = [NSString stringWithFormat:@"%.1f",BMR];
             weightCell.organFatVlaue.text = [NSString stringWithFormat:@"%.1f",organFat];
             weightCell.noteTextView.text = note;
-            weightCell.timeLabel = [cellDict objectForKey:@"date"];
+            weightCell.typeImage.image = typeImage;
             weightCell.cellImage.image = cellImg;
+            weightCell.decorateLine.backgroundColor = lineColor;
+            
+            NSLog(@"%@",[cellDict objectForKey:@"date"]);
             
             return weightCell;
         }
@@ -399,7 +391,6 @@
         default:
             break;
     }
-    
     
     return cell;
 }

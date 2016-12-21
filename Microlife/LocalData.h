@@ -20,8 +20,10 @@
     NSMutableArray *memberDataArray;
     
 }
+@property BOOL login;
 
 //基本資料
+@property (nonatomic, strong) NSString *name;
 @property int accountID;
 @property int UserAge;
 @property int UserGender; //0 = man 1=women
@@ -34,6 +36,7 @@
 @property int targetDIA;
 @property float targetWeight;
 @property float targetFat;
+@property float targetBMI;
 @property float standerBMI;//BMI 亞洲區：23 非亞洲區：25
 @property float standerFat;//FAT 男性：24% 女性：31%
 @property int measureSpec;//0:歐規,1:USA ,2:非歐非USA
@@ -41,10 +44,17 @@
 @property BOOL showTargetSYS;
 @property BOOL showTargetDIA;
 @property BOOL showTargetWeight;
+@property BOOL showTargetBMI;
 @property BOOL showTargetFat;
 @property (nonatomic, strong) NSString *birthday;
+@property (nonatomic, strong) NSString *conditions;
+@property int threshold;
+@property int cuff_size;
+@property int bp_measurement_arm;
+@property int date_format;
 
 @property int currentEventId;
+@property int currentEventIndex;
 
 //歷史泡泡框
 @property (nonatomic) float avgBodyTemp;
@@ -56,6 +66,8 @@
 @property (nonatomic) int PADFreq;
 
 +(LocalData *)sharedInstance;
+
+-(void)checkDefaultProfileData;
 
 //鬧鐘資料
 -(NSMutableArray *)getReminderData;

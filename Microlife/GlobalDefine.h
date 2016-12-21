@@ -58,7 +58,25 @@
 #define DARKTEXT_COLOR ([UIColor colorWithRed:28.0/255.0 green:28.0/255.0 blue:28.0/255.0 alpha:1])
 
 #define TABLE_BACKGROUND ([UIColor colorWithRed:248.0/255.0 green:248.0/255.0 blue:248.0/255.0 alpha:1])
-//
+//==================
+
+//Images
+#define IMAGE_BPM [UIImage imageNamed:@"history_icon_a_list_bpm"];
+#define IMAGE_BPM_RED [UIImage imageNamed:@"history_icon_a_list_bpm_r"];
+#define IMAGE_PAD [UIImage imageNamed:@"history_icon_a_list_pad"];
+#define IMAGE_PAD_RED [UIImage imageNamed:@"history_icon_a_list_pad_r"];
+#define IMAGE_AFIB [UIImage imageNamed:@"history_icon_a_list_afib"];
+#define IMAGE_AFIB_RED [UIImage imageNamed:@"history_icon_a_list_afib_r"];
+#define IMAGE_WEIGHT [UIImage imageNamed:@"history_icon_a_list_ws"];
+#define IMAGE_WEIGHT_RED [UIImage imageNamed:@"history_icon_a_list_ws_r"];
+#define IMAGE_TEMP_NORMAL [UIImage imageNamed:@"history_icon_a_list_ncfr"];
+#define IMAGE_FEVER [UIImage imageNamed:@"history_icon_a_list_ncfr_r"];
+
+#define IMAGE_NORMAL_BP [UIImage imageNamed:@"overview_icon_a_bpm"]
+#define IMAGE_HIGH_BP [UIImage imageNamed:@"overview_icon_a_bpm_r"]
+#define IMAGE_NORMAL_TEMP [UIImage imageNamed:@"overview_icon_a_ncfr_b"]
+#define IMAGE_NORMAL_WEIGHT [UIImage imageNamed:@"overview_icon_a_ws"]
+#define IMAGE_OVERWEIGHT [UIImage imageNamed:@"overview_icon_a_ws_r"]
 
 /******************/
 //Type Define

@@ -19,6 +19,7 @@
         BOOL ExistDB = [self OpenOrCreateDB:@"MicrolifeDB"];
         if ( ExistDB == 0 ) //DB不存在
         {
+            [self CREATE_ProfileList];  //基本資料
             
             [self CREATE_BPMList];      //創建血壓資料
             
@@ -37,23 +38,36 @@
 //= 創建資料表 ========================================================================================================================
 -(void)CREATE_ProfileList{
     
-    
     /*
-     @property BOOL showTargetSYS;
-     @property BOOL showTargetDIA;
-     @property BOOL showTargetWeight;
-     @property BOOL showTargetFat;
-     @property int accountID;
-     @property int UserGender; //0 = man 1=women
-     @property float UserHeight;
-     @property float UserWeight;
-     @property int metric;//0 = KG CM   1=lb
-     @property int PULUnit;//0=   1=beats;
-     @property int BPUnit;//0=bpm   1=kpa;
-     birthday;
+     用戶ID accountID;
+     姓名 name
+     性別 userGender; //0 = man 1=women
+     生日 birthday;
+     身高 userHeight;
+     體重 userWeight;
+     cuff_size 0(預設值)
+     bp_measurement_arm 0(預設值)
+     公英制 unit_type;//0 = KG CM   1=lb
+     目標收縮壓單位 sys_unit 0(預設值) 0=mmHg   1=kpa;
+     目標收縮壓 sys 135(預設值)
+     是否開啟目標收縮壓 sys_activity ; 0(預設值), 0=OFF, 1=ON
+     目標舒張壓 dia 85(預設值)
+     是否開啟目標舒張壓 dia_activity; 0(預設值), 0=OFF, 1=ON
+     目標體重 goal_weight 75(預設值)
+     是否開啟目標體重 weight_activity; 0(預設值), 0=OFF, 1=ON
+     目標BMI bmi 23(預設值)
+     是否開啟目標 BMI bmi_activity 0(預設值), 0=OFF, 1=ON
+     目標體脂 body_fat 20(預設值)
+     是否開啟目標體脂 body_fat_activity; 0(預設值), 0=OFF, 1=ON
+     正常值 threshold 1(預設值), 0=OFF, 1=ON
+     疾病 conditions
+     日期格式 date_format  0(預設值) 0 = yyyy/mm/dd  1 = mm/dd/yyyy
      */
     
-    NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS ProfileList( profileID INTEGER NULL PRIMARY KEY AUTOINCREMENT, accountID INTEGER, userBirthday TEXT, userGender INTEGER, UserHeight INTEGER, userWeight INTEGER, metric INTEGER, PULUnit INTEGER, BPUnit INTEGER,showTargetSYS INTEGER, showTargetDIA INTEGER, showTargetWeight INTEGER, showTargetFat INTEGER);";
+    //profileID INTEGER NULL PRIMARY KEY AUTOINCREMENT,
+    
+    NSString *SQLStr = @"CREATE TABLE IF NOT EXISTS ProfileList( accountID INTEGER, name TEXT, userGender INTEGER, birthday TEXT, userHeight INTEGER, userWeight INTEGER, cuff_size INTEGER, bp_measurement_arm INTEGER, sys_unit INTEGER, unit_type INTEGER, sys INTEGER, sys_activity INTEGER, dia INTEGER, dia_activity INTEGER, goal_weight INTEGER, weight_activity INTEGER, bmi INTEGER, bmi_activity INTEGER, body_fat INTEGER, body_fat_activity INTEGER, threshold INTEGER, conditions TEXT, date_format INTEGER);";
+    
     //建立資料表
     [self CREATE_TABLE:SQLStr];
     

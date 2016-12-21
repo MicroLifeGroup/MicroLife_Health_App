@@ -77,7 +77,7 @@
 -(void)initParameter{
     
     if(IS_IPHONE_5){
-        imgScale = 2.2;
+        imgScale = 2;
     }else if(IS_IPHONE_6){
         imgScale = 2;
     }else if(IS_IPHONE_6P){
@@ -198,7 +198,9 @@
                 
                 NSNumber *SYSNum = [NSNumber numberWithInt:[[[selectDataAry objectAtIndex:i] objectForKey:@"SYS"] intValue]];
                 NSNumber *DIANum = [NSNumber numberWithInt:[[[selectDataAry objectAtIndex:i] objectForKey:@"DIA"] intValue]];
-                                
+                
+                
+                
                 if (SYSNum.intValue != 0 && DIANum.intValue != 0) {
                     if (SYSNum.intValue < maxValue) {
                         maxValue = SYSNum.intValue;
@@ -225,6 +227,17 @@
             secNormalValue = 85;
             targetValue = [LocalData sharedInstance].targetSYS;
             secTargetValue = [LocalData sharedInstance].targetDIA;
+            
+            if(chartMinValue>secTargetValue)
+            {
+                chartMinValue=secTargetValue;
+            }
+            
+            if(chartMaxValue<targetValue)
+            {
+                chartMaxValue=targetValue;
+            }
+            
             
             if (![LocalData sharedInstance].showTargetSYS) {
                 targetValue = 0;
@@ -308,6 +321,8 @@
                 [dateArray addObject:[[selectDataAry objectAtIndex:i] objectForKey:@"date"]];
             }
             
+            NSLog(@"chartDataArray = %@",chartDataArray);
+            
             chartMaxValue = 90;
             chartMinValue = 10;
             
@@ -387,6 +402,9 @@
 
     //MARK:計算資料範圍值
     dataXLength = dataCount;
+    
+    NSLog(@"chartMaxValue:%f",chartMaxValue);
+    NSLog(@"chartMinValue:%f",chartMinValue);
     dataYLength = chartMaxValue-chartMinValue;
     
 }
@@ -491,7 +509,9 @@
     graphUnitLabel.text = unitStr;
     graphUnitLabel.font = [UIFont systemFontOfSize:10.0];
     graphUnitLabel.textColor = [UIColor colorWithRed:157.0/255.0 green:157.0/255.0 blue:157.0/255.0 alpha:1.0];
+    [graphUnitLabel sizeToFit];
     [self addSubview:graphUnitLabel];
+    
     
     //上方主線條提示文字
     lineIntroLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -592,15 +612,17 @@
     
     [self addSubview:endTimeImg];
     
-    chartTopWidth = SCREEN_HEIGHT*0.044;
+    chartTopWidth = 30;//SCREEN_HEIGHT*0.044;
     chartLeftWidth = graphUnitLabel.frame.origin.x+graphUnitLabel.frame.size.width;
-    chartBottomWidth = SCREEN_HEIGHT*0.044;
+    chartBottomWidth = chartTopWidth;//SCREEN_HEIGHT*0.044;
     chartRightWidth = SCREEN_WIDTH*0.04;
     
     
     //MARK:計算比例
     xScaleSize = (self.frame.size.width-chartLeftWidth-chartRightWidth)/dataXLength;
     yScaleSize = (self.frame.size.height-chartTopWidth-chartBottomWidth)/dataYLength;
+    
+    NSLog(@"xScaleSize:");
     
     //圖表綠色指標線
     indicatorLine = [[UIView alloc] initWithFrame:CGRectMake(chartLeftWidth,chartTopWidth , 1, self.frame.size.height-chartTopWidth*2)];
@@ -662,6 +684,10 @@
     startTimeLabel.frame = CGRectMake(startTimeLabel.frame.origin.x-startTimeLabel.frame.size.width/2, startTimeLabel.frame.origin.y, startTimeLabel.frame.size.width, startTimeLabel.frame.size.height);
     
     endTimeLabel.frame = CGRectMake(endTimeLabel.frame.origin.x-endTimeLabel.frame.size.width, endTimeLabel.frame.origin.y, endTimeLabel.frame.size.width, endTimeLabel.frame.size.height);
+    
+    //[self setClipsToBounds:YES];
+    //[self.layer setBorderWidth:1];
+    //[self.layer setBorderColor:[[UIColor redColor] CGColor]];
     
 }
 
@@ -807,25 +833,41 @@
     
     //目標值曲線
     
+    CGContextRef targetLine = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(targetLine, 1.0);
+    CGContextSetLineJoin(targetLine, kCGLineJoinRound);
+    CGContextSetRGBStrokeColor(targetLine, 12.0/255.0, 165.0/255.0, 0.0/255.0, 1);
+    
     for (int i=0; i<targetValCount; i++) {
+    
+        CGFloat y=0,x1=0,x2=0;
         
-        CGContextRef targetLine = UIGraphicsGetCurrentContext();
-        CGContextSetRGBStrokeColor(targetLine, 12.0/255.0, 165.0/255.0, 0.0/255.0, 1);
-        CGContextSetLineWidth(targetLine, 1.0);
-        CGContextSetLineJoin(targetLine, kCGLineJoinRound);
+        x1=chartLeftWidth;
+        x2=self.frame.size.width-chartRightWidth;
         
-        if(targetValue != 0){
-            CGContextMoveToPoint(targetLine, chartLeftWidth,chartTopWidth+(chartMaxValue-targetValue)*yScaleSize);
-            CGContextAddLineToPoint(targetLine, self.frame.size.width-chartRightWidth,chartTopWidth+(chartMaxValue-targetValue)*yScaleSize);
+        if(i==0 && targetValue != 0){
+            //Target Line
+            y=chartTopWidth+(chartMaxValue-targetValue)*yScaleSize;
         }
         
         if (i == 1 && secTargetValue != 0) {
-            CGContextMoveToPoint(targetLine, chartLeftWidth,chartTopWidth+(chartMaxValue-secTargetValue)*yScaleSize);
-            CGContextAddLineToPoint(targetLine, self.frame.size.width-chartRightWidth,chartTopWidth+(chartMaxValue-secTargetValue)*yScaleSize);
+            //Second Target Line
+            y=chartTopWidth+(chartMaxValue-secTargetValue)*yScaleSize;
         }
         
+        CGContextMoveToPoint(targetLine, x1,y);
+        CGContextAddLineToPoint(targetLine,x2,y);
         CGContextStrokePath(targetLine);
+        
+        if(targetValCount==2)
+        {
+            NSLog(@"targetValue:%f",targetValue);
+            NSLog(@"secTargetValue:%f",secTargetValue);
+            NSLog(@"y:%f",y);
+        }
     }
+    
+    
     
     //MARK:圖表範圍
     
@@ -934,6 +976,22 @@
     }
     
     [self.delegate DidFinishLoadChartAndShowDate:dateStr];
+}
+
+-(CGFloat)convertRealY:(CGFloat)yValue
+{
+    CGFloat rY=0;
+    
+    float maxValue=135;//chartMaxValue;//==>0
+    float minValue=80;//chartMinValue;//==>height
+    float height=self.frame.size.height-chartTopWidth-chartBottomWidth;
+    
+    //if((maxValue-minValue)!=0)
+    {
+        rY=height-(((yValue-minValue)*height)/(maxValue-minValue));
+    }
+
+    return rY+chartTopWidth;
 }
 
 -(void)setChartLineDot:(float)xPointVal yPoint:(float)yPointVal normalValue:(float)normalVal{

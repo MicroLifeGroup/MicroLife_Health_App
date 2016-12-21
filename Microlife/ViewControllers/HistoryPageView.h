@@ -70,7 +70,9 @@
     int dateIntervalIndex1;
     int dateIntervalIndex2;
     int dateIntervalIndex3;
-
+    
+    int selectedEvent;
+    NSMutableArray *eventArray;
 }
 
 @property (nonatomic, strong) UIView *chartView;
@@ -93,7 +95,8 @@
 //初始體重功能按鈕
 -(void)initWeightCurveControlButton;
 //初始體溫功能按鈕
--(void)initTempCurveControlButtonWithArray:(NSMutableArray *)dataArray;
+-(void)initTempCurveControlButton;
+-(void)renderEventCircle;
 
 //初始血壓泡泡框
 -(void)initBPHealthCircle;

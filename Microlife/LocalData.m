@@ -10,7 +10,7 @@
 
 @implementation LocalData
 
-@synthesize UserAge,UserHeight,UserWeight,metric,PULUnit,targetSYS,targetDIA,targetWeight,targetFat,measureSpec,userArea,UserGender,standerBMI,standerFat,showTargetDIA,showTargetSYS,showTargetFat,showTargetWeight;
+@synthesize UserAge,UserHeight,UserWeight,metric,PULUnit,targetSYS,targetDIA,targetWeight,targetFat,measureSpec,userArea,UserGender,standerBMI,standerFat,showTargetDIA,showTargetSYS,showTargetFat,showTargetWeight,targetBMI,showTargetBMI,threshold,cuff_size,bp_measurement_arm,date_format,conditions,name,BPUnit;
 
 +(LocalData*) sharedInstance{
     static LocalData *sharedInstance;
@@ -41,6 +41,10 @@
         reminderDataArray = [[NSMutableArray alloc] init];
     }
     
+    if (memberDataArray == nil) {
+        memberDataArray = [NSMutableArray new];
+    }
+    
     if (latestValueDict == nil) {
         latestValueDict = [[NSDictionary alloc] init];
     }
@@ -49,23 +53,67 @@
     
     editListDict = [[NSDictionary alloc] init];
     
+}
+
+-(void)checkDefaultProfileData{
+    NSDictionary *personalDict = [[ProfileClass sharedInstance] selectPersonalData];
+    
+    if (personalDict == nil) {
+        
+        [ProfileClass sharedInstance].name = @"Name";
+        [ProfileClass sharedInstance].birthday = @"1946/01/01";
+        [ProfileClass sharedInstance].userGender = 0;
+        [ProfileClass sharedInstance].userHeight = 170;
+        [ProfileClass sharedInstance].userWeight = 75;
+        [ProfileClass sharedInstance].unit_type = 0;
+        [ProfileClass sharedInstance].sys_unit = 0;
+        [ProfileClass sharedInstance].sys = 135;
+        [ProfileClass sharedInstance].sys_activity = 0;
+        [ProfileClass sharedInstance].dia = 80;
+        [ProfileClass sharedInstance].dia_activity = 0;
+        [ProfileClass sharedInstance].goal_weight = 75;
+        [ProfileClass sharedInstance].weight_activity = 0;
+        [ProfileClass sharedInstance].bmi = 23;
+        [ProfileClass sharedInstance].bmi_activity = 0;
+        [ProfileClass sharedInstance].body_fat = 20;
+        [ProfileClass sharedInstance].body_fat_activity = 0;
+        [ProfileClass sharedInstance].conditions = @"";
+        [ProfileClass sharedInstance].threshold = 1;
+        [ProfileClass sharedInstance].cuff_size = 0;
+        [ProfileClass sharedInstance].bp_measurement_arm = 0;
+        [ProfileClass sharedInstance].date_format = 0;
+        
+        [[ProfileClass sharedInstance] insertData];
+    }
+    
     //基本資料
-    measureSpec = 1;
-    UserAge = -1;
-    UserGender = 0;
-    UserHeight = 170.0;
-    UserWeight = 65.0;
-    metric = 0;//0 = KG CM   1=lb
     PULUnit = 0;//0=bpm   1=beats;
-    targetSYS = 135;
-    targetDIA = 80;
-    targetWeight = 60.0;
-    targetFat = 9.0;
+    measureSpec = 2;
+    UserAge = -1;
+    name = [personalDict objectForKey:@"name"];
+    UserGender = 0;
+    UserHeight = [[personalDict objectForKey:@"userHeight"] floatValue];
+    UserWeight = [[personalDict objectForKey:@"userWeight"] floatValue];
+    metric = [[personalDict objectForKey:@"unit_type"] intValue];
+    BPUnit = [[personalDict objectForKey:@"sys_unit"] intValue];
+    targetSYS = [[personalDict objectForKey:@"sys"] intValue];
+    targetDIA = [[personalDict objectForKey:@"dia"] intValue];
+    targetWeight = [[personalDict objectForKey:@"goal_weight"] floatValue];
+    targetBMI =  [[personalDict objectForKey:@"bmi"] floatValue];
+    targetFat = [[personalDict objectForKey:@"body_fat"] floatValue];
     userArea = 0;
-    showTargetSYS = NO;
-    showTargetDIA = YES;
-    showTargetWeight = YES;
-    showTargetFat = YES;
+    showTargetSYS = [[personalDict objectForKey:@"sys_activity"] floatValue];
+    showTargetDIA = [[personalDict objectForKey:@"dia_activity"] floatValue];
+    showTargetWeight = [[personalDict objectForKey:@"weight_activity"] floatValue];
+    showTargetBMI = [[personalDict objectForKey:@"bmi_activity"] floatValue];
+    showTargetFat = [[personalDict objectForKey:@"body_fat_activity"] floatValue];
+    
+    conditions = [personalDict objectForKey:@"conditions"];
+    threshold = [[personalDict objectForKey:@"threshold"] intValue];
+    cuff_size = [[personalDict objectForKey:@"cuff_size"] intValue];
+    bp_measurement_arm = [[personalDict objectForKey:@"bp_measurement_arm"] intValue];
+    date_format = [[personalDict objectForKey:@"date_format"] intValue];
+    
     
     if (userArea == 0) {
         standerBMI = 23;
@@ -81,6 +129,8 @@
     
     //目前選擇的溫度計事件 -1為無新增使用者
     self.currentEventId = -1;
+    
+    NSLog(@"personalDict = %@",personalDict);
 }
 
 -(void)saveReminderData:(NSMutableArray *)dataArray{

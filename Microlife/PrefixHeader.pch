@@ -31,7 +31,7 @@
 #import "WeightClass.h"
 #import "EventClass.h"
 #import "BTClass.h"
-
+#import "ProfileClass.h"
 
 //Network
 #import "CheckNetwork.h"

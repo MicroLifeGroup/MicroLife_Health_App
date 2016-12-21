@@ -57,6 +57,7 @@
 		CD621E9D1D76E1D4006AF5F1 /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD621E9A1D76E1D4006AF5F1 /* AccountKit.framework */; };
 		CD621E9F1D76E1EB006AF5F1 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD621E9E1D76E1EB006AF5F1 /* SafariServices.framework */; };
 		CD621EA11D76E1F5006AF5F1 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD621EA01D76E1F5006AF5F1 /* Accounts.framework */; };
+		CD625F551DC321E40085C623 /* ProfileClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD625F541DC321E40085C623 /* ProfileClass.m */; };
 		CD641FE21DA5F2F6002843CA /* BPMClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FE11DA5F2F6002843CA /* BPMClass.m */; };
 		CD641FE51DA5FBA4002843CA /* WeightClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FE41DA5FBA4002843CA /* WeightClass.m */; };
 		CD641FE81DA60604002843CA /* EventClass.m in Sources */ = {isa = PBXBuildFile; fileRef = CD641FE71DA60604002843CA /* EventClass.m */; };
@@ -128,6 +129,7 @@
 		CD87033B1D76F62400CC570F /* NotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8703381D76F62400CC570F /* NotificationViewController.m */; };
 		CD87033E1D76F63800CC570F /* HealthEducationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD87033D1D76F63800CC570F /* HealthEducationViewController.m */; };
 		CD8E42291D48523300A8695B /* HistoryPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8E42281D48523300A8695B /* HistoryPageView.m */; };
+		CD8E85A21DC2138400A64758 /* OverViewEditEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8E85A11DC2138400A64758 /* OverViewEditEventViewController.m */; };
 		CD93A6C31D79975900292B83 /* CustomAlarmCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD93A6C11D79975900292B83 /* CustomAlarmCell.m */; };
 		CD93A6C41D79975900292B83 /* CustomAlarmCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD93A6C21D79975900292B83 /* CustomAlarmCell.xib */; };
 		CDAFD5971DA37BA30021262D /* GoogleAppUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDAFD5901DA37BA30021262D /* GoogleAppUtilities.framework */; };
@@ -251,6 +253,8 @@
 		CD621E9A1D76E1D4006AF5F1 /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AccountKit.framework; sourceTree = "<group>"; };
 		CD621E9E1D76E1EB006AF5F1 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		CD621EA01D76E1F5006AF5F1 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		CD625F531DC321E40085C623 /* ProfileClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileClass.h; sourceTree = "<group>"; };
+		CD625F541DC321E40085C623 /* ProfileClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileClass.m; sourceTree = "<group>"; };
 		CD641FE01DA5F2F6002843CA /* BPMClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BPMClass.h; sourceTree = "<group>"; };
 		CD641FE11DA5F2F6002843CA /* BPMClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BPMClass.m; sourceTree = "<group>"; };
 		CD641FE31DA5FBA4002843CA /* WeightClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeightClass.h; sourceTree = "<group>"; };
@@ -389,6 +393,8 @@
 		CD87033D1D76F63800CC570F /* HealthEducationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HealthEducationViewController.m; sourceTree = "<group>"; };
 		CD8E42271D48523300A8695B /* HistoryPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryPageView.h; sourceTree = "<group>"; };
 		CD8E42281D48523300A8695B /* HistoryPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryPageView.m; sourceTree = "<group>"; };
+		CD8E85A01DC2138400A64758 /* OverViewEditEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverViewEditEventViewController.h; sourceTree = "<group>"; };
+		CD8E85A11DC2138400A64758 /* OverViewEditEventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverViewEditEventViewController.m; sourceTree = "<group>"; };
 		CD93A6C01D79975900292B83 /* CustomAlarmCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAlarmCell.h; sourceTree = "<group>"; };
 		CD93A6C11D79975900292B83 /* CustomAlarmCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAlarmCell.m; sourceTree = "<group>"; };
 		CD93A6C21D79975900292B83 /* CustomAlarmCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomAlarmCell.xib; sourceTree = "<group>"; };
@@ -576,6 +582,8 @@
 				CD641FE71DA60604002843CA /* EventClass.m */,
 				CD641FE91DA636B6002843CA /* BTClass.h */,
 				CD641FEA1DA636B6002843CA /* BTClass.m */,
+				CD625F531DC321E40085C623 /* ProfileClass.h */,
+				CD625F541DC321E40085C623 /* ProfileClass.m */,
 			);
 			path = SQLLite;
 			sourceTree = "<group>";
@@ -639,6 +647,8 @@
 				CD6B34971DB723A00032B3BF /* OverViewAddEventControllerViewController.m */,
 				CD6B34981DB723A00032B3BF /* OverViewTempAddView.h */,
 				CD6B34991DB723A00032B3BF /* OverViewTempAddView.m */,
+				CD8E85A01DC2138400A64758 /* OverViewEditEventViewController.h */,
+				CD8E85A11DC2138400A64758 /* OverViewEditEventViewController.m */,
 				CD6B349A1DB723A00032B3BF /* RainbowBarView.h */,
 				CD6B349B1DB723A00032B3BF /* RainbowBarView.m */,
 				CD6B34731DB723430032B3BF /* OverViewPickerViews */,
@@ -955,7 +965,7 @@
 				TargetAttributes = {
 					CD221D3F1D41EA80004D3701 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 45ZW733CY8;
+						DevelopmentTeam = HRMRU6B33Q;
 					};
 					CD221D581D41EA81004D3701 = {
 						CreatedOnToolsVersion = 7.3;
@@ -1058,6 +1068,7 @@
 				CD6420211DA6476F002843CA /* OscillationData.m in Sources */,
 				CD221D9C1D41EAEF004D3701 /* FMDatabaseQueue.m in Sources */,
 				CD641FEB1DA636B6002843CA /* BTClass.m in Sources */,
+				CD8E85A21DC2138400A64758 /* OverViewEditEventViewController.m in Sources */,
 				CD221D991D41EAEF004D3701 /* FMDatabase.m in Sources */,
 				CD6B34901DB7237B0032B3BF /* OrganFatPickerView.m in Sources */,
 				CD221D481D41EA80004D3701 /* AppDelegate.m in Sources */,
@@ -1086,6 +1097,7 @@
 				CD221DBF1D41ED94004D3701 /* ShareCommon.m in Sources */,
 				CD6B348B1DB7237B0032B3BF /* BMIPickerView.m in Sources */,
 				CD6B34691DB713590032B3BF /* ProfileViewController.m in Sources */,
+				CD625F551DC321E40085C623 /* ProfileClass.m in Sources */,
 				CD6B348E1DB7237B0032B3BF /* FATPickerView.m in Sources */,
 				CD6B34501DB712E00032B3BF /* EditMailNotificationViewController.m in Sources */,
 				782AACEC1DB0C78C00F987DA /* ViewController.m in Sources */,
@@ -1273,7 +1285,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 45ZW733CY8;
+				DEVELOPMENT_TEAM = HRMRU6B33Q;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1286,6 +1298,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Microlife.MicrolifeHealth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1295,7 +1308,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 45ZW733CY8;
+				DEVELOPMENT_TEAM = HRMRU6B33Q;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1308,6 +1321,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Microlife.MicrolifeHealth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

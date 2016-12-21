@@ -12,6 +12,14 @@
 
 @property (strong, nonatomic) NSMutableArray<NSString *> *ary_userDataStr;
 
+@property (strong, nonatomic) UITextField *nameTextField;
+@property (strong, nonatomic) UITextField *typeTextField;
+@property (strong, nonatomic) UITextField *dateTextField;
+@property (nonatomic) BOOL editing;
+@property (nonatomic, strong) NSMutableArray *eventArray;
+
 -(id)initWithAddEventViewController:(CGRect)frame;
+
+
 
 @end

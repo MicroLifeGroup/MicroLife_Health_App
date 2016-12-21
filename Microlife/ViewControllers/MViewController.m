@@ -56,6 +56,22 @@
 }
 
 
+//螢幕快照
+-(UIImage *)snapShotView:(UIView *)inputView{
+    
+    UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, NO, 0);
+    
+    [inputView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    //UIView *snapshot = [[UIImageView alloc] initWithImage:image];
+    
+    return image;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

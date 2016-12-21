@@ -8,16 +8,34 @@
 
 #import <UIKit/UIKit.h>
 
-@interface OverBPTableViewCell : UITableViewCell
+@interface OverBPTableViewCell : UITableViewCell{
+    //SYS
+    UILabel *sysLabel;
+    UILabel *sysValueLabel;
+    UILabel *sysUnitLabel;
+    
+    //DIA
+    UILabel *diaLabel;
+    UILabel *diaValueLabel;
+    UILabel *diaUnitLabel;
+    
+    //PUL
+    UILabel *pulLabel;
+    UILabel *pulValueLabel;
+    UILabel *pulUnitLabel;
+}
 
 @property (strong, nonatomic) UIImageView *bpCellImgView;
 
-@property (strong, nonatomic) UIView *bpCellSperator;
+@property (strong, nonatomic) UIImageView *bpCellSperator;
 
 @property (strong, nonatomic) UILabel *bpCellDateLabel;
 
 @property (strong, nonatomic) UILabel *bpCellTimeLabel;
 
+@property (strong, nonatomic) UILabel *diaValueLabel;
+@property (strong, nonatomic) UILabel *pulValueLabel;
+@property (strong, nonatomic) UILabel *sysValueLabel;
 
 -(id)initBPTableiewCellWithFrame:(CGRect)frame;
 

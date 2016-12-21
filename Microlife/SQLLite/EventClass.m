@@ -17,8 +17,6 @@
     static dispatch_once_t onceToken;
     
     dispatch_once(&onceToken, ^{
-        
-        
         sharedInstance = [[EventClass alloc] initWithOpenDataBase];
     });
     
@@ -44,11 +42,32 @@
     
     //NSString *Command = [NSString stringWithFormat:@"SELECT eventID, accountID, event, type, eventTime FROM EventList"];
     
-    NSString *Command = [NSString stringWithFormat:@"SELECT * FROM EventList WHERE accountID = %d ORDER BY date DESC",[LocalData sharedInstance].accountID];
+    NSMutableArray *resultArray = [NSMutableArray new];
     
-    NSMutableArray* DataArray = [self SELECT:Command Num:5];//SELECT:指令：幾筆欄位    
+    NSString *Command = [NSString stringWithFormat:@"SELECT eventID, event, type, eventTime FROM EventList"];
     
-    return DataArray;
+    NSMutableArray* DataArray = [self SELECT:Command Num:4];//SELECT:指令：幾筆欄位
+    //NSLog(@"DataArray = %@",DataArray);
+    if ([[DataArray firstObject] count] != 1) {
+        
+        
+        for (int i=0; i<DataArray.count; i++) {
+            NSString *eventIDStr = [[DataArray objectAtIndex:i] objectAtIndex:0];
+            NSString *eventStr = [[DataArray objectAtIndex:i] objectAtIndex:1];
+            NSString *typeStr = [[DataArray objectAtIndex:i] objectAtIndex:2];
+            NSString *eventTimeStr = [[DataArray objectAtIndex:i] objectAtIndex:3];
+            
+            NSDictionary *eventDict = [[NSDictionary alloc] initWithObjectsAndKeys:eventIDStr,@"eventID",
+                                       eventStr,@"event",
+                                       typeStr,@"type",
+                                       eventTimeStr,@"eventTime",nil];
+            
+            [resultArray addObject:eventDict];
+        }
+        
+    }
+    
+    return resultArray;
 
 }
 
@@ -74,7 +93,7 @@
 
 -(void)insertData{
     
-    NSString *SQLStr = [NSString stringWithFormat:@"INSERT OR REPLACE INTO EventList(eventID, accountID, event, type, eventTime) VALUES(  \"%d\",\"%@\", \"%@\", \"%@\");", [LocalData sharedInstance].accountID , event, type, eventTime];
+    NSString *SQLStr = [NSString stringWithFormat:@"INSERT INTO EventList( accountID, event, type, eventTime) VALUES(\"%d\",\"%@\", \"%@\", \"%@\");",[LocalData sharedInstance].accountID , event, type, eventTime];
     
     [self COLUMN_INSERT:SQLStr];
 }

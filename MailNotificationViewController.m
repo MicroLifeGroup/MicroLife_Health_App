@@ -13,7 +13,7 @@
     
     //NSArray *MyMemberArray;
     NSMutableArray *MyMemberArray;
-    
+    NSMutableArray *deleteArr;
     
 }
 
@@ -40,7 +40,6 @@ static NSString *cellIdentity = @"mailcell";
     
     [self.view setBackgroundColor:[UIColor colorWithRed:246.0f/255.0f green:246.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
     
-    navSelectBtn_isSelected = 0;
     
     
 //    MyMemberArray = [[NSDictionary alloc] initWithObjectsAndKeys:       nameString,@"name",
@@ -61,6 +60,7 @@ static NSString *cellIdentity = @"mailcell";
     [self addBtn];
     
     [MailTableView reloadData];
+    
     
     [self mailnotificationnav];
     
@@ -90,13 +90,15 @@ static NSString *cellIdentity = @"mailcell";
     NSLog(@"目前的成員資料有%lu筆",(unsigned long)MyMemberArray.count);
   
     
+    
 }
 
 -(void)initParameter{
     
     //MyMemberArray = [[NSDictionary alloc] init];
     tableviewSelectTag = [NSMutableArray new];
-    
+    navSelectBtn_isSelected = 0;
+    deleteArr = [[NSMutableArray alloc] init];
     
     
 }
@@ -116,7 +118,10 @@ static NSString *cellIdentity = @"mailcell";
     //int tableviewH = (int)MyMemberArray.count;
     
     
-   
+    UIView *mnview = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height*0.0, self.view.frame.size.width, self.view.frame.size.height*0.09)];
+    mnview.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:mnview];
+    
     
     self.MailTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height*0.09, self.view.frame.size.width, self.view.frame.size.height*0.91)];
     self.MailTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -133,18 +138,28 @@ static NSString *cellIdentity = @"mailcell";
     [MailTableView registerNib:[UINib nibWithNibName:@"MemberCell" bundle:nil] forCellReuseIdentifier:@"select_Cellid"];
     
     
+    [self tableviewline];
+    
+    [MailTableView reloadData];
+    
+    
+}
+
+-(void)tableviewline{
+    
     for (int i = 0; i <= MyMemberArray.count; i++) {
         
         if (i == 0) {
             
             
         }else{
-        
-        UIView *memberline = [[UIView alloc] initWithFrame:CGRectMake(0,53*i, self.view.frame.size.width, 1)];
-        memberline.backgroundColor = [UIColor colorWithRed:227.0f/255.0f green:227.0f/255.0f blue:227.0f/255.0f alpha:1.0];
-        [self.MailTableView addSubview:memberline];
-       
-
+            
+            memberline = [[UIView alloc] initWithFrame:CGRectMake(0,53*i, self.view.frame.size.width, 1)];
+            memberline.backgroundColor = [UIColor colorWithRed:227.0f/255.0f green:227.0f/255.0f blue:227.0f/255.0f alpha:1.0];
+            [self.MailTableView addSubview:memberline];
+            
+            
+            
         }
         
         NSLog(@"MyMemberArray count === %d",i);
@@ -154,8 +169,8 @@ static NSString *cellIdentity = @"mailcell";
     
     [MailTableView reloadData];
     
-    
 }
+
 
 #pragma mark - 跳轉下一頁的方法
 //-(void)nextPage
@@ -197,20 +212,42 @@ static NSString *cellIdentity = @"mailcell";
         NSString *selectStr;
         
         BOOL selected = [[tableviewSelectTag objectAtIndex:indexPath.row] boolValue];
-        
         selected = !selected;
-        
         selectStr = [NSString stringWithFormat:@"%d",selected];
-      
-        
         [tableviewSelectTag replaceObjectAtIndex:indexPath.row withObject:selectStr];
         
+        if (selected) {
+            [deleteArr addObject:[MyMemberArray objectAtIndex:indexPath.row]];
+            [deleteArr addObject:[tableviewSelectTag objectAtIndex:indexPath.row]];
+            
+            
+
+        }else if (!selected){
+             [deleteArr removeObject:[MyMemberArray objectAtIndex:indexPath.row]];
+             [deleteArr removeObject:[tableviewSelectTag objectAtIndex:indexPath.row]];
+            
+            
+            
+        }
+        
+        
+        //MailTableView.editing = !MailTableView.editing;
         
     }
     
      [MailTableView reloadData];
    
 }
+
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    [deleteArr removeObject:[MyMemberArray objectAtIndex:indexPath.row]];
+    
+    [MailTableView reloadData];
+    
+}
+
+
 
 #pragma mark - 設置顯示分區數量
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -232,6 +269,9 @@ static NSString *cellIdentity = @"mailcell";
     
     UITableViewCell *mailcell;
     NSString *name = [NSString stringWithFormat:@"%@",[[MyMemberArray objectAtIndex:indexPath.row] objectForKey:@"name"]];
+    
+    
+    
     
     for (int i=0; i<MyMemberArray.count; i++) {
         
@@ -305,6 +345,16 @@ static NSString *cellIdentity = @"mailcell";
 }
 
 
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    return YES;
+    
+}
+
+
+
+
+
 
 #pragma mark - 實現代理的方法
 -(void)postValue:(NSString *)str
@@ -338,7 +388,7 @@ static NSString *cellIdentity = @"mailcell";
     UIView *pnavview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height*0.09)];
     pnavview.backgroundColor = [UIColor colorWithRed:0 green:61.0f/255.0f blue:165.0f/255.0f alpha:1.0];
     [self.navigationController.view addSubview:pnavview];
-    
+    //pnavview.hidden = YES;
     
     CGRect pnavFrame = CGRectMake(0, 0 , self.view.frame.size.width , self.view.frame.size.height*0.1);
     pnavLabel = [[UILabel alloc] initWithFrame:pnavFrame];
@@ -392,7 +442,7 @@ static NSString *cellIdentity = @"mailcell";
     navdeleteBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     navdeleteBtn.hidden = YES;
     //navbackBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
-    [navdeleteBtn addTarget:self action:@selector(deletememberBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [navdeleteBtn addTarget:self action:@selector(deletememberBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [pnavview addSubview:navdeleteBtn];
     
     
@@ -402,7 +452,7 @@ static NSString *cellIdentity = @"mailcell";
 
 -(void)addBtn{
     
-    UIButton *addMBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    addMBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     addMBtn.frame = CGRectMake((self.view.frame.size.width-self.view.frame.size.height*0.09)*0.95, self.view.frame.size.height*0.87, self.view.frame.size.height*0.09, self.view.frame.size.height*0.09);
     [addMBtn setImage:[UIImage imageNamed:@"overview_btn_a_add_s"] forState:UIControlStateNormal ];
     
@@ -428,9 +478,11 @@ static NSString *cellIdentity = @"mailcell";
     navselectBtn.hidden = YES;
     navdeleteBtn.hidden = NO;
     navcancelBtn.hidden = NO;
+    addMBtn.hidden = YES;
     
     navSelectBtn_isSelected = 1;
     
+    //[MailTableView setEditing:YES];
     [MailTableView reloadData];
     
     //    UIViewController *EditMemberController = [[UIViewController alloc ]init];
@@ -443,13 +495,44 @@ static NSString *cellIdentity = @"mailcell";
     
 }
 
--(void)deletememberBtnClick{
+-(void)deletememberBtnClick:(UIButton *) button{
     
+   // [MailTableView setEditing:YES];
     
+    [MyMemberArray removeObjectsInArray:deleteArr];
+    [tableviewSelectTag removeObjectsInArray:deleteArr];
     
+    [memberline removeFromSuperview];
     
+    for (int j = 0; j <= MyMemberArray.count; j++) {
+
+        if (j == 0) {
+            
+        }else{
+            [self tableviewline];
+        }
+        
+    }
     
     [MailTableView reloadData];
+    
+//    [[LocalData sharedInstance] deleteMember:<#(NSDictionary *)#> atIndexPath:<#(int)#>]
+//    [[LocalData sharedInstance] editMemberProfile:memberDict atIndexPath:self.editIndex];
+//
+    
+    if (MailTableView.editing) {
+        
+        //删除
+        
+        
+        
+    }
+    
+    else return;
+    
+    
+    
+    
 }
 
 -(void)cancelBtnClick{
@@ -459,9 +542,16 @@ static NSString *cellIdentity = @"mailcell";
     navselectBtn.hidden = NO;
     navdeleteBtn.hidden = YES;
     navcancelBtn.hidden = YES;
+    addMBtn.hidden = NO;
     
     navSelectBtn_isSelected = 0;
     [MailTableView reloadData];
+    
+    
+    
+    
+    NSLog(@"deleteArr===%@",deleteArr);
+    NSLog(@"LocalDate = = =%@",[[LocalData sharedInstance] returnMemberProfile]);
     
 }
 

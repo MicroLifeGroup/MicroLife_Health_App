@@ -107,6 +107,16 @@
     NSString *inch_Str;
     NSString *ft_Str;
     
+    
+    //Switch
+    
+    BOOL diaAtive;
+    BOOL sysAtive;
+    BOOL goalWeightAtive;
+    BOOL BMIAtive;
+    BOOL bodyFatAtive;
+    BOOL thresholdActive;
+    
 }
 @property (nonatomic,retain)  UIScrollView *profileScrollview;
 @property (nonatomic,retain)  UITextField *nameTextField;

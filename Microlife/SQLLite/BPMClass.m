@@ -68,6 +68,8 @@
         limitDay = dataRange;
     }
     
+    //limitDay+=1;
+    
     NSMutableArray* DataArray = [NSMutableArray new];
     
     NSString *dateSelectType;
@@ -80,6 +82,9 @@
     
     NSString *Command = [NSString stringWithFormat:@"SELECT SYS, DIA, PUL,PAD,AFIB,BPM_PhotoPath,BPM_Note,BPM_RecordingPath,BPM_ID,STRFTIME(\"%%Y/%%m/%%d %%H:%%M\",\"date\") FROM BPMList WHERE STRFTIME(\"%%Y-%%m-%%d\",\"date\") >= STRFTIME(\"%%Y-%%m-%%d\",\"now\", \"localtime\",\"-%d %@\") AND strftime(\"%%Y-%%m-%%d\", \"date\") <=strftime(\"%%Y-%%m-%%d\", \"now\", \"localtime\", \"-%d %@\") AND accountID = %d ORDER BY date DESC",dataRange,dateSelectType,limitDay,dateSelectType,[LocalData sharedInstance].accountID];
     
+    //Command = [NSString stringWithFormat:@"SELECT SYS, DIA, PUL,PAD,AFIB,BPM_PhotoPath,BPM_Note,BPM_RecordingPath,BPM_ID,STRFTIME(\"%%Y/%%m/%%d %%H:%%M\",\"date\") FROM BPMList"];
+    
+    NSLog(@"cmd==>%@",Command);
     
     DataArray = [self SELECT:Command Num:10];//SELECT:指令：幾筆欄位
     
@@ -117,7 +122,7 @@
         }
     }
     
-    NSLog(@"selectDataForList resultArray = %@",resultArray);
+    //NSLog(@"selectDataForList resultArray = %@",resultArray);
 
     
     return resultArray;
@@ -206,7 +211,7 @@
         
     }
     
-    NSLog(@"BP Data ==>>>> resultArray = %@",resultArray);
+    //NSLog(@"BP Data ==>>>> resultArray = %@",resultArray);
     
     return resultArray;
     
@@ -288,7 +293,7 @@
         
     }
     
-    NSLog(@"resultArray = %@",resultArray);
+//NSLog(@"resultArray = %@",resultArray);
     
     return resultArray;
     
@@ -339,7 +344,7 @@
         [resultArray addObject:resultDict];
     }
     
-    NSLog(@"BP currentDay resultArray = %@",resultArray);
+    //NSLog(@"BP currentDay resultArray = %@",resultArray);
     
     return resultArray;
     
@@ -385,7 +390,7 @@
         [resultArray addObject:resultDict];
     }
     
-    NSLog(@"currentDay PUL resultArray = %@",resultArray);
+    //NSLog(@"currentDay PUL resultArray = %@",resultArray);
     
     return resultArray;
     
@@ -488,7 +493,7 @@
 
 -(void)insertData{
     
-    NSString *SQLStr = [NSString stringWithFormat:@"INSERT OR REPLACE INTO BPMList( accountID, SYS, DIA, PUL, PAD ,AFIB, date, BPM_PhotoPath, BPM_Note, BPM_RecordingPath) VALUES( \"%d\",\"%d\", \"%d\",\"%d\", \"%d\", \"%d\",\"%@\", \"%@\" ,\"%@\",\"%@\");" ,accountID ,SYS, DIA, PUL, PAD, AFIB ,date,BPM_PhotoPath,BPM_Note,BPM_RecordingPath];
+    NSString *SQLStr = [NSString stringWithFormat:@"INSERT INTO BPMList( accountID, SYS, DIA, PUL, PAD ,AFIB, date, BPM_PhotoPath, BPM_Note, BPM_RecordingPath) VALUES( \"%d\",\"%d\", \"%d\",\"%d\", \"%d\", \"%d\",\"%@\", \"%@\" ,\"%@\",\"%@\");" ,[LocalData sharedInstance].accountID ,SYS, DIA, PUL, PAD, AFIB ,date,BPM_PhotoPath,BPM_Note,BPM_RecordingPath];
     
     [self COLUMN_INSERT:SQLStr];
 }

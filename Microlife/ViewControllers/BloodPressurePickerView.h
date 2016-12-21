@@ -12,6 +12,10 @@
 
 @property (strong, nonatomic) UIPickerView *m_pickerView;
 
+@property (nonatomic) int bpSys;
+@property (nonatomic) int bpDia;
+@property (strong,nonatomic) NSString *bpUnit;
+
 -(id)initWithbloodPressurePickerViewFrame:(CGRect)frame;
 
 @end

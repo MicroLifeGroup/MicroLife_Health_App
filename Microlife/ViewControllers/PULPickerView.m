@@ -50,6 +50,9 @@
                     ary_pul,
                     ary_unit,nil];
     
+    self.bpPul=40;
+    self.bpPulUnit=ary_unit[0];
+    
     return self;
 }
 
@@ -76,5 +79,25 @@
     
     return title;
 }
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    if(component==1)
+    {
+        NSMutableArray *ary=ary_pulData[component];
+        NSString *pulValue=ary[row];
+        self.bpPul=pulValue.intValue;
+    }
+    
+    if(component==2)
+    {
+        NSMutableArray *ary=ary_pulData[component];
+        NSString *unitValue=ary[row];
+        self.bpPulUnit=unitValue;
+    }
+    
+    
+}
+
 
 @end

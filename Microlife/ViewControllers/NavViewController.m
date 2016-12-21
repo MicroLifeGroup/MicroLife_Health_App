@@ -15,6 +15,7 @@
     UIPageControl *pageControl;
     UIScrollView *navScrollView;
     ViewController *loginVC;
+    UIView *logoView;
 }
 @synthesize navImageArray,navTextArray;
 
@@ -22,9 +23,44 @@
 {
     [super viewDidLoad];
     
+    [self showLogoView];
+}
+
+-(void)showLogoView
+{
+    logoView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    [logoView setBackgroundColor:[UIColor whiteColor]];
+    [self.view addSubview:logoView];
+    
+    //add logo image
+    CGFloat logo_w=SCREEN_WIDTH*0.8;
+    CGFloat logo_h=SCREEN_HEIGHT*0.6;
+    CGFloat logo_x=(SCREEN_WIDTH/2.0)-(logo_w/2.0);
+    CGFloat logo_y=(SCREEN_HEIGHT/3.0);//-(logo_h/2.0);
+    
+    UIImage *logoImage=[UIImage imageNamed:@"ml_logo"];
+    UIImageView *logoImageView=[[UIImageView alloc]initWithFrame:CGRectMake(logo_x, logo_y, logo_w, logo_h)];
+    [logoImageView setImage:logoImage];
+    
+    [logoView addSubview:logoImageView];
+    
+}
+
+-(void)showNavView
+{
+    [logoView removeFromSuperview];
+    
     [self initParameter];
     [self initInterface];
 }
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self performSelector:@selector(showNavView) withObject:nil afterDelay:3.0];
+    
+}
+
+
 
 -(void)initParameter
 {

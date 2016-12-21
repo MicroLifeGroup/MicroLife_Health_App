@@ -8,16 +8,32 @@
 
 #import <UIKit/UIKit.h>
 
-@interface OverWeightTableViewCell : UITableViewCell
+@interface OverWeightTableViewCell : UITableViewCell{
+    //WEIGHT
+    UILabel *weightLabel;
+    
+    UILabel *weightUnitLabel;
+    
+    //BMI
+    UILabel *bmiLabel;
+    
+    
+    //BODY FAT
+    UILabel *bodyFatLabel;
+    UILabel *bodyFatUnitLabel;
+}
 
 @property (strong, nonatomic) UIImageView *weightCellImgView;
 
-@property (strong, nonatomic) UIView *weightCellSperator;
+@property (strong, nonatomic) UIImageView *weightCellSperator;
 
 @property (strong, nonatomic) UILabel *weightCellDateLabel;
 
 @property (strong, nonatomic) UILabel *weightCellTimeLabel;
 
+@property (strong, nonatomic) UILabel *weightValueLabel;
+@property (strong, nonatomic) UILabel *bodyFatValueLabel;
+@property (strong, nonatomic) UILabel *bmiValueLabel;
 
 -(id)initWithWeightCellFrame:(CGRect)frame;
 

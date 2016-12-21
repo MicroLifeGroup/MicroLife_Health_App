@@ -8,13 +8,10 @@
 
 #import "OverTempTableViewCell.h"
 
-@implementation OverTempTableViewCell{
-    //BODY TEMP
-    UILabel *bodyTempLabel;
-    UILabel *bodyTempValueLabel;
-    UILabel *bodyTempUnitLabel;
-}
-@synthesize tempCellImgView,tempCellSperator,tempCellDateLabel,tempCellTimeLabel;
+@implementation OverTempTableViewCell
+
+@synthesize tempCellImgView,tempCellSperator,tempCellDateLabel,tempCellTimeLabel,bodyTempValueLabel;
+
 
 -(id)initTempTableViewCellWithFrame:(CGRect)frame {
     
@@ -23,42 +20,56 @@
     if (!self) return nil;
     
     //tempCellImgView
-    tempCellImgView = [[UIImageView alloc] initWithFrame:CGRectMake(frame.size.width/30, frame.size.height/20, frame.size.height/3.5,frame.size.height/3.5)];
+    //tempCellImgView = [[UIImageView alloc] initWithFrame:CGRectMake(frame.size.width/30, frame.size.height/20, frame.size.height/3.5,frame.size.height/3.5)];
+    
+    tempCellImgView = [[UIImageView alloc] initWithFrame:CGRectMake(frame.size.width/30, frame.size.height/20, 30,30)];
     
     tempCellImgView.image = [UIImage imageNamed:@"reminder_icon_a_bt"];
     [self addSubview:tempCellImgView];
     
     //tempCellSperator
-    tempCellSperator = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMidX(tempCellImgView.frame), CGRectGetMaxY(tempCellImgView.frame)+5, 1.0, frame.size.height/1.8)];
+    tempCellSperator = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMidX(tempCellImgView.frame), CGRectGetMaxY(tempCellImgView.frame)+5, 1.0, frame.size.height/1.8)];
+    tempCellSperator.image = [UIImage imageNamed:@"microlife_blue"];
+    
     tempCellSperator.backgroundColor = STANDER_COLOR;
     [self addSubview:tempCellSperator];
     
     //tempCellDateLabel
-    tempCellDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(tempCellImgView.frame)+5, CGRectGetMinY(tempCellImgView.frame),frame.size.width/6, frame.size.height/3)];
-    tempCellDateLabel.text = @"Today";
+    tempCellDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(tempCellImgView.frame)+5, CGRectGetMinY(tempCellImgView.frame),frame.size.width/3, tempCellImgView.frame.size.height)];
+    tempCellDateLabel.text = @"";
+    tempCellDateLabel.font = [UIFont systemFontOfSize:15.0];
     tempCellDateLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:tempCellDateLabel];
     
     //tempCellTimeLabel
-    tempCellTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(tempCellDateLabel.frame)+5, CGRectGetMinY(tempCellDateLabel.frame), frame.size.width/6, frame.size.height/3)];
-    tempCellTimeLabel.text = @"at 10:25";
-    tempCellTimeLabel.adjustsFontSizeToFitWidth = YES;
-    [self addSubview:tempCellTimeLabel];
+    //tempCellTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(tempCellDateLabel.frame)+5, CGRectGetMinY(tempCellDateLabel.frame), frame.size.width/6, frame.size.height/3)];
+    //tempCellTimeLabel.text = @"at 10:25";
+    //tempCellTimeLabel.adjustsFontSizeToFitWidth = YES;
+    //[self addSubview:tempCellTimeLabel];
     
     //BODY TEMP
     //---------------------------------
     CGFloat labelWidth = frame.size.width/6;
-    CGFloat labelHeight = frame.size.height/2.5;
+    CGFloat labelHeight = tempCellImgView.frame.size.height;
     
     //bodyTempLabel
-    bodyTempLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(tempCellTimeLabel.frame)+labelWidth/2, CGRectGetMinY(tempCellTimeLabel.frame), labelWidth, labelHeight)];
+//    bodyTempLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(tempCellTimeLabel.frame)+labelWidth/2, CGRectGetMinY(tempCellTimeLabel.frame), labelWidth, labelHeight)];
+//    bodyTempLabel.text = @"body temp";
+//    bodyTempLabel.adjustsFontSizeToFitWidth = YES;
+//    [self addSubview:bodyTempLabel];
+    
+    
+    //bodyTempLabel
+    bodyTempLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(tempCellDateLabel.frame)+labelWidth/2-10, CGRectGetMinY(tempCellDateLabel.frame), labelWidth, labelHeight)];
     bodyTempLabel.text = @"body temp";
     bodyTempLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:bodyTempLabel];
     
+    
+    
     //bodyTempValueLabel
-    bodyTempValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(bodyTempLabel.frame), CGRectGetMinY(bodyTempLabel.frame), labelWidth, labelHeight)];
-    bodyTempValueLabel.text = @"36.5";
+    bodyTempValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(bodyTempLabel.frame)+10, CGRectGetMinY(bodyTempLabel.frame), labelWidth, labelHeight)];
+    bodyTempValueLabel.text = @"";
     bodyTempValueLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:bodyTempValueLabel];
     
@@ -67,12 +78,9 @@
     bodyTempUnitLabel.text = @"℃";
     [self addSubview:bodyTempUnitLabel];
     
-    
-    
     return self;
     
 }
-
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -83,6 +91,9 @@
     [super setSelected:selected animated:animated];
     
     // Configure the view for the selected state
+    
+    
+    
 }
 
 @end

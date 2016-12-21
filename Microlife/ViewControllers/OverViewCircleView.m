@@ -59,14 +59,17 @@
     titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width/2, self.frame.size.height/4)];
     titleLabel.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/4);
     titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.adjustsFontSizeToFitWidth = YES;
+    //titleLabel.numberOfLines=0;
     [self addSubview:titleLabel];
     
     //valueLabel
     valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width*0.8, self.frame.size.height/3)];
     valueLabel.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
     valueLabel.textAlignment = NSTextAlignmentCenter;
-    valueLabel.font = [UIFont systemFontOfSize:valueLabel.frame.size.height * 0.68];
+    valueLabel.font = [UIFont systemFontOfSize:valueLabel.frame.size.height * (IS_IPAD?0.68:0.68)];
     valueLabel.adjustsFontSizeToFitWidth = YES;
+    
     [self addSubview:valueLabel];
     
     //unitLabel

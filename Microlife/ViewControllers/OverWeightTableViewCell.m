@@ -8,23 +8,9 @@
 
 #import "OverWeightTableViewCell.h"
 
-@implementation OverWeightTableViewCell{
-    //WEIGHT
-    UILabel *weightLabel;
-    UILabel *weightValueLabel;
-    UILabel *weightUnitLabel;
-    
-    //BMI
-    UILabel *bmiLabel;
-    UILabel *bmiValueLabel;
-    
-    //BODY FAT
-    UILabel *bodyFatLabel;
-    UILabel *bodyFatValueLabel;
-    UILabel *bodyFatUnitLabel;
-}
+@implementation OverWeightTableViewCell
 
-@synthesize weightCellImgView,weightCellSperator,weightCellDateLabel,weightCellTimeLabel;
+@synthesize weightCellImgView,weightCellSperator,weightCellDateLabel,weightCellTimeLabel,weightValueLabel,bodyFatValueLabel,bmiValueLabel;
 
 -(id)initWithWeightCellFrame:(CGRect)frame {
     
@@ -33,42 +19,46 @@
     if (!self) return nil;
     
     //weightCellImgView
+    //weightCellImgView = [[UIImageView alloc] initWithFrame:CGRectMake(frame.size.width/30, frame.size.height/20, frame.size.height/3.5,frame.size.height/3.5)];
+    
     weightCellImgView = [[UIImageView alloc] initWithFrame:CGRectMake(frame.size.width/30, frame.size.height/20, frame.size.height/3.5,frame.size.height/3.5)];
+    
     weightCellImgView.image = [UIImage imageNamed:@"reminder_icon_a_we"];
     [self addSubview:weightCellImgView];
     
     //weightCellSperator
-    weightCellSperator = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMidX(weightCellImgView.frame), CGRectGetMaxY(weightCellImgView.frame)+5, 1.0, frame.size.height/1.8)];
+    weightCellSperator = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMidX(weightCellImgView.frame), CGRectGetMaxY(weightCellImgView.frame)+5, 1.0, frame.size.height/1.8)];
     weightCellSperator.backgroundColor = STANDER_COLOR;
+    weightCellSperator.image = [UIImage imageNamed:@"microlife_blue"];
     [self addSubview:weightCellSperator];
     
     //weightCellDateLabel
-    weightCellDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(weightCellImgView.frame)+5, CGRectGetMinY(weightCellImgView.frame),frame.size.width/6, frame.size.height/3)];
-    weightCellDateLabel.text = @"Today";
+    weightCellDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(weightCellImgView.frame)+5, CGRectGetMinY(weightCellImgView.frame),frame.size.width/2, frame.size.height/3)];
+    weightCellDateLabel.text = @"";
     weightCellDateLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:weightCellDateLabel];
     
     //bpCellTimeLabel
     weightCellTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(weightCellDateLabel.frame)+5, CGRectGetMinY(weightCellDateLabel.frame), frame.size.width/6, frame.size.height/3)];
-    weightCellTimeLabel.text = @"at 23:24";
+    weightCellTimeLabel.text = @"";
     weightCellTimeLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:weightCellTimeLabel];
     
     
     //WEIGHT
     //--------------------------------------------
-    CGFloat labelWidth = frame.size.width/12;
+    CGFloat labelWidth = frame.size.width/11;
     CGFloat labelHeight = frame.size.height/2.5;
     
     //weightLabel
-    weightLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(weightCellDateLabel.frame), CGRectGetMaxY(weightCellDateLabel.frame), labelWidth, labelHeight)];
-    weightLabel.text = @"wight";
+    weightLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(weightCellDateLabel.frame), CGRectGetMaxY(weightCellDateLabel.frame), frame.size.width/6.9, labelHeight)];
+    weightLabel.text = @"Weight";
     weightLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:weightLabel];
     
     //weightValueLabel
-    weightValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(weightLabel.frame), CGRectGetMinY(weightLabel.frame), labelWidth, labelHeight)];
-    weightValueLabel.text = @"68";
+    weightValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(weightLabel.frame)+2, CGRectGetMinY(weightLabel.frame), labelWidth, labelHeight)];
+    weightValueLabel.text = @"";
     weightValueLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:weightValueLabel];
     
@@ -82,14 +72,14 @@
     //BMI
     //--------------------------------------------
     //bmiLabel
-    bmiLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(weightUnitLabel.frame)+labelWidth/2, CGRectGetMinY(weightLabel.frame), labelWidth, labelHeight)];
+    bmiLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(weightUnitLabel.frame)+10, CGRectGetMinY(weightLabel.frame), labelWidth, labelHeight)];
     bmiLabel.text = @"BMI";
     bmiLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:bmiLabel];
     
     //bmiValueLabel
-    bmiValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(bmiLabel.frame), CGRectGetMinY(weightLabel.frame), labelWidth, labelHeight)];
-    bmiValueLabel.text = @"28";
+    bmiValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(bmiLabel.frame)+2, CGRectGetMinY(weightLabel.frame), labelWidth, labelHeight)];
+    bmiValueLabel.text = @"";
     bmiValueLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:bmiValueLabel];
     
@@ -97,14 +87,14 @@
     //BODY FAT
     //--------------------------------------------
     //bodyFatLabel
-    bodyFatLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(bmiValueLabel.frame)+labelWidth, CGRectGetMinY(weightLabel.frame), labelWidth, labelHeight)];
+    bodyFatLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(bmiValueLabel.frame)+10, CGRectGetMinY(weightLabel.frame), labelWidth, labelHeight)];
     bodyFatLabel.text = @"PUL";
     bodyFatLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:bodyFatLabel];
     
     //bodyFatValueLabel
-    bodyFatValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(bodyFatLabel.frame), CGRectGetMinY(weightLabel.frame), labelWidth, labelHeight)];
-    bodyFatValueLabel.text = @"65";
+    bodyFatValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(bodyFatLabel.frame)+2, CGRectGetMinY(weightLabel.frame), labelWidth+5, labelHeight)];
+    bodyFatValueLabel.text = @"";
     bodyFatValueLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:bodyFatValueLabel];
     

@@ -38,11 +38,13 @@
     }
 
     nameBtnAry = [[NSMutableArray alloc] initWithCapacity:0];
+    
     circelSize = screen.bounds.size.width*0.3;
     dateIntervalIndex0 = 1;
     dateIntervalIndex1 = 1;
     dateIntervalIndex2 = 1;
     dateIntervalIndex3 = 1;
+    
 }
 
 -(void)initInterface{
@@ -761,18 +763,38 @@
 }
 
 #pragma mark - Temperature button and actions
--(void)initTempCurveControlButtonWithArray:(NSMutableArray *)dataArray{
+-(void)initTempCurveControlButton{
     
     [showListBtn setTitle:@"YOUR BODY TEMPERATURE LISTS" forState:UIControlStateNormal];
     
+    [self createChart:5];
+    
+}
+
+-(void)renderEventCircle{
+    
+        
+    for (int i=0; i<nameBtnAry.count; i++) {
+        
+        UIButton *eventBtn = [nameBtnAry objectAtIndex:i];
+        
+        [eventBtn removeFromSuperview];
+        
+    }
+    
+    [nameBtnAry removeAllObjects];
+    
+    
+    eventArray = [[EventClass sharedInstance] selectAllData];
+    
     float btnSize = 65/imgScale;
     
-    float totalWidth = dataArray.count*(btnSize+10);
+    float totalWidth = eventArray.count*(btnSize+10);
     
     float startX = 10+curveControlBase.frame.size.width/2-totalWidth/2;
     
-    for (int i=0; i<dataArray.count; i++) {
-
+    for (int i=0; i<eventArray.count; i++) {
+        
         UIButton *nameBtn = [[UIButton alloc] initWithFrame:CGRectMake(startX+i*(btnSize+10), curveControlBase.frame.size.height/2-btnSize/2, btnSize, btnSize)];
         
         nameBtn.tag = i+1;
@@ -785,7 +807,7 @@
         UIColor *btnBackColor;
         UIColor *titleColor;
         
-        if (i==0) {
+        if (i == [LocalData sharedInstance].currentEventIndex) {
             btnBorderColor = STANDER_COLOR;
             btnBackColor = STANDER_COLOR;
             titleColor = [UIColor whiteColor];
@@ -799,7 +821,7 @@
         nameBtn.layer.borderWidth = 1.5;
         nameBtn.layer.borderColor = btnBorderColor.CGColor;
         
-        NSString *name = [[dataArray objectAtIndex:i] objectForKey:@"name"];
+        NSString *name = [[eventArray objectAtIndex:i] objectForKey:@"event"];
         
         name = [name substringToIndex:1];
         [nameBtn setTitle:name forState:UIControlStateNormal];
@@ -808,8 +830,6 @@
         
         [curveControlBase addSubview:nameBtn];
     }
-    
-    [self createChart:5];
     
 }
 
@@ -855,6 +875,9 @@
             [nameBtn setTitleColor:TEXT_COLOR forState:UIControlStateNormal];
             [nameBtn setBackgroundColor:[UIColor whiteColor]];
             nameBtn.layer.borderColor = TEXT_COLOR.CGColor;
+        }else{
+            [LocalData sharedInstance].currentEventIndex = i;
+            [LocalData sharedInstance].currentEventId = [[[eventArray objectAtIndex:i] objectForKey:@"eventID"] intValue];
         }
     }
 }

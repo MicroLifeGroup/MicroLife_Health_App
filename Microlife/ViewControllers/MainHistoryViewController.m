@@ -15,6 +15,10 @@
     UIPageControl *pageControl;
     HistoryListTableView *listsView;
     UIImageView *titleImgView;
+    
+    HistoryPageView *tempView;
+    HistoryPageView *weightView;
+    HistoryPageView *BPView;
 }
 
 @end
@@ -44,10 +48,15 @@
         [listsView.historyList reloadData];
     }
     
+    if (tempView != nil) {
+        [tempView renderEventCircle];
+    }
+    
 }
 
 -(void)initParameter{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentEditVC) name:@"showEditVC" object:nil];
+    
 }
 
 -(void)initInterface{
@@ -79,8 +88,7 @@
     height = self.view.bounds.size.height-navHeight-tabBarHeight-20;
     [contentScroll setContentSize:CGSizeMake(width * 3, height)];
     
-    
-    HistoryPageView *BPView = [[HistoryPageView alloc] initWithFrame:CGRectMake(0, 0, contentScroll.frame.size.width, height)];
+    BPView = [[HistoryPageView alloc] initWithFrame:CGRectMake(0, 0, contentScroll.frame.size.width, height)];
     BPView.delegate = self;
     BPView.chartType = 0;
     BPView.viewType = 0;
@@ -90,7 +98,7 @@
     [BPView initBPHealthCircle];
     [BPView setAbsentDaysText:20 andFaceIcon:[UIImage imageNamed:@"history_icon_a_face_2"]];
     
-    HistoryPageView *weightView = [[HistoryPageView alloc] initWithFrame:CGRectMake(width, 0, contentScroll.frame.size.width, height)];
+    weightView = [[HistoryPageView alloc] initWithFrame:CGRectMake(width, 0, contentScroll.frame.size.width, height)];
     weightView.delegate = self;
     weightView.chartType = 2;
     weightView.viewType = 1;
@@ -101,7 +109,7 @@
     [weightView setAbsentDaysText:100 andFaceIcon:[UIImage imageNamed:@"history_icon_a_face_3"]];
     
     
-    HistoryPageView *tempView = [[HistoryPageView alloc] initWithFrame:CGRectMake(width*2, 0, contentScroll.frame.size.width, height)];
+    tempView = [[HistoryPageView alloc] initWithFrame:CGRectMake(width*2, 0, contentScroll.frame.size.width, height)];
     tempView.delegate = self;
     tempView.chartType = 5;
     tempView.viewType = 2;
@@ -111,29 +119,8 @@
     [tempView setAbsentDaysText:0 andFaceIcon:[UIImage imageNamed:@"history_icon_a_face_1"]];
     
     
-    //測試資料
-    
-    NSNumber *tempNumber = [NSNumber numberWithFloat:36.5];
-    
-    NSDictionary *personData1 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                    @"Rex",@"name",
-                                    tempNumber,@"temp",nil];
-    NSDictionary *personData2 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                 @"Joanne",@"name",
-                                 tempNumber,@"temp",nil];
-    NSDictionary *personData3 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                 @"Ivy",@"name",
-                                 tempNumber,@"temp",nil];
-    NSDictionary *personData4 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                 @"Tom",@"name",
-                                 tempNumber,@"temp",nil];
-    NSDictionary *personData5 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                 @"Nick",@"name",
-                                 tempNumber,@"temp",nil];
-    
-    NSMutableArray *dataForTemp = [[NSMutableArray alloc] initWithObjects:personData1, personData2, personData3,personData4,personData5, nil];
-    
-    [tempView initTempCurveControlButtonWithArray:dataForTemp];
+    [tempView initTempCurveControlButton];
+    [tempView renderEventCircle];
     
     [contentScroll addSubview:BPView];
     [contentScroll addSubview:weightView];

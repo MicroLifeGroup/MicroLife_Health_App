@@ -89,6 +89,7 @@
         if (addEventVC == nil) {
             
             addEventVC = [[OverViewAddEventControllerViewController alloc]initWithAddEventViewController:m_superVC.view.frame];
+            
         }
         
         [m_superVC.navigationController pushViewController:addEventVC animated:YES];

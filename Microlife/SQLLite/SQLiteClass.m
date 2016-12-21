@@ -231,8 +231,14 @@ NSString *filePath = @""; //資料庫檔案路徑
                 NSMutableArray *results = [[NSMutableArray alloc] init];
                 for (int i = 0; i < ColNum; i++)
                 {
-                    NSString *DataStr = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, i)];
-                    [results addObject:DataStr];
+                    if(sqlite3_column_text(statement, i))
+                    {
+                        NSString *DataStr = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, i)];
+                        [results addObject:DataStr];
+                    }else{
+                        [results addObject:@""];
+                    }
+                    
                 }
 				[result addObject:results];
                 results = nil;

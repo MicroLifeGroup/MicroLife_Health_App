@@ -31,7 +31,7 @@
 }
 
 -(void)protocolStart{
-
+    return;
     checkThermTimer = [NSTimer scheduledTimerWithTimeInterval:0.2f target:self selector:@selector(changeConnect) userInfo:nil repeats:YES];
 }
 
@@ -275,7 +275,7 @@
 
     [BTClass sharedInstance].accountID = [LocalData sharedInstance].accountID;
     
-    [BTClass sharedInstance].eventID = 1;
+    [BTClass sharedInstance].eventID = [LocalData sharedInstance].currentEventId;
     
     [BTClass sharedInstance].date = date;
     
@@ -309,9 +309,28 @@
 {
     NSMutableArray *currentData = [data getCurrentData];
     
-    //NSMutableArray *MData=[data getMData];
+    NSMutableArray *MData=[data getMData];
     
-    NSLog(@"currentData = %@",currentData);
+    NSLog(@"\n=== currentData start ===");
+    for(CurrentAndMData *curMdata in currentData)
+    {
+        NSLog(@"%@",[curMdata toString]);
+    }
+    NSLog(@"\n=== currentData end ===");
+    
+
+    NSLog(@"\n=== MData start ===");
+    
+    for(CurrentAndMData *curMdata in MData)
+    {
+        NSLog(@"%@",[curMdata toString]);
+    }
+    NSLog(@"\n=== MData end ===");
+    
+    
+    
+    
+    //NSLog(@"currentData = %@",currentData);
     /*
      //縮收壓
      @property int systole;
@@ -356,12 +375,12 @@
         [BPMClass sharedInstance].PUL = curMdata.hr;
         //目前裝置無法支援PAD量測
         [BPMClass sharedInstance].PAD = 0;
-        [BPMClass sharedInstance].AFIB = curMdata.arr;
+        [BPMClass sharedInstance].AFIB = 0;//curMdata.arr;
         [BPMClass sharedInstance].date = date;
         [BPMClass sharedInstance].BPM_PhotoPath = @"";
         [BPMClass sharedInstance].BPM_Note = @"";
         [BPMClass sharedInstance].BPM_RecordingPath = @"";
-        [BPMClass sharedInstance].MAM = curMdata.MAM;
+        [BPMClass sharedInstance].MAM = 0;//curMdata.MAM;
         
         [[BPMClass sharedInstance] insertData];
         
@@ -371,8 +390,8 @@
                                   [NSString stringWithFormat:@"%d",curMdata.dia],@"DIA",
                                   [NSString stringWithFormat:@"%d",curMdata.hr],@"PUL",
                                   date,@"date",
-                                  [NSString stringWithFormat:@"%d",curMdata.arr],@"Arr",
-                                  [NSString stringWithFormat:@"%d",curMdata.MAM],@"MAM",
+                                  /*[NSString stringWithFormat:@"%d",curMdata.arr]*/@"0",@"Arr",
+                                  /*[NSString stringWithFormat:@"%d",curMdata.MAM]*/@"0",@"MAM",
                                   nil];
         
         [[LocalData sharedInstance] saveLatestMeasureValue:latestBP];
@@ -380,7 +399,7 @@
     }
     NSLog(@"\n=== currentData end ===");
     
-    [bPMProtocol disconnect];
+    //[bPMProtocol disconnect];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"receiveBPMData" object:nil];
     
@@ -469,6 +488,8 @@
                                   nil];
     
     [[LocalData sharedInstance] saveLatestMeasureValue:latestWeight];
+    
+    NSLog(@"latestWeight = %@",latestWeight);
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"receiveWeightData" object:nil];
     

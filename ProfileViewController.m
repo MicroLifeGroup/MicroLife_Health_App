@@ -85,9 +85,6 @@
     
     [super viewWillAppear:animated];
     
-    
-    
-    
 }
 
 
@@ -100,102 +97,152 @@
 
 -(void)initParameter{
     
-    
-    cuffsize_row = -1;
-    
-    measureArm_row = -1;
-    
-    
     CuffSizeArr = @[@"S",@"M",@"M-L",@"L",@"L-X"];
+    
     MeaArmArr = @[@"Left",@"Right"];
     
-    if (height_value == 0) {
-        height_value = 175;
-    }
+    //spStr
     
-    if (weight_value == 0) {
-        weight_value = 75.0;
-    }
+    //dpStr
     
-    if (goalweight_value == 0) {
-        goalweight_value = 75.0;
-    }
+    nameTextField.text = [LocalData sharedInstance].name;
     
-    if (sys_pressure_value == 0) {
-        sys_pressure_value = 120;
-    }
+    birthDateString = [LocalData sharedInstance].birthday;
     
-    if (dia_pressure_value == 0) {
-        dia_pressure_value = 80;
-    }
+    //birthdayLabel.text = [LocalData sharedInstance].birthday;
     
-    if (BMI_value == 0) {
-        BMI_value = 25.0;
-    }
+    measureArm_row = [LocalData sharedInstance].bp_measurement_arm;;
     
-    if (BF_value == 0) {
-        BF_value = 25.0;
-    }
+    cuffsize_row = [LocalData sharedInstance].cuff_size;
+    
+    height_value = [LocalData sharedInstance].UserHeight;
+    
+    weight_value = [LocalData sharedInstance].UserWeight;
+    
+    goalweight_value = [LocalData sharedInstance].targetWeight;
+    
+    sys_pressure_value = [LocalData sharedInstance].targetSYS;
     
     
-    //
-    if (cuffsize_row == -1) {
-        cuffsize_row = 1;
-    }
     
-    if (measureArm_row == -1) {
-        measureArm_row = 0;
-    }
+    dia_pressure_value = [LocalData sharedInstance].targetDIA;
     
+    BMI_value = [LocalData sharedInstance].targetBMI;
     
-    //從資料庫取得日期格式設定
-//    if () {
-        dateformatBool = 0;
-//    }
+    BF_value = [LocalData sharedInstance].targetFat;
+    
+    dateformatBool = [LocalData sharedInstance].date_format;
+    
+    unitBooL = [LocalData sharedInstance].metric;
     
     
-    //判斷資料庫的公英制設定
     
+    pressureBooL = [LocalData sharedInstance].BPUnit;
+    
+    genderBooL = [LocalData sharedInstance].UserGender;
+    
+    sysAtive = [LocalData sharedInstance].showTargetSYS;
+    
+    diaAtive = [LocalData sharedInstance].showTargetDIA;
+    
+    goalWeightAtive = [LocalData sharedInstance].showTargetWeight;
+    
+    BMIAtive = [LocalData sharedInstance].showTargetBMI;
+    
+    bodyFatAtive = [LocalData sharedInstance].showTargetFat;
+    
+    thresholdActive = [LocalData sharedInstance].threshold;
+    
+    
+    
+    /*
+     if (height_value == 0) {
+     
+     height_value = 175;
+     
+     }
+     if (weight_value == 0) {
+     
+     weight_value = 75.0;
+     
+     }
+    
+     if (goalweight_value == 0) {
+     
+     goalweight_value = 75.0;
+     
+     }
+     if (sys_pressure_value == 0) {
+     
+     sys_pressure_value = 120;
+     
+     }
+
+     if (dia_pressure_value == 0) {
+     dia_pressure_value = 80;
+     
+     }
+     if (BMI_value == 0) {
+     BMI_value = 25.0;
+     
+     }
+     if (BF_value == 0) {
+     BF_value = 25.0;
+     
+     }
+     //
+     
+     if (cuffsize_row == -1) {
+     cuffsize_row = 1;
+     }
+     if (measureArm_row == -1) {
+     measureArm_row = 0;
+     }
+     //從資料庫取得日期格式設定
+     //    if () {
+     dateformatBool = 0;
+     //    }
+     //判斷資料庫的公英制設定
+     */
+
     if (unitBooL == 1) {
+        
         //身高轉字串
+        
         //double hei2value = [heiStr doubleValue];
+        
         //公分轉英呎
+        
         NSString *ft_1Str = [NSString stringWithFormat:@"%.2f", height_value*cm_ft];
+        
         ft_Str = [ft_1Str substringWithRange:NSMakeRange(0, 1)];
+        
         //公分轉英呎
+        
         NSString *hei2222str = [NSString stringWithFormat:@"%f",height_value*cm_ft];
+        
         int ft_value = [ft_Str intValue];
+        
         double hei2222value = [hei2222str doubleValue];
         
-        //英呎扣掉整數位後剩餘部分轉英吋
-        inch_Str = [NSString stringWithFormat:@"%.1f",(hei2222value-ft_value)*12];
         
+        
+        //英呎扣掉整數位後剩餘部分轉英吋
+        
+        inch_Str = [NSString stringWithFormat:@"%.1f",(hei2222value-ft_value)*12];
     }
     
-    
-    
-    
     //判斷資料庫中血壓單位的設定
-    
-    
-    
+
     //單位轉換
+    
     mmHg_kPa = 0.13332237;
+    
     kg_lb = 2.20462;
+    
     cm_ft = 0.03306878;
     
-    dateformatBool = 0;
-    unitBooL = 0;
-    pressureBooL = 0;
-    
-    //if (genderBooL == NULL) {
-        genderBooL = 0;
-    //}
-    
-    
 }
-
-
 
 -(void)ProfilePicture{
     float ProfileimgRadius = self.view.frame.size.width *0.3;
@@ -238,7 +285,6 @@
     NSLog(@"Picture");
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Upload your profile picture" message:@"" preferredStyle:UIAlertControllerStyleAlert];
-    
     
     
     UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:@"From Camera" style:UIAlertActionStyleDefault handler: ^(UIAlertAction * _Nonnull action) {
@@ -475,7 +521,7 @@
     // UITextField初始化
     nameTextField = [[UITextField alloc] initWithFrame:CGRectMake(profileX , profileY1+1, self.view.frame.size.width*0.6, profileH) ];
     // 設定預設文字內容
-    nameTextField.placeholder = @"Ivy Huang";
+    nameTextField.placeholder = @"Name";
     //emailTextField.text = @"";
     // 設定文字顏色
     nameTextField.textColor = [UIColor blackColor];
@@ -1023,7 +1069,7 @@
     
     spLabel = [[UILabel alloc] initWithFrame:CGRectMake(profileX, profileY2+22+profileH , profileX1-profileX , profileH)];
     [spLabel setTextColor:[UIColor blackColor]];
-    spStr = @"120";
+    spStr = [NSString stringWithFormat:@"%.0f",sys_pressure_value];
     spLabel.text = spStr;
     spLabel.font = [UIFont systemFontOfSize:17];
     spLabel.alpha = 1.0;
@@ -1039,7 +1085,7 @@
 
     dpLabel = [[UILabel alloc] initWithFrame:CGRectMake(profileX, profileY2+22+profileH*2 , profileX1-profileX , profileH)];
     [dpLabel setTextColor:[UIColor blackColor]];
-    dpStr = @"80";
+    dpStr = [NSString stringWithFormat:@"%.0f",dia_pressure_value];
     dpLabel.text = dpStr;
     dpLabel.font = [UIFont systemFontOfSize:17];
     dpLabel.alpha = 1.0;
@@ -1112,34 +1158,34 @@
     NSLog(@"yy===%f",profileY2);
     
     UISwitch *systolicswitch = [[UISwitch alloc] initWithFrame:CGRectMake(switch_x, profileY2+profileH+22+(profileH-31)/2, switch_w, switch_h)];
-    [systolicswitch setOn:YES];
+    [systolicswitch setOn:sysAtive];
     [systolicswitch addTarget:self action:@selector(systolicswitchAction:) forControlEvents:UIControlEventValueChanged];
     [self.profileScrollview addSubview:systolicswitch];
     
     UISwitch *diastolicswitch = [[UISwitch alloc] initWithFrame:CGRectMake(switch_x, profileY2+22+profileH*2+(profileH-31)/2, switch_w, switch_h)];
-    [diastolicswitch setOn:YES];
+    [diastolicswitch setOn:diaAtive];
     [diastolicswitch addTarget:self action:@selector(diastolicswitchAction:) forControlEvents:UIControlEventValueChanged];
     [self.profileScrollview addSubview:diastolicswitch];
     
     UISwitch *goalWeightswitch = [[UISwitch alloc] initWithFrame:CGRectMake(switch_x, profileY2+22+profileH*3+(profileH-31)/2, switch_w, switch_h)];
-    [goalWeightswitch setOn:YES];
+    [goalWeightswitch setOn:goalWeightAtive];
     [goalWeightswitch addTarget:self action:@selector(goalWeightswitchAction:) forControlEvents:UIControlEventValueChanged];
     [self.profileScrollview addSubview:goalWeightswitch];
     
     UISwitch *BMIswitch = [[UISwitch alloc] initWithFrame:CGRectMake(switch_x, profileY2+22+profileH*4+(profileH-31)/2, switch_w, switch_h)];
-    [BMIswitch setOn:NO];
+    [BMIswitch setOn:BMIAtive];
     [BMIswitch addTarget:self action:@selector(BMIswitchAction:) forControlEvents:UIControlEventValueChanged];
     [self.profileScrollview addSubview:BMIswitch];
    // BMIswitch.hidden = true;
     
     UISwitch *Bodyswitch = [[UISwitch alloc] initWithFrame:CGRectMake(switch_x, profileY2+22+profileH*5+(profileH-31)/2, switch_w, switch_h)];
-    [Bodyswitch setOn:NO];
+    [Bodyswitch setOn:bodyFatAtive];
     [Bodyswitch addTarget:self action:@selector(BodyswitchAction:) forControlEvents:UIControlEventValueChanged];
     [self.profileScrollview addSubview:Bodyswitch];
     
     
     UISwitch *thresholdswitch = [[UISwitch alloc] initWithFrame:CGRectMake(switch_x, self.view.frame.size.height*1.69+(profileH-31)/2, switch_w, switch_h)];
-    [thresholdswitch setOn:NO];
+    [thresholdswitch setOn:thresholdActive];
     [thresholdswitch addTarget:self action:@selector(thresholdswitchAction:) forControlEvents:UIControlEventValueChanged];
     [self.profileScrollview addSubview:thresholdswitch];
     
@@ -1296,8 +1342,14 @@
     NSDateFormatter *birdateFormatter = [[NSDateFormatter alloc] init];
     [birdateFormatter setDateFormat:@"YYYY/MM/dd"];
     //NSDate *birthDate=[birdateFormatter dateFromString:birthdayLabel.text];
-    birth_date = [birdateFormatter dateFromString:birthdayLabel.text];
+    
 
+    if (birth_date != nil) {
+        birth_date = [birdateFormatter dateFromString:birthdaydate];
+    }else{
+        birth_date = [birdateFormatter dateFromString:birthdayLabel.text];
+    }
+    
     
     NSDateFormatter *mdyformatter = [[NSDateFormatter alloc] init];
     [mdyformatter setDateStyle:NSDateFormatterShortStyle];
@@ -1344,7 +1396,7 @@
             UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:nil];
             [alertController addAction:confirmAction];
             
-            
+            thresholdActive = YES;
             
             [self presentViewController:alertController animated:YES completion:nil];
 
@@ -1356,6 +1408,8 @@
         NSLog(@"threshold on");
     }else {
         //showSwitchValue.text = @"否";
+        thresholdActive = NO;
+        
         NSLog(@"threshold off");
     }
     
@@ -1372,12 +1426,15 @@
         
         spLabel.userInteractionEnabled = YES;
         
+        sysAtive = YES;
         
         NSLog(@"systolic on");
     }else {
         //showSwitchValue.text = @"否";
         
         spLabel.userInteractionEnabled = NO;
+        
+        sysAtive = NO;
         
         NSLog(@"systolic off");
     }
@@ -1391,11 +1448,12 @@
         
         dpLabel.userInteractionEnabled = YES;
         
+        diaAtive = YES;
         //showSwitchValue.text = @"是";
         NSLog(@"diastolic on");
     }else {
         //showSwitchValue.text = @"否";
-        
+        diaAtive = NO;
         dpLabel.userInteractionEnabled = NO;
         NSLog(@"diastolic off");
     }
@@ -1409,11 +1467,11 @@
         
         wLabel.userInteractionEnabled = YES;
         
-        
+        goalWeightAtive = YES;
         //showSwitchValue.text = @"是";
         NSLog(@"goalWeight on");
     }else {
-        
+        goalWeightAtive = NO;
         wLabel.userInteractionEnabled = NO;
         //showSwitchValue.text = @"否";
         NSLog(@"goalWeight off");
@@ -1427,13 +1485,13 @@
         
          bmiLabel.userInteractionEnabled = YES;
         
-        
+        BMIAtive = YES;
         
         //showSwitchValue.text = @"是";
         NSLog(@"BMI on");
     }else {
         //showSwitchValue.text = @"否";
-        
+        BMIAtive = NO;
         bmiLabel.userInteractionEnabled = NO;
         NSLog(@"BMI off");
     }
@@ -1451,11 +1509,11 @@
         btapGestureRecognizer.numberOfTapsRequired = 1;
         [bfLabel addGestureRecognizer:btapGestureRecognizer];
         bfLabel.userInteractionEnabled = YES;
-        
+        bodyFatAtive = YES;
         NSLog(@"Body on");
     }else {
         //showSwitchValue.text = @"否";
-        
+        bodyFatAtive = NO;
         bfLabel.userInteractionEnabled = NO;
         
         NSLog(@"Body off");
@@ -3399,28 +3457,31 @@
     
     profile_name = nameTextField.text;   //使用者姓名
     
+    [ProfileClass sharedInstance].name = nameTextField.text;
+    [ProfileClass sharedInstance].birthday = birthDateString;
+    [ProfileClass sharedInstance].bp_measurement_arm = measureArm_row;
+    [ProfileClass sharedInstance].cuff_size = cuffsize_row;
+    [ProfileClass sharedInstance].userHeight = height_value;
+    [ProfileClass sharedInstance].userWeight = weight_value;
+    [ProfileClass sharedInstance].goal_weight = goalweight_value;
+    [ProfileClass sharedInstance].sys = sys_pressure_value;
+    [ProfileClass sharedInstance].dia = dia_pressure_value;
+    [ProfileClass sharedInstance].bmi = BMI_value;
+    [ProfileClass sharedInstance].body_fat = BF_value;
+    [ProfileClass sharedInstance].userGender = genderBooL;
+    [ProfileClass sharedInstance].sys_unit = pressureBooL;
+    [ProfileClass sharedInstance].unit_type = unitBooL;
+    [ProfileClass sharedInstance].sys_activity = sysAtive;
+    [ProfileClass sharedInstance].dia_activity = diaAtive;
+    [ProfileClass sharedInstance].weight_activity = goalWeightAtive;
+    [ProfileClass sharedInstance].bmi_activity = BMIAtive;
+    [ProfileClass sharedInstance].body_fat_activity = bodyFatAtive;
+    [ProfileClass sharedInstance].threshold = thresholdActive;
+
+    [[ProfileClass sharedInstance] updateData];
     
-    //genderBooL = 1  性別:女   genderBooL = 0  性別:男
-    //unitBooL = 0 公制   ：   unitBooL = 1 英制
-    //pressureBooL = 0  mmHg    ：   pressureBooL = 1  kpa
-    
-    //dateformatBool = 0  日期格式 YYYY/MM/dd
-    //dateformatBool = 1  日期格式 MM/dd/YYYY
-    
-    
-    //height_value =          //身高
-    //weight_value =          //體重
-    //goalweight_value =      //目標體重
-    
-    
-    
-    //sys_pressure_value =      //收縮壓
-    //dia_pressure_value =      //舒張壓
-    
-    
-    
-    BMI_value = [bmiLabel.text floatValue];     //BMI
-    BF_value =  [bfLabel.text floatValue];    //體脂
+    //BMI_value = [bmiLabel.text floatValue];     //BMI
+    //BF_value =  [bfLabel.text floatValue];    //體脂
     
     
     //cuffsize_row;          //袖口尺寸
@@ -3430,10 +3491,4 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
     
 }
-
-
-
-
-
-
 @end

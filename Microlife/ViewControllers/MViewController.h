@@ -32,4 +32,6 @@
 
 -(UIImage *)resizeImage:(UIImage *)image;
 
+-(UIImage *)snapShotView:(UIView *)inputView;
+
 @end

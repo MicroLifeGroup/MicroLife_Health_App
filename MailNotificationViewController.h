@@ -26,8 +26,8 @@
     UIButton *navcancelBtn;
     
     NSMutableArray *tableviewSelectTag;
-    
-    
+    UIButton *addMBtn;
+    UIView *memberline;
     
 }
 
