@@ -30,7 +30,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.view setBackgroundColor:[UIColor colorWithRed:246.0f/255.0f green:246.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
+    self.view.backgroundColor = TABLE_BACKGROUND;
+
     self.person=[NSMutableArray array];
     for (int i=1; i<15; i++) {
        // [self.person addObject:[NSString stringWithFormat:@"第%d個聯繫人",i]];

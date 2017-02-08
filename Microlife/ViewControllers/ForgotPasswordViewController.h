@@ -10,7 +10,7 @@
 #import "RegisterViewController.h"
 
 
-@interface ForgotPasswordViewController : UIViewController<UITextFieldDelegate>{
+@interface ForgotPasswordViewController : UIViewController <UITextFieldDelegate> {
     UIButton *sendBtn;
     UITextField *femailTextField;
 }

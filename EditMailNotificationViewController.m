@@ -215,7 +215,7 @@
     float addH = self.view.frame.size.height*0.09;
     float addY = self.view.frame.size.height*0.16;
     
-    [self.view setBackgroundColor:[UIColor colorWithRed:246.0f/255.0f green:246.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
+    self.view.backgroundColor = TABLE_BACKGROUND;
     
     UIView *addview = [[UIView alloc]initWithFrame:CGRectMake(-1, addY, self.view.frame.size.width+2, addH*2+1)];
     addview.backgroundColor = [UIColor whiteColor];

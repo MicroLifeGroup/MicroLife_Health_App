@@ -10,4 +10,8 @@
 
 @interface OverViewEditEventInsidePageViewController : UIViewController
 
+@property (nonatomic) NSInteger insidePageIndex;
+
+-(id)initWithEventInsidePageFrame:(CGRect)frame;
+
 @end

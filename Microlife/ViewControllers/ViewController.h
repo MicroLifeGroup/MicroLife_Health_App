@@ -9,13 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "FacebookLoginViewController.h"
 
-@interface ViewController : FacebookLoginViewController <UITextFieldDelegate>{
-    UITextField  *passwordTextField;
-    UIButton *connectFacebookBtn;
-    UITextField  *emailTextField;
-    UIButton *loginBtn;
-    UIButton *loginGooglePlusBtn;
-}
+@interface ViewController : FacebookLoginViewController <UITextFieldDelegate>
 
 @property (nonatomic,retain)  UITextField  *passwordTextField;
 @property (nonatomic,retain)  UIButton  *connectFacebookBtn;

@@ -12,6 +12,7 @@
     
     UILabel *cell_titleLabel;
     
+    CGFloat textSize;
 }
 
 @synthesize redMarkImgView, titleStr;
@@ -21,6 +22,7 @@
 -(id)initWithFrameCustomCellMyDevice:(CGRect)frame {
     
     self = [super init];
+    
     if (!self) return nil;
     
     self.frame = frame;
@@ -42,7 +44,7 @@
     
     //cell_titleLabel
     cell_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, self.frame.size.width - redMarkImgView.frame.size.width - 10, self.frame.size.height)];
-    //cell_titleLabel.font = [UIFont systemFontOfSize:cell_titleLabel.frame.size.height * 0.68];
+    
     [self.contentView addSubview:cell_titleLabel];
     
 }
@@ -51,6 +53,8 @@
 #pragma mark - 更新 cell 資料 =======================
 -(void)refreshMessage {
     
+    textSize = self.frame.size.height * 0.35;
+    cell_titleLabel.font = [UIFont systemFontOfSize:textSize];
     cell_titleLabel.text = titleStr;
 }
 

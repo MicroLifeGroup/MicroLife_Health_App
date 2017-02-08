@@ -60,9 +60,11 @@
 
 - (id)initWithFrame:(CGRect)frame withChartType:(int)type withDataCount:(int)count withDataRange:(NSInteger)range;
 {
-    self = [super initWithFrame:frame];
+    self = [super init];
+    
     if (self) {
         
+        self.frame = frame;
         self.chartType = type;
         dataCount = count;
         dataRange = range;
@@ -267,8 +269,9 @@
             
             chartMaxValue = 200;
             chartMinValue = 40;
-            
             targetValue = 75;
+            
+            
         }
             break;
         case 2:{
@@ -296,6 +299,11 @@
             chartMinValue = 5.0;
             
             targetValue = [LocalData sharedInstance].targetWeight;
+            
+            if(chartMaxValue<targetValue)
+            {
+                chartMaxValue=targetValue;
+            }
             
             if (![LocalData sharedInstance].showTargetWeight) {
                 targetValue = 0;
@@ -328,6 +336,12 @@
             
             normalValue = [LocalData sharedInstance].standerBMI;
             //targetValue = 25;
+            
+            if(chartMinValue>normalValue)
+            {
+                chartMinValue=normalValue;
+            }
+            
         }
             
             break;
@@ -361,6 +375,18 @@
             if (![LocalData sharedInstance].showTargetFat) {
                 targetValue = 0;
             }
+            
+            if(chartMinValue>normalValue)
+            {
+                chartMinValue=normalValue;
+            }
+            
+            if(chartMaxValue<targetValue)
+            {
+                chartMaxValue=targetValue;
+            }
+            
+            
         }
             
             break;
@@ -417,11 +443,13 @@
     lineIntroImg_w = 22/imgScale;
     lineIntroImg_h = 10/imgScale;
     
+    
     //目標值提示圖片大小
     targetIntroImg_w = 22/imgScale;
     targetIntroImg_h = 5/imgScale;
     normalImg = [UIImage imageNamed:@"overview_chart_a_normal"];
     normalIntroStr = @"Normal";
+    
     
     switch (self.chartType) {
         case 0:
@@ -503,9 +531,9 @@
             break;
     }
     
+    
     //圖表上方單位
     graphUnitLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 2, SCREEN_WIDTH*0.086, SCREEN_HEIGHT*0.044)];
-    
     graphUnitLabel.text = unitStr;
     graphUnitLabel.font = [UIFont systemFontOfSize:10.0];
     graphUnitLabel.textColor = [UIColor colorWithRed:157.0/255.0 green:157.0/255.0 blue:157.0/255.0 alpha:1.0];
@@ -516,88 +544,77 @@
     //上方主線條提示文字
     lineIntroLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     lineIntroLabel.font = [UIFont systemFontOfSize:12.0];
-    
     lineIntroLabel.text = lineIntroStr;
     lineIntroLabel.textAlignment = NSTextAlignmentRight;
     [lineIntroLabel sizeToFit];
-    
     lineIntroLabel.frame = CGRectMake(SCREEN_WIDTH-SCREEN_WIDTH*0.04-lineIntroLabel.frame.size.width, SCREEN_HEIGHT*0.044/2-lineIntroLabel.frame.size.height/2, lineIntroLabel.frame.size.width, lineIntroLabel.frame.size.height);
-    
     [self addSubview:lineIntroLabel];
 
+    
     //上方主線條提示文字圖片
-    
     lineIntroImg = [[UIImageView alloc] initWithFrame:CGRectMake(lineIntroLabel.frame.origin.x-lineIntroImg_w-4, lineIntroLabel.frame.origin.y+lineIntroLabel.frame.size.height/2-lineIntroImg_h/2, lineIntroImg_w, lineIntroImg_h)];
-    
     lineIntroImg.image = mainlineIntroImg;
-
     [self addSubview:lineIntroImg];
+    
     
     //上方目標值提示文字
     targetIntroLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     targetIntroLabel.text = targetIntroStr;
     targetIntroLabel.font = [UIFont systemFontOfSize:12.0];
     [targetIntroLabel sizeToFit];
-    
     targetIntroLabel.frame = CGRectMake(lineIntroImg.frame.origin.x-targetIntroLabel.frame.size.width-4, SCREEN_HEIGHT*0.044/2-targetIntroLabel.frame.size.height/2, targetIntroLabel.frame.size.width, targetIntroLabel.frame.size.height);
-    
     [self addSubview:targetIntroLabel];
     
+    
     //目標值提示圖片
-    
     targetIntroImg = [[UIImageView alloc] initWithFrame:CGRectMake(targetIntroLabel.frame.origin.x-targetIntroImg_w-4, targetIntroLabel.frame.origin.y+targetIntroLabel.frame.size.height/2-targetIntroImg_h/2, targetIntroImg_w, targetIntroImg_h)];
-    
     targetIntroImg.image = targetImg;
-    
     [self addSubview:targetIntroImg];
+    
     
     //上方正常值提示文字
     UILabel *normalIntro = [[UILabel alloc] initWithFrame:CGRectZero];
     normalIntro.text = normalIntroStr;
     normalIntro.font = [UIFont systemFontOfSize:12.0];
     [normalIntro sizeToFit];
-    
     normalIntro.frame = CGRectMake(targetIntroImg.frame.origin.x-normalIntro.frame.size.width-4, SCREEN_HEIGHT*0.044/2-normalIntro.frame.size.height/2, normalIntro.frame.size.width, normalIntro.frame.size.height);
-    
     [self addSubview:normalIntro];
+    
     
     //正常值提示圖片
     float normalIntroImg_w = 10/imgScale;
     float normalIntroImg_h = 13/imgScale;
     
     normalIntroImg = [[UIImageView alloc] initWithFrame:CGRectMake(normalIntro.frame.origin.x-normalIntroImg_w-4, normalIntro.frame.origin.y+normalIntro.frame.size.height/2-normalIntroImg_h/2, normalIntroImg_w, normalIntroImg_h)];
-    
     normalIntroImg.image = normalImg;
-    
     [self addSubview:normalIntroImg];
+    
     
     //圖表上方線條
     UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(graphUnitLabel.frame.origin.x+graphUnitLabel.frame.size.width, SCREEN_HEIGHT*0.044, SCREEN_WIDTH-SCREEN_WIDTH*0.05-graphUnitLabel.frame.size.width, 1)];
-    
     topLine.backgroundColor = [UIColor colorWithRed:157.0/255.0 green:157.0/255.0 blue:157.0/255.0 alpha:0.8];
-    
     [self addSubview:topLine];
+    
     
     //圖表下方線條
     UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(graphUnitLabel.frame.origin.x+graphUnitLabel.frame.size.width, self.frame.size.height-SCREEN_HEIGHT*0.044, SCREEN_WIDTH-SCREEN_WIDTH*0.05-graphUnitLabel.frame.size.width, 1)];
-    
     bottomLine.backgroundColor = [UIColor colorWithRed:157.0/255.0 green:157.0/255.0 blue:157.0/255.0 alpha:0.8];
-    
     [self addSubview:bottomLine];
     
+    
     //開始時間
-    startTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(graphUnitLabel.bounds.origin.x, bottomLine.frame.origin.y+SCREEN_HEIGHT*0.022, startTimeLabel.frame.size.width, startTimeLabel.frame.size.height)];
+    startTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(graphUnitLabel.bounds.origin.x+2, bottomLine.frame.origin.y+SCREEN_HEIGHT*0.022, startTimeLabel.frame.size.width, startTimeLabel.frame.size.height)];
     startTimeLabel.text = @"";
     startTimeLabel.font = [UIFont systemFontOfSize:12.0];
-    [startTimeLabel setBackgroundColor:[UIColor redColor]];
-    [startTimeLabel sizeToFit];
+
+    //[startTimeLabel sizeToFit];
     
     //startTimeLabel.frame =CGRectMake(graphUnitLabel.frame.origin.x, bottomLine.frame.origin.y+SCREEN_HEIGHT*0.022, startTimeLabel.frame.size.width, startTimeLabel.frame.size.height);
     //CGRectMake(bottomLine.frame.origin.x, bottomLine.frame.origin.y+SCREEN_HEIGHT*0.022, startTimeLabel.frame.size.width, startTimeLabel.frame.size.height);
-    
-    
-    
+
     [self addSubview:startTimeLabel];
+    
+    
     
     //結束時間
     endTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -605,12 +622,10 @@
     endTimeLabel.font = [UIFont systemFontOfSize:12.0];
     [endTimeLabel sizeToFit];
     endTimeLabel.frame = CGRectMake(bottomLine.frame.origin.x+bottomLine.frame.size.width-endTimeLabel.frame.size.width, bottomLine.frame.origin.y+SCREEN_HEIGHT*0.022, endTimeLabel.frame.size.width, endTimeLabel.frame.size.height);
-    
     [self addSubview:endTimeLabel];
     
     float endImgWidth = 15/imgScale;
     float endImgHeight = 13/imgScale;
-    
     UIImageView *endTimeImg = [[UIImageView alloc] initWithFrame:CGRectMake(bottomLine.frame.origin.x+bottomLine.frame.size.width-endImgWidth/2, bottomLine.frame.origin.y+5, endImgWidth, endImgHeight)];
     
     endTimeImg.image = [UIImage imageNamed:@"overview_chart_a_indicato"];
@@ -631,12 +646,11 @@
     
     //圖表綠色指標線
     indicatorLine = [[UIView alloc] initWithFrame:CGRectMake(chartLeftWidth,chartTopWidth , 1, self.frame.size.height-chartTopWidth*2)];
-    
     indicatorLine.backgroundColor = [UIColor colorWithRed:12.0/255.0 green:165.0/255.0 blue:0.0/255.0 alpha:0.5];
-    
     [self addSubview:indicatorLine];
-    
     [indicatorLine setHidden:YES];
+    
+    
     
     float indicatorViewWidth = 283/imgScale;
     float indicatorViewHeight = 86/imgScale;
@@ -686,7 +700,7 @@
     [startTimeLabel sizeToFit];
     [endTimeLabel sizeToFit];
     
-    startTimeLabel.frame = CGRectMake(startTimeLabel.frame.origin.x-startTimeLabel.frame.size.width/2, startTimeLabel.frame.origin.y, startTimeLabel.frame.size.width, startTimeLabel.frame.size.height);
+    //startTimeLabel.frame = CGRectMake(startTimeLabel.frame.origin.x-startTimeLabel.frame.size.width/2, startTimeLabel.frame.origin.y, startTimeLabel.frame.size.width, startTimeLabel.frame.size.height);
     
     endTimeLabel.frame = CGRectMake(endTimeLabel.frame.origin.x-endTimeLabel.frame.size.width, endTimeLabel.frame.origin.y, endTimeLabel.frame.size.width, endTimeLabel.frame.size.height);
     
@@ -743,7 +757,6 @@
         case 5:
             
             [self createValueTag:normalValue normal:YES];
-            
             break;
             
         default:
@@ -837,11 +850,11 @@
     }
     
     //目標值曲線
-    
     CGContextRef targetLine = UIGraphicsGetCurrentContext();
     CGContextSetLineWidth(targetLine, 1.0);
     CGContextSetLineJoin(targetLine, kCGLineJoinRound);
     CGContextSetRGBStrokeColor(targetLine, 12.0/255.0, 165.0/255.0, 0.0/255.0, 1);
+    
     
     for (int i=0; i<targetValCount; i++) {
     
@@ -875,14 +888,18 @@
     
     
     //MARK:圖表範圍
-    
     CGContextRef graphContext = UIGraphicsGetCurrentContext();
-    CGContextSetRGBStrokeColor(graphContext, 0.0, 61.0/255.0, 165.0/255.0, 1);
+    
+    CGContextSetRGBStrokeColor(targetLine, 1.0, 0.83, 0.12, 1.0);//for test
+    //CGContextSetRGBStrokeColor(graphContext, 0.0, 61.0/255.0, 165.0/255.0, 1);
     CGContextSetLineWidth(graphContext, 3.0);
     CGContextSetLineJoin(graphContext, kCGLineJoinRound);
     
     //NSLog(@"chartDataArray = %@",chartDataArray);
     
+    
+    ///Nick
+    /**
     for (int i=0; i<chartDataArray.count; i++) {
         
         //float xValue = [[xPointAry objectAtIndex:i] floatValue];
@@ -898,14 +915,19 @@
             //[self setChartLineDot:i yPoint:yValue normalValue:normalValue];
         //}
         
+
         if (yValue != 0) {
             
             [self setChartLineDot:i yPoint:yValue normalValue:normalValue];
             
             if (firstPoint) {
+                
                 CGContextMoveToPoint(graphContext, chartLeftWidth+(i*xScaleSize),chartTopWidth+((chartMaxValue-yValue)*yScaleSize));
+                
                 firstPoint = NO;
-            }else{
+            }
+            else{
+                
                 CGContextAddLineToPoint(graphContext, chartLeftWidth+(i*xScaleSize),chartTopWidth+((chartMaxValue-yValue)*yScaleSize));
             }
             
@@ -914,9 +936,67 @@
     }
     
     CGContextStrokePath(graphContext);
+    */
+        
+    for (int i = 0; i < chartDataArray.count; i++) {
+    
+        NSLog(@"chartDataArray.count ===> %d",chartDataArray.count);
+        
+        //Nick =======
+        if (i == chartDataArray.count - 1 ) {
+            
+            break;
+        }
+        // ==============
+        
+        float yValue = [[chartDataArray objectAtIndex:i] floatValue];
+        
+        //Nick
+        float nextyValue = [[chartDataArray objectAtIndex:i+1] floatValue];
+        
+        if (yValue != 0) {
+            
+            [self setChartLineDot:i yPoint:yValue normalValue:normalValue];
+            
+            if (firstPoint) {
+                
+                //CGContextMoveToPoint(graphContext, chartLeftWidth+(i*xScaleSize),chartTopWidth+((chartMaxValue-yValue)*yScaleSize));
+                
+                NSLog(@"FirstPoint == YES / xScale:%f / yScale:%f",xScaleSize,yScaleSize);
+                
+                [self createBezierPath:CGPointMake(chartLeftWidth+(i*xScaleSize), chartTopWidth+((chartMaxValue-yValue)*yScaleSize)) secondPoint:CGPointMake(chartLeftWidth+((i+1)*xScaleSize), chartTopWidth+((chartMaxValue-nextyValue)*yScaleSize))];
+                
+                
+                //NSLog(@"P1==>(%f,%f) /// P2==>(%f,%f)",chartLeftWidth+(i*xScaleSize),chartTopWidth+((chartMaxValue-yValue)*yScaleSize),chartLeftWidth+((i+1)*xScaleSize),chartTopWidth+((chartMaxValue-nextyValue)*yScaleSize));
+                
+                
+                NSLog(@"點P%d ==> (%f,%f)",i,chartLeftWidth+(i*xScaleSize),chartTopWidth+((chartMaxValue-yValue)*yScaleSize));
+                NSLog(@"點P%d ==> (%f,%f)",i+1,chartLeftWidth+((i+1)*xScaleSize),chartTopWidth+((chartMaxValue-nextyValue)*yScaleSize));
+                
+                firstPoint = NO;
+            }
+            else{
+                
+                NSLog(@"FirstPoint == NO / xScale:%f / yScale:%f",xScaleSize,yScaleSize);
+                
+                [self createBezierPath:CGPointMake(chartLeftWidth+(i*xScaleSize), chartTopWidth+((chartMaxValue-yValue)*yScaleSize)) secondPoint:CGPointMake(chartLeftWidth+((i+1)*xScaleSize), chartTopWidth+((chartMaxValue-nextyValue)*yScaleSize))];
+                
+                //NSLog(@"P1==>(%f,%f) /// P2==>(%f,%f)",chartLeftWidth+(i*xScaleSize),chartTopWidth+((chartMaxValue-yValue)*yScaleSize),chartLeftWidth+((i+1)*xScaleSize),chartTopWidth+((chartMaxValue-nextyValue)*yScaleSize));
+                
+                NSLog(@"點P%d ==> (%f,%f)",i,chartLeftWidth+(i*xScaleSize),chartTopWidth+((chartMaxValue-yValue)*yScaleSize));
+                NSLog(@"點P%d ==> (%f,%f)",i+1,chartLeftWidth+((i+1)*xScaleSize),chartTopWidth+((chartMaxValue-nextyValue)*yScaleSize));
+                
+                //CGContextAddLineToPoint(graphContext, chartLeftWidth+(i*xScaleSize),chartTopWidth+((chartMaxValue-yValue)*yScaleSize));
+            }
+            
+        }
+        
+    }
+
+    
+    
     
     //SYS/DIS 室溫 測試用假資料
-    
     if(self.chartType == 0 || self.chartType == 5){
         
         CGContextRef secGraphContext = UIGraphicsGetCurrentContext();
@@ -930,10 +1010,17 @@
         CGContextSetLineWidth(secGraphContext, 3.0);
         CGContextSetLineJoin(secGraphContext, kCGLineJoinRound);
         
-        for (int i=0; i<chartDataArray.count; i++) {
+        for (int i=0; i < chartDataArray.count; i++) {
             
+            if (i == chartDataArray.count-1 ) {
+                
+                break;
+            }
 
             float secGraphYValue = [[secGraphYData objectAtIndex:i] floatValue];
+            
+            //Nick Fix
+            float nextSecGraphYvalue = [[secGraphYData objectAtIndex:i+1] floatValue];
             
 //            if (secGraphYValue <= chartMinValue) {
 //                secGraphYValue = chartMinValue;
@@ -946,18 +1033,27 @@
             if (secGraphYValue != 0) {
                 
                 if (secGraphYValue <= chartMinValue) {
-                        secGraphYValue = chartMinValue;
+                    
+                    secGraphYValue = chartMinValue;
                 }
                 
                 [self setChartLineDot:i yPoint:secGraphYValue normalValue:secNormalValue];
                 
                 if (secFirstPoint) {
-                    CGContextMoveToPoint(secGraphContext, chartLeftWidth+(i*xScaleSize),chartTopWidth+((chartMaxValue-secGraphYValue)*yScaleSize));
                     
+                    //Nick Fix
+                    //CGContextMoveToPoint(secGraphContext, chartLeftWidth+(i*xScaleSize),chartTopWidth+((chartMaxValue-secGraphYValue)*yScaleSize));
+                    
+                    [self createBezierPath:CGPointMake(chartLeftWidth+(i*xScaleSize), chartTopWidth+((chartMaxValue-secGraphYValue)*yScaleSize)) secondPoint:CGPointMake(chartLeftWidth+((i+1)*xScaleSize), chartTopWidth+((chartMaxValue-nextSecGraphYvalue)*yScaleSize))];
+                
                     secFirstPoint = NO;
                     
                 }else{
-                    CGContextAddLineToPoint(secGraphContext, chartLeftWidth+(i*xScaleSize),chartTopWidth+((chartMaxValue-secGraphYValue)*yScaleSize));
+                    
+                    //Nick Fix
+                     [self createBezierPath:CGPointMake(chartLeftWidth+(i*xScaleSize), chartTopWidth+((chartMaxValue-secGraphYValue)*yScaleSize)) secondPoint:CGPointMake(chartLeftWidth+((i+1)*xScaleSize), chartTopWidth+((chartMaxValue-nextSecGraphYvalue)*yScaleSize))];
+                    
+                    //CGContextAddLineToPoint(secGraphContext, chartLeftWidth+(i*xScaleSize),chartTopWidth+((chartMaxValue-secGraphYValue)*yScaleSize));
                 }
                 
             }
@@ -1021,7 +1117,9 @@
 //        [self addSubview:dotLabel];
         [self addSubview:dotView];
         
-    }else{
+    }
+    else{
+        
         UIImageView *dotView = [[UIImageView alloc] initWithFrame:CGRectMake(chartLeftWidth+(xPointVal*xScaleSize)-dotWidth/2,chartTopWidth+(chartMaxValue-yPointVal)*yScaleSize-dotHeight/2, dotWidth, dotHeight)];
         
         dotView.image = [UIImage imageNamed:@"overview_chart_a_dot_b"];
@@ -1032,6 +1130,9 @@
     
 }
 
+
+
+#pragma mark - Touch Event  ***********************
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
     if (!indicatorMode) {
@@ -1062,6 +1163,7 @@
         
         [self showTouchedPointValue:touchPoint];
     }
+
 }
 
 -(void)showTouchedPointValue:(CGPoint)touchedPoint{
@@ -1111,7 +1213,9 @@
                              
         indicatorDate.text = dateStr;
         
-    }else{
+    }
+    else{
+        
         valueLabel.text = @"";
     }
 }
@@ -1128,5 +1232,29 @@
     
     NSLog(@"End");
 }
+
+
+#pragma mark - Bezier
+-(void)createBezierPath:(CGPoint)theFirstPoint secondPoint:(CGPoint)theSecondPoint {
+    
+    UIBezierPath *bezierPath = [UIBezierPath bezierPath];
+    bezierPath.lineWidth = 3.0;
+    bezierPath.lineCapStyle =  kCGLineCapRound;
+    bezierPath.lineJoinStyle = kCGLineCapRound;
+    
+    //起始點
+    [bezierPath moveToPoint:CGPointMake(theFirstPoint.x, theFirstPoint.y)];
+    
+    //控制點
+    CGPoint controlPoint01 = CGPointMake((theSecondPoint.x - theFirstPoint.x)/2 + theFirstPoint.x, theFirstPoint.y);
+    CGPoint controlPoint02 = CGPointMake((theSecondPoint.x - theFirstPoint.x)/2 + theFirstPoint.x, theSecondPoint.y);
+    
+    //終點與弧度
+    [bezierPath addCurveToPoint:theSecondPoint controlPoint1:controlPoint01 controlPoint2:controlPoint02];
+    
+    //確認 Bezier 路徑
+    [bezierPath stroke];
+}
+
 
 @end

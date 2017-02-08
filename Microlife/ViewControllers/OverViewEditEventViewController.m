@@ -8,12 +8,16 @@
 
 #import "OverViewEditEventViewController.h"
 #import "OverViewAddEventControllerViewController.h"
+#import "OverViewEditEventInsidePageViewController.h"
 
 @interface OverViewEditEventViewController ()<UITableViewDelegate, UITableViewDataSource>{
+    
     UITableView *eventTable;
     NSMutableArray *eventArray;
     UIBarButtonItem *rightBarButton;
     BOOL editing;
+    OverViewAddEventControllerViewController *addEventVC;
+    OverViewEditEventInsidePageViewController *insidePageVC;
 }
 
 @end
@@ -22,24 +26,66 @@
 
 @synthesize cellImgAry;
 
+#define ADD_EVENT_IMAGE  [UIImage imageNamed:@"overview_btn_a_add_m"]
+
+#pragma mark - Normal Functions  ****************************
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
-    [self initParameter];
-    [self initInterface];
+    //[self initParameter];
+    [self initWithUIObjects];
     
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    
+    [self initParameter];
+    self.tabBarController.tabBar.hidden = YES;
+    [eventTable reloadData];
+}
+
+
+-(void)viewWillDisappear:(BOOL)animated {
+    
+    if (eventArray != nil) {
+        
+        [eventArray removeAllObjects];
+        eventArray = nil;
+    }
+    
+    self.tabBarController.tabBar.hidden = NO;
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
+#pragma mark - initalization  ******************************
 -(void)initParameter{
     
-    eventArray = [[EventClass sharedInstance] selectAllData];
+    [self reloadDataFromDataBase];
     
     editing = NO;
     
 }
 
--(void)initInterface{
+
+-(void)reloadDataFromDataBase {
+    
+    if (eventArray == nil) {
+        
+        eventArray = [[NSMutableArray alloc] init];
+    }
+    
+    [eventArray removeAllObjects];
+    
+    eventArray = [[EventClass sharedInstance] selectAllData];
+
+}
+
+-(void)initWithUIObjects{
     
     UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
     
@@ -57,6 +103,7 @@
     
     self.navigationItem.title = @"Event Management";
     
+    //eventTableView
     eventTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStyleGrouped];
     
     eventTable.delegate = self;
@@ -68,31 +115,20 @@
         
     }
     
+    
+    //add_EventBt
+    UIButton *add_EventBt = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width/8, self.view.frame.size.width/8)];
+    add_EventBt.center = CGPointMake(CGRectGetMaxX(self.view.frame) - add_EventBt.frame.size.width, CGRectGetMaxY(self.view.frame) - add_EventBt.frame.size.width - self.navigationController.navigationBar.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height);
+    [add_EventBt setImage:ADD_EVENT_IMAGE forState:UIControlStateNormal];
+    [add_EventBt addTarget:self action:@selector(gotoOverViewAddEventVC) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:add_EventBt];
+
 }
 
--(void)rightBarBtnAction{
-    
-    if (editing) {
-        [rightBarButton setTitle:@"Delete"];
-        self.navigationItem.title = @"Edit Event";
-    }else{
-        [rightBarButton setTitle:@"Select"];
-        self.navigationItem.title = @"Event Management";
-    }
-    
-    
-    
-    
-    editing = !editing;
-}
 
--(void)backToOverviewVC{
-    
-    [self.navigationController popViewControllerAnimated:YES];
-    
-}
 
-#pragma mark - Tableview delegate
+
+#pragma mark - Tableview DataBase & Delegate  **************************
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     return eventArray.count;
@@ -111,6 +147,7 @@
     UITableViewCell *cell;
     
     if (cell == nil) {
+        
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     
@@ -121,6 +158,7 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
     }else{
+        
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
@@ -132,15 +170,89 @@
     
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (IS_IPAD) {
+        
+         return (self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height) * 1.5;
+    }
+    else {
+        
+         return (self.navigationController.navigationBar.frame.size.height+[UIApplication sharedApplication].statusBarFrame.size.height);
+    }
+   
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    
     
     [tableView  deselectRowAtIndexPath:indexPath animated:YES];
     
 }
 
-#pragma mark - 連結到 add Event 頁面
+
+//cell 是否可向左滑動
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return UITableViewCellEditingStyleDelete;
+}
+
+//cell 向左滑動顯示的RowAction
+-(NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    //Detail
+    UITableViewRowAction *editAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:NSLocalizedString(@" Edit ", nil) handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+    
+        if (insidePageVC == nil) {
+            
+            insidePageVC = [[OverViewEditEventInsidePageViewController alloc] initWithEventInsidePageFrame:self.view.frame];
+        }
+        
+        insidePageVC.insidePageIndex = indexPath.row;
+        
+        [self.navigationController pushViewController:insidePageVC animated:YES];
+        
+    }];
+    
+    editAction.backgroundColor = [UIColor darkGrayColor];
+    
+    
+    //Delete
+    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:NSLocalizedString(@"Delete", nil) handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        
+    
+        //移除資料庫的資料
+        EventClass *eventObj = [[EventClass alloc] init];
+        eventObj.accountID = [[eventArray[indexPath.row] objectForKey:@"accountID"] intValue];
+        eventObj.eventID = [[eventArray[indexPath.row] objectForKey:@"eventID"] intValue];
+        
+        NSLog(@"accountID:%d",eventObj.accountID);
+        NSLog(@"eventID:%d",eventObj.eventID);
+        
+        [eventObj deletData];
+        
+        
+        //eventArray移除資料
+        [eventArray removeObjectAtIndex:indexPath.row];
+
+        
+        NSLog(@"%lu", (unsigned long)[[EventClass sharedInstance]selectAllData].count);
+        
+        //重新撈資料
+        [tableView reloadData];
+        
+    }];
+    
+    deleteAction.backgroundColor = CIRCEL_RED;
+    
+    
+    return @[deleteAction,editAction];
+}
+
+
+
+
+#pragma mark - 跳至其他頁面  **************************
+//連結到 add Event 頁面
 -(void)pushToAddEventVC:(BOOL)editing{
     
     OverViewAddEventControllerViewController *addEventVC = [[OverViewAddEventControllerViewController alloc]initWithAddEventViewController:self.view.frame];
@@ -153,19 +265,51 @@
     
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+//跳至 OverView - 溫度頁面
+-(void)backToOverviewVC{
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
-/*
-#pragma mark - Navigation
+//跳至 OverView Add Event ViewController
+-(void)gotoOverViewAddEventVC {
+    
+    if (eventArray.count >= 5) {
+        
+        [MViewController showAlert:NSLocalizedString(@"Alert", nil) message:NSLocalizedString(@"You can only add up to five events", nil) buttonTitle:NSLocalizedString(@"Confirm", nil)];
+    }
+    else {
+        
+        if (addEventVC == nil) {
+            
+            addEventVC = [[OverViewAddEventControllerViewController alloc] initWithAddEventViewController:self.view.frame];
+        }
+        
+        [self.navigationController pushViewController:addEventVC animated:YES];
+        
+    }
+    
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
 }
-*/
+
+
+
+#pragma mark - Btn Actions  ************************
+//NavigationBar 右邊按鈕方法
+-(void)rightBarBtnAction{
+    
+    if (editing) {
+        [rightBarButton setTitle:@"Delete"];
+        self.navigationItem.title = @"Edit Event";
+    }
+    else{
+        [rightBarButton setTitle:@"Select"];
+        self.navigationItem.title = @"Event Management";
+    }
+    
+    editing = !editing;
+}
+
+
 
 @end

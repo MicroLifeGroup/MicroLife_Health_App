@@ -14,8 +14,7 @@
     
     UITextField *addNameTextField;
     UITextField *addEmailTextField;
-    
-    
+
 }
 
 @property (nonatomic,retain)UITextField *addNameTextField;

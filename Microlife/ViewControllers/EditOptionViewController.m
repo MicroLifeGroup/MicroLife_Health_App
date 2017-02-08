@@ -7,6 +7,7 @@
 //
 
 #import "EditOptionViewController.h"
+#import "MViewController.h"
 
 @interface EditOptionViewController (){
     
@@ -18,6 +19,7 @@
 
 @implementation EditOptionViewController
 
+#pragma mark - Normal Functions  **********************
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -26,6 +28,13 @@
     [self initInterface];
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
+#pragma mark - initialization  ************************
 -(void)initParameter{
     
 }
@@ -53,6 +62,8 @@
     
     insertField = [[UITextField alloc] initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH-20, SCREEN_HEIGHT*0.063)];
     
+    [insertField addTarget:self action:@selector(textFieldEditChanging:) forControlEvents:UIControlEventEditingChanged];
+    
     self.view.backgroundColor = TABLE_BACKGROUND;
     
     insertField.text = self.customStr;
@@ -61,18 +72,9 @@
     [self.view addSubview:txtFieldBase];
 }
 
--(void)saveCustomStr{
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"customStr" object:insertField.text];
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
--(void)backToAlarmDetailVC{
-    
-    [self.navigationController popViewControllerAnimated:YES];
-    
-}
 
+#pragma mark - TableView Delegate & DataSource  *******************
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     return 1;
@@ -93,19 +95,40 @@
     
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+#pragma mark - 自定義 Function  **********************
+//字數上限
+-(void)textFieldEditChanging:(UITextField *)textField {
+    
+    if (textField == insertField) {
+        
+        NSUInteger textLength = [MViewController getStringLength:textField.text];
+        
+        if (textLength > 50) {
+            
+            textField.text = [textField.text substringWithRange:NSMakeRange(0, 50)];
+            
+            [MViewController showAlert:NSLocalizedString(@"Alert", nil) message:NSLocalizedString(@"The string length is limited to 50 characters", nil) buttonTitle:NSLocalizedString(@"OK", nil)];
+        }
+        
+    }
+
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+//save
+-(void)saveCustomStr{
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"customStr" object:insertField.text];
+    [self.navigationController popViewControllerAnimated:YES];
 }
-*/
+
+//跳回上一頁
+-(void)backToAlarmDetailVC{
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
+
+
 
 @end

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TermofUseController : UIViewController<UIScrollViewDelegate>{
+@interface TermofUseController : UIViewController <UIScrollViewDelegate> {
     
     
     UIButton *agree1Btn;

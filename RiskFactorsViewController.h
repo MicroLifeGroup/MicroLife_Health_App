@@ -8,17 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "RiskFactorCell.h"
+#import "ProfileViewController.h"
 
-@interface RiskFactorsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>{
-    
-    UIButton *rfselectBtn;
-    NSMutableArray *RFArray;
-    UITableView *RFTableView;
-    
-    
-    
-}
-@property (nonatomic,retain)UIButton *rfselectBtn;
-@property (nonatomic,retain)UITableView *RFTableView;
+@interface RiskFactorsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
+
+@property (strong,nonatomic) ProfileViewController *m_superVC;
 
 @end

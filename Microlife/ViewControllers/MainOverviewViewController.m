@@ -53,7 +53,10 @@
 
 #import "SFCommonCalendar.h"
 
+
+
 @interface MainOverviewViewController () <UITableViewDelegate,UITableViewDataSource> {
+
     
     //擷取裝置時間
     //-----------------------------------
@@ -79,8 +82,8 @@
     //overview scrollView
     //-----------------------------------
     UIScrollView *overView_scrollView;
-    NSMutableArray <UIView *> *ary_overView_subViews;
     UIPageControl *page;
+    
     
     //三個 overview scrollView 的 subViews
     UIView *bloodPressureView;
@@ -229,7 +232,7 @@
     UIView *blurView;
     
     
-    //RainbowBarView
+    //RainbowBarView(彩虹Bar條)
     //----------------------------------
     RainbowBarView *rainbowViewForBp;
     RainbowBarView *rainbowViewForBMI;
@@ -259,32 +262,195 @@
     NSMutableArray *btnSnapAry;
     
     CGRect listViewFrame_close;
+    
+    BOOL isPrivacyMode;
+    
+    UIButton *editEventBtn;
 }
 
-#define IMAGE_NORMAL_BP [UIImage imageNamed:@"overview_icon_a_bpm"]
-#define IMAGE_AFIB_OVERVIEW [UIImage imageNamed:@"overview_icon_a_afib"]
-#define IMAGE_HIGH_BP [UIImage imageNamed:@"overview_icon_a_bpm_r"]
-#define IMAGE_PAD_OVERVIEW [UIImage imageNamed:@"overview_icon_a_pad"]
-
-#define IMAGE_NORMAL_TEMP [UIImage imageNamed:@"overview_icon_a_ncfr_b"]
-#define IMAGE_FEVER_OVERVIEW [UIImage imageNamed:@"overview_icon_a_ncfr_r"]
-
-
-#define IMAGE_NORMAL_WEIGHT [UIImage imageNamed:@"overview_icon_a_ws_r"]
-#define IMAGE_OVERWEIGHT [UIImage imageNamed:@"overview_icon_a_ws_r"]
+#define LIST_BLOODPRESSSURE NSLocalizedString(@"YOUR BLOOD PRESSURE LISTS", nil)
+#define LIST_WEIGHT NSLocalizedString(@"YOUR WEIGHT LISTS", nil)
+#define LIST_BODYTEMP NSLocalizedString(@"YOUR BODY TEMPERATURE LISTS", nil)
 
 
 @end
 
 @implementation MainOverviewViewController
 
-#pragma mark - viewNormal function
-//--------------------------------
+#pragma mark - Normal function ************************
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     
+    
+    [self initWithNavigationBar];
+    
     [self initParameter];
+    
+    [self initWithScrollView];
+    
+    //初始化所有 ToolBars & BarButtonItems
+    [self createAllToolBarsAndBarButtonItems];
+    
+    //初始化所有PickerView
+    [self allPickerViewInit];
+    
+    self.isListBtEnable = YES;
+    
+    //生成 血壓 - 體重 - 額溫 大小圓
+    [self createBloodPressureCircle];
+    [self createWeightCircle];
+    [self createBodyTemperatureCircle];
+
+    
+    //生成curveBts & rainbow
+    [self createSysDiaAndPulCurveBts];
+    [self createWeiBmiFatCurveBts];
+    
+    
+    //生成 PUL Label
+    [self createPULLabel];
+    [self createDeviceModelAndStatus];
+    
+    //生成 BMI Lable
+    [self createBMILabel];
+    [self createBodyFatLabel];
+    
+    
+    //初始化 所有的callPickerViews
+    [self createCallPickerViews];
+    
+    
+    //m_tableView
+    m_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, self.view.frame.size.width, self.view.frame.size.height - 44)];
+    m_tableView.delegate = self;
+    m_tableView.dataSource = self;
+    //m_tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    m_tableView.hidden = YES;
+    m_tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.view addSubview:m_tableView];
+    
+    
+    
+    //生成一個模糊畫面
+    blurView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    blurView.backgroundColor = [UIColor darkGrayColor];
+    blurView.alpha = 0.3;
+    [self.tabBarController.view addSubview:blurView];
+    blurView.hidden = YES;
+    
+    UITapGestureRecognizer *dismissKeyboardTap = [[UITapGestureRecognizer alloc]
+                                                  initWithTarget:self
+                                                  action:@selector(dismissKeyboard)];
+    
+    [blurView addGestureRecognizer:dismissKeyboardTap];
+    
+    
+    //tempAdd Event View
+    addTempView = [[OverViewTempAddView alloc] initWithTempAddViewFrame:CGRectMake(0, 0, bodyTemperatureView.frame.size.width, bodyTemperatureView.frame.size.height)];
+    addTempView.hidden = NO;
+    addTempView.m_superVC = self;
+    [bodyTemperatureView addSubview:addTempView];
+    
+    
+    //BLE
+    BLEDataHandler *handler = [[BLEDataHandler alloc] init];
+    
+    [handler protocolStart];
+    
+    //生成圖表
+    //[self initChart];
+    
+    //BLE
+    [self addObserverForBLEHandler];
+    
+    //Button
+    [sysAndDiaCurveBt setSelected:YES];
+    [pulCurveBt setSelected:NO];
+    bpRainbowBarBt.selected=NO;
+    
+    weiCurveBt.selected=YES;
+    bmiCurveBt.selected=NO;
+    fatCurveBt.selected=NO;
+    weightRainbowBarBt.selected=NO;
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    
+    //先判斷是privacy Or membership
+    isPrivacyMode = [MViewController checkIsPrivacyModeOrMemberShip];
+    NSString *str = isPrivacyMode == YES ? @"YES" : @"NO";
+    NSLog(@"%@",str);
+    
+    
+    if (eventArray == nil) {
+        
+        eventArray = [[NSMutableArray alloc] init];
+    }
+    
+    [eventArray removeAllObjects];
+    eventArray = [[EventClass sharedInstance] selectAllData];
+    
+    [[LocalData sharedInstance] checkDefaultProfileData];
+    
+    if (eventBtnArray.count != 0) {
+        
+        for (int i=0; i<eventBtnArray.count; i++) {
+            
+            UIButton *btn = [eventBtnArray objectAtIndex:i];
+            
+            [btn removeFromSuperview];
+            
+        }
+        
+        [eventBtnArray removeAllObjects];
+    }
+    
+    if (eventArray.count != 0) {
+        
+        [LocalData sharedInstance].currentEventIndex = 0;
+        [LocalData sharedInstance].currentEventId = [[[eventArray objectAtIndex:0] objectForKey:@"eventID"] intValue];
+        addTempView.hidden = YES;
+        [self createEventCircleGroup];
+    }
+    
+    //getTimer 計時開始(navigationBar 顯示時間用)
+    getDateTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(getDateAndTime) userInfo:nil repeats:YES];
+    
+    //生成圖表
+    [self initChart];
+    
+    [self listBtEnable:self.isListBtEnable];
+    
+}
+
+
+-(void)viewDidDisappear:(BOOL)animated {
+    
+    //getDateTimer  停止
+    [getDateTimer invalidate];
+    getDateTimer = nil;
+    
+    if (editEventBtn != nil) {
+        
+        [editEventBtn removeFromSuperview];
+        editEventBtn = nil;
+    }
+    
+}
+
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+
+
+#pragma mark - initilization  **************************
+//NavigationBar init
+-(void)initWithNavigationBar {
     
     self.tabBarController.tabBar.tintColor = STANDER_COLOR;
     
@@ -341,62 +507,72 @@
     
     self.navigationItem.titleView = theTitleView;
     
-    CGFloat statusHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+}
+
+//init Parameter
+-(void)initParameter{
     
+    eventBtnArray = [NSMutableArray new];
+    listDataArray = [NSMutableArray new];
+    btnSnapAry = [NSMutableArray new];
+    
+    
+    eventArray = [[EventClass sharedInstance] selectAllData];
+    
+    measureSpec = [LocalData sharedInstance].measureSpec;
+    
+    BMIValue = 0;
+    
+    //設定初次進入index 與 eventID
+    if (eventArray.count != 0) {
+        
+        [LocalData sharedInstance].currentEventIndex = 0;
+        [LocalData sharedInstance].currentEventId = [[[eventArray objectAtIndex:0] objectForKey:@"eventID"] intValue];
+    }
+    
+}
+
+
+//ScrollView init
+-(void)initWithScrollView {
     
     //******* listView & listBt & listLabel & listArrowImg *******
     //切九等份
+    CGFloat statusHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
     unitHeight = (self.view.frame.size.height - 44 - statusHeight - 49)/9;
     
     //listView
     listViewFrame_close=CGRectMake(0,SCREEN_HEIGHT-(44*3)-20, self.view.frame.size.width, 44);
     listView = [[UIView alloc] initWithFrame:listViewFrame_close];
-    
     listView.backgroundColor = [UIColor clearColor];
-    
     [self.view addSubview:listView];
-    
     
     //listArrowImg
     listArrowImg = [[UIImageView alloc] initWithFrame:CGRectMake(listView.frame.size.height/4, -5,listView.frame.size.height/2,listView.frame.size.height/2)];
-    
     listArrowImg.center = CGPointMake(listView.center.x, listView.frame.size.height/4);
-    
     listArrowImg.image = [UIImage imageNamed:@"all_icon_a_arrow_up"];
-    
     [listView addSubview:listArrowImg];
-    
     
     //listLabel
     listLable = [[UILabel alloc] initWithFrame:CGRectMake(0, listView.frame.size.height*0.25, SCREEN_WIDTH, listView.frame.size.height*0.75)];
-
-    listLable.text = @"YOUR BLOOD PRESSURE LISTS";
-    
+    listLable.text = LIST_BLOODPRESSSURE;
     listLable.textAlignment = NSTextAlignmentCenter;
-    
     listLable.textColor = TEXT_COLOR;
-    
     listLable.adjustsFontSizeToFitWidth = YES;
-    
     //listLable.font = [UIFont boldSystemFontOfSize:listLable.frame.size.height * 0.8];
     listLable.font = [UIFont boldSystemFontOfSize:14.0];
-    
     [listView addSubview:listLable];
     
-    
-    
+
     //listBt
     listBt = [[UIButton alloc]initWithFrame:listView.frame];
-    
     [listBt addTarget:self action:@selector(listBtAction:) forControlEvents:UIControlEventTouchUpInside];
-    
     [self.view addSubview:listBt];
+    
     
     //listSperatorView
     listSperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMinY(listView.frame) - 2, self.view.frame.size.width, 1.0)];
-    
-    listSperatorView.backgroundColor = [UIColor lightGrayColor];
-    
+    listSperatorView.backgroundColor = [UIColor grayColor];
     [self.view addSubview:listSperatorView];
     
     
@@ -404,25 +580,14 @@
     isListAction = NO;
     
     
-    ary_overView_subViews = [NSMutableArray new];
-    
-    
-    
     //*************  scrollView 初始設定  ************
     overView_scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0, self.view.frame.size.width,listViewFrame_close.origin.y)];
     //CGRectGetMinY(listSperatorView.frame) - CGRectGetMinY(overView_scrollView.frame)
-    
     overView_scrollView.contentSize = CGSizeMake(self.view.frame.size.width * 3, overView_scrollView.frame.size.height);
-    
     overView_scrollView.pagingEnabled = YES;
-    
     overView_scrollView.delegate = self;
-    
     overView_scrollView.showsHorizontalScrollIndicator = NO;
-    
     overView_scrollView.showsVerticalScrollIndicator = NO;
-
-    
     [self.view addSubview:overView_scrollView];
     
     
@@ -435,338 +600,31 @@
     
     //weightView
     //********************************
-    weightView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width, 0, bloodPressureView.frame.size.width, overView_scrollView.frame.size.height)];
+    weightView = [[UIView alloc] initWithFrame:CGRectMake(bloodPressureView.frame.size.width, 0, bloodPressureView.frame.size.width, overView_scrollView.frame.size.height)];
     weightView.backgroundColor = [UIColor whiteColor];
     [overView_scrollView addSubview:weightView];
     
+    
     //bodyTemperatureView
     //********************************
-    bodyTemperatureView = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width * 2, 0, bloodPressureView.frame.size.width, overView_scrollView.frame.size.height)];
+    bodyTemperatureView = [[UIView alloc] initWithFrame:CGRectMake(bloodPressureView.frame.size.width * 2, 0, bloodPressureView.frame.size.width, overView_scrollView.frame.size.height)];
     bodyTemperatureView.backgroundColor = [UIColor whiteColor];
     [overView_scrollView addSubview:bodyTemperatureView];
     
     
-    
     //***********  pageControl  *************
     page = [[UIPageControl alloc] initWithFrame:CGRectMake(0, CGRectGetMinY(listSperatorView.frame) - 0.5*unitHeight, self.view.frame.size.width, 0.5*unitHeight)];
-    
     page.pageIndicatorTintColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"all_dot_a_0"]];
-    
     page.currentPageIndicatorTintColor = [UIColor grayColor];
-    
     page.numberOfPages = 3;
-    
     page.currentPage = 0;
-    
     [self.view addSubview:page];
     
-
-    
-    //初始化所有 ToolBars & BarButtonItems
-    [self createAllToolBarsAndBarButtonItems];
-    
-    //初始化所有PickerView
-    [self allPickerViewInit];
-    
-    
-    
-    //生成大小圓
-    [self createBloodPressureCircle];
-    [self createWeightCircle];
-    [self createBodyTemperatureCircle];
-
-    
-    //生成curveBts
-    [self createSysDiaAndPulCurveBts];
-    [self createWeiBmiFatCurveBts];
-    
-    
-    //生成 PUL Label
-    [self createPULLabel];
-    [self createDeviceModelAndStatus];
-    
-    //生成 BMI Lable
-    [self createBMILabel];
-    [self createBodyFatLabel];
-    
-    
-    //初始化 所有的callPickerViews
-    [self createCallPickerViews];
-    
-    
-    //m_tableView
-    m_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, self.view.frame.size.width, self.view.frame.size.height - 44)];
-    m_tableView.delegate = self;
-    m_tableView.dataSource = self;
-    //m_tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    m_tableView.hidden = YES;
-    m_tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-
-    
-    [self.view addSubview:m_tableView];
-    
-    
-    
-    //生成一個模糊畫面
-    blurView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    blurView.backgroundColor = [UIColor darkGrayColor];
-    blurView.alpha = 0.3;
-    [self.tabBarController.view addSubview:blurView];
-    blurView.hidden = YES;
-    
-    UITapGestureRecognizer *dismissKeyboardTap = [[UITapGestureRecognizer alloc]
-                                                  initWithTarget:self
-                                                  action:@selector(dismissKeyboard)];
-    
-    [blurView addGestureRecognizer:dismissKeyboardTap];
-    
-    
-    //tempAdd Event View
-    addTempView = [[OverViewTempAddView alloc] initWithTempAddViewFrame:CGRectMake(0, 0, bodyTemperatureView.frame.size.width, bodyTemperatureView.frame.size.height)];
-    addTempView.hidden = NO;
-    addTempView.m_superVC = self;
-    [bodyTemperatureView addSubview:addTempView];
-    
-    //
-    BLEDataHandler *handler = [[BLEDataHandler alloc] init];
-    
-    [handler protocolStart];
-    
-    //生成圖表
-    //[self initChart];
-    
-    [self addObserverForBLEHandler];
-    
-    //Button
-    [sysAndDiaCurveBt setSelected:YES];
-    [pulCurveBt setSelected:NO];
-    bpRainbowBarBt.selected=NO;
-    
-    weiCurveBt.selected=YES;
-    bmiCurveBt.selected=NO;
-    fatCurveBt.selected=NO;
-    weightRainbowBarBt.selected=NO;
-    
-}
-
--(void)initParameter{
-    
-    eventBtnArray = [NSMutableArray new];
-    listDataArray = [NSMutableArray new];
-    btnSnapAry = [NSMutableArray new];
-    
-    eventArray = [[EventClass sharedInstance] selectAllData];
-    
-    measureSpec = [LocalData sharedInstance].measureSpec;
-    
-    BMIValue = 0;
-    
-//    //設定初次進入index 與 eventID
-
-    if (eventArray.count != 0) {
-        [LocalData sharedInstance].currentEventIndex = 0;
-        [LocalData sharedInstance].currentEventId = [[[eventArray objectAtIndex:0] objectForKey:@"eventID"] intValue];
-    }
-    
-
-    
-}
-
--(void)addObserverForBLEHandler{
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveBPMMeasureData) name:@"receiveBPMData" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveWeightMeasureData) name:@"receiveWeightData" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveTempMeasureData) name:@"receiveTempData" object:nil];
-    
-}
-
--(void)didReceiveBPMMeasureData{
-    
-    int age = [LocalData sharedInstance].UserAge;
-    int PULUnit = [LocalData sharedInstance].PULUnit;
-    
-    NSDictionary *latestBP = [[LocalData sharedInstance] getLatestMeasureValue];
-    
-    int SYS = [[latestBP objectForKey:@"SYS"] intValue];
-    int DIA = [[latestBP objectForKey:@"DIA"] intValue];
-    BOOL MAM = [[latestBP objectForKey:@"MAM"] boolValue];
-    BOOL PAD = 0;
-    BOOL AFIB =[[latestBP objectForKey:@"Arr"] boolValue];
-    int PUL = [[latestBP objectForKey:@"PUL"] intValue];
-    
-    
-    weightCircleSmallView.alertRedImage.hidden = NO;
-    bodyTemperatureCircleSmallView.alertRedImage.hidden = NO;
-    bloodPressureCircleSmallView.alertRedImage.hidden = YES;
-    
-    UIImage *circleImg;
-    UIColor *circleColor = STANDER_COLOR;
-    
-    
-    bloodPressureCircleView.sys = SYS;
-    bloodPressureCircleView.dia = DIA;
-    
-    if (SYS > 135 || DIA > 85) {
-        //血壓異常
-        circleColor = CIRCEL_RED;
-        circleImg = IMAGE_HIGH_BP;
-        
-        if (age > 65 || age == -1) {
-            bloodPressureCircleSmallView.alertRedImage.hidden = NO;
-        }else{
-            bloodPressureCircleSmallView.alertRedImage.hidden = YES;
-        }
-        
-    }else{
-        circleColor = STANDER_COLOR;
-        circleImg = IMAGE_NORMAL_BP;
-    }
-    
-    [pulValueBt setTitle:[NSString stringWithFormat:@"%d",PUL] forState:UIControlStateNormal];
-    
-    if (PULUnit == 0) {
-        pulUnitLabel.text = @"bpm";
-    }else{
-        pulUnitLabel.text = @"bpm";
-    }
-    
-    [bloodPressureCircleView setString];
-    
-    if (MAM) {
-        
-        if (PAD) {
-            deviceStatus.textColor = CIRCEL_RED;
-            deviceStatus.text = @"Detected";
-            circleImg = IMAGE_PAD_OVERVIEW;
-            
-        }else{
-            deviceStatus.textColor = TEXT_COLOR;
-            deviceStatus.text = @"Not Detected";
-        }
-        
-        if(AFIB){
-            deviceStatus.textColor = CIRCEL_RED;
-            deviceStatus.text = @"Detected";
-            circleImg = IMAGE_AFIB_OVERVIEW;
-            
-            if (age > 65 || age == -1) {
-                bloodPressureCircleSmallView.alertRedImage.hidden = NO;
-            }else{
-                bloodPressureCircleSmallView.alertRedImage.hidden = YES;
-            }
-            
-        }else{
-            deviceStatus.textColor = TEXT_COLOR;
-            deviceStatus.text = @"Not Detected";
-        }
-        
-    }else{
-        deviceStatus.textColor = TEXT_COLOR;
-        deviceStatus.text = @"Off";
-    }
-    
-    bloodPressureCircleView.layer.borderColor = circleColor.CGColor;
-    bloodPressureCircleSmallView.circleImgView.image = circleImg;
-    bloodPressureCircleSmallView.layer.borderColor = circleColor.CGColor;
-    
-    [self createChartWithType:0];
 }
 
 
--(void)didReceiveWeightMeasureData{
-    
-    NSLog(@"didReceiveWeightMeasureData");
-    
-    NSDictionary *latestWeight = [[LocalData sharedInstance] getLatestMeasureValue];
-    
-    UIImage *circleImage = IMAGE_NORMAL_WEIGHT;
-    UIColor *circleColor = STANDER_COLOR;
-    weightCircleSmallView.alertRedImage.hidden = YES;
-    
-    float weight = [[latestWeight objectForKey:@"weight"] floatValue];
-    BMIValue = [[latestWeight objectForKey:@"BMI"] floatValue];
-    float bodyFat = [[latestWeight objectForKey:@"bodyFat"] floatValue];
-    
-    NSLog(@"bodyFat=>%f",bodyFat);
-    
-    int userArea = [LocalData sharedInstance].userArea;
-    
-    weightCircleView.weight = weight;
-    //BMI
-    //亞洲區：23 =0
-    //非亞洲區：25 =1
 
-    //FAT
-    //男性：24%
-    //女性：31%
-    
-    if (userArea == 0) {
-        if (BMIValue > 23) {
-            
-            circleImage = IMAGE_OVERWEIGHT;
-            circleColor = CIRCEL_RED;
-            weightCircleSmallView.alertRedImage.hidden = NO;
-        }
-    }else{
-        if (BMIValue > 25) {
-            circleImage = IMAGE_OVERWEIGHT;
-            circleColor = CIRCEL_RED;
-            weightCircleSmallView.alertRedImage.hidden = NO;
-        }
-    }
-    
-    weightCircleSmallView.circleImgView.image = circleImage;
-    
-    
-    weightCircleView.layer.borderColor = circleColor.CGColor;
-    weightCircleSmallView.layer.borderColor = circleColor.CGColor;
-    bodyFatValueLabel.text = [NSString stringWithFormat:@"%.0f%%",bodyFat];
-    [bmiValueBt setTitle:[NSString stringWithFormat:@"%.0f",BMIValue] forState:UIControlStateNormal];
-    [weightCircleView setString];
-    
-    [rainbowViewForBMI checkBMIValue:BMIValue];
-    
-    [self createChartWithType:2];
-    
-    NSLog(@"didReceiveWeightMeasureData");
-}
-
--(void)didReceiveTempMeasureData{
-    
-    NSDictionary *latestTemp = [[LocalData sharedInstance] getLatestMeasureValue];
-    
-    float bodyTemp = [[latestTemp objectForKey:@"bodyTemp"] floatValue];
-    //float roomTemp = [[latestTemp objectForKey:@"roomTemp"] floatValue];
-    
-    NSLog(@"bodyTemp ===== %f",bodyTemp);
-    
-    UIImage *circleImage = IMAGE_NORMAL_TEMP;
-    UIColor *circleColor = STANDER_COLOR;
-    
-    bodyTemperatureCircleView.temp = bodyTemp;
-    
-    bodyTemperatureCircleSmallView.alertRedImage.hidden = YES;
-    
-    if (bodyTemp >= 37.5) {
-        
-        circleColor = CIRCEL_RED;
-        circleImage = IMAGE_FEVER_OVERVIEW;
-        bodyTemperatureCircleSmallView.alertRedImage.hidden = NO;
-        
-    }
-    
-    bodyTemperatureCircleSmallView.circleImgView.image = circleImage;
-    
-    bodyTemperatureCircleView.layer.borderColor = circleColor.CGColor;
-    bodyTemperatureCircleSmallView.layer.borderColor = circleColor.CGColor;
-    [bodyTemperatureCircleView setString];
-    
-    [self createChartWithType:5];
-}
-
+//圖表 初始化
 -(void)initChart{
     
     //remove sub view
@@ -800,6 +658,8 @@
     [BPChartArea addSubview:BPChartView];
     
     [bloodPressureView addSubview:BPChartArea];
+    
+    
     
     weightChartArea = [[UIView alloc] initWithFrame:CGRectMake(0, chart_y, self.view.frame.size.width, chart_h)];
     
@@ -858,11 +718,11 @@
         }
     }
     
-
+    
 }
 
+
 -(void)createChartWithType:(int)type{
-    
     
     GraphView *chartView;
     
@@ -892,50 +752,234 @@
         tempChartView = chartView;
         [tempChartArea addSubview:tempChartView];
     }
-
+    
 }
 
--(void)viewWillAppear:(BOOL)animated {
+
+#pragma mark - BLE 監聽事件  **************************
+//add Observer For BLE
+-(void)addObserverForBLEHandler{
     
-    eventArray = [[EventClass sharedInstance] selectAllData];
+    //血壓
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveBPMMeasureData) name:@"receiveBPMData" object:nil];
     
-    [[LocalData sharedInstance] checkDefaultProfileData];
+    //體重
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveWeightMeasureData) name:@"receiveWeightData" object:nil];
     
-    if (eventBtnArray.count != 0) {
+    //額溫
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveTempMeasureData) name:@"receiveTempData" object:nil];
+    
+}
+
+//BLE 血壓
+-(void)didReceiveBPMMeasureData{
+    
+    int age = [LocalData sharedInstance].UserAge;
+    int PULUnit = [LocalData sharedInstance].PULUnit;
+    
+    NSDictionary *latestBP = [[LocalData sharedInstance] getLatestMeasureValue];
+    
+    int SYS = [[latestBP objectForKey:@"SYS"] intValue];
+    int DIA = [[latestBP objectForKey:@"DIA"] intValue];
+    BOOL MAM = [[latestBP objectForKey:@"MAM"] boolValue];
+    BOOL PAD = 0;
+    BOOL AFIB =[[latestBP objectForKey:@"Arr"] boolValue];
+    int PUL = [[latestBP objectForKey:@"PUL"] intValue];
+    
+    
+    weightCircleSmallView.alertRedImage.hidden = NO;
+    bodyTemperatureCircleSmallView.alertRedImage.hidden = NO;
+    bloodPressureCircleSmallView.alertRedImage.hidden = YES;
+    
+    UIImage *circleImg;
+    UIColor *circleColor = STANDER_COLOR;
+    
+    
+    bloodPressureCircleView.sys = SYS;
+    bloodPressureCircleView.dia = DIA;
+    
+    if (SYS > 135 || DIA > 85) {
+        //血壓異常
+        circleColor = CIRCEL_RED;
+        circleImg = IMAGE_HIGH_BP;
         
-        for (int i=0; i<eventBtnArray.count; i++) {
-            
-            UIButton *btn = [eventBtnArray objectAtIndex:i];
-            
-            [btn removeFromSuperview];
-            
+        if (age > 65 || age == -1) {
+            bloodPressureCircleSmallView.alertRedImage.hidden = NO;
+        }else{
+            bloodPressureCircleSmallView.alertRedImage.hidden = YES;
         }
         
-        [eventBtnArray removeAllObjects];
+    }
+    else{
+        
+        circleColor = STANDER_COLOR;
+        circleImg = IMAGE_NORMAL_BP;
     }
     
-    if (eventArray.count != 0) {
-        [LocalData sharedInstance].currentEventIndex = 0;
-        [LocalData sharedInstance].currentEventId = [[[eventArray objectAtIndex:0] objectForKey:@"eventID"] intValue];
-        addTempView.hidden = YES;
-        [self createEventCircleGroup];
+    [pulValueBt setTitle:[NSString stringWithFormat:@"%d",PUL] forState:UIControlStateNormal];
+    
+    if (PULUnit == 0) {
+        pulUnitLabel.text = @"bpm";
+    }
+    else{
+        
+        pulUnitLabel.text = @"bpm";
     }
     
-    //getTimer 計時開始(navigationBar 顯示時間用)
-    getDateTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(getDateAndTime) userInfo:nil repeats:YES];
+    [bloodPressureCircleView setString];
     
-    //生成圖表
-    [self initChart];
+    if (MAM) {
+        
+        if (PAD) {
+            deviceStatus.textColor = CIRCEL_RED;
+            deviceStatus.text = @"Detected";
+            circleImg = IMAGE_PAD_OVERVIEW;
+            
+        }else{
+            deviceStatus.textColor = TEXT_COLOR;
+            deviceStatus.text = @"Not Detected";
+        }
+        
+        if(AFIB){
+            deviceStatus.textColor = CIRCEL_RED;
+            deviceStatus.text = @"Detected";
+            circleImg = IMAGE_AFIB_OVERVIEW;
+            
+            if (age > 65 || age == -1) {
+                bloodPressureCircleSmallView.alertRedImage.hidden = NO;
+            }else{
+                bloodPressureCircleSmallView.alertRedImage.hidden = YES;
+            }
+            
+        }else{
+            deviceStatus.textColor = TEXT_COLOR;
+            deviceStatus.text = @"Not Detected";
+        }
+        
+    }else{
+        deviceStatus.textColor = TEXT_COLOR;
+        deviceStatus.text = @"Off";
+    }
     
+    bloodPressureCircleView.layer.borderColor = circleColor.CGColor;
+    bloodPressureCircleSmallView.circleImgView.image = circleImg;
+    bloodPressureCircleSmallView.layer.borderColor = circleColor.CGColor;
+    
+    [self createChartWithType:0];
 }
 
-#pragma mark - 事件圓圈
+
+//BLE 體重
+-(void)didReceiveWeightMeasureData{
+    
+    NSLog(@"didReceiveWeightMeasureData");
+    
+    NSDictionary *latestWeight = [[LocalData sharedInstance] getLatestMeasureValue];
+    
+    UIImage *circleImage = IMAGE_NORMAL_WEIGHT;
+    UIColor *circleColor = STANDER_COLOR;
+    weightCircleSmallView.alertRedImage.hidden = YES;
+    
+    float weight = [[latestWeight objectForKey:@"weight"] floatValue];
+    BMIValue = [[latestWeight objectForKey:@"BMI"] floatValue];
+    float bodyFat = [[latestWeight objectForKey:@"bodyFat"] floatValue];
+    
+    NSLog(@"bodyFat=>%f",bodyFat);
+    
+    int userArea = [LocalData sharedInstance].userArea;
+    
+    weightCircleView.weight = weight;
+    //BMI
+    //亞洲區：23 =0
+    //非亞洲區：25 =1
+
+    //FAT
+    //男性：24%
+    //女性：31%
+    
+    if (userArea == 0) {
+        if (BMIValue > 23) {
+            
+            circleImage = IMAGE_OVERWEIGHT;
+            circleColor = CIRCEL_RED;
+            weightCircleSmallView.alertRedImage.hidden = NO;
+        }
+    }else{
+        if (BMIValue > 25) {
+            circleImage = IMAGE_OVERWEIGHT;
+            circleColor = CIRCEL_RED;
+            weightCircleSmallView.alertRedImage.hidden = NO;
+        }
+    }
+    
+    weightCircleSmallView.circleImgView.image = circleImage;
+    
+    
+    weightCircleView.layer.borderColor = circleColor.CGColor;
+    weightCircleSmallView.layer.borderColor = circleColor.CGColor;
+    bodyFatValueLabel.text = [NSString stringWithFormat:@"%.0f%%",bodyFat];
+    [bmiValueBt setTitle:[NSString stringWithFormat:@"%.0f",BMIValue] forState:UIControlStateNormal];
+    [weightCircleView setString];
+    
+    [rainbowViewForBMI checkBMIValue:BMIValue];
+    
+    [self createChartWithType:2];
+    
+    NSLog(@"didReceiveWeightMeasureData");
+}
+
+
+//BLE 額溫
+-(void)didReceiveTempMeasureData{
+    
+    NSDictionary *latestTemp = [[LocalData sharedInstance] getLatestMeasureValue];
+    
+    float bodyTemp = [[latestTemp objectForKey:@"bodyTemp"] floatValue];
+    //float roomTemp = [[latestTemp objectForKey:@"roomTemp"] floatValue];
+    
+    NSLog(@"bodyTemp ===== %f",bodyTemp);
+    
+    UIImage *circleImage = IMAGE_NORMAL_TEMP;
+    UIColor *circleColor = STANDER_COLOR;
+    
+    bodyTemperatureCircleView.temp = bodyTemp;
+    
+    bodyTemperatureCircleSmallView.alertRedImage.hidden = YES;
+    
+    if (bodyTemp >= 37.5) {
+        
+        circleColor = CIRCEL_RED;
+        circleImage = IMAGE_FEVER_OVERVIEW;
+        bodyTemperatureCircleSmallView.alertRedImage.hidden = NO;
+        
+    }
+    
+    bodyTemperatureCircleSmallView.circleImgView.image = circleImage;
+    
+    bodyTemperatureCircleView.layer.borderColor = circleColor.CGColor;
+    bodyTemperatureCircleSmallView.layer.borderColor = circleColor.CGColor;
+    [bodyTemperatureCircleView setString];
+    
+    [self createChartWithType:5];
+}
+
+
+
+
+#pragma mark - 額溫計事件圓圈 ************************
 -(void)createEventCircleGroup{
     
     float circleWidth = SCREEN_WIDTH*0.1;
     float circleHeight = SCREEN_WIDTH*0.1;
     
     [LocalData sharedInstance].currentEventId = [[[eventArray objectAtIndex:[LocalData sharedInstance].currentEventIndex] objectForKey:@"eventID"] intValue];
+    
+    //Nick Fix
+    if (btnSnapAry.count > 0) {
+        
+        [btnSnapAry removeAllObjects];
+    }
+    
     
     for (int i=0; i<eventArray.count; i++) {
         
@@ -973,12 +1017,12 @@
         
     }
     
-    UIButton *editEventBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 10+((circleHeight+10)*eventArray.count), circleWidth, circleHeight)];
-    
+    //額溫編輯按鈕
+    editEventBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 10+((circleHeight+10)*eventArray.count), circleWidth, circleHeight)];
     [editEventBtn setBackgroundImage:[UIImage imageNamed:@"overview_icon_a_ncfr_edit"] forState:UIControlStateNormal];
     [editEventBtn addTarget:self action:@selector(pushToEditEventVC) forControlEvents:UIControlEventTouchUpInside];
-    
     [bodyTemperatureView addSubview:editEventBtn];
+    
 }
 
 -(void)switchToAnotherPerson:(id)sender{
@@ -1028,7 +1072,8 @@
         circleColor = STANDER_COLOR;
         titleColor = [UIColor whiteColor];
         backgroundColor = STANDER_COLOR;
-    }else{
+    }
+    else{
         circleColor = TEXT_COLOR;
         titleColor = TEXT_COLOR;
         backgroundColor = [UIColor whiteColor];
@@ -1045,20 +1090,101 @@
     
 }
 
--(void)viewDidDisappear:(BOOL)animated {
+#pragma mark - 生成血壓計 - 體重計 - 額溫計 大小圓  ***************************
+//生成 bloodPressure 大小圓
+-(void)createBloodPressureCircle {
     
-    //getDateTimer  停止
-    [getDateTimer invalidate];
-    getDateTimer = nil;
+    //bloodPressure 藍色大圓
+    CGFloat cy_w=self.view.frame.size.width/(IS_IPAD?1.88:1.88);
+    CGFloat cy_h=cy_w;
+    CGFloat cy_x=(SCREEN_WIDTH/2.0)-(cy_w/2.0);
+    
+    bloodPressureCircleView = [[OverViewCircleView alloc] initWithFrame:CGRectMake(cy_x, (IS_IPAD?60:23), cy_w, cy_h)];
+    //bloodPressureCircleView.center = CGPointMake(bloodPressureView.frame.size.width/2, overView_scrollView.frame.size.height/3.88);
+    [bloodPressureView addSubview:bloodPressureCircleView];
+    
+    bloodPressureCircleView.circleViewTitleString = @"SYS/DIA";
+    bloodPressureCircleView.circleViewUnitString = @"mmHg";
+    bloodPressureCircleView.device = 0; //0:血壓計
+    bloodPressureCircleView.sys = 0;
+    bloodPressureCircleView.dia = 0;
+    [bloodPressureCircleView setString];
+    
+    
+    //bloodPressure 藍色小圓
+    bloodPressureCircleSmallView = [[OverViewCircleView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width/8.6, self.view.frame.size.width/8.6)];
+    bloodPressureCircleSmallView.center = CGPointMake(CGRectGetMidX(bloodPressureCircleView.frame), CGRectGetMinY(bloodPressureCircleView.frame)+bloodPressureCircleView.layer.borderWidth);
+    bloodPressureCircleSmallView.layer.borderWidth = 2.0;
+    bloodPressureCircleSmallView.backgroundColor = [UIColor whiteColor];
+    bloodPressureCircleSmallView.circleImgView.image = [UIImage imageNamed:@"overview_icon_a_bpm"];
+    [bloodPressureView addSubview:bloodPressureCircleSmallView];
+    
+}
+
+//生成 weight 大小圓
+-(void)createWeightCircle {
+    
+    //weight 藍色大圓
+    CGFloat cy_w=self.view.frame.size.width/(IS_IPAD?1.88:1.88);
+    CGFloat cy_h=cy_w;
+    CGFloat cy_x=(SCREEN_WIDTH/2.0)-(cy_w/2.0);
+    
+    weightCircleView = [[OverViewCircleView alloc] initWithFrame:CGRectMake(cy_x, (IS_IPAD?60:23), cy_w, cy_h)];
+    //weightCircleView.center = CGPointMake(weightView.frame.size.width/2, overView_scrollView.frame.size.height/3.88);
+    [weightView addSubview:weightCircleView];
+    
+    weightCircleView.circleViewTitleString = @"Weight";
+    weightCircleView.circleViewUnitString = @"kg";
+    weightCircleView.device = 1; //1:體重計
+    weightCircleView.weight = 0;
+    [weightCircleView setString];
+    
+    
+    
+    //weight 藍色小圓
+    weightCircleSmallView = [[OverViewCircleView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width/8.6, self.view.frame.size.width/8.6)];
+    weightCircleSmallView.center = CGPointMake(CGRectGetMidX(bloodPressureCircleView.frame), CGRectGetMinY(bloodPressureCircleView.frame)+weightCircleView.layer.borderWidth);
+    weightCircleSmallView.layer.borderWidth = 2.0;
+    weightCircleSmallView.backgroundColor = [UIColor whiteColor];
+    weightCircleSmallView.circleImgView.image = [UIImage imageNamed:@"overview_icon_a_ws_b"];
+    [weightView addSubview:weightCircleSmallView];
+    
+    
+}
+
+//生成 Temperature 大小圓
+-(void)createBodyTemperatureCircle {
+    
+    //BodyTemperature藍色大圓
+    CGFloat cy_w=self.view.frame.size.width/(IS_IPAD?1.88:1.88);
+    CGFloat cy_h=cy_w;
+    CGFloat cy_x=(SCREEN_WIDTH/2.0)-(cy_w/2.0);
+    
+    bodyTemperatureCircleView = [[OverViewCircleView alloc] initWithFrame:CGRectMake(cy_x, (IS_IPAD?60:23), cy_w, cy_h)];
+    
+    //bodyTemperatureCircleView.center = CGPointMake(bodyTemperatureView.frame.size.width/2, overView_scrollView.frame.size.height/3.88);
+    [bodyTemperatureView addSubview:bodyTemperatureCircleView];
+    
+    bodyTemperatureCircleView.circleViewTitleString = @"Body Temp.";
+    bodyTemperatureCircleView.circleViewUnitString = @"";
+    bodyTemperatureCircleView.device = 2; //2:溫度計
+    bodyTemperatureCircleView.temp = 0;
+    [bodyTemperatureCircleView setString];
+    
+    
+    //BodyTemperature藍色小圓
+    bodyTemperatureCircleSmallView = [[OverViewCircleView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width/8.6, self.view.frame.size.width/8.6)];
+    bodyTemperatureCircleSmallView.center = CGPointMake(CGRectGetMidX(bloodPressureCircleView.frame), CGRectGetMinY(bloodPressureCircleView.frame)+bodyTemperatureCircleView.layer.borderWidth);
+    bodyTemperatureCircleSmallView.layer.borderWidth = 2.0;
+    bodyTemperatureCircleSmallView.backgroundColor = [UIColor whiteColor];
+    bodyTemperatureCircleSmallView.circleImgView.image = [UIImage imageNamed:@"overview_icon_a_ncfr_b"];
+    [bodyTemperatureView addSubview:bodyTemperatureCircleSmallView];
+    
 }
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
 
-
-#pragma mark - create AllToolBars & BarButtonItems
+#pragma mark - create AllToolBars & BarButtonItems ************************
 -(void)createAllToolBarsAndBarButtonItems {
     
     CGFloat toolBarWidth = self.view.frame.size.width;
@@ -1350,100 +1476,6 @@
 }
 
 
-#pragma mark - 生成 bloodPressure 大小圓
-//-------------------------------------
--(void)createBloodPressureCircle {
-    
-    //bloodPressure 藍色大圓
-    CGFloat cy_w=self.view.frame.size.width/(IS_IPAD?1.88:1.88);
-    CGFloat cy_h=cy_w;
-    CGFloat cy_x=(SCREEN_WIDTH/2.0)-(cy_w/2.0);
-    
-    bloodPressureCircleView = [[OverViewCircleView alloc] initWithFrame:CGRectMake(cy_x, (IS_IPAD?60:23), cy_w, cy_h)];
-    //bloodPressureCircleView.center = CGPointMake(bloodPressureView.frame.size.width/2, overView_scrollView.frame.size.height/3.88);
-    [bloodPressureView addSubview:bloodPressureCircleView];
-    
-    bloodPressureCircleView.circleViewTitleString = @"SYS/DIA";
-    bloodPressureCircleView.circleViewUnitString = @"mmHg";
-    bloodPressureCircleView.device = 0; //0:血壓計
-    bloodPressureCircleView.sys = 0;
-    bloodPressureCircleView.dia = 0;
-    [bloodPressureCircleView setString];
-    
-    
-    //bloodPressure 藍色小圓
-    bloodPressureCircleSmallView = [[OverViewCircleView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width/8.6, self.view.frame.size.width/8.6)];
-    bloodPressureCircleSmallView.center = CGPointMake(CGRectGetMidX(bloodPressureCircleView.frame), CGRectGetMinY(bloodPressureCircleView.frame)+bloodPressureCircleView.layer.borderWidth);
-    bloodPressureCircleSmallView.layer.borderWidth = 2.0;
-    bloodPressureCircleSmallView.backgroundColor = [UIColor whiteColor];
-    bloodPressureCircleSmallView.circleImgView.image = [UIImage imageNamed:@"overview_icon_a_bpm"];
-    [bloodPressureView addSubview:bloodPressureCircleSmallView];
-    
-
-}
-
-#pragma mark - 生成 weight 大小圓
-//---------------------------------
--(void)createWeightCircle {
-    
-    //weight 藍色大圓
-    CGFloat cy_w=self.view.frame.size.width/(IS_IPAD?1.88:1.88);
-    CGFloat cy_h=cy_w;
-    CGFloat cy_x=(SCREEN_WIDTH/2.0)-(cy_w/2.0);
-    
-    weightCircleView = [[OverViewCircleView alloc] initWithFrame:CGRectMake(cy_x, (IS_IPAD?60:23), cy_w, cy_h)];
-    //weightCircleView.center = CGPointMake(weightView.frame.size.width/2, overView_scrollView.frame.size.height/3.88);
-    [weightView addSubview:weightCircleView];
-    
-    weightCircleView.circleViewTitleString = @"Weight";
-    weightCircleView.circleViewUnitString = @"kg";
-    weightCircleView.device = 1; //1:體重計
-    weightCircleView.weight = 0;
-    [weightCircleView setString];
-    
-    
-    
-    //weight 藍色小圓
-    weightCircleSmallView = [[OverViewCircleView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width/8.6, self.view.frame.size.width/8.6)];
-    weightCircleSmallView.center = CGPointMake(CGRectGetMidX(bloodPressureCircleView.frame), CGRectGetMinY(bloodPressureCircleView.frame)+weightCircleView.layer.borderWidth);
-    weightCircleSmallView.layer.borderWidth = 2.0;
-    weightCircleSmallView.backgroundColor = [UIColor whiteColor];
-    weightCircleSmallView.circleImgView.image = [UIImage imageNamed:@"overview_icon_a_ws_b"];
-    [weightView addSubview:weightCircleSmallView];
-    
-    
-}
-
-#pragma mark - 生成 bodyTemperature 大小圓
-//--------------------------------------------
--(void)createBodyTemperatureCircle {
-    
-    //BodyTemperature藍色大圓
-    CGFloat cy_w=self.view.frame.size.width/(IS_IPAD?1.88:1.88);
-    CGFloat cy_h=cy_w;
-    CGFloat cy_x=(SCREEN_WIDTH/2.0)-(cy_w/2.0);
-    
-    bodyTemperatureCircleView = [[OverViewCircleView alloc] initWithFrame:CGRectMake(cy_x, (IS_IPAD?60:23), cy_w, cy_h)];
-    
-    //bodyTemperatureCircleView.center = CGPointMake(bodyTemperatureView.frame.size.width/2, overView_scrollView.frame.size.height/3.88);
-    [bodyTemperatureView addSubview:bodyTemperatureCircleView];
-    
-    bodyTemperatureCircleView.circleViewTitleString = @"Body Temp.";
-    bodyTemperatureCircleView.circleViewUnitString = @"";
-    bodyTemperatureCircleView.device = 2; //2:溫度計
-    bodyTemperatureCircleView.temp = 0;
-    [bodyTemperatureCircleView setString];
-    
-    
-    //BodyTemperature藍色小圓
-    bodyTemperatureCircleSmallView = [[OverViewCircleView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width/8.6, self.view.frame.size.width/8.6)];
-    bodyTemperatureCircleSmallView.center = CGPointMake(CGRectGetMidX(bloodPressureCircleView.frame), CGRectGetMinY(bloodPressureCircleView.frame)+bodyTemperatureCircleView.layer.borderWidth);
-    bodyTemperatureCircleSmallView.layer.borderWidth = 2.0;
-    bodyTemperatureCircleSmallView.backgroundColor = [UIColor whiteColor];
-    bodyTemperatureCircleSmallView.circleImgView.image = [UIImage imageNamed:@"overview_icon_a_ncfr_b"];
-    [bodyTemperatureView addSubview:bodyTemperatureCircleSmallView];
-    
-}
 
 #pragma  mark - bloodPressure - SYS/DIA curveBt and PULcurveBt
 //--------------------------------------------------------------
@@ -1454,7 +1486,7 @@
     
     //SYS/DIA curveBt
     sysAndDiaCurveBt = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, btWidth, btHeight)];
-    sysAndDiaCurveBt.center = CGPointMake(bloodPressureView.frame.size.width/2 - sysAndDiaCurveBt.frame.size.width/1.8, bloodPressureView.frame.size.height/(IS_IPAD?1.7:1.9));
+    sysAndDiaCurveBt.center = CGPointMake(bloodPressureView.frame.size.width/2 - sysAndDiaCurveBt.frame.size.width/1.8, bloodPressureView.frame.size.height/(IS_IPAD ? 1.7 : 1.9));
     [sysAndDiaCurveBt setTitle:@"SYS/DIA" forState:UIControlStateNormal];
     [sysAndDiaCurveBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
@@ -1473,8 +1505,10 @@
     [pulCurveBt setBackgroundImage:[UIImage imageNamed:@"all_btn_a_0"] forState:UIControlStateNormal];
     [pulCurveBt addTarget:self action:@selector(sysDiaAndPulCurveBtAction:) forControlEvents:UIControlEventTouchUpInside];
     
-    if(!IS_IPAD)
-        [pulCurveBt.titleLabel setFont:[UIFont systemFontOfSize:12]];
+    if(!IS_IPAD) {
+        
+         [pulCurveBt.titleLabel setFont:[UIFont systemFontOfSize:12]];
+    }
     
     [bloodPressureView addSubview:pulCurveBt];
     
@@ -1488,12 +1522,14 @@
     [bloodPressureView addSubview:bpRainbowBarBt];
     
     
-    CGFloat chart_h=(bloodPressureView.frame.size.height-CGRectGetMaxY(bpRainbowBarBt.frame) + bpRainbowBarBt.frame.size.height/2.0)-5;
-    CGFloat chart_y=CGRectGetMaxY(bpRainbowBarBt.frame) + (bpRainbowBarBt.frame.size.height/2.0)+(IS_IPAD?-10:0);
+    CGFloat chart_oriPoint_y = CGRectGetMaxY(bpRainbowBarBt.frame) + (bpRainbowBarBt.frame.size.height/2.0)+(IS_IPAD ? - 10 : 0);
+    //CGFloat chartView_size_h = CGRectGetMinY(page.frame) - chart_oriPoint_y;
     
+    CGFloat chart_size_h = (bloodPressureView.frame.size.height-CGRectGetMaxY(bpRainbowBarBt.frame) + bpRainbowBarBt.frame.size.height/2.0)-5;
+   
     //rainbowViewForBp
     //rainbowViewForBp = [[RainbowBarView alloc] initWithRainbowView:CGRectMake(0, CGRectGetMaxY(bpRainbowBarBt.frame) + bpRainbowBarBt.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.width*0.6)];
-    rainbowViewForBp = [[RainbowBarView alloc] initWithRainbowView:CGRectMake(0, chart_y, self.view.frame.size.width, chart_h)];
+    rainbowViewForBp = [[RainbowBarView alloc] initWithRainbowView:CGRectMake(0, chart_oriPoint_y, self.view.frame.size.width, chart_size_h)];
     [rainbowViewForBp checkRainbowbarValue:measureSpec sys:bloodPressureCircleView.sys dia:bloodPressureCircleView.dia];
     [bloodPressureView addSubview:rainbowViewForBp];
     rainbowViewForBp.hidden = YES;
@@ -1567,6 +1603,7 @@
         [rainbowViewForBp checkRainbowbarValue:measureSpec sys:bloodPressureCircleView.sys dia:bloodPressureCircleView.dia];
         
         BPChartView.hidden = YES;
+        
         rainbowViewForBp.hidden = NO;
         
         bpRainbowBarBt.selected=YES;
@@ -1580,6 +1617,7 @@
         [bpRainbowBarBt setBackgroundImage:[UIImage imageNamed:@"overview_btn_a_bar_0"] forState:UIControlStateNormal];
         
         BPChartView.hidden = NO;
+        
         rainbowViewForBp.hidden = YES;
         
         bpRainbowBarBt.selected=NO;
@@ -1646,13 +1684,12 @@
     [weightView addSubview:weightRainbowBarBt];
     
     
-    CGFloat chart_h=(bloodPressureView.frame.size.height-CGRectGetMaxY(bpRainbowBarBt.frame) + bpRainbowBarBt.frame.size.height/2.0)-5;
-    CGFloat chart_y=CGRectGetMaxY(bpRainbowBarBt.frame) + (bpRainbowBarBt.frame.size.height/2.0)+(IS_IPAD?-10:0);
-    
-    
     //rainbowViewForBp
+    CGFloat chart_y=CGRectGetMaxY(bpRainbowBarBt.frame) + (bpRainbowBarBt.frame.size.height/2.0)+(IS_IPAD?-10:0);
+    CGFloat chartView_size_h = CGRectGetMinY(page.frame) - chart_y;
+   // CGFloat chart_h=(bloodPressureView.frame.size.height-CGRectGetMaxY(bpRainbowBarBt.frame) + bpRainbowBarBt.frame.size.height/2.0)-5;
     //rainbowViewForBMI = [[RainbowBarView alloc] initWithRainbowView:CGRectMake(0, CGRectGetMaxY(weightRainbowBarBt.frame) + weightRainbowBarBt.frame.size.height/2, self.view.frame.size.width, self.view.frame.size.width*0.6)];
-    rainbowViewForBMI = [[RainbowBarView alloc] initWithRainbowView:CGRectMake(0, chart_y, self.view.frame.size.width,chart_h)];
+    rainbowViewForBMI = [[RainbowBarView alloc] initWithRainbowView:CGRectMake(0, chart_y, self.view.frame.size.width,chartView_size_h)];
     [rainbowViewForBMI checkBMIValue:BMIValue];
     [weightView addSubview:rainbowViewForBMI];
     rainbowViewForBMI.hidden = YES;
@@ -1967,8 +2004,7 @@
         
         overView_scrollView.hidden = YES;
         
-        
-        
+
         [m_tableView reloadData];
     }
     else {
@@ -2036,16 +2072,20 @@
         
         switch (currentPage) {
             case 1:
-                listLable.text = @"YOUR BLOOD PRESSURE LISTS";
+                listLable.text = LIST_BLOODPRESSSURE;
                 page.currentPage = 0;
+                [self listBtEnable:YES];
                 break;
             case 2:
-                listLable.text = @"YOUR WEIGHT LISTS";
+                listLable.text = LIST_WEIGHT;
                 page.currentPage = 1;
+                [self listBtEnable:YES];
                 break;
             case 3:
-                listLable.text = @"YOUR BODY TEMPERATURE LISTS";
+                listLable.text = LIST_BODYTEMP;
                 page.currentPage = 2;
+                self.isListBtEnable = addTempView.isHidden == YES ? YES : NO;
+                [self listBtEnable:self.isListBtEnable];
                 break;
             default:
                 break;
@@ -2054,6 +2094,14 @@
     
 }
 
+-(void)listBtEnable:(BOOL)enable {
+    
+    listSperatorView.hidden = !enable;
+    listLable.hidden = !enable;
+    listArrowImg.hidden = !enable;
+    listBt.userInteractionEnabled = enable;
+
+}
 
 //pickerView自定方法
 -(void)showSelectedRowInPickerView:(UIPickerView *)pickerView atRow:(NSInteger)row inComponet:(NSInteger)component{
@@ -2061,9 +2109,9 @@
     [pickerView selectRow:row inComponent:component animated:YES];
 }
 
-#pragma mark - toolBarBtActions
+#pragma mark - toolBarBtActions ************************
 //---------------------------------------------------------------
-//bloodPressure  *********************
+//bloodPressure
 -(void)toolBarCancelBtAction {
     
     blurView.hidden = YES;
@@ -2516,8 +2564,7 @@
 
 
 
-#pragma mark - TableView DataSource & Delegate
-//--------------------------------------------
+#pragma mark - TableView DataSource & Delegate ************************
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
     return 1;
@@ -2703,6 +2750,8 @@
         
         tempCell.tempCellTimeLabel.text = @"";
         
+        tempCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
         return tempCell;
 
     }
@@ -2748,12 +2797,12 @@
 
 }
 
+
 -(void)dismissKeyboard
 {
     [callBPPickerView resignFirstResponder];
     [callWEIPickerView resignFirstResponder];
     [callTempPickerView resignFirstResponder];
-    
     blurView.hidden = YES;
 }
 

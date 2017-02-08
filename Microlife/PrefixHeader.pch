@@ -26,14 +26,15 @@
 #import "StyleCommon.h"
 #import "LocalData.h"
 
-//Database
+///Database
 #import "BPMClass.h"
 #import "WeightClass.h"
 #import "EventClass.h"
 #import "BTClass.h"
 #import "ProfileClass.h"
 
-//Network
+
+///Check Network
 #import "CheckNetwork.h"
 
 #endif

@@ -37,9 +37,7 @@ static NSString *cellIdentity = @"mailcell";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    
-    [self.view setBackgroundColor:[UIColor colorWithRed:246.0f/255.0f green:246.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
-    
+    self.view.backgroundColor = TABLE_BACKGROUND;
     
     
 //    MyMemberArray = [[NSDictionary alloc] initWithObjectsAndKeys:       nameString,@"name",

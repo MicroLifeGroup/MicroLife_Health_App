@@ -629,7 +629,7 @@
     NSLog(@"audioPlayerDidFinishPlaying");
 }
 
-#pragma mark - Photo delegate
+#pragma mark - Photo Delegate  ****************************
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -642,7 +642,7 @@
     
 }
 
-#pragma mark - TextView elegate
+#pragma mark - TextView Delegate  ***************************
 -(void)textViewDidBeginEditing:(UITextView *)textView{
     
     if ([noteTextView.text isEqualToString:@" "]) {
@@ -666,9 +666,12 @@
     [noteScroll setContentSize:CGSizeMake(self.view.frame.size.width, scrollContent)];
 }
 
+
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     
+    
     if ([text isEqualToString:@"\n"]) {
+        
         [noteTextView resignFirstResponder];
         
         [UIView transitionWithView:self.view duration:0.1 options:UIViewAnimationOptionTransitionNone animations:^{
@@ -677,8 +680,27 @@
             recordView.frame =  CGRectMake(0, actionBtnBase.frame.origin.y-SCREEN_HEIGHT*0.063, SCREEN_WIDTH, SCREEN_HEIGHT*0.063);
             
         } completion:^(BOOL finished) {
-            //
+        
         }];
+    }
+    
+    //textView 字數上限
+    NSString *str = [NSString stringWithFormat:@"%@%@",textView.text,text];
+    if (str.length > 100) {
+        
+        NSRange rangeIndex = [str rangeOfComposedCharacterSequenceAtIndex:100];
+        
+        if (rangeIndex.length == 1) {
+            
+            textView.text = [str substringToIndex:100];
+        }
+        else {
+            
+            NSRange theRange = [str rangeOfComposedCharacterSequencesForRange:NSMakeRange(0, 100)];
+            textView.text = [str substringWithRange:theRange];
+        }
+        
+        return NO;
     }
     
     return YES;

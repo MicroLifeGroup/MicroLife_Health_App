@@ -16,12 +16,11 @@
 @interface SQLiteClass : NSObject
 {
     sqlite3 *database;  //資料庫
-
 }
 
-
-- (BOOL)OpenOrCreateDB:(NSString *)filename; //打開DB:DB名稱
 //判斷DB是否存在
+- (BOOL)OpenOrCreateDB:(NSString *)filename; //打開DB:DB名稱
+
 
 //= 資料表操作 ==================
 //建立資料表
@@ -50,7 +49,7 @@
 
 
 
-/*
+/**
 // 判斷是否為第一次
 - (bool)DatabaseExist:(NSString *)dbName;
 - (NSString *)DatabaseKey:(int)key;

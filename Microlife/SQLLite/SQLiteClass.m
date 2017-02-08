@@ -10,25 +10,22 @@
 
 @implementation SQLiteClass
 
-
-
 NSString *fileName = @"";  //資料庫名稱
 NSString *filePath = @""; //資料庫檔案路徑
 
-- (BOOL)OpenOrCreateDB:(NSString *)fileNames
-{
+- (BOOL)OpenOrCreateDB:(NSString *)fileNames {
    
     //判斷DB是否存在
 	BOOL findFile = [self OpenDatabase:fileNames];
     
-    if( findFile )
-    {
+    if( findFile ) {
+        
         //找到資料庫
         //NSLog(@"^_^");
         return 1;
     }
-    else
-    {
+    else {
+        
         //沒找到資料庫
         //NSLog(@"T_T");
         return 0;
@@ -42,11 +39,12 @@ NSString *filePath = @""; //資料庫檔案路徑
 - (void)CreateDatabase{ 
    
     // 建立資料庫,在指定位置開啟資料庫,如果資料庫不存在,就會新建一個
-    if(sqlite3_open([filePath UTF8String], &database) != SQLITE_OK)
-    {
+    if(sqlite3_open([filePath UTF8String], &database) != SQLITE_OK) {
+        
         sqlite3_close(database); // 如果執行成功,則回傳ok,用來判斷是否出錯,
         NSAssert(0,@"Failed to open the database"); //無法打開數據庫
     }
+    
     [self OpenForeignKeys:1];
 
 }
@@ -54,8 +52,7 @@ NSString *filePath = @""; //資料庫檔案路徑
 - (void)DropDatabase{ 
     
     //判斷檔案是否存在
-    if( [[NSFileManager defaultManager] fileExistsAtPath:filePath] ) 
-    {
+    if( [[NSFileManager defaultManager] fileExistsAtPath:filePath] ) {
         //刪除檔案
         [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
         NSLog(@"Deleted successfully");
@@ -63,9 +60,9 @@ NSString *filePath = @""; //資料庫檔案路徑
 }
 
 //打開資料庫
-- (BOOL)OpenDatabase:(NSString *)fileNames{ 
+- (BOOL)OpenDatabase:(NSString *)fileNames {
     
-    fileName = [NSString stringWithFormat:@"%@.sqlite3",fileNames];
+    fileName = [NSString stringWithFormat:@"%@",fileNames];
     
     // 獲取資料庫路徑
     NSArray *paths = NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES);
@@ -81,13 +78,13 @@ NSString *filePath = @""; //資料庫檔案路徑
 
 
 //關閉資料庫
-- (void)CloseDatabase{ 
+- (void)CloseDatabase {
     
     sqlite3_close(database);
 }
 
 //設定外來鍵開關:必須在'每次'運行時先啟用外來鍵,因為默認是關閉:PRAGMA foreign_keys = ON;
-- (void)OpenForeignKeys:(bool)num{ 
+- (void)OpenForeignKeys:(bool)num {
     
     NSString *Command = @"";
     if ( num == 1 ) 
@@ -96,10 +93,11 @@ NSString *filePath = @""; //資料庫檔案路徑
         Command = @"PRAGMA foreign_keys = OFF;";
     
     char *ErrMsg;
+    
     //0:建立資料表  1:刪除資料表
-    if( sqlite3_exec(database, [Command UTF8String],NULL,NULL,&ErrMsg) != SQLITE_OK )
-	{
-		sqlite3_close(database);
+    if( sqlite3_exec(database, [Command UTF8String],NULL,NULL,&ErrMsg) != SQLITE_OK ) {
+		
+        sqlite3_close(database);
         //NSAssert2是後面帶2個顯示參數，依次類推
         //NSAssert1(0,@"Failed to create players table:%s",ErrMsg);
         NSAssert1(0, @"'ForeignKeys' Operation Errors:%s", ErrMsg);
@@ -128,7 +126,7 @@ NSString *filePath = @""; //資料庫檔案路徑
 
 
 //建立資料表
-- (void)CREATE_TABLE:(NSString *)command{
+- (void)CREATE_TABLE:(NSString *)command {
     //CREATE TABLE IF NOT EXISTS SYSTEM( VerID INTEGER PRIMARY KEY,ID0 TINYINT,ID1 TINYINT,ID2 TINYINT,ID3 TINYINT,ID4 TINYINT,ID5 TINYINT);
     
     [self TABLE_SQLITE3_EXEC:0 command:command];
@@ -312,17 +310,17 @@ NSString *filePath = @""; //資料庫檔案路徑
     
     //NSString *Command = @"UPDATE SYSTEM SET \"%@\" = \"%@\" ;";
     [self COLUMN_SQLITE3_EXEC:1 command:command];
+    
+    NSLog(@"====> 更新資料成功 <====");
 
-    
-    
 }
 
 //刪除資料
 - (void)COLUMN_DELETE:(NSString *)command{
     
-    //
     //NSString *Command = @"DELETE FROM HEART WHERE UserID = %i";
     [self COLUMN_SQLITE3_EXEC:2 command:command];
+    
 }
 
 //查詢所有資料
@@ -390,7 +388,7 @@ B.儲存資料的數據類型，詳細情結請至 http://www.sqlite.org/datatyp
     2.但實際上，sqlite3也接受如下的數據類型:
         smallint 16 位​​元的整數。
         interger 32 位元的整數。
-        decimal(p,s) p 精確值和s 大小的十進位整數，精確值p是指全部有幾個數(digits)大小值，s是指小數點後有幾位數。如果沒有特別指定，則係統會設為p=5; s=0 。
+        decimal(p,s) p 精確值和s 大小的 "十進位整數"，精確值p是指全部有幾個數(digits)大小值，s是指小數點後有幾位數。如果沒有特別指定，則係統會設為p=5; s=0 。
         float 32位元的實數。
         double 64位元的實數。
         char(n) n 長度的字串，n不能超過254。

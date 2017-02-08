@@ -69,9 +69,10 @@
     
     //Classification(分級敘述:血壓 BMI)
     classificationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, frame.size.width*0.8, frame.size.width/12)];
-    classificationLabel.center = CGPointMake(frame.size.width/2,frame.size.height/6);
+    classificationLabel.center = CGPointMake(frame.size.width/2,frame.size.height/7);
     classificationLabel.adjustsFontSizeToFitWidth = YES;
     classificationLabel.textAlignment = NSTextAlignmentCenter;
+    classificationLabel.font = [UIFont systemFontOfSize:classificationLabel.frame.size.height/3];
     [self addSubview:classificationLabel];
     
     
@@ -110,8 +111,8 @@
     CGFloat levelLabelWidth = rainbowbar.frame.size.width/5;
     rainbowbarUnit = rainbowbar.frame.size.width/12;
     
-    CGFloat upLocation = frame.size.height/2 - levelLabelWidth/2;
-    CGFloat downLocation = frame.size.height/2 + levelLabelWidth/2;
+    CGFloat upLocation = frame.size.height/2 - levelLabelWidth/3;
+    CGFloat downLocation = frame.size.height/2 + levelLabelWidth/3;
     for (int i = 0; i < 6; i++) {
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, levelLabelWidth, levelLabelWidth/2)];
@@ -126,7 +127,7 @@
 
         label.textAlignment = NSTextAlignmentCenter;
         label.adjustsFontSizeToFitWidth = YES;
-        label.font = [UIFont systemFontOfSize:label.frame.size.height/3];
+        label.font = [UIFont systemFontOfSize:label.frame.size.height/4];
         label.numberOfLines = 2;
         [self addSubview:label];
         [ary_levelLabel addObject:label];
@@ -141,7 +142,7 @@
 //==========================================================
 -(void)checkRainbowbarValue:(int)countryFormat sys:(int)sys dia:(int)dia {
     
-    classificationLabel.text = @"Blood Pressure Classification";
+    classificationLabel.text = NSLocalizedString(@"Blood Pressure Classification", nil);
     
     //0:歐規,1:USA ,2:非歐非USA
     switch (countryFormat) {
@@ -316,7 +317,7 @@
     
     rainbowbarIndicator.hidden = NO;
     
-    classificationLabel.text = @"BMI Classification";
+    classificationLabel.text = NSLocalizedString(@"BMI   Classification", nil);
     
     rainbowbar.image = [UIImage imageNamed:ary_rainbowbarImg[2]];
     

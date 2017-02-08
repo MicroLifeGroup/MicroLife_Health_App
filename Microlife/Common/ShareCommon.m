@@ -197,5 +197,83 @@
 
 
 
++(NSString*)DictionaryToJson:(NSMutableArray*)dic
+{
+    NSString *jsonString=@"";
+    
+    @try {
+        NSError *error;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic
+                                                           options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
+                                                             error:&error];
+        
+        if (! jsonData) {
+            NSLog(@"Got an error: %@", error);
+            
+            
+        } else {
+            jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        }
+        
+    } @catch (NSException *exception) {
+        
+        NSLog(@"exception:%@",exception.description);
+        
+    } @finally {
+        return  jsonString;
+    }
+    
+}
+
++(NSMutableArray*)JsonToDictionary:(NSString*)json
+{
+    NSMutableArray *dict=[[NSMutableArray alloc]init];
+    
+    @try {
+        NSError *error;
+        NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
+        
+        dict = [NSJSONSerialization JSONObjectWithData:objectData options:NSJSONReadingMutableContainers error:&error];
+        
+    } @catch (NSException *exception) {
+        NSLog(@"exception:%@",exception.description);
+        
+        dict=[[NSMutableArray alloc]init];
+        
+    } @finally {
+        return dict;
+    }
+}
+
+
++ (NSDate *)getWeekStartForDate:(NSDate *)aDate
+{
+    aDate = [ShareCommon getDayStartForDate:aDate];
+    NSCalendar *gregorian               = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSInteger   weekDay                 = 1;
+    NSInteger   weekOfMonth             = 1;
+    NSDateComponents *dateComponents    = [gregorian components:NSWeekOfMonthCalendarUnit| NSWeekdayCalendarUnit fromDate:aDate];
+    weekDay                             = dateComponents.weekday;
+    weekOfMonth                         = dateComponents.weekOfMonth;
+    
+    dateComponents                      = [gregorian components:NSYearCalendarUnit| NSMonthCalendarUnit| NSDayCalendarUnit fromDate:aDate];
+    dateComponents.day                  = dateComponents.day - (weekDay - 1);
+    aDate                               = [gregorian dateFromComponents:dateComponents];
+    
+    return aDate;
+}
+
++ (NSDate *)getDayStartForDate:(NSDate *)aDate
+{
+    NSCalendar *gregorian               = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *dateComponents    = [gregorian components:NSYearCalendarUnit| NSMonthCalendarUnit| NSDayCalendarUnit fromDate:aDate];
+    dateComponents.hour     = 0;
+    dateComponents.minute   = 0;
+    dateComponents.second   = 0;
+    aDate                               = [gregorian dateFromComponents:dateComponents];
+    
+    return aDate;
+}
+
 
 @end

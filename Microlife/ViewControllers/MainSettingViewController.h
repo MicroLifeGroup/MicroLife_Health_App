@@ -11,20 +11,7 @@
 #import "MyDeviceController.h"
 
 
-@interface MainSettingViewController : MViewController<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
-    
-    UIScrollView *settingSV;
-    UIView *syncview;
-    UIButton *bpmbBtn;
-    UITableView *DeviceManagementTV;
-    
-    
-}
-
-@property (nonatomic,retain) UIScrollView *settingSV;
-@property (nonatomic,retain) UIView *syncview;
-@property (nonatomic,retain) UIButton *bpmbBtn;
-@property (nonatomic,retain) UITableView *DeviceManagementTV;
+@interface MainSettingViewController : MViewController<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
 
 
 

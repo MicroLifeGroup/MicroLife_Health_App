@@ -35,7 +35,7 @@
     float textH = self.view.frame.size.height/11;
     float emailY = self.view.frame.size.height*0.22;
     UIView *forgotpasswordV = [[UIView alloc] initWithFrame:CGRectMake(0, 0 , self.view.frame.size.width, self.view.frame.size.height)];
-    forgotpasswordV.backgroundColor =[UIColor colorWithRed:246.0f/255.0f green:246.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    forgotpasswordV.backgroundColor = TABLE_BACKGROUND;
     // [UIColor lightGrayColor];
     [self.view addSubview:forgotpasswordV];
     

@@ -51,7 +51,9 @@
     style.lineSpacing = 10;//行距
     style.alignment = NSTextAlignmentCenter;
     
-    NSMutableAttributedString *textStr = [[NSMutableAttributedString alloc] initWithString:@"Do you want to monitor your fever event?\nJust tap Add button,you can easily\nmanage your all measured\ndatas in this app"];
+    NSString *informationText = NSLocalizedString(@"Do you want to monitor your fever event?\nJust tap Add button,you can easily\nmanage your all measured\ndatas in this app", nil);
+    
+    NSMutableAttributedString *textStr = [[NSMutableAttributedString alloc] initWithString:informationText];
     
     [textStr addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, textStr.length)];
     
@@ -76,7 +78,6 @@
     [self addSubview:addBt];
     
     
-    
     return self;
 }
 
@@ -88,10 +89,10 @@
         
         if (addEventVC == nil) {
             
-            addEventVC = [[OverViewAddEventControllerViewController alloc]initWithAddEventViewController:m_superVC.view.frame];
-            
+            addEventVC = [[OverViewAddEventControllerViewController alloc] initWithAddEventViewController:m_superVC.view.frame];
         }
         
+        addEventVC.m_superVC = m_superVC;
         [m_superVC.navigationController pushViewController:addEventVC animated:YES];
         
     }

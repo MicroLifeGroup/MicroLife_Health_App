@@ -8,6 +8,8 @@
 
 #import "SetAlarmViewController.h"
 #import "AlarmDetailViewController.h"
+#import "AlertConfigClass.h"
+#import "ShareCommon.h"
 
 @interface SetAlarmViewController ()<UIPickerViewDelegate,UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource>{
     
@@ -156,15 +158,18 @@ static NSString *identifier = @"Cell";
     
     [self.view addSubview:timePicker];
     
-    UILabel *hourLabel = [[UILabel alloc] initWithFrame:CGRectMake(timePicker.frame.size.width/2-SCREEN_WIDTH*0.12/2, timePicker.frame.size.height/2-SCREEN_HEIGHT*0.06/2, SCREEN_WIDTH*0.12, SCREEN_HEIGHT*0.06)];
+    CGFloat ptime_w=timePicker.frame.size.width/5.0;
+    
+    UILabel *hourLabel = [[UILabel alloc] initWithFrame:CGRectMake(ptime_w*2.0, timePicker.frame.size.height/2-SCREEN_HEIGHT*0.06/2, ptime_w, SCREEN_HEIGHT*0.06)];
     hourLabel.text = @"hours";
     hourLabel.font = [UIFont systemFontOfSize:15];
     [timePicker addSubview:hourLabel];
     
-    UILabel *minLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH*0.74, timePicker.frame.size.height/2-SCREEN_HEIGHT*0.06/2, SCREEN_WIDTH*0.126, SCREEN_HEIGHT*0.06)];
+    UILabel *minLabel = [[UILabel alloc] initWithFrame:CGRectMake(ptime_w*4.0, timePicker.frame.size.height/2-SCREEN_HEIGHT*0.06/2, SCREEN_WIDTH*0.126, SCREEN_HEIGHT*0.06)];
     minLabel.text = @"min";
     minLabel.font = [UIFont systemFontOfSize:15];
     [timePicker addSubview:minLabel];
+    
     
     settingTable = [[UITableView alloc] initWithFrame:CGRectMake(0, timePicker.frame.origin.y+timePicker.frame.size.height, SCREEN_WIDTH, SCREEN_HEIGHT*0.8) style:UITableViewStyleGrouped];
     
@@ -215,18 +220,52 @@ static NSString *identifier = @"Cell";
     [tempDict setValue:modelStr forKey:@"model"];
     [tempDict setValue:@"1" forKey:@"status"];
     
+    NSLog(@"tempDict:%@",tempDict);
+    
     if (isCreate) {
         [reminderArray addObject:tempDict];
     }else{
         [reminderArray replaceObjectAtIndex:self.alarmIndex withObject:tempDict];
     }
     
+    NSMutableArray *newRemind=[[LocalData sharedInstance] saveReminderData:reminderArray];
     
-    [[LocalData sharedInstance] saveReminderData:reminderArray];
+    
+    //save to db..
+    
+    NSString *jsonRs=[ShareCommon DictionaryToJson:newRemind];
+    
+    NSLog(@"jsonRs:%@",jsonRs);
+    
+    AlertConfigClass *alertConfigClass=[[AlertConfigClass alloc]init];
+    alertConfigClass.accountID=[LocalData sharedInstance].accountID;
+    alertConfigClass.alertConfig=jsonRs;
+    
+    [alertConfigClass insertData];
+    
+    [alertConfigClass closeDatabase];
+    
+   
+    
+    
+    //AlertConfigClass *alertConfigClass2=[AlertConfigClass sharedInstance];
+    
+    //[alertConfigClass2 getUserAlertConfig:[LocalData sharedInstance].accountID];
+    
+    //NSLog(@"ALERT_ID:%d",alertConfigClass2.ALERT_ID);
+    //NSLog(@"accountID:%d",alertConfigClass2.accountID);
+    //NSLog(@"alertConfig:%@",alertConfigClass2.alertConfig);
+    
+    //NSMutableDictionary *dic=[self JsonToDictionary:jsonRs];
+    
+    //NSLog(@"dicRs:%@",dic);
+    
+    
     
     [self.navigationController popViewControllerAnimated:YES];
     
 }
+
 
 #pragma mark - Table view delegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -283,7 +322,12 @@ static NSString *identifier = @"Cell";
     
     cellSegment = [[UISegmentedControl alloc] initWithItems:itemArray];
     
-    cellSegment.frame = CGRectMake(self.view.frame.size.width-SCREEN_WIDTH*0.6-SCREEN_WIDTH*0.04, cell.frame.size.height/2-SCREEN_HEIGHT*0.044/2, SCREEN_WIDTH*0.6, SCREEN_HEIGHT*0.044);
+    CGFloat sg_w=self.view.frame.size.width/2.0;
+    CGFloat sg_h=SCREEN_HEIGHT*0.044;
+    CGFloat sg_x=sg_w-5;
+    CGFloat sg_y=cell.frame.size.height/2.0-SCREEN_HEIGHT*0.044/2.0;
+    
+    cellSegment.frame = CGRectMake(sg_x, sg_y, sg_w, sg_h);
     
     cellSegment.selectedSegmentIndex = [[tempDict objectForKey:@"model"] intValue];
     

@@ -9,45 +9,52 @@
 #import "RiskFactorsViewController.h"
 #import "ViewController.h"
 
-
-@interface RiskFactorsViewController ()
+@interface RiskFactorsViewController () {
+    
+    UIButton *rfselectBtn;
+    NSMutableArray  *ary_title;
+    UITableView *RFTableView;
+    NSMutableArray *ary_selectedTag;
+    
+}
 
 @end
 
-@implementation RiskFactorsViewController{
-    UITableView *riskfactorsTableV;
-    NSArray *rfItem;
-    NSMutableArray *tableSelectTag;
-}
-@synthesize rfselectBtn;
-@synthesize RFTableView;
+@implementation RiskFactorsViewController
 
 
+#pragma mark - Normal Functions  ******************************************
 - (void)viewDidLoad {
     [super viewDidLoad];
     //[self RFView];
     
-    [self.view setBackgroundColor:[UIColor colorWithRed:240.0f/255.0f green:240.0f/255.0f blue:240.0f/255.0f alpha:240.0f/255.0f]];
+    //[self.view setBackgroundColor:[UIColor colorWithRed:240.0f/255.0f green:240.0f/255.0f blue:240.0f/255.0f alpha:240.0f/255.0f]];
+    
+    self.view.backgroundColor = [UIColor whiteColor];
     
     [self riskfactortableview];
     
     
-    [self RFnav];
+    [self initWithNavigationBar];
     
-    [self initParameter];
 }
 
--(void)initParameter{
+
+-(void)viewWillAppear:(BOOL)animated {
     
-    tableSelectTag = [NSMutableArray new];
+    [self initWithTagFromDatabase];
     
-    for (int i=0; i<14; i++) {
+}
+
+
+-(void)viewWillDisappear:(BOOL)animated {
+    
+    if (ary_selectedTag.count != 0) {
         
-        NSString *selectStr = @"0";
-        
-        [tableSelectTag addObject:selectStr];
-        
+        [ary_selectedTag removeAllObjects];
+        ary_selectedTag = nil;
     }
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,16 +62,50 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)RFnav{
+
+
+
+#pragma mark - initialization  ******************************************
+-(void)initWithTagFromDatabase {
+    
+    ary_selectedTag = [[NSMutableArray alloc] init];
+    [ary_selectedTag addObject:[[NSString stringWithFormat:@"%d",self.m_superVC.isHypertension] copy]];
+    [ary_selectedTag addObject:[[NSString stringWithFormat:@"%d",self.m_superVC.isAtrialFibrillation] copy]];
+    [ary_selectedTag addObject:[[NSString stringWithFormat:@"%d",self.m_superVC.isDiabetes] copy]];
+    [ary_selectedTag addObject:[[NSString stringWithFormat:@"%d",self.m_superVC.isCardiovascular] copy]];
+    [ary_selectedTag addObject:[[NSString stringWithFormat:@"%d",self.m_superVC.isChronicKindey] copy]];
+    [ary_selectedTag addObject:[[NSString stringWithFormat:@"%d",self.m_superVC.isTransientIschemicAttact] copy]];
+    [ary_selectedTag addObject:[[NSString stringWithFormat:@"%d",self.m_superVC.isDyslipidemia] copy]];
+    [ary_selectedTag addObject:[[NSString stringWithFormat:@"%d",self.m_superVC.isSnoringOrSleepAponea] copy]];
+    [ary_selectedTag addObject:[[NSString stringWithFormat:@"%d",self.m_superVC.isUseOralContraception] copy]];
+    [ary_selectedTag addObject:[[NSString stringWithFormat:@"%d",self.m_superVC.isUseAntiHypertensive] copy]];
+    [ary_selectedTag addObject:[[NSString stringWithFormat:@"%d",self.m_superVC.isPregenancy_normoal] copy]];
+    [ary_selectedTag addObject:[[NSString stringWithFormat:@"%d",self.m_superVC.isPregenancy_preEclampsia] copy]];
+    [ary_selectedTag addObject:[[NSString stringWithFormat:@"%d",self.m_superVC.isSmoking] copy]];
+    [ary_selectedTag addObject:[[NSString stringWithFormat:@"%d",self.m_superVC.isAlcoholIntake] copy]];
+    
+    
+    /**
+    for (int i=0; i<14; i++) {
+        
+        NSString *selectStr = @"0";
+        
+        [ary_selectedTag addObject:selectStr];
+        
+    }
+    */
+    
+
+}
+
+
+//initWithNavigationBar
+-(void)initWithNavigationBar {
     
     UIView *pnavview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height*0.09)];
     pnavview.backgroundColor = [UIColor colorWithRed:0 green:61.0f/255.0f blue:165.0f/255.0f alpha:1.0];
     [self.view addSubview:pnavview];
     
-    
-//    UIView *tableviewbottomline = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height*0.79-1, self.view.frame.size.width, 2)];
-//    tableviewbottomline.backgroundColor = [UIColor colorWithRed:208.0f/255.0f green:208.0f/255.0f blue:208.0f/255.0f alpha:1.0];
-//    [self.view addSubview:tableviewbottomline];
     
     CGRect pnavFrame = CGRectMake(0, 0 , self.view.frame.size.width , self.view.frame.size.height*0.1);
     UILabel *pnavLabel = [[UILabel alloc] initWithFrame:pnavFrame];
@@ -89,52 +130,31 @@
     
     
     [self.view addSubview:navbackBtn];
-    
-//    UIButton *navsaveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    navsaveBtn.frame = CGRectMake(self.view.frame.size.width*0.8, self.view.frame.size.height*0.02, self.view.frame.size.width/5, self.view.frame.size.height*0.07);
-//    [navsaveBtn setTitle:@"Save" forState:UIControlStateNormal];
-//    [navsaveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    navsaveBtn.titleLabel.font = [UIFont systemFontOfSize:21];
-//    navsaveBtn.backgroundColor = [UIColor clearColor];
-//    navsaveBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-//    //navbackBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
-//    
-//    [navsaveBtn addTarget:self action:@selector(gobackProfile) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    
-//    [self.view addSubview:navsaveBtn];
-    
-    
-    
+
 }
 
--(void)gobackProfile{
-    
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-    
-}
 
--(void)riskfactortableview{
-    
-
-    
+-(void)riskfactortableview {
 
      RFTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height*0.09, self.view.frame.size.width, self.view.frame.size.height*0.91)];
-    RFArray=[[NSMutableArray alloc]init];
-    [RFArray addObject:@"Personal History of Hypertension"];
-    [RFArray addObject:@"Personal History of Atrial Fibrillation"];
-    [RFArray addObject:@"Personal History of Diabetes"];
-    [RFArray addObject:@"Personal History of Cardiovascular diseases (CVD)"];
-    [RFArray addObject:@"Personal History of Chronic Kidney Disease (CKD)"];
-    [RFArray addObject:@"Personal History of Stroke/Transient Ischemic Attack (TIA)"];
-    [RFArray addObject:@"Personal History of Dyslipidemia"];
-    [RFArray addObject:@"Personal History of Snoring & Sleep Aponea"];
-    [RFArray addObject:@"Drug Use–Oral Contraception"];
-    [RFArray addObject:@"Drug Use–Anti-Hypertensive Drugs"];
-    [RFArray addObject:@"Pregenancy - Normal"];
-    [RFArray addObject:@"Pregnancy–Pre-Eclampsia"];
-    [RFArray addObject:@"Smoking"];
-    [RFArray addObject:@"Alcohol Intake"];
+    
+    //ary_title init
+    ary_title=[[NSMutableArray alloc]init];
+    [ary_title addObject:NSLocalizedString(@"Personal History of Hypertension", nil)];
+    [ary_title addObject:NSLocalizedString(@"Personal History of Atrial Fibrillation", nil)];
+    [ary_title addObject:NSLocalizedString(@"Personal History of Diabetes", nil)];
+    [ary_title addObject:NSLocalizedString(@"Personal History of Cardiovascular diseases (CVD)", nil)];
+    [ary_title addObject:NSLocalizedString(@"Personal History of Chronic Kidney Disease (CKD)", nil)];
+    [ary_title addObject:NSLocalizedString(@"Personal History of Stroke/Transient Ischemic Attack (TIA)", nil)];
+    [ary_title addObject:NSLocalizedString(@"Personal History of Dyslipidemia", nil)];
+    [ary_title addObject:NSLocalizedString(@"Personal History of Snoring & Sleep Aponea", nil)];
+    [ary_title addObject:NSLocalizedString(@"Drug Use–Oral Contraception", nil)];
+    [ary_title addObject:NSLocalizedString(@"Drug Use–Anti-Hypertensive Drugs", nil)];
+    [ary_title addObject:NSLocalizedString(@"Pregenancy - Normal", nil)];
+    [ary_title addObject:NSLocalizedString(@"Pregnancy–Pre-Eclampsia", nil)];
+    [ary_title addObject:NSLocalizedString(@"Smoking", nil)];
+    [ary_title addObject:NSLocalizedString(@"Alcohol Intake", nil)];
+    
     
     
     
@@ -158,73 +178,39 @@
     
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [RFArray count];
+
+
+
+
+#pragma mark - TableView Delegate & DataSource  ******************************************
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    return [ary_title count];
 }
 
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //static NSString *CellIdentifier = @"RFcell_ID";
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSString *cell_id = @"RFcell_ID";
 
-     RiskFactorCell *RFcell = [tableView dequeueReusableCellWithIdentifier:@"RFcell_ID" forIndexPath:indexPath];
+    RiskFactorCell *RFcell = [tableView dequeueReusableCellWithIdentifier:cell_id forIndexPath:indexPath];
     
     RFcell.m_superVC = self;
-//    if (RFcell == nil) {
-//        
-//        RFcell = [[RiskFactorCell alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 60)];
-//        
-//        [RFcell refreshWithBt];
-//    }
-    
-    RFcell.RFLabel.text = RFArray[indexPath.row];
-    RFcell.RFLabel.numberOfLines = 2;
-    
- 
-    
-    
-    
-    
-    
-//    [ RFcell.RFcheckbox setImage:[UIImage imageNamed:@"all_select_a_1"] forState:UIControlStateSelected];
-//    [ RFcell.RFcheckbox setImage:[UIImage imageNamed:@"all_select_a_0"] forState:UIControlStateNormal];
-//    
-//    if (RFcell.RFcheckbox.tag == 0) {
-//        
-//        [ RFcell.RFcheckbox setImage:[UIImage imageNamed:@"all_select_a_1"] forState:UIControlStateSelected];
-//    }
-//    else if (RFcell.RFcheckbox.tag == 1) {
-//        
-//        [ RFcell.RFcheckbox setImage:[UIImage imageNamed:@"all_select_a_0"] forState:UIControlStateNormal];
-//    }
-//    
 
-    
-    
-    //RFcell.RFcheckbox.tag = (int)indexPath.row;
-    //[RFcell.RFcheckbox addTarget:self action:@selector(RFcheckmarkClick) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    
-//    if (RFcell.isSelected == YES) {
-//        
-//        [RFcell.RFcheckbox setImage:[UIImage imageNamed:@"all_select_a_1"] forState:UIControlStateNormal];
-//    }
-//    else {
-//        
-//        [RFcell.RFcheckbox setImage:[UIImage imageNamed:@"all_select_a_0"] forState:UIControlStateNormal];
-//    }
+    RFcell.RFLabel.text = ary_title[indexPath.row];
+    RFcell.RFLabel.numberOfLines = 2;
     
     
     RFcell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    BOOL selected = [[tableSelectTag objectAtIndex:indexPath.row] boolValue];
+    BOOL selected = [[ary_selectedTag objectAtIndex:indexPath.row] boolValue];
     
     RFcell.RFcheckbox.image = [UIImage imageNamed:@"all_select_a_0"];
     
     if (selected) {
-        RFcell.RFcheckbox.image = [UIImage imageNamed:@"all_select_a_1"];    }
+        
+        RFcell.RFcheckbox.image = [UIImage imageNamed:@"all_select_a_1"];
+    }
     
     return RFcell;
     
@@ -232,56 +218,89 @@
 }
 
 
-
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     return 60 ;
 }
 
-//- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return 3;
-//}
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"user selected %@",[RFArray objectAtIndex:indexPath.row]);
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSLog(@"user selected %@",[ary_title objectAtIndex:indexPath.row]);
     
     NSString *selectStr;
     
-    //for (int i=0; i<tableSelectTag.count; i++) {
-        
-    BOOL selected = [[tableSelectTag objectAtIndex:indexPath.row] boolValue];
+    BOOL selected = [[ary_selectedTag objectAtIndex:indexPath.row] boolValue];
     
     selected = !selected;
     
     selectStr = [NSString stringWithFormat:@"%d",selected];
-    //}
     
-    [tableSelectTag replaceObjectAtIndex:indexPath.row withObject:selectStr];
-    
-//    RiskFactorCell *rfCell = [tableView cellForRowAtIndexPath:indexPath];
-//    rfCell.accessoryView.hidden = NO;
-//    [rfCell.RFcheckbox setImage:[UIImage imageNamed:@"all_select_a_1"]  forState:UIControlStateNormal];
+    [ary_selectedTag replaceObjectAtIndex:indexPath.row withObject:selectStr];
     
     [RFTableView reloadData];
     
     
 }
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-//    NSLog(@"user de-selected %@",[RFArray objectAtIndex:indexPath.row]);
-//    RiskFactorCell *rfCell = [tableView cellForRowAtIndexPath:indexPath];
-//    [rfCell.RFcheckbox setImage:[UIImage imageNamed:@"all_select_a_0"]  forState:UIControlStateNormal];
-//    rfCell.accessoryView.hidden = YES;
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+
     [RFTableView reloadData];
-    
 }
 
 
+#pragma mark - 跳至其他頁面  ******************************************
+-(void)gobackProfile {
+    
+    [self recordSelectedTag];
+    
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+}
 
+-(void)recordSelectedTag {
 
+    //1.高血壓:isHypertension
+    self.m_superVC.isHypertension = [ary_selectedTag[0] intValue];
+    
+    //2.心房顫動:isAtrialFibrillation
+    self.m_superVC.isAtrialFibrillation = [ary_selectedTag[1] intValue];
+    
+    //3.糖尿病:isDiabetes
+    self.m_superVC.isDiabetes = [ary_selectedTag[2] intValue];
+    
+    //4.心血管疾病:isCardiovascular
+    self.m_superVC.isCardiovascular = [ary_selectedTag[3] intValue];
+    
+    //5.慢性腎臟病:isChronicKindey
+    self.m_superVC.isChronicKindey = [ary_selectedTag[4] intValue];
+    
+    //6.貧血:isTransientIschemicAttact
+    self.m_superVC.isTransientIschemicAttact = [ary_selectedTag[5] intValue];
+    
+    //7.血脂異常:isDyslipidemia
+    self.m_superVC.isDyslipidemia = [ary_selectedTag[6] intValue];
+    
+    //8.打鼾 或 睡眠呼吸暫停:isSnoringOrSleepAponea
+    self.m_superVC.isSnoringOrSleepAponea = [ary_selectedTag[7] intValue];
+    
+    //9.使用口服避孕藥:isUseOralContraception
+    self.m_superVC.isUseOralContraception = [ary_selectedTag[8] intValue];
+    
+    //10.使用抗高血壓:isUseAntiHypertensive
+    self.m_superVC.isUseAntiHypertensive = [ary_selectedTag[9] intValue];
+    
+    //11.懷孕(正常):isPregenancy_normoal
+    self.m_superVC.isPregenancy_normoal = [ary_selectedTag[10] intValue];
+    
+    //12.懷孕(子癇前症 或 妊娠毒血症):isPregenancy_preEclampsia
+    self.m_superVC.isPregenancy_preEclampsia = [ary_selectedTag[11] intValue];
+    
+    //13.抽菸習慣:isSmoking
+    self.m_superVC.isSmoking = [ary_selectedTag[12] intValue];
+    
+    //14.飲用酒精:isAlcoholIntake
+    self.m_superVC.isAlcoholIntake = [ary_selectedTag[13] intValue];
+}
 
 
 @end

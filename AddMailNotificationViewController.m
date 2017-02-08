@@ -7,6 +7,7 @@
 //
 
 #import "AddMailNotificationViewController.h"
+#import "MViewController.h"
 
 @interface AddMailNotificationViewController ()
 
@@ -17,14 +18,12 @@
 @synthesize addNameTextField;
 @synthesize nameString,emailString;
 
-
+#pragma mark - Normal Functions  ******************
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
-    [self addV];
-    [self addMnav];
-    
-    
-    
+    [self initParam];
+    [self initWithNavigationBar];
     
 }
 
@@ -32,7 +31,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
--(void)addMnav{
+
+
+#pragma mark - initialization  ***********************
+-(void)initWithNavigationBar {
     
     UIView *pnavview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height*0.09)];
     pnavview.backgroundColor = [UIColor colorWithRed:0 green:61.0f/255.0f blue:165.0f/255.0f alpha:1.0];
@@ -73,22 +75,209 @@
     navsaveBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     //navbackBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
     
-    [navsaveBtn addTarget:self action:@selector(saveAdd) forControlEvents:UIControlEventTouchUpInside];
-    
-    
+    [navsaveBtn addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchUpInside];
+
     [self.view addSubview:navsaveBtn];
+
+}
+
+
+-(void)initParam {
     
+    float addH = self.view.frame.size.height*0.09;
+    float addY = self.view.frame.size.height*0.16;
+    
+    self.view.backgroundColor = TABLE_BACKGROUND;
+    
+    UIView *addview = [[UIView alloc]initWithFrame:CGRectMake(-1, addY, self.view.frame.size.width+2, addH*2+1)];
+    addview.backgroundColor = [UIColor whiteColor];
+    addview.layer.borderWidth = 1;
+    addview.layer.borderColor = [UIColor colorWithRed:208.0f/255.0f green:208.0f/255.0f blue:208.0f/255.0f alpha:1.0].CGColor;
+    
+    [self.view addSubview:addview];
+    
+    UIView *aline = [[UIView alloc]initWithFrame:CGRectMake(0, addY+addH, self.view.frame.size.width, 1)];
+    
+    aline.backgroundColor = [UIColor colorWithRed:208.0f/255.0f green:208.0f/255.0f blue:208.0f/255.0f alpha:1];
+    [self.view addSubview:aline];
+    
+    //name Title Label
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.05, addY+1, self.view.frame.size.width*0.25, addH-1)];
+    [nameLabel setTextColor:[UIColor blackColor ]];
+    nameLabel.backgroundColor = [UIColor clearColor];
+    nameLabel.text = @"Name";
+    nameLabel.font = [UIFont systemFontOfSize:22];
+    nameLabel.alpha = 1.0;
+    nameLabel.textAlignment = NSTextAlignmentLeft;
+    [self.view addSubview:nameLabel];
+    
+    //email Title Label
+    UILabel *emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.05, addY+addH+1, self.view.frame.size.width*0.25, addH-1)];
+    [emailLabel setTextColor:[UIColor blackColor ]];
+    emailLabel.backgroundColor = [UIColor clearColor];
+    emailLabel.text = @"Email";
+    emailLabel.font = [UIFont systemFontOfSize:22];
+    emailLabel.alpha = 1.0;
+    emailLabel.textAlignment = NSTextAlignmentLeft;
+    [self.view addSubview:emailLabel];
+    
+    
+    // addNameTextField 初始化
+    CGFloat textField_Width = self.view.frame.size.width - CGRectGetMaxX(nameLabel.frame);
+    //addNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.245 , addY+1, self.view.frame.size.width, addH-1)];
+    addNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(nameLabel.frame), addY+1, textField_Width, addH-1)];
+    
+    // 設定預設文字內容
+    addNameTextField.placeholder = @"";
+    //emailTextField.text = @"";
+    
+    addNameTextField.secureTextEntry = NO;
+    // 設定文字顏色
+    addNameTextField.textColor = [UIColor blackColor];
+    // Delegate
+    addNameTextField.delegate = self;
+    // 設定輸入框背景顏色
+    addNameTextField.backgroundColor = [UIColor whiteColor];
+    //    设置背景图片
+    //    textField.background=[UIImage imageNamed:@"test.png"];
+    // 框線樣式
+    addNameTextField.borderStyle =  UITextBorderStyleNone;
+    //设置文本对齐方式
+    addNameTextField.textAlignment = NSTextAlignmentJustified;
+    //设置字体
+    addNameTextField.font = [UIFont systemFontOfSize:26];
+    //设置编辑框中删除按钮的出现模式
+    addNameTextField.clearButtonMode = UITextFieldViewModeAlways;
+    //設置鍵盤格式
+    [addNameTextField setKeyboardType:UIKeyboardTypeASCIICapable];
+    //設置首字不大寫
+    addNameTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    
+    [addNameTextField addTarget:self action:@selector(textFieldEditChanging:) forControlEvents:UIControlEventEditingChanged];
+    
+    [self.view addSubview:addNameTextField];
+    
+    
+    
+    
+    // addEmailTextField 初始化
+    addEmailTextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(emailLabel.frame) , addY+addH+1, textField_Width, addH-1)];
+    // 設定預設文字內容
+    addEmailTextField.placeholder = @"";
+    //emailTextField.text = @"";
+    addEmailTextField.secureTextEntry = NO;
+    // 設定文字顏色
+    addEmailTextField.textColor = [UIColor blackColor];
+    // Delegate
+    addEmailTextField.delegate = self;
+    // 設定輸入框背景顏色
+    addEmailTextField.backgroundColor = [UIColor whiteColor];
+    //    设置背景图片
+    //    textField.background=[UIImage imageNamed:@"test.png"];
+    // 框線樣式
+    addEmailTextField.borderStyle =  UITextBorderStyleNone;
+    //设置文本对齐方式
+    addEmailTextField.textAlignment = NSTextAlignmentJustified;
+    //设置字体
+    addEmailTextField.font = [UIFont systemFontOfSize:26];
+    //设置编辑框中删除按钮的出现模式
+    addEmailTextField.clearButtonMode = UITextFieldViewModeAlways;
+    //設置鍵盤格式
+    [addEmailTextField setKeyboardType:UIKeyboardTypeEmailAddress];
+    //設置首字不大寫
+    addEmailTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    
+    [self.view addSubview:addEmailTextField];
     
     
 }
 
 
--(void)saveAdd{
+/**
+//限制輸入字數
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if ([string isEqualToString:@"\n"])
+    {
+        return YES;
+    }
+    NSString * aString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    if (addNameTextField == textField)//这个 if 判断是在多个输入框的时候,只限制一个输入框的时候用的,如果全部限制,则不加 if 判断即可,这里是只判断输入用户名的输入框
+    {
+        if ([aString length] > 50) {
+            textField.text = [aString substringToIndex:50];
+            
+            return NO;
+        }
+    }
     
-//    RegisterViewController *reVC = [[RegisterViewController alloc] init];
-//    [reVC validateEmail:addEmailTextField.text];
+    
+    return YES;
+}
+*/
+
+#pragma mark - TextField Delegate  ************************
+// 可能進入結束編輯狀態
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    NSLog(@"textFieldShouldEndEditing:%@",textField.text);
+    return true;
+}
+
+// 結束編輯狀態(意指完成輸入或離開焦點)
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    NSLog(@"textFieldDidEndEditing:%@",textField.text);
+    
+    nameString = addNameTextField.text;
+    emailString = addEmailTextField.text;
+    
+    NSLog(@"did endemailString = %@",addEmailTextField.text);
+    
+}
+
+// 按下Return後會反應的事件
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    //利用此方式讓按下Return後會Toogle 鍵盤讓它消失
+    [textField resignFirstResponder];
+    NSLog(@"按下Return");
+    nameString = addNameTextField.text;
+    emailString = addEmailTextField.text;
+    
+    NSLog(@"should emailString = %@",addEmailTextField.text);
+    return false;
+}
+
+
+-(void)textFieldDone:(UITextField*)textField {
+    [textField resignFirstResponder];
+}
+
+
+
+#pragma mark - 自定義 Functions  **************************
+//字數上限
+-(void)textFieldEditChanging:(UITextField *)textField {
+    
+    if (textField == addNameTextField) {
+        
+        NSUInteger textLength = [MViewController getStringLength:textField.text];
+        
+        if (textLength > 50) {
+            
+            textField.text = [textField.text substringWithRange:NSMakeRange(0, 50)];
+            
+            [MViewController showAlert:NSLocalizedString(@"Alert", nil) message:NSLocalizedString(@"The string length is limited to 50 characters", nil) buttonTitle:NSLocalizedString(@"OK", nil)];
+        }
+        
+    }
     
     
+}
+
+//saveAction
+-(void)saveAction{
+    
+    //    RegisterViewController *reVC = [[RegisterViewController alloc] init];
+    //    [reVC validateEmail:addEmailTextField.text];
     
     if (addNameTextField.text.length < 1 || addEmailTextField.text.length < 1) {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"The name can not be null! " message:@"" preferredStyle:UIAlertControllerStyleAlert];
@@ -112,15 +301,15 @@
     }else if (addNameTextField.text.length > 0 && addEmailTextField.text.length > 0){
         
         
-       [self validateEmail:addEmailTextField.text];
+        [self validateEmail:addEmailTextField.text];
         
     }
     
-
-       
+    
 }
 
--(void)saveData{
+
+-(void)saveDataAction {
     
     NSLog(@"emailString = %@",emailString);
     //Save
@@ -134,24 +323,21 @@
     
     //NSMutableArray *array = [[LocalData sharedInstance] returnMemberProfile];
     
-    
-    
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-
+    
     
 }
 
 
 -(BOOL)validateEmail:(NSString*)email
 {
-    if((0 != [email rangeOfString:@"@"].length) &&
-       (0 != [email rangeOfString:@"."].length))
-    {
+    if((0 != [email rangeOfString:@"@"].length) && (0 != [email rangeOfString:@"."].length)) {
+        
         NSCharacterSet* tmpInvalidCharSet = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
         NSMutableCharacterSet* tmpInvalidMutableCharSet = [tmpInvalidCharSet mutableCopy] ;
         [tmpInvalidMutableCharSet removeCharactersInString:@"_-"];
         
-        /*
+        /**
          *使用compare option 来设定比较规则，如
          *NSCaseInsensitiveSearch是不区分大小写
          *NSLiteralSearch 进行完全比较,区分大小写
@@ -186,12 +372,12 @@
         }
         NSLog(@"sucess");
         
-        [self saveData];
+        [self saveDataAction];
         
         return YES;
     }
     else {
- 
+        
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Alert" message:@"Error Email! Please enter again." preferredStyle:UIAlertControllerStyleAlert];
         
@@ -210,194 +396,13 @@
     }
 }
 
+
+//回上一頁
 -(void)gobackMailNotification{
     
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
     
 }
--(void)addV{
-    
-    float addH = self.view.frame.size.height*0.09;
-    float addY = self.view.frame.size.height*0.16;
-    
-    [self.view setBackgroundColor:[UIColor colorWithRed:246.0f/255.0f green:246.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
-    
-    UIView *addview = [[UIView alloc]initWithFrame:CGRectMake(-1, addY, self.view.frame.size.width+2, addH*2+1)];
-    addview.backgroundColor = [UIColor whiteColor];
-    addview.layer.borderWidth = 1;
-    addview.layer.borderColor = [UIColor colorWithRed:208.0f/255.0f green:208.0f/255.0f blue:208.0f/255.0f alpha:1.0].CGColor;
-    
-    [self.view addSubview:addview];
-    
-    UIView *aline = [[UIView alloc]initWithFrame:CGRectMake(0, addY+addH, self.view.frame.size.width, 1)];
-    
-    aline.backgroundColor = [UIColor colorWithRed:208.0f/255.0f green:208.0f/255.0f blue:208.0f/255.0f alpha:1];
-    [self.view addSubview:aline];
-    
-    
-    // UITextField初始化
-    addNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.25 , addY+1, self.view.frame.size.width, addH-1)];
-    // 設定預設文字內容
-    addNameTextField.placeholder = @"";
-    //emailTextField.text = @"";
-    
-    addNameTextField.secureTextEntry = NO;
-    // 設定文字顏色
-    addNameTextField.textColor = [UIColor blackColor];
-    // Delegate
-    addNameTextField.delegate = self;
-    // 設定輸入框背景顏色
-    addNameTextField.backgroundColor = [UIColor whiteColor];
-    //    设置背景图片
-    //    textField.background=[UIImage imageNamed:@"test.png"];
-    // 框線樣式
-    addNameTextField.borderStyle =  UITextBorderStyleNone;
-    //设置文本对齐方式
-    addNameTextField.textAlignment = NSTextAlignmentJustified;
-    //设置字体
-    addNameTextField.font = [UIFont systemFontOfSize:26];
-    //设置编辑框中删除按钮的出现模式
-    addNameTextField.clearButtonMode = UITextFieldViewModeAlways;
-    //設置鍵盤格式
-    [addNameTextField setKeyboardType:UIKeyboardTypeASCIICapable];
-    //設置首字不大寫
-    addNameTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-
-    [self.view addSubview:addNameTextField];
-    
-    [addNameTextField addTarget:self action:@selector(textFieldChanged:) forControlEvents:UIControlEventEditingChanged];
-    
-    
-    // UITextField初始化
-    addEmailTextField = [[UITextField alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.25 , addY+addH+1, self.view.frame.size.width, addH-1)];
-    // 設定預設文字內容
-    addEmailTextField.placeholder = @"";
-    //emailTextField.text = @"";
-    addEmailTextField.secureTextEntry = NO;
-    // 設定文字顏色
-    addEmailTextField.textColor = [UIColor blackColor];
-    // Delegate
-    addEmailTextField.delegate = self;
-    // 設定輸入框背景顏色
-    addEmailTextField.backgroundColor = [UIColor whiteColor];
-    //    设置背景图片
-    //    textField.background=[UIImage imageNamed:@"test.png"];
-    // 框線樣式
-    addEmailTextField.borderStyle =  UITextBorderStyleNone;
-    //设置文本对齐方式
-    addEmailTextField.textAlignment = NSTextAlignmentJustified;
-    //设置字体
-    addEmailTextField.font = [UIFont systemFontOfSize:26];
-    //设置编辑框中删除按钮的出现模式
-    addEmailTextField.clearButtonMode = UITextFieldViewModeAlways;
-    //設置鍵盤格式
-    [addEmailTextField setKeyboardType:UIKeyboardTypeEmailAddress];
-    //設置首字不大寫
-    addEmailTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    
-    [self.view addSubview:addEmailTextField];
-    
-    [addEmailTextField addTarget:self action:@selector(textFieldChanged:) forControlEvents:UIControlEventEditingChanged];
-    
-    
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.05, addY+1, self.view.frame.size.width*0.25, addH-1)];
-    [nameLabel setTextColor:[UIColor blackColor ]];
-    nameLabel.backgroundColor = [UIColor clearColor];
-    nameLabel.text = @"Name";
-    nameLabel.font = [UIFont systemFontOfSize:22];
-    nameLabel.alpha = 1.0;
-    nameLabel.textAlignment = NSTextAlignmentLeft;
-    
-    [self.view addSubview:nameLabel];
-    
-
-    UILabel *emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.05, addY+addH+1, self.view.frame.size.width*0.25, addH-1)];
-    [emailLabel setTextColor:[UIColor blackColor ]];
-    emailLabel.backgroundColor = [UIColor clearColor];
-    emailLabel.text = @"Email";
-    emailLabel.font = [UIFont systemFontOfSize:22];
-    emailLabel.alpha = 1.0;
-    emailLabel.textAlignment = NSTextAlignmentLeft;
-    
-    [self.view addSubview:emailLabel];
-    
-    
-}
-
-
-
-
-//限制輸入字數
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    if ([string isEqualToString:@"\n"])
-    {
-        return YES;
-    }
-    NSString * aString = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    if (addNameTextField == textField)//这个 if 判断是在多个输入框的时候,只限制一个输入框的时候用的,如果全部限制,则不加 if 判断即可,这里是只判断输入用户名的输入框
-    {
-        if ([aString length] > 50) {
-            textField.text = [aString substringToIndex:50];
-            
-            return NO;
-        }
-    }
-    
-    
-    return YES;
-}
-
-
-// 設定delegate 為self後，可以自行增加delegate protocol
-// 開始進入編輯狀態
-- (void) textFieldDidBeginEditing:(UITextField*)textField {
-    NSLog(@"textFieldDidBeginEditing:%@",textField.text);
-}
-
-// 可能進入結束編輯狀態
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
-    NSLog(@"textFieldShouldEndEditing:%@",textField.text);
-    return true;
-}
-
-// 結束編輯狀態(意指完成輸入或離開焦點)
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    NSLog(@"textFieldDidEndEditing:%@",textField.text);
-    
-    nameString = addNameTextField.text;
-    emailString = addEmailTextField.text;
-    
-    NSLog(@"did endemailString = %@",addEmailTextField.text);
-    
-}
-
-
-// 按下Return後會反應的事件
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    //利用此方式讓按下Return後會Toogle 鍵盤讓它消失
-    [textField resignFirstResponder];
-    NSLog(@"按下Return");
-    nameString = addNameTextField.text;
-    emailString = addEmailTextField.text;
-    
-    NSLog(@"should emailString = %@",addEmailTextField.text);
-    return false;
-}
-
--(void)textFieldChanged :(UITextField *) textField{
-    
-}
-
-
-
--(void)textFieldDone:(UITextField*)textField
-{
-    [textField resignFirstResponder];
-}
-
-
-
 
 
 

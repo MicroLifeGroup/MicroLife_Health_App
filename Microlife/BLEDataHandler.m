@@ -10,13 +10,16 @@
 
 @implementation BLEDataHandler
 
+#pragma mark - initalization ******************
 -(instancetype)init{
+    
     self = [super init];
     
     if (self) {
-        [self setUp];
         
+        [self setUp];
     }
+    
     return self;
 }
 
@@ -27,14 +30,10 @@
     [self initEBodyProtocol];
     
     scanIndex = 0;
-
 }
 
--(void)protocolStart{
-    return;
-    checkThermTimer = [NSTimer scheduledTimerWithTimeInterval:0.2f target:self selector:@selector(changeConnect) userInfo:nil repeats:YES];
-}
 
+//血壓計
 -(void)initBPMProtocal{
     
     bPMProtocol = [[BPMProtocol alloc] getInstanceSimulation:NO PrintLog:YES];
@@ -44,25 +43,30 @@
     [bPMProtocol enableBluetooth];
 }
 
+//額溫計
 -(void)initBTProtocal{
     
     thermoProtocol = [[ThermoProtocol alloc] getInstanceSimulation:NO PrintLog:YES];
     thermoProtocol.dataResponseDelegate = self;
     thermoProtocol.connectStateDelegate = self;
-    
 }
 
--(void)initEBodyProtocol
-{
-    eBodyProtocol=[[EBodyProtocol alloc]getInstanceSimulation:NO PrintLog:YES];
+//體脂計
+-(void)initEBodyProtocol {
     
+    eBodyProtocol=[[EBodyProtocol alloc] getInstanceSimulation:NO PrintLog:YES];
     eBodyProtocol.connectStateDelegate=self;
     eBodyProtocol.dataResponseDelegate=self;
-    
 }
 
--(void)changeConnect
-{
+
+#pragma mark - protocol Start **********************
+-(void)protocolStart{
+    
+    checkThermTimer = [NSTimer scheduledTimerWithTimeInterval:0.2f target:self selector:@selector(changeConnect) userInfo:nil repeats:YES];
+}
+
+-(void)changeConnect {
     
     /*
     NSCalendar *calendar = [NSCalendar currentCalendar];
@@ -105,6 +109,7 @@
             default:
                 break;
         }
+        
     }
     
     scanIndex++;
@@ -120,7 +125,6 @@
 }
 
 #pragma mark - command delegate
-
 /**
  * 開啟設備BLE事件
  * @param isEnable 藍牙是否開啟
@@ -137,31 +141,37 @@
  */
 - (void) onScanResultUUID:(NSString*) uuid Name:(NSString*) name RSSI:(int) rssi{
     
-    //NSLog(@"onScanResultUUID-----uuid = %@ , name = %@ , rssi = %i", uuid, name, rssi);
+    NSLog(@"BLE Scan Message ======>>> onScanResultUUID-----uuid = %@ , name = %@ , rssi = %i", uuid, name, rssi);
 
+    //額溫計
     if([name containsString:@"3MW1"]){
         
         if (tag == Temp) {
-            cur_uuid = uuid;
             
+            cur_uuid = uuid;
             [thermoProtocol connectUUID:uuid];
         }
-        
     }
     
-    if([name containsString:@"A6 BT"])
-    {
+    //血壓計
+    if([name containsString:@"A6 BT"]) {
+        
         if (tag == BPM) {
+            
             [bPMProtocol connectUUID:uuid];
         }
     }
     
-    if([name containsString:@"eBody-Fat-Scale"])
-    {
+    
+    //體脂計
+    if([name containsString:@"eBody-Fat-Scale"]) {
+        
         if (tag == Weight) {
+            
             [eBodyProtocol connectUUID:uuid];
         }
     }
+    
 }
 
 /**
@@ -171,7 +181,7 @@
  * Disconnected,		//斷線
  * ConnectTimeout,		//連線超時
  */
-- (void) onConnectionState:(ConnectState) state{
+- (void)onConnectionState:(ConnectState)state{
     
     NSLog(@"onConnectionState-----state = %i", state);
     
@@ -230,16 +240,16 @@
 //==========================================
 
 #pragma mark - BT Command delegate
-
--(void)onResponseDeviceInfo:(NSString *)macAddress workMode:(int)workMode batteryVoltage:(float)batteryVoltage
-{
+-(void)onResponseDeviceInfo:(NSString *)macAddress workMode:(int)workMode batteryVoltage:(float)batteryVoltage {
+    
     NSLog(@"macAddress:%@",macAddress);
     NSLog(@"workMode:%d",workMode);
     NSLog(@"batteryVoltage:%f",batteryVoltage);
 }
 
--(void)onResponseUploadMeasureData:(ThermoMeasureData *)data
-{
+
+#pragma mark - ThermoData Delegate 額溫計  ****************************
+-(void)onResponseUploadMeasureData:(ThermoMeasureData *)data {
     //NSLog(@"%@",[data toString]);
     
     int mode = [data getMode]; //0身體  1物質
@@ -303,32 +313,32 @@
     
 }
 
-#pragma mark - BPM Delegate
+#pragma mark - BPM Delegate 血壓計 ***************************
 //讀取歷史與現況 回應
--(void)onResponseReadHistory:(DRecord *)data
-{
+-(void)onResponseReadHistory:(DRecord *)data {
+    
     NSMutableArray *currentData = [data getCurrentData];
     
     NSMutableArray *MData=[data getMData];
     
     NSLog(@"\n=== currentData start ===");
-    for(CurrentAndMData *curMdata in currentData)
-    {
+    
+    for(CurrentAndMData *curMdata in currentData) {
+        
         NSLog(@"%@",[curMdata toString]);
     }
-    NSLog(@"\n=== currentData end ===");
     
+    NSLog(@"\n=== currentData end ===");
 
     NSLog(@"\n=== MData start ===");
     
-    for(CurrentAndMData *curMdata in MData)
-    {
+    for(CurrentAndMData *curMdata in MData) {
+        
         NSLog(@"%@",[curMdata toString]);
     }
+    
     NSLog(@"\n=== MData end ===");
-    
-    
-    
+
     
     //NSLog(@"currentData = %@",currentData);
     /*
@@ -355,8 +365,8 @@
     //=====save data to DB=====
     
     NSLog(@"\n=== currentData start ===");
-    for(CurrentAndMData *curMdata in currentData)
-    {
+    for(CurrentAndMData *curMdata in currentData) {
+        
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
         [dateFormatter setDateFormat:@"YYYY"];
         
@@ -373,6 +383,7 @@
         [BPMClass sharedInstance].SYS = curMdata.systole;
         [BPMClass sharedInstance].DIA = curMdata.dia;
         [BPMClass sharedInstance].PUL = curMdata.hr;
+        
         //目前裝置無法支援PAD量測
         [BPMClass sharedInstance].PAD = 0;
         [BPMClass sharedInstance].AFIB = 0;//curMdata.arr;
@@ -425,8 +436,7 @@
      */
 }
 
-#pragma mark - Ebody Delegate
-
+#pragma mark - Ebody Delegate  體脂計 ****************************
 -(void)onResponseMeasuringData:(int)unit weight:(int)weight
 {
     NSLog(@"onResponseMeasuringData unit:%d weight:%d",unit,weight);
@@ -448,8 +458,8 @@
     
 }
 
--(void)onResponseEBodyMeasureData:(EBodyMeasureData *)eBodyMeasureData
-{
+-(void)onResponseEBodyMeasureData:(EBodyMeasureData *)eBodyMeasureData {
+    
     NSLog(@"onResponseEBodyMeasureData ==>%@",[eBodyMeasureData toString]);
     
     

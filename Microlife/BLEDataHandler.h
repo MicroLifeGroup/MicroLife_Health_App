@@ -11,17 +11,19 @@
 
 typedef enum{
     
+    ///0:血壓計, 1:額溫計, 2:體脂計
     BPM = 0,
     Temp,
     Weight
     
 }scanTag;
 
+
 @interface BLEDataHandler : NSObject<ConnectStateDelegate,ThermoDataResponseDelegate,BPMDataResponseDelegate,EBodyDataResponseDelegate>{
     
-    ThermoProtocol *thermoProtocol;
-    BPMProtocol *bPMProtocol;
-    EBodyProtocol *eBodyProtocol;
+    ThermoProtocol *thermoProtocol; //額溫計
+    BPMProtocol *bPMProtocol; //血壓計
+    EBodyProtocol *eBodyProtocol;//體脂計
     
     BOOL isSetInfo;
     

@@ -16,7 +16,10 @@
 
 @end
 
+
+
 @interface GraphView : UIView{
+    
     float xScaleSize;
     float yScaleSize;
     float imgScale;
@@ -29,12 +32,15 @@
 
 @property (nonatomic) int chartType;
 
-//圖表類型   0=SYS/IDAChart
-//          1=PULChart
-//          2=WeightChart
-//          3=BMIchart
-//          4=FATchart
-//          5=TempChart
+/**
+圖表類型:
+ 0=SYS/IDAChart
+ 1=PULChart
+ 2=WeightChart
+ 3=BMIchart
+ 4=FATchart
+ 5=TempChart
+*/
 
 @property (nonatomic,strong) UILabel *graphUnitLabel;   //圖表單位
 

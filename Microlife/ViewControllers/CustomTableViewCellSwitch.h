@@ -13,11 +13,13 @@
 @property (strong, nonatomic) NSString *titleStr;
 @property (strong, nonatomic) NSString *subTitleStr;
 @property (nonatomic) BOOL switchOn;
+@property (strong, nonatomic) UISwitch *cell_switch;
 
 //cell initialization
 -(id)initWithFrameCustomCellMyDevice:(CGRect)frame withSubTitle:(BOOL)withSubTitle;
 
 //更新 cell 資料
--(void)refreshMessage;
+-(void)refreshMessage:(BOOL)withSubtitle;
+
 
 @end

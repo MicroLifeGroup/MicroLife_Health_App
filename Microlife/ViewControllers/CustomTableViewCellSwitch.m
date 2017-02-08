@@ -12,17 +12,18 @@
     
     UILabel *cell_titleLabel;
     UILabel *cell_subTitleLabel;
-    UISwitch *cell_switch;
-    
+    CGFloat textSize;
+    UIView *bottomLine;
 }
 
-@synthesize titleStr, subTitleStr, switchOn;
+@synthesize titleStr, subTitleStr, switchOn, cell_switch;
 
 
 #pragma mark - cell initialization =======================
 -(id)initWithFrameCustomCellMyDevice:(CGRect)frame withSubTitle:(BOOL)withSubTitle {
     
     self = [super init];
+    
     if(!self) return nil;
     
     self.frame = frame;
@@ -33,6 +34,15 @@
 }
 
 -(void)initCellParam:(BOOL)withSubtitle {
+    
+    //topLine (上邊線)
+    UIView *topLine = [self createBoardLine:CGPointMake(0, 0)];
+    [self.contentView addSubview:topLine];
+    
+    //bottomLine (下邊線)
+    bottomLine = [self createBoardLine:CGPointMake(0, CGRectGetMaxY(self.frame) - 1 )];
+    [self.contentView addSubview:bottomLine];
+    
     
     if(withSubtitle) {
         
@@ -50,7 +60,6 @@
         
         //cell_subTitleLabel init
         cell_subTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(cell_titleLabel.frame), cell_titleLabel.frame.size.width - 10, self.frame.size.height/3)];
-        cell_subTitleLabel.font = [UIFont systemFontOfSize:cell_subTitleLabel.frame.size.height*0.8];
         cell_subTitleLabel.adjustsFontSizeToFitWidth = YES;
         cell_subTitleLabel.textColor = [UIColor grayColor];
         [self.contentView addSubview:cell_subTitleLabel];
@@ -69,23 +78,38 @@
         cell_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, self.frame.size.width - cell_switch.frame.size.width - 10, self.frame.size.height)];
         [self.contentView addSubview:cell_titleLabel];
         
-        
     }
     
 }
 
-
 #pragma mark - 更新 cell 資料 =======================
--(void)refreshMessage {
+-(void)refreshMessage:(BOOL)withSubtitle {
     
-    cell_titleLabel.text = titleStr;
+    textSize = self.frame.size.height * 0.35;
     
-    if(cell_subTitleLabel != nil) {
+    if (withSubtitle) {
         
+        cell_titleLabel.font = [UIFont systemFontOfSize:textSize/3*2];
+        cell_subTitleLabel.font = [UIFont systemFontOfSize:textSize/3];
         cell_subTitleLabel.text = subTitleStr;
     }
-
+    else {
+        
+        cell_titleLabel.font = [UIFont systemFontOfSize:textSize];
+    }
+    
+    cell_titleLabel.text = titleStr;
     cell_switch.on = switchOn;
+}
+
+
+#pragma mark - CreateBoardLine =======================
+-(UIView *)createBoardLine:(CGPoint)originPoint {
+    
+    UIView *boardLine = [[UIView alloc] initWithFrame:CGRectMake(originPoint.x, originPoint.y, self.frame.size.width, 1)];
+    boardLine.backgroundColor = CELL_SPERATORCOLOR;
+    
+    return boardLine;
 }
 
 

@@ -56,20 +56,20 @@
 	<true/>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>You will use a Bluetooth device to connect your device</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>You will use a Microphone</string>
+	<key>NSCameraUsageDescription</key>
+	<string>You will use the camera to take pictures will be used for personal data.</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>You will share fitness data to Health Kit</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>You will share fitness data to Health Kit</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>We will get your loaction data for fitness.</string>
 	<key>NSLocationUsageDescription</key>
 	<string>We will get your loaction data for fitness.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We will get your loaction data for fitness.</string>
-	<key>NSHealthShareUsageDescription</key>
-	<string>You will share fitness data to Health Kit</string>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>You will share fitness data to Health Kit</string>
-	<key>NSCameraUsageDescription</key>
-	<string>You will use the camera to take pictures will be used for personal data.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>You will use a Microphone</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Your photos will be used for personal data.</string>
 	<key>REVERSED_CLIENT_ID</key>
@@ -82,6 +82,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

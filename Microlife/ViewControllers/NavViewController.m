@@ -7,11 +7,10 @@
 //
 
 #import "NavViewController.h"
-#import "UserLoginViewController.h"
 #import "ViewController.h"
 
-@implementation NavViewController
-{
+@implementation NavViewController {
+    
     UIPageControl *pageControl;
     UIScrollView *navScrollView;
     ViewController *loginVC;
@@ -19,15 +18,18 @@
 }
 @synthesize navImageArray,navTextArray;
 
--(void)viewDidLoad
-{
+#define PRIVACY_MODE_MESSAGE @"Microlife Connected Health+ offers a Privacy Mode for users who choose not to synchronize their data to Microlife Cloud. You do not need a Microlife Account to use Privacy Mode, and all your data are stored locally on your smart phone. Please Note that in Privacy Mode your data are not back up on cloud storage, and you will not receive any service-related and promotional information from Microlife."
+
+
+-(void)viewDidLoad {
+    
     [super viewDidLoad];
     
     [self showLogoView];
 }
 
--(void)showLogoView
-{
+-(void)showLogoView {
+    
     logoView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     [logoView setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:logoView];
@@ -46,24 +48,24 @@
     
 }
 
--(void)showNavView
-{
+-(void)showNavView {
+    
     [logoView removeFromSuperview];
     
     [self initParameter];
     [self initInterface];
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
+-(void)viewDidAppear:(BOOL)animated {
+    
     [self performSelector:@selector(showNavView) withObject:nil afterDelay:3.0];
     
 }
 
 
 
--(void)initParameter
-{
+-(void)initParameter {
+    
     navImageArray=[[NSMutableArray alloc]init];
     navTextArray=[[NSMutableArray alloc]init];
     
@@ -81,8 +83,8 @@
     [navTextArray addObject:@"Your partner for better health management."];
 }
 
--(void)initInterface
-{
+-(void)initInterface {
+    
     pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT*1175/1334, SCREEN_WIDTH, SCREEN_HEIGHT*0.02)];
     pageControl.numberOfPages = 5;
     pageControl.currentPage = 0;
@@ -158,15 +160,34 @@
     }
 }
 
--(void)clickPrivacyBtn
-{
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"TabBarViewController"];
+-(void)clickPrivacyBtn {
     
-    [LocalData sharedInstance].accountID = -1;
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Alert", nil) message:NSLocalizedString(PRIVACY_MODE_MESSAGE, nil) preferredStyle:UIAlertControllerStyleAlert];
     
-    [self presentViewController:vc animated:YES completion:nil];
-}
+    //confirm
+    UIAlertAction *confirmBt = [UIAlertAction actionWithTitle:NSLocalizedString(@"Confirm", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"TabBarViewController"];
+        
+        [LocalData sharedInstance].accountID = -1;
+        
+        [MViewController setPrivacyModeOrMemberShip:YES];//NO:會員制 / YES:隱私模式
+        
+        [self presentViewController:vc animated:YES completion:nil];
+
+        
+    }];
+    [alert addAction:confirmBt];
+    
+    //cancel
+    UIAlertAction *cancelBt = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleDefault handler:nil];
+    [alert addAction:cancelBt];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+   }
+
+
 
 -(void)clickNextPageBtn
 {
@@ -189,5 +210,8 @@
     
     //[appDelegate.window makeKeyAndVisible];
 }
+
+
+
 
 @end

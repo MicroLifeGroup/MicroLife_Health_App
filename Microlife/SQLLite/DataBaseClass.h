@@ -8,13 +8,23 @@
 
 #import "SQLiteClass.h"
 
-@interface DataBaseClass : SQLiteClass
-{
+#import "FMDatabase.h"
+#import "FMDatabaseAdditions.h"
+#import "FMDatabasePool.h"
+#import "FMDatabaseQueue.h"
+
+@interface DataBaseClass : SQLiteClass {
     
+    FMDatabase *fmdatabase;
 }
 
 @property int TotalUsers;
 
 - (id)initWithOpenDataBase;
+
 - (NSString *)ArrayToString:(NSMutableArray *)Array;//
+
+- (BOOL)openDatabase;
+
+- (void)closeDatabase;
 @end

@@ -9,6 +9,8 @@
 #import "MainReminderViewController.h"
 #import "CustomAlarmCell.h"
 #import "SetAlarmViewController.h"
+#import "AlertConfigClass.h"
+#import "ShareCommon.h"
 
 @interface MainReminderViewController ()<UITableViewDelegate, UITableViewDataSource>{
     
@@ -22,6 +24,7 @@ static NSString *identifier = @"AlarmCell";
 
 @implementation MainReminderViewController
 
+#pragma mark - Normal Functions *******************
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -29,15 +32,16 @@ static NSString *identifier = @"AlarmCell";
     [self initParameter];
     [self initInterface];
     
-}
+    //[appDelegate setLocalNoise];
+    
 
--(void)initParameter{
     
     
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     
+    //get from db..
     reminderArray = [[LocalData sharedInstance] getReminderData];
     
     
@@ -60,6 +64,21 @@ static NSString *identifier = @"AlarmCell";
     
     [alarmTable reloadData];
 }
+
+
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
+#pragma mark - initialization **********************
+-(void)initParameter{
+    
+    
+}
+
 
 -(void)initInterface{
     
@@ -122,6 +141,8 @@ static NSString *identifier = @"AlarmCell";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:navAddButton];
 }
 
+
+#pragma mark - TableView Delegate & DataSource ***********************
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     return reminderArray.count;
@@ -176,7 +197,7 @@ static NSString *identifier = @"AlarmCell";
             break;
     }
     
-    NSLog(@"cell init reminderArray=%@",reminderArray);
+    //NSLog(@"cell init reminderArray=%@",reminderArray);
     
     NSDictionary *dict = [reminderArray objectAtIndex:indexPath.row];
     
@@ -259,6 +280,23 @@ static NSString *identifier = @"AlarmCell";
     
         NSLog(@"Delete reminderArray %@",reminderArray);
         
+        //Save To db
+        
+        NSString *jsonRs=[ShareCommon DictionaryToJson:reminderArray];
+        
+        NSLog(@"jsonRs:%@",jsonRs);
+        
+        AlertConfigClass *alertConfigClass=[[AlertConfigClass alloc]init];
+        alertConfigClass.accountID=[LocalData sharedInstance].accountID;
+        alertConfigClass.alertConfig=jsonRs;
+        
+        [alertConfigClass insertData];
+        
+        [alertConfigClass closeDatabase];
+        
+        [alertConfigClass PushLoacaleMessage:reminderArray];
+        
+        
         if(reminderArray.count == 0){
             alarmTable.hidden = YES;
         }
@@ -285,8 +323,8 @@ static NSString *identifier = @"AlarmCell";
     [alarmTable reloadData];
 }
 
-#pragma mark - Navigation Action
 
+#pragma mark - Navigation Action  **************************
 -(void)backToReminderVC{
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -308,24 +346,11 @@ static NSString *identifier = @"AlarmCell";
     [alarmTable reloadData];
     
     NSLog(@"getReminderData %@",[[LocalData sharedInstance] getReminderData]);
-    NSLog(@"reminderArray %@",reminderArray);
+    //NSLog(@"reminderArray %@",reminderArray);
     [self SidebarBtn];
     
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

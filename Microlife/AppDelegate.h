@@ -14,5 +14,7 @@
 
 -(void)getFacebookStatus;
 
+- (void)setLocalNoise:(NSMutableArray*)noiseData;
+
 @end
 

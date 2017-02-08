@@ -7,6 +7,7 @@
 //
 
 #import "CustomAlarmCell.h"
+#import "AlertConfigClass.h"
 
 @implementation CustomAlarmCell
 
@@ -61,6 +62,23 @@
     [reminderDict setObject:switchStatus forKey:@"status"];
     
     NSLog(@"alarm switch");
+    
+    //update db..
+    
+    NSString *jsonRs=[ShareCommon DictionaryToJson:reminderArray];
+    
+    NSLog(@"jsonRs:%@",jsonRs);
+    
+    AlertConfigClass *alertConfigClass=[[AlertConfigClass alloc]init];
+    alertConfigClass.accountID=[LocalData sharedInstance].accountID;
+    alertConfigClass.alertConfig=jsonRs;
+    
+    [alertConfigClass insertData];
+    
+    [alertConfigClass closeDatabase];
+
+    [alertConfigClass PushLoacaleMessage:reminderArray];
+    
     
 }
 

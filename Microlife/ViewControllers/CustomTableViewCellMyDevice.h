@@ -18,5 +18,4 @@
 
 //更新 cell 資料
 -(void)refreshMessage;
-
-@end
+ @end

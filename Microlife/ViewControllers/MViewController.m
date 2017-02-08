@@ -12,9 +12,7 @@
 #import "AboutViewController.h"
 #import "LogoutViewController.h"
 
-@interface MViewController (){
-    
-}
+@interface MViewController ()
 
 
 @end
@@ -162,40 +160,54 @@
     /* Commit the animation */
     [UIView commitAnimations];
     
+    /**
     float imageRadius = 10.0f;
-    
-    
     UIImageView *personalImageView = [[UIImageView alloc] initWithFrame:CGRectMake(80, 80, imageRadius, imageRadius)];
-    UIImage *personImage = [UIImage imageNamed:@"personal"];
-    personalImageView.image = personImage;
+    UIImage *personImage;
     personalImageView.contentMode = UIViewContentModeScaleAspectFit;
     
+    if ([self checkUserImagePathIsExistOrNot]) {
+        //使用 user 自訂照片
+        NSString *fileName = USER_IMAGE_FILEPATH;
+        NSData *imageData = [NSData dataWithContentsOfFile:fileName];
+        personImage = [UIImage imageWithData:imageData];
+        
+    }
+    else {
+        //使用預設相片
+        personImage = [UIImage imageNamed:@"personal"];
+    }
     
+    personalImageView.image = personImage;
     NSLog(@"personalImageView.x = %f",personalImageView.frame.origin.x);
     
     [personalImageView.layer setMasksToBounds:YES];
     personalImageView.layer.cornerRadius = imageRadius/2;
     
     
-    self.view.backgroundColor = [UIColor clearColor];
     [self.sidebarcloseBtn addSubview:personalImageView];
+    */
     
-    /* 圖片置中 */
-    //self.personalImageView.center = self.view.center;
-    //設置轉換標誌
-    personalImageView.transform = CGAffineTransformIdentity;
-    /* 動畫開始 */
-    [UIView beginAnimations:nil context:NULL];
-    /* 動畫時間*/
-    [UIView setAnimationDelay:0.1];
-    [UIView setAnimationDuration:0.2];
-    //圖片放大X倍
-    //[personalImageView layer].anchorPoint = CGPointMake(0.0f, 0.0f);
-    personalImageView.transform = CGAffineTransformMakeScale(10.0f, 10.0f);
-    /* Commit the animation */
-    [UIView commitAnimations];
+    self.view.backgroundColor = [UIColor clearColor];
     
-
+    
+//    /* 圖片置中 */
+//    //self.personalImageView.center = self.view.center;
+//    //設置轉換標誌
+//    personalImageView.transform = CGAffineTransformIdentity;
+//    /* 動畫開始 */
+//    [UIView beginAnimations:nil context:NULL];
+//    /* 動畫時間*/
+//    [UIView setAnimationDelay:0.1];
+//    [UIView setAnimationDuration:0.2];
+//    //圖片放大X倍
+//    //[personalImageView layer].anchorPoint = CGPointMake(0.0f, 0.0f);
+//    personalImageView.transform = CGAffineTransformMakeScale(10.0f, 10.0f);
+//    /* Commit the animation */
+//    [UIView commitAnimations];
+    
+    
+    
     [self ImageExpand];
     [self Icon1];
     [self Icon2];
@@ -203,7 +215,7 @@
     [self Icon4];
     [self PersonLabel];
     [self ImformationButton];
-    [self cccccolor];
+    [self setBackgroundColor];
     
  
     
@@ -232,7 +244,7 @@
     
     [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(sidebarcloseBtnClose) userInfo:nil repeats:NO];
     
-    [self cccccolor];
+    [self setBackgroundColor];
     
 
     
@@ -249,9 +261,22 @@
     float imageRadius = 10.0f;
     
     UIImageView *personalImageView = [[UIImageView alloc] initWithFrame:CGRectMake(80, 80, imageRadius, imageRadius)];
-    UIImage *personImage = [UIImage imageNamed:@"personal"];
+    UIImage *personImage;
+    
+    if ([self checkUserImagePathIsExistOrNot]) {
+        //使用 user 自訂照片
+        NSString *fileName = USER_IMAGE_FILEPATH;
+        NSData *imageData = [NSData dataWithContentsOfFile:fileName];
+        personImage = [UIImage imageWithData:imageData];
+        
+    }
+    else {
+        //使用預設相片
+        personImage = [UIImage imageNamed:@"personal"];
+    }
+    
     personalImageView.image = personImage;
-    personalImageView.contentMode = UIViewContentModeScaleAspectFit;
+    personalImageView.contentMode = UIViewContentModeScaleAspectFill;
     
     NSLog(@"personalImageView.x = %f",personalImageView.frame.origin.x);
     
@@ -309,7 +334,7 @@
     CGRect emaillabelFrame = CGRectMake(80.0f/2, 160+20+labelHeight+15 , 4*labelwidth , labelHeight);
     UILabel *emailLabel = [[UILabel alloc] initWithFrame:emaillabelFrame];
     [emailLabel setTextColor:[UIColor whiteColor]];
-    emailLabel.text = @"ideabus@gmail.com";
+    emailLabel.text = [self getUserEmail];
     emailLabel.font = [UIFont systemFontOfSize:17];
     emailLabel.alpha = 1.0;
     [self.sidebarcloseBtn addSubview:emailLabel];
@@ -404,6 +429,8 @@
     [buttonIB4 addTarget:self action:@selector(onClickButtonIB4:) forControlEvents:UIControlEventTouchUpInside];
 }
 
+
+#pragma mark - 跳至 HealthEducationVC
 -(IBAction)onClickButtonIB1:(UIButton *)sender{
     
     NSLog(@"HealthEducationVC");
@@ -418,6 +445,8 @@
 
 }
 
+
+#pragma mark - 跳至 NotificationVC
 -(IBAction)onClickButtonIB2:(UIButton *)sender{
     
     
@@ -434,6 +463,7 @@
 
 }
 
+#pragma mark - 跳至 AboutVC
 -(IBAction)onClickButtonIB3:(UIButton *)sender{
     
     
@@ -448,6 +478,8 @@
     
 }
 
+
+#pragma mark - 跳至 LogoutVC
 -(IBAction)onClickButtonIB4:(UIButton *)sender{
     
     NSLog(@"Logout");
@@ -562,7 +594,8 @@
     
 }
 
--(void) cccccolor{
+
+-(void) setBackgroundColor {
     self.view.backgroundColor = [UIColor whiteColor];
 }
 
@@ -575,6 +608,93 @@
                   orientation:(originalImage.imageOrientation)];
     
     return scaledImage;
+}
+
+
+
+#pragma mark - get User Email Account
+-(NSString *)getUserEmail {
+    
+    NSString *email;
+    
+    NSFileManager *manager = [NSFileManager defaultManager];
+    
+    BOOL isExist = [manager fileExistsAtPath:USER_EMAIL_FILEPATH];
+    
+    if (isExist) {
+        
+        email = [NSString stringWithContentsOfFile:USER_EMAIL_FILEPATH encoding:NSUTF8StringEncoding error:nil];
+    }
+    else {
+        
+        email = @"ideabus@gmail.com";
+    }
+    
+    return email;
+    
+}
+
+
+#pragma mark - Class Functions
+//取得字串長度
++(NSUInteger)getStringLength:(NSString *)text {
+    
+    return text.length;
+}
+
+//警告提示
++(void)showAlert:(NSString *)title message:(NSString *)message buttonTitle:(NSString *)buttonTitle {
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:buttonTitle otherButtonTitles: nil];
+    [alertView show];
+    alertView = nil;
+}
+
+
+
+#pragma mark -  檢查是 privacy 或 會員模式  ********************
++(BOOL)checkIsPrivacyModeOrMemberShip {
+    
+    BOOL isPrivacy = YES; //NO:會員制 / YES:隱私模式
+    
+    NSFileManager *manager = [NSFileManager defaultManager];
+    
+    //先判斷路徑是否存在
+    BOOL isExist = [manager fileExistsAtPath:ISPRIVACY_MODE];
+    
+    if (isExist) {
+        
+        NSString *fileName = ISPRIVACY_MODE;
+        NSString *valueStr = [NSString stringWithContentsOfFile:fileName encoding:NSUTF8StringEncoding error:nil];
+        isPrivacy = [valueStr isEqualToString:@"YES"] ? YES : NO;
+        
+    }
+    else {
+        
+        isPrivacy = YES;
+    }
+    
+    
+    return isPrivacy;
+}
+
++(void)setPrivacyModeOrMemberShip:(BOOL)isPrivacy {
+
+    NSString *fileName = ISPRIVACY_MODE;
+    NSString *valueStr = isPrivacy == YES ? @"YES" : @"NO"; //NO:會員制 / YES:隱私模式
+    [valueStr writeToFile:fileName atomically:YES encoding:NSUTF8StringEncoding error:nil];
+ 
+}
+
+
+//判斷大頭照路徑是否存在
+-(BOOL)checkUserImagePathIsExistOrNot {
+    
+    NSFileManager *manager = [NSFileManager defaultManager];
+    
+    BOOL isExist = [manager fileExistsAtPath:USER_IMAGE_FILEPATH];
+    
+    return isExist;
 }
 
 

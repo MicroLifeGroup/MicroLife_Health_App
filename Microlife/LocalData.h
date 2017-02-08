@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface LocalData : NSObject{
+    
     NSMutableArray *reminderDataArray;
     NSUserDefaults *defaults;
     NSDictionary *latestValueDict;
@@ -56,6 +57,24 @@
 @property int currentEventId;
 @property int currentEventIndex;
 
+//基本資料 - Risk Factors
+@property int isHypertension;
+@property int isAtrialFibrillation;
+@property int isDiabetes;
+@property int isCardiovascular;
+@property int isChronicKindey;
+@property int isTransientIschemicAttact;
+@property int isDyslipidemia;
+@property int isSnoringOrSleepAponea;
+@property int isUseOralContraception;
+@property int isUseAntiHypertensive;
+@property int isPregenancy_normoal;
+@property int isPregenancy_preEclampsia;
+@property int isSmoking;
+@property int isAlcoholIntake;
+
+
+
 //歷史泡泡框
 @property (nonatomic) float avgBodyTemp;
 @property (nonatomic) float lastBodyTemp;
@@ -71,7 +90,7 @@
 
 //鬧鐘資料
 -(NSMutableArray *)getReminderData;
--(void)saveReminderData:(NSMutableArray *)dataArray;
+-(NSMutableArray*)saveReminderData:(NSMutableArray *)dataArray;
 
 //最新資料
 -(void)saveLatestMeasureValue:(NSDictionary *)latestValue;

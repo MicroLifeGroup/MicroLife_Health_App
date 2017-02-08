@@ -8,179 +8,160 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ProfileViewController : UIViewController<UIScrollViewDelegate,UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate>{
-    UIScrollView *profileScrollview;
-    UITextField *nameTextField;
-    UILabel *birthdayLabel;
-    UIDatePicker *birDatepicker ;
-    UIView *allPickerView ;
-    UIButton *pickerB;
-    NSString *birthdaydate;
-    UILabel *heightLabel ;
-    UILabel *weightLabel;
-    UIPickerView *heightPickerView;
-    UIView *topView;
-    NSMutableArray *Height;
-    NSMutableArray *inchArr;
-    NSMutableArray *ftArr;
-    NSMutableArray *Weight;
-    UIPickerView *weightPickerView;
-    NSArray *h_unit;
-    NSArray *w_unit;
+@interface ProfileViewController: UIViewController <UIScrollViewDelegate,UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
     
-    NSArray *CuffSizeArr;
-    NSArray *MeaArmArr;
+#pragma mark - **********  共用  **********
+//========================================================
+    //UI
+    UIScrollView *profileScrollview; ///整個頁面的底層 ScrollView
+    UIView *allPickerView_BG ; ///所有 pickerView 的 底層 View
+    UIButton *coverView; ///呼叫 pickerView 時會出現遮擋
+    UIView *topView; ///所有 PickerView 的 inputAccessoryView
+    NSDateFormatter *dateformatter; ///日期
+    UILabel *selectdateFormatLabel; ///顯示所指定的日期格式
     
-    UILabel *kgLabel;
-    UIPickerView  *sysPickerView;
-    UIPickerView  *diaPickerView;
-    UIPickerView  *wPickerView;
-    UIPickerView  *bmiPickerView;
-    UIPickerView  *bfPickerView;
-    UIPickerView  *csPickerView;
-    UIPickerView  *maPickerView;
-    
-    
-    NSMutableArray *Sys;
-    NSMutableArray *Dia;
-    NSMutableArray *Ww;
-    NSMutableArray *BMI;
-    NSMutableArray *BF;
-    UILabel *spLabel;
-    UILabel *dpLabel;
-    UILabel *wLabel;
-    UILabel *bmiLabel;
-    UILabel *bfLabel;
-    
-    NSString *stringH;
-    NSString *stringS;
-    NSString *stringD;
-    NSString *stringW;
-    NSString *stringBMI;
-    NSString *stringBF;
-    NSString *stringWei;
-    NSString *stringCSize;
-    NSString *stringArm;
-    NSString *stringHft;
-    NSString *stringHin;
-    
-   
-    NSUInteger *pickRow;
-    
-    NSInteger *BFrow;
-    UILabel *CuffSizeLabel;
-    UILabel *MeaArmLabel;
-    UILabel *mmHg1Label;
-    UILabel *mmHg2Label;
-    UILabel *cmLabel;
-    UILabel *goalkgLabel;
-    
-    UITapGestureRecognizer *birtapGestureRecognizer;
-    NSString *spStr;
-    NSString *dpStr;
-    NSString *heiStr;
-    NSString *weiStr;
-    NSString *goalweiStr;
-    
-    UISegmentedControl *sexsegmentedControl;
-    UISegmentedControl *unitsegmentedControl;
-    UISegmentedControl *pressuresegmentedControl;
-    
-    double mmHg_kPa;
-    double kg_lb;
-    double cm_ft;
-    double mmHg_kPa_c;
-    double kg_lb_c;
-    double cm_ft_c;
-    
-    UILabel *height1Label;
-    UILabel *height2Label;
-    UILabel *cm1Label;
-    UILabel *cm2Label;
-   
-    
-    NSDateFormatter *formatter;
-    NSString *currentDateString;
-    NSString *birthDateString;
-    UILabel *dateLabel;
-    
-    NSString *inch_Str;
-    NSString *ft_Str;
-    
-    
-    //Switch
-    
-    BOOL diaAtive;
-    BOOL sysAtive;
-    BOOL goalWeightAtive;
-    BOOL BMIAtive;
-    BOOL bodyFatAtive;
+    //數值
+    NSString *currentDateString; ///日期字串
+    BOOL dateformatBool;
     BOOL thresholdActive;
     
+    
+    
+#pragma mark - **********  ProFile Data  **********
+//========================================================
+    //UI
+    UITextField *nameTextField; ///name TextField
+    NSDate *birthday_date;
+    UILabel *birthdayLabel; ///birthday Label
+    UILabel *heightLabel_cm_value; ///身高 Label
+    UILabel *heightLabel_ft_value; ///height Label (ft) 顯示數值
+    UILabel *heightLabel_inch_value; ///height Label (inch) 顯示數值
+    UILabel *cmLabel; ///cm Label
+    UILabel *ftLabel; ///ft Label
+    UILabel *inchLabel; ///inch Label
+    UILabel *weightLabel; ///體重 Label
+    UILabel *kgLabel; ///kg Label
+    UILabel *cuffSizeLabel; ///cuffSize Label
+    UILabel *measureArmLabel; ///measure Arm Label
+    UISegmentedControl *sexSegmentControl; ///性別選擇器
+    UISegmentedControl *unitSegmentControl; ///unit 選擇器
+    UISegmentedControl *pressureSegmentControl; /// pressure 選擇器
+    UITapGestureRecognizer *birtapGestureRecognizer; ///birthDay 點擊手勢
+
+    
+    
+    //pickerViews
+    UIDatePicker *birDatepicker ; ///日期 PickerView
+    UIPickerView *heightPickerView_cm; ///身高 PickerView (cm)
+    UIPickerView *heightPickerView_ft; ///身高 PickerView (ft)
+    UIPickerView *heightPickerView_inch; ///身高 PickerView (inch)
+    UIPickerView *weightPickerView; ///體重 PickerView
+    UIPickerView  *cuffSizwPickerView; /// 手臂size PickerView
+    UIPickerView  *measureArmPickerView; /// 左右手臂
+    
+    //pickerView data
+    NSMutableArray *h_cm_unit;
+    NSMutableArray *h_ft_unit;
+    NSMutableArray *h_inch_unit;
+    NSMutableArray *ary_heightData;
+    NSMutableArray *ary_heigh_inchData;
+    NSMutableArray *ary_heigh_ftData;
+    NSMutableArray *ary_weightData;
+    NSMutableArray *w_unit;
+    NSMutableArray *ary_cuffSizeData;
+    NSMutableArray *ary_measureArmData;
+    
+    //數值
+    BOOL genderBooL;
+    BOOL unitBooL;
+    BOOL pressureBooL;
+    NSInteger cuffsize_row;
+    NSInteger measureArm_row;
+    int height_value;
+    float weight_value;
+    NSString *birthdayDate;
+    NSString *birthDateString;
+    NSString *heightStr_cm;
+    NSString *heightStr_ft;
+    NSString *heightStr_inch;
+    NSString *weightStr;
+    NSString *cuffSizeStr;
+    NSString *measureArmStr;
+    NSString *inch_Str;
+    NSString *ft_Str;
+    NSString *userName;
+    
+    
+    
+#pragma mark - ********** MyGoal Data **********
+//========================================================
+    //UI
+    UILabel *myGoal_systolicPressureLabel; ///systolic Pressure Label
+    UILabel *myGoal_diastolicPressurepLabel; ///diastolic Pressurep Label
+    UILabel *myGoal_weightLabel; ///weight Label
+    UILabel *myGoal_bmiLabel; ///bmi Label
+    UILabel *myGoal_bodyfatLabel; ///bodyfat Label
+    UILabel *myGoal_systolicPressureUnitLabel; ///mmHg <-> kpa (systolic Pressure Unit Label)
+    UILabel *myGoal_diastolicPressureUnitLabel; ///mmHg <-> kpa Label02 (diastolic Pressure Unit Label)
+    UILabel *myGoal_kgLabel; ///kg <-> lb Label
+    
+    //pickerViews
+    UIPickerView  *myGoal_weightPickerView; ///體重 PickerView
+    UIPickerView  *myGoal_sysPickerView; ///sys PickerView
+    UIPickerView  *myGoal_diaPickerView; ///dia PickerView
+    UIPickerView  *myGoal_bmiPickerView; ///bmi PickerView
+    UIPickerView  *myGoal_bodyfatPickerView; ///body fat PickerView
+    
+    //pickerView data
+    NSMutableArray *ary_myGoal_sysData;
+    NSMutableArray *ary_myGoal_diaData;
+    NSMutableArray *ary_myGoal_weightData;
+    NSMutableArray *ary_myGoal_bmiData;
+    NSMutableArray *ary_myGoal_bodyfatData;
+    
+    //數值
+    float sys_pressure_value;
+    float dia_pressure_value;
+    float goalweight_value;
+    float BMI_value;
+    float BF_value;
+    BOOL sysActive;
+    BOOL diaActive;
+    BOOL goalWeightActive;
+    BOOL BMIActive;
+    BOOL bodyFatActive;
+    int thresholdCount; //記錄是否是第一次開啟 thres hold
+    NSString *myGoal_systolicPressureStr;
+    NSString *myGoal_diastolicPressureStr;
+    NSString *myGoal_bodyFatStr;
+    NSString *myGoal_BMIStr;
+    NSString *mtGoal_weightStr;
+    
+    
+    
+    //-------------    unUsed   ---------------
+    NSString *spStr;
+    NSString *dpStr;
+
 }
-@property (nonatomic,retain)  UIScrollView *profileScrollview;
-@property (nonatomic,retain)  UITextField *nameTextField;
-@property (nonatomic,retain)  UILabel *birthdayLabel;
-@property (nonatomic,retain)  UIDatePicker *birDatepicker ;
-@property (nonatomic,retain)  UIView *allPickerView;
-@property (nonatomic,retain)  UIButton *pickerB;
-@property (nonatomic,retain)  NSString *birthdaydate;
-@property (nonatomic,retain)  UILabel *heightLabel;
-@property (nonatomic,retain)  UILabel *weightLabel;
-@property (nonatomic,retain)  UIPickerView *heightPickerView;
-@property (nonatomic,retain)  UIView *topView;
-@property (nonatomic,retain)  NSArray *height;
-@property (nonatomic,retain)  NSArray *incharray;
-@property (nonatomic,retain)  NSArray *ftarray;
-@property (nonatomic,retain)  NSArray *weight;
-@property (nonatomic,retain)  NSArray *h_unit;
-@property (nonatomic,retain)  NSArray *h_ft_unit;
-@property (nonatomic,retain)  NSArray *h_in_unit;
-@property (nonatomic,retain)  NSArray *w_unit;
-@property (nonatomic,retain)  UILabel *cmLabel;
-@property (nonatomic,retain)  UIPickerView *weightPickerView;
-@property (nonatomic,retain)  UILabel *kgLabel;
-@property (nonatomic,retain)  UIPickerView *sysPickerView;
-@property (nonatomic,retain)  UIPickerView *diaPickerView;
-@property (nonatomic,retain)  UIPickerView *wPickerView;
-@property (nonatomic,retain)  UIPickerView *bmiPickerView;
-@property (nonatomic,retain)  UIPickerView *bfPickerView;
-@property (nonatomic,retain)  UIPickerView  *csPickerView;
-@property (nonatomic,retain)  UIPickerView  *maPickerView;
-@property (nonatomic,retain)  NSArray *CuffSizeArr;
-@property (nonatomic,retain)  NSArray *MeaArmArr;
-@property (nonatomic,retain)  NSArray *sys;
-@property (nonatomic,retain)  NSArray *dia;
-@property (nonatomic,retain)  NSArray *ww;
-@property (nonatomic,retain)  NSArray *bMI;
-@property (nonatomic,retain)  NSArray *bF;
-@property (nonatomic,retain)  UILabel *spLabel;
-@property (nonatomic,retain)  UILabel *dpLabel;
-@property (nonatomic,retain)  UILabel *wLabel;
-@property (nonatomic,retain)  UILabel *bmiLabel;
-@property (nonatomic,retain)  UILabel *bfLabel;
-@property  NSString *profile_name;
-@property  NSUInteger *pickRow;
-@property  int thresholdcount;
-@property  BOOL genderBooL;
-@property  BOOL dateformatBool;
-@property  BOOL unitBooL;
-@property  BOOL pressureBooL;
-@property  int height_value;
-@property  float weight_value;
-@property  float goalweight_value;
-@property  float sys_pressure_value;
-@property  float dia_pressure_value;
-@property  float BMI_value;
-@property  float BF_value;
-@property  NSInteger cuffsize_row;
-@property  NSInteger measureArm_row;
 
+//********** Risk Factors **************
+//-=======================================
+@property (nonatomic) int isHypertension;
+@property (nonatomic) int isAtrialFibrillation;
+@property (nonatomic) int isDiabetes;
+@property (nonatomic) int isCardiovascular; ///CVD
+@property (nonatomic) int isChronicKindey; ///CKD
+@property (nonatomic) int isTransientIschemicAttact;
+@property (nonatomic) int isDyslipidemia;
+@property (nonatomic) int isSnoringOrSleepAponea;
+@property (nonatomic) int isUseOralContraception;///口服避孕藥
+@property (nonatomic) int isUseAntiHypertensive;///抗高血壓
+@property (nonatomic) int isPregenancy_normoal;
+@property (nonatomic) int isPregenancy_preEclampsia;
+@property (nonatomic) int isSmoking;
+@property (nonatomic) int isAlcoholIntake;
 
-@property (nonatomic,retain)  UIPickerView *height1PickerView;
-@property (nonatomic,retain)  UIPickerView *height2PickerView;
-@property (nonatomic,retain)  NSString *inch_Str;
-@property (nonatomic,retain)  NSDate *birth_date;
 
 
 @end

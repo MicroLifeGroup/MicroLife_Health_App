@@ -11,7 +11,10 @@
 
 @interface RegisterViewController (){
     
-    NSArray *countryArr ;
+    NSArray *countryArr;
+    
+    UITextField *m_emailTextField;
+    UITextField *m_passwordTextField;
 }
 
 @end
@@ -383,72 +386,66 @@
     
     
     
-    // UITextField初始化
-    emailTextField = [[UITextField alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.22 , emailY, self.view.frame.size.width, self.view.frame.size.height/13)];
+    // m_emailTextField init
+    m_emailTextField = [[UITextField alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.22 , emailY, self.view.frame.size.width, self.view.frame.size.height/13)];
     // 設定預設文字內容
-    emailTextField.placeholder = @"E-mail";
+    m_emailTextField.placeholder = @"E-mail";
     //emailTextField.text = @"";
-    NSString * str = emailTextField.text;
+    NSString * str = m_emailTextField.text;
     // 設定文字顏色
-    emailTextField.textColor = [UIColor blackColor];
+    m_emailTextField.textColor = [UIColor blackColor];
     // Delegate
-    emailTextField.delegate = self;
+    m_emailTextField.delegate = self;
     // 設定輸入框背景顏色
-    emailTextField.backgroundColor = [UIColor whiteColor];
+    m_emailTextField.backgroundColor = [UIColor whiteColor];
     //    设置背景图片
     //    textField.background=[UIImage imageNamed:@"test.png"];
     // 框線樣式
-    emailTextField.borderStyle =  UITextBorderStyleNone;
+    m_emailTextField.borderStyle =  UITextBorderStyleNone;
     //设置文本对齐方式
-    emailTextField.textAlignment = NSTextAlignmentJustified;
+    m_emailTextField.textAlignment = NSTextAlignmentJustified;
     //设置字体
-    emailTextField.font = [UIFont systemFontOfSize:22];
+    m_emailTextField.font = [UIFont systemFontOfSize:22];
     //emailTextField.font = [UIFont fontWithName:@"wawati sc" size:50];
     //设置编辑框中删除按钮的出现模式
-    emailTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    [emailTextField setKeyboardType:UIKeyboardTypeEmailAddress] ;
-    emailTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    m_emailTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    [m_emailTextField setKeyboardType:UIKeyboardTypeEmailAddress] ;
+    m_emailTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     
     
     
-    // 判断textField是否处于编辑模式
-    //    BOOL ret = emailTextField.isEditing;
-    //    emailTextField.clearsOnBeginEditing = YES;
     
-    
-    // UITextField初始化
-    passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.22 , emailY+textH+2.5, self.view.frame.size.width, self.view.frame.size.height/13)];
+    // m_passwordTextField init
+    m_passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.22 , emailY+textH+2.5, self.view.frame.size.width, self.view.frame.size.height/13)];
     // 設定預設文字內容
-    passwordTextField.placeholder = @"Password";
+    m_passwordTextField.placeholder = @"Password";
     //emailTextField.text = @"";
-    NSString * str1 = passwordTextField.text;
-    passwordTextField.secureTextEntry = YES;
+    m_passwordTextField.secureTextEntry = YES;
     // 設定文字顏色
-    passwordTextField.textColor = [UIColor blackColor];
+    m_passwordTextField.textColor = [UIColor blackColor];
     // Delegate
-    passwordTextField.delegate = self;
+    m_passwordTextField.delegate = self;
     // 設定輸入框背景顏色
-    passwordTextField.backgroundColor = [UIColor whiteColor];
+    m_passwordTextField.backgroundColor = [UIColor whiteColor];
     //    设置背景图片
     //    textField.background=[UIImage imageNamed:@"test.png"];
     // 框線樣式
-    passwordTextField.borderStyle =  UITextBorderStyleNone;
+    m_passwordTextField.borderStyle =  UITextBorderStyleNone;
     //设置文本对齐方式
-    passwordTextField.textAlignment = NSTextAlignmentJustified;
+    m_passwordTextField.textAlignment = NSTextAlignmentJustified;
     //设置字体
-    passwordTextField.font = [UIFont systemFontOfSize:22];
+    m_passwordTextField.font = [UIFont systemFontOfSize:22];
     //emailTextField.font = [UIFont fontWithName:@"wawati sc" size:50];
     //设置编辑框中删除按钮的出现模式
-    passwordTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    [passwordTextField setKeyboardType:UIKeyboardTypeASCIICapable];
-    passwordTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    m_passwordTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    [m_passwordTextField setKeyboardType:UIKeyboardTypeASCIICapable];
+    m_passwordTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     
     // UITextField初始化
     confirmPasswordTextField = [[UITextField alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.22 , emailY+textH*2+5, self.view.frame.size.width, self.view.frame.size.height/13)];
     // 設定預設文字內容
     confirmPasswordTextField.placeholder = @"Confirm password";
     //emailTextField.text = @"";
-    NSString * str2 = confirmPasswordTextField.text;
     confirmPasswordTextField.secureTextEntry = YES;
     // 設定文字顏色
     confirmPasswordTextField.textColor = [UIColor blackColor];
@@ -478,8 +475,8 @@
     //    BOOL ret2 = confirmPasswordTextField.isEditing;
     //    confirmPasswordTextField.clearsOnBeginEditing = YES;
     // 將TextField加入View
-    [RegisterSV addSubview:emailTextField];
-    [RegisterSV addSubview:passwordTextField];
+    [RegisterSV addSubview:m_emailTextField];
+    [RegisterSV addSubview:m_passwordTextField];
     [RegisterSV addSubview:confirmPasswordTextField];
     
     
@@ -531,12 +528,12 @@
     
     
     
-    emailTextField.delegate = self;
-    passwordTextField.delegate = self;
+    m_emailTextField.delegate = self;
+    m_passwordTextField.delegate = self;
     confirmPasswordTextField.delegate = self;
     
-    [emailTextField addTarget:self action:@selector(textFieldChanged:) forControlEvents:UIControlEventEditingChanged];
-    [passwordTextField addTarget:self action:@selector(textFieldChanged:) forControlEvents:UIControlEventEditingChanged];
+    [m_emailTextField addTarget:self action:@selector(textFieldChanged:) forControlEvents:UIControlEventEditingChanged];
+    [m_passwordTextField addTarget:self action:@selector(textFieldChanged:) forControlEvents:UIControlEventEditingChanged];
     [confirmPasswordTextField addTarget:self action:@selector(textFieldChanged:) forControlEvents:UIControlEventEditingChanged];
     
     //    [UITextField addTarget:self action:@selector(textFieldDone:) forControlEvents:UIControlEventEditingDidEndOnExit];
@@ -712,12 +709,13 @@
 -(void)registerBtnClick{
     
    
-    if (emailTextField.text.length > 0) {
+    if (m_emailTextField.text.length > 0) {
       
-        [self validateEmail:emailTextField.text];
+        [self validateEmail:m_emailTextField.text];
         
-    
-    }else if(passwordTextField.text.length<6 ||passwordTextField.text.length>12){
+    }
+    else if(m_passwordTextField.text.length < 6 || m_passwordTextField.text.length > 12) {
+        
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error password! Please enter between 6-12 numbers or letters." message:@"" preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:nil];
@@ -726,15 +724,14 @@
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
         [alertController addAction:cancelAction];
         
-        
         [self presentViewController:alertController animated:YES completion:nil];
-    }else if (!agreeBtn.selected){
+    }
+    else if (!agreeBtn.selected){
         
         [self alertAgree];
-        
-    }else{
-        
-        
+    }
+    else{
+    
         NSLog(@"password ok");
     }
     
@@ -850,7 +847,7 @@
         //在此實現打勾時的方法
         [agreeBtn setImage:[UIImage imageNamed:@"all_frame_tick"] forState:UIControlStateSelected];
         
-        if (emailTextField.text.length != 0 && passwordTextField.text.length != 0 &&confirmPasswordTextField.text.length !=0) {
+        if (m_emailTextField.text.length != 0 && m_passwordTextField.text.length != 0 && confirmPasswordTextField.text.length !=0) {
             
             
             registerBtn.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0.625 alpha:1.0];
@@ -922,7 +919,7 @@
         return YES;
     }
     NSString * aString = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    if (passwordTextField == textField)//这个 if 判断是在多个输入框的时候,只限制一个输入框的时候用的,如果全部限制,则不加 if 判断即可,这里是只判断输入用户名的输入框
+    if (m_passwordTextField == textField)//这个 if 判断是在多个输入框的时候,只限制一个输入框的时候用的,如果全部限制,则不加 if 判断即可,这里是只判断输入用户名的输入框
     {
         if ([aString length] > 12) {
             textField.text = [aString substringToIndex:12];
@@ -953,7 +950,7 @@
 }
 
 -(void)registerbtnable{
-    if (emailTextField.text.length != 0 && passwordTextField.text.length != 0 &&confirmPasswordTextField.text.length !=0) {
+    if (m_emailTextField.text.length != 0 && m_passwordTextField.text.length != 0 && confirmPasswordTextField.text.length !=0) {
         
         
         if ((agreeBtn.selected == YES)){
@@ -1125,10 +1122,10 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     NSLog(@"textFieldDidEndEditing:%@",textField.text);
     
-    NSString *password =  passwordTextField.text;
+    NSString *password =  m_passwordTextField.text;
     NSString *confirmpassword = confirmPasswordTextField.text;
     
-    if ( passwordTextField.text.length > 0 && confirmPasswordTextField.text.length >0) {
+    if ( m_passwordTextField.text.length > 0 && confirmPasswordTextField.text.length >0) {
         if (password != confirmpassword) {
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:@"Password is not the same." preferredStyle:UIAlertControllerStyleAlert];
             

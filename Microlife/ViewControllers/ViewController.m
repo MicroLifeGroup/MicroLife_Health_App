@@ -13,9 +13,10 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <GoogleSignIn/GoogleSignIn.h>
 
-@interface ViewController ()<GIDSignInUIDelegate>
-
-
+@interface ViewController () <GIDSignInUIDelegate> {
+    
+    NSString *userEmail;//記錄 user e-mail
+}
 
 @end
 
@@ -27,6 +28,8 @@
 @synthesize  loginBtn;
 @synthesize  loginGooglePlusBtn;
 
+
+#pragma mark - Normal Functions ****************************
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -38,7 +41,16 @@
     [self nav];
 }
 
--(void)loginVC{
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
+
+-(void)loginVC {
+    
     UIView *loginView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height*1.0)];
     [loginView setBackgroundColor:[UIColor colorWithRed:241/255.0 green:242/255.0 blue:245/255.0 alpha:0.95]];
     [self.navigationController.view addSubview:loginView];
@@ -91,36 +103,30 @@
     [loginView addSubview:orl];
     
     
-    //login
+    //loginBtn
     loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     loginBtn.frame = CGRectMake(0 , self.view.frame.size.height*0.46, self.view.frame.size.width, self.view.frame.size.height*0.084);
-    loginBtn.backgroundColor = [UIColor colorWithRed:168/255 green:168/255 blue:165/255 alpha:0.4];
+    loginBtn.backgroundColor = BUTTONCOLOR_GRAY;
     [loginBtn setTitle:@"Log in" forState:UIControlStateNormal];
-    [loginBtn setTitleColor:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:0.9] forState:UIControlStateNormal];
+    [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     loginBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     loginBtn.userInteractionEnabled = NO;
-    
-    [loginBtn addTarget:self action:@selector(loginBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-    
-    
+    [loginBtn addTarget:self action:@selector(loginBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [loginView addSubview:loginBtn];
+    
     
     //到註冊頁面
     UIButton *goRegBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     goRegBtn.frame = CGRectMake(0 , self.view.frame.size.height*0.555, self.view.frame.size.width, self.view.frame.size.height*0.084);
-    goRegBtn.backgroundColor = [UIColor colorWithRed:0/255 green:61.0/255.0 blue:165.0/255.0 alpha:1.0];
+    goRegBtn.backgroundColor = STANDER_COLOR;
     [goRegBtn setTitle:@"Register" forState:UIControlStateNormal];
-    [goRegBtn setTitleColor:[UIColor colorWithRed:255/255 green:255/255 blue:255/255 alpha:0.9] forState:UIControlStateNormal];
+    [goRegBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     goRegBtn.titleLabel.font = [UIFont systemFontOfSize:22];
     goRegBtn.userInteractionEnabled = YES;
-    
     [goRegBtn addTarget:self action:@selector(goRegBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-    
-    
     [loginView addSubview:goRegBtn];
     
-    
-    
+
     
     //忘記密碼
     UIButton *forgetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -129,9 +135,7 @@
     [forgetBtn setTitle:@"Forgot password?" forState:UIControlStateNormal];
     [forgetBtn setTitleColor:STANDER_COLOR forState:UIControlStateNormal];
     forgetBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-    
     [forgetBtn addTarget:self action:@selector(forgetBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    
     [loginView addSubview:forgetBtn];
     
     
@@ -162,93 +166,48 @@
     [loginView addSubview :passwordImgV];
     
     
-    // UITextField初始化
+    //emailTextField init
     emailTextField = [[UITextField alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.2 , emailY, self.view.frame.size.width, self.view.frame.size.height/13)];
-    // 設定預設文字內容
     emailTextField.placeholder = @"E-mail";
-    //emailTextField.text = @"";
-    NSString * str = emailTextField.text;
-    // 設定文字顏色
     emailTextField.textColor = [UIColor blackColor];
-    // Delegate
-    emailTextField.delegate = self;
-    // 設定輸入框背景顏色
     emailTextField.backgroundColor = [UIColor whiteColor];
-    //    设置背景图片
-    //    textField.background=[UIImage imageNamed:@"test.png"];
-    // 框線樣式
     emailTextField.borderStyle =  UITextBorderStyleNone;
-    //设置文本对齐方式
     emailTextField.textAlignment = NSTextAlignmentJustified;
-    //设置字体
     emailTextField.font = [UIFont systemFontOfSize:22];
-    //emailTextField.font = [UIFont fontWithName:@"wawati sc" size:50];
-    //设置编辑框中删除按钮的出现模式
     emailTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [emailTextField setKeyboardType:UIKeyboardTypeEmailAddress];
     emailTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    emailTextField.delegate = self;
+    [emailTextField addTarget:self action:@selector(textFieldChanged:) forControlEvents:UIControlEventEditingChanged];
+    [loginView addSubview:emailTextField];
     
-    // 判断textField是否处于编辑模式
-    //    BOOL ret = emailTextField.isEditing;
-    //    emailTextField.clearsOnBeginEditing = YES;
     
     
-    // UITextField初始化
+    //passwordTextField init
     passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(self.view.frame.size.width*0.2 , emailY+textH+2.5, self.view.frame.size.width, self.view.frame.size.height/13)];
-    // 設定預設文字內容
     passwordTextField.placeholder = @"Password";
-    //emailTextField.text = @"";
-    NSString * str1 = passwordTextField.text;
     passwordTextField.secureTextEntry = YES;
-    // 設定文字顏色
     passwordTextField.textColor = [UIColor blackColor];
-    // Delegate
-    passwordTextField.delegate = self;
-    // 設定輸入框背景顏色
     passwordTextField.backgroundColor = [UIColor whiteColor];
-    //    设置背景图片
-    //    textField.background=[UIImage imageNamed:@"test.png"];
-    // 框線樣式
     passwordTextField.borderStyle =  UITextBorderStyleNone;
-    //设置文本对齐方式
     passwordTextField.textAlignment = NSTextAlignmentJustified;
-    //设置字体
     passwordTextField.font = [UIFont systemFontOfSize:22];
-    //emailTextField.font = [UIFont fontWithName:@"wawati sc" size:50];
-    //设置编辑框中删除按钮的出现模式
     passwordTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [passwordTextField setKeyboardType:UIKeyboardTypeASCIICapable];
     passwordTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    
-    // 判断textField是否处于编辑模式
-    //    BOOL ret1 = passwordTextField.isEditing;
-    //    passwordTextField.clearsOnBeginEditing = YES;
-    
-    
-    
-    
-    // 將TextField加入View
-    [loginView addSubview:emailTextField];
+    passwordTextField.delegate = self;
+    //[UITextField addTarget:self action:@selector(textFieldDone:) forControlEvents:UIControlEventEditingDidEndOnExit];
     [loginView addSubview:passwordTextField];
     
-    
-    emailTextField.delegate = self;
-    passwordTextField.delegate = self;
-    
-    [emailTextField addTarget:self action:@selector(textFieldChanged:) forControlEvents:UIControlEventEditingChanged];
-    
-    
-    //    [UITextField addTarget:self action:@selector(textFieldDone:) forControlEvents:UIControlEventEditingDidEndOnExit];
-    NSLog(@"ok");
-    
-    
 }
+
 
 -(void)connectFacebookClick{
     
     NSLog(@"fb");
     
     if (![CheckNetwork isExistenceNetwork]) {
+        
         [self showAlert:NSLocalizedString(@"Connect fail", nil) message:NSLocalizedString(@"Please check your wifi", nil)];
         
         return;
@@ -258,9 +217,11 @@
     
 }
 -(void)loginGooglePlusClick{
+    
     NSLog(@"google");
     
     if (![CheckNetwork isExistenceNetwork]) {
+        
         [self showAlert:NSLocalizedString(@"Connect fail", nil) message:NSLocalizedString(@"Please check your wifi", nil)];
         
         return;
@@ -286,13 +247,16 @@
     NSString *givenName = user.profile.givenName;
     NSString *familyName = user.profile.familyName;
     NSString *email = user.profile.email;
+    userEmail = user.profile.email;
+    [self saveUserEmail];
     
-    NSLog(@"userId = %@",userId);
-    NSLog(@"idToken = %@",idToken);
-    NSLog(@"fullName = %@",fullName);
-    NSLog(@"givenName = %@",givenName);
-    NSLog(@"familyName = %@",familyName);
-    NSLog(@"email = %@",email);
+    
+    NSLog(@"google -- userId = %@",userId);
+    NSLog(@"google -- idToken = %@",idToken);
+    NSLog(@"google -- fullName = %@",fullName);
+    NSLog(@"google -- givenName = %@",givenName);
+    NSLog(@"google -- familyName = %@",familyName);
+    NSLog(@"google -- email = %@",email);
     
     [LocalData sharedInstance].accountID = [userId intValue];
     
@@ -317,29 +281,29 @@
 }
 
 
--(void)loginBtnClicked{
+-(void)loginBtnAction{
     
     [self validateEmail:emailTextField.text];
     
-    if(passwordTextField.text.length<6 ||passwordTextField.text.length>12){
+    if(passwordTextField.text.length < 6 || passwordTextField.text.length > 12) {
+        
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Alert" message:@"Error password! Please enter between 6-12 numbers or letters." preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:nil];
         
         [alertController addAction:confirmAction];
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+        
         [alertController addAction:cancelAction];
         
-        
         [self presentViewController:alertController animated:YES completion:nil];
-    }else{
+    }
+    else{
+        
         NSLog(@"password ok");
     }
-    
-    
-    
-    
-    NSLog(@"registerBtnClick");
+
+
 }
 
 -(BOOL)validateEmail:(NSString*)email
@@ -388,25 +352,16 @@
         return YES;
     }
     else {
-        [self errorEmailAlert];
+        [self errorEmailAlert:0];
         NSLog(@"email格式不正確");
         return NO;
         
     }
 }
 
--(void)errorEmailAlert{
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Alert" message:@"Error Email! Please enter again." preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:nil];
-    
-    [alertController addAction:confirmAction];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
-    [alertController addAction:cancelAction];
-    
-    
-    [self presentViewController:alertController animated:YES completion:nil];
-}
+
+
+
 
 
 -(void)forgetBtnClick{
@@ -419,6 +374,8 @@
     NSLog(@"forgetBtn");
 }
 
+
+#pragma mark - TextField Delegate *****************************
 //限制输入字数
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
@@ -458,26 +415,24 @@
 
 // 結束編輯狀態(意指完成輸入或離開焦點)
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    NSLog(@"textFieldDidEndEditing:%@",textField.text);
     
+    /**
     if (emailTextField.text.length != 0 && passwordTextField.text.length != 0) {
+        
         loginBtn.backgroundColor = [UIColor colorWithRed:0 green:61.0/255.0 blue:165.0/255.0 alpha:1.0];
+        
         loginBtn.userInteractionEnabled = YES;
         
-        NSLog(@"o");
-        //    }else{
-        //
-        //        NSLog(@"n");
-        
     }
+     */
     
-    
-    
+    [self checkAccountAndPasswordIsEmpty];
+
 }
 
-// 按下Return後會反應的事件
+//利用此方式讓按下Return後會Toogle 鍵盤讓它消失
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    //利用此方式讓按下Return後會Toogle 鍵盤讓它消失
+    
     [textField resignFirstResponder];
     NSLog(@"按下Return");
     return false;
@@ -485,24 +440,16 @@
 
 
 
-
-
--(void)textFieldDone:(UITextField*)textField
-{
+-(void)textFieldDone:(UITextField*)textField {
+    
+    [self checkAccountAndPasswordIsEmpty];
+    
     [textField resignFirstResponder];
 }
 
 
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 -(void)nav{
-    
-   
     
     UIButton *titleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     titleBtn.frame = CGRectMake(0 ,0, self.view.frame.size.width, self.view.frame.size.height*0.09);
@@ -546,11 +493,12 @@
     
     [self presentViewController:RegisterVC animated:true completion:nil];
     
-    NSLog(@"goReg");
-    
     
 }
 
+
+#pragma mark - show Alert  **************************
+//Normal
 -(void)showAlert:(NSString *)title message:(NSString *)message{
     
     UIAlertController *alertView = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
@@ -561,5 +509,78 @@
     
     [self presentViewController:alertView animated:YES completion:nil];
 }
+
+//Email Error
+-(void)errorEmailAlert:(int)errorType {
+    
+    NSString *message;
+    
+    if (errorType == 0) {
+        
+        message = NSLocalizedString(@"Error Email! Please enter again.", nil);
+    }
+    else {
+        
+        message = NSLocalizedString(@"Error password! Please enter between 6-12 numbers or letters.", nil);
+    }
+    
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Alert", nil) message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Confirm", nil) style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:confirmAction];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel" , nil) style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:cancelAction];
+    
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+    
+}
+
+
+
+#pragma mark - save User E-mail *****************************
+-(void)saveUserEmail {
+    
+    NSString *filePath = USER_EMAIL_FILEPATH;
+    
+    if (userEmail != nil) {
+        
+        [userEmail writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    }
+}
+
+
+#pragma mark - checkAccountAndPasswordIsEmpty *************************
+-(void)checkAccountAndPasswordIsEmpty {
+    
+    BOOL isEmpty = YES;
+    
+    if (self.emailTextField.text.length == 0 || self.passwordTextField.text.length == 0) {
+        
+        isEmpty = YES;
+    }
+    else {
+        
+        isEmpty = NO;
+    }
+    
+    
+    //如果欄位是空值
+    if (isEmpty) {
+        
+        loginBtn.userInteractionEnabled = NO;
+        loginBtn.backgroundColor = BUTTONCOLOR_GRAY;
+    }
+    else {
+        
+        loginBtn.userInteractionEnabled = YES;
+        loginBtn.backgroundColor = STANDER_COLOR;
+    }
+    
+    
+}
+
 
 @end

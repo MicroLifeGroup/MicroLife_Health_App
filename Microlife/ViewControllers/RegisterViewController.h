@@ -10,7 +10,7 @@
 #import "FacebookLoginViewController.h"
 #import "ViewController.h"
 
-@interface RegisterViewController : ViewController<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
+@interface RegisterViewController : ViewController <UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource> {
     
     UITextField  *confirmPasswordTextField;
     UITextField  *birthdayTF;

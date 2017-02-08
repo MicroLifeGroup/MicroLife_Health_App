@@ -13,7 +13,7 @@
 
 
 //Db Name
-#define kDBNameSQLite @"DataModel.sqlite"
+#define kDBNameSQLite @"MicrolifeDB.sqlite"
 
 
 //Data Formate
@@ -49,6 +49,7 @@
 #define IS_IPHONE_6 (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
 #define IS_IPHONE_6P (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
 
+
 #define TEXT_COLOR ([UIColor colorWithRed:157.0/255.0 green:157.0/255.0 blue:157.0/255.0 alpha:1])
 
 #define STANDER_COLOR ([UIColor colorWithRed:0/255.0 green:61.0/255.0 blue:165.0/255.0 alpha:1])
@@ -58,25 +59,56 @@
 #define DARKTEXT_COLOR ([UIColor colorWithRed:28.0/255.0 green:28.0/255.0 blue:28.0/255.0 alpha:1])
 
 #define TABLE_BACKGROUND ([UIColor colorWithRed:248.0/255.0 green:248.0/255.0 blue:248.0/255.0 alpha:1])
+
+#define SECTION_BACKGROUNDCOLOR ([UIColor colorWithRed:245.0f/255.0f green:245.0f/255.0f blue:245.0f/255.0f alpha:1.0])
+
+#define CELL_SPERATORCOLOR ([UIColor colorWithRed:208.0f/255.0f green:215.0f/255.0f blue:217.0f/255.0f alpha:1.0])
+
+#define LAYER_BORDERCOLOR ([UIColor colorWithRed:208.0f/255.0f green:215.0f/255.0f  blue:217.0f/255.0f  alpha:0.9].CGColor)
+
+#define BUTTONCOLOR_GRAY ([UIColor colorWithRed:168/255 green:168/255 blue:165/255 alpha:0.4])
+
+
 //==================
 
-//Images
+///Images History
 #define IMAGE_BPM [UIImage imageNamed:@"history_icon_a_list_bpm"];
 #define IMAGE_BPM_RED [UIImage imageNamed:@"history_icon_a_list_bpm_r"];
 #define IMAGE_PAD [UIImage imageNamed:@"history_icon_a_list_pad"];
 #define IMAGE_PAD_RED [UIImage imageNamed:@"history_icon_a_list_pad_r"];
-#define IMAGE_AFIB [UIImage imageNamed:@"history_icon_a_list_afib"];
 #define IMAGE_AFIB_RED [UIImage imageNamed:@"history_icon_a_list_afib_r"];
 #define IMAGE_WEIGHT [UIImage imageNamed:@"history_icon_a_list_ws"];
 #define IMAGE_WEIGHT_RED [UIImage imageNamed:@"history_icon_a_list_ws_r"];
 #define IMAGE_TEMP_NORMAL [UIImage imageNamed:@"history_icon_a_list_ncfr"];
 #define IMAGE_FEVER [UIImage imageNamed:@"history_icon_a_list_ncfr_r"];
+#define IMAGE_AFIB [UIImage imageNamed:@"history_icon_a_list_afib"];
 
+
+
+///Images OverView
 #define IMAGE_NORMAL_BP [UIImage imageNamed:@"overview_icon_a_bpm"]
-#define IMAGE_HIGH_BP [UIImage imageNamed:@"overview_icon_a_bpm_r"]
-#define IMAGE_NORMAL_TEMP [UIImage imageNamed:@"overview_icon_a_ncfr_b"]
-#define IMAGE_NORMAL_WEIGHT [UIImage imageNamed:@"overview_icon_a_ws"]
+#define IMAGE_NORMAL_WEIGHT [UIImage imageNamed:@"overview_icon_a_ws_b"]
 #define IMAGE_OVERWEIGHT [UIImage imageNamed:@"overview_icon_a_ws_r"]
+#define IMAGE_NORMAL_TEMP [UIImage imageNamed:@"overview_icon_a_ncfr_b"]
+#define IMAGE_HIGH_BP [UIImage imageNamed:@"overview_icon_a_bpm_r"]
+#define IMAGE_AFIB_OVERVIEW [UIImage imageNamed:@"overview_icon_a_afib"]
+#define IMAGE_PAD_OVERVIEW [UIImage imageNamed:@"overview_icon_a_pad"]
+#define IMAGE_FEVER_OVERVIEW [UIImage imageNamed:@"overview_icon_a_ncfr_r"]
+
+
+
+
+///路徑
+#define USER_IMAGE_FILEPATH [NSHomeDirectory() stringByAppendingString:@"/Documents/userImage"]
+#define USER_EMAIL_FILEPATH [NSHomeDirectory() stringByAppendingString:@"/Documents/userEmail"]
+#define ISPRIVACY_MODE [NSHomeDirectory() stringByAppendingString:@"/Documents/isPrivacyMode"]
+
+
+
+///單位轉換
+#define mmHgTransformTokPa 0.13332237 
+#define kgTransformTolb 2.20462
+#define cmTransformToft 0.03306878
 
 /******************/
 //Type Define

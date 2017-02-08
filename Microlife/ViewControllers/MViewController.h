@@ -29,9 +29,18 @@
 
 -(void)SidebarBtn;
 -(void)sidebarClose;
-
 -(UIImage *)resizeImage:(UIImage *)image;
-
 -(UIImage *)snapShotView:(UIView *)inputView;
+-(NSString *)getUserEmail;
+
+//取得字串長度
++(NSUInteger)getStringLength:(NSString *)text;
+//警告提示
++(void)showAlert:(NSString *)title message:(NSString *)message buttonTitle:(NSString *)buttonTitle;
+
+
+//檢查是 privacy 或 會員模式
++(BOOL)checkIsPrivacyModeOrMemberShip;
++(void)setPrivacyModeOrMemberShip:(BOOL)isPrivacy;
 
 @end

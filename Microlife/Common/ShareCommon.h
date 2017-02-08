@@ -38,5 +38,10 @@
 + (NSString *) pathForDocumentsResource:(NSString *) relativePath;
 + (void)saveImageToFile:(UIImage *)image FileName:(NSString *)fileName;
 
++(NSString*)DictionaryToJson:(NSMutableArray*)dic;
++(NSMutableArray*)JsonToDictionary:(NSString*)json;
+
++ (NSDate *)getWeekStartForDate:(NSDate *)aDate;
++ (NSDate *)getDayStartForDate:(NSDate *)aDate;
 
 @end

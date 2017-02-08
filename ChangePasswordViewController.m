@@ -96,12 +96,12 @@
     float changeH = 66;
     
     UIView *changebview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    changebview.backgroundColor = [UIColor colorWithRed:246.0f/255.0f green:246.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-        [self.view addSubview:changebview];
+    changebview.backgroundColor = TABLE_BACKGROUND;
+    [self.view addSubview:changebview];
     
     UIView *changeview = [[UIView alloc] initWithFrame:CGRectMake(-1, self.view.frame.size.height*0.09-1, self.view.frame.size.width+2, changeH*3+3)];
     changeview.backgroundColor = [UIColor whiteColor];
-    changeview.layer.borderColor = [UIColor colorWithRed:208.0f/255.0f green:215.0f/255.0f  blue:217.0f/255.0f  alpha:0.9].CGColor;
+    changeview.layer.borderColor = LAYER_BORDERCOLOR;
     changeview.layer.borderWidth = 1;
     [self.view addSubview:changeview];
     

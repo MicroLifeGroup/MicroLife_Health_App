@@ -12,11 +12,13 @@
 
 @synthesize eventID,accountID,eventTime,type,event;
 
-+(EventClass*) sharedInstance{
++(EventClass*) sharedInstance {
+    
     static EventClass *sharedInstance;
     static dispatch_once_t onceToken;
     
     dispatch_once(&onceToken, ^{
+        
         sharedInstance = [[EventClass alloc] initWithOpenDataBase];
     });
     
@@ -28,8 +30,10 @@
     self = [super initWithOpenDataBase];
     
     if (self) {
+        
         [self setUp];
     }
+    
     return self;
 }
 
@@ -47,11 +51,13 @@
     NSString *Command = [NSString stringWithFormat:@"SELECT eventID, event, type, eventTime FROM EventList"];
     
     NSMutableArray* DataArray = [self SELECT:Command Num:4];//SELECT:指令：幾筆欄位
+    
     //NSLog(@"DataArray = %@",DataArray);
+    
     if ([[DataArray firstObject] count] != 1) {
         
-        
-        for (int i=0; i<DataArray.count; i++) {
+        for (int i=0; i < DataArray.count; i++) {
+            
             NSString *eventIDStr = [[DataArray objectAtIndex:i] objectAtIndex:0];
             NSString *eventStr = [[DataArray objectAtIndex:i] objectAtIndex:1];
             NSString *typeStr = [[DataArray objectAtIndex:i] objectAtIndex:2];
@@ -86,7 +92,6 @@
     NSString *SQLStr = [NSString stringWithFormat:@"UPDATE EventList SET event = \"%@\", type = \"%@\", eventTime = \"%@\" WHERE eventID = \"%d\" AND accountID = %d"
                          ,event, type, eventTime, [LocalData sharedInstance].currentEventId, [LocalData sharedInstance].accountID];
     
-    
     [self COLUMN_UPDATE:SQLStr];
     
 }
@@ -96,6 +101,17 @@
     NSString *SQLStr = [NSString stringWithFormat:@"INSERT INTO EventList( accountID, event, type, eventTime) VALUES(\"%d\",\"%@\", \"%@\", \"%@\");",[LocalData sharedInstance].accountID , event, type, eventTime];
     
     [self COLUMN_INSERT:SQLStr];
+}
+
+-(void)deletData {
+    
+    NSLog(@"ready to delete ==> accountID:%d, eventID:%d",self.accountID,self.eventID);
+
+    [LocalData sharedInstance].currentEventId = self.eventID;
+    
+    NSString *sqStr = [NSString stringWithFormat:@"DELETE FROM EventList WHERE eventID='%d';",[LocalData sharedInstance].currentEventId];
+    
+    [self COLUMN_DELETE:sqStr];
 }
 
 @end
